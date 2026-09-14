@@ -1,0 +1,8 @@
+{
+	"audioDurationSeconds": 22.976,
+	"featuresShape": [1, 80, 2298],
+	"telugu": "తెలుగు స్పీచ్ టు టెక్స్ట్ టెస్ట్ ఆడియో వన్ మా దుకాణానికి ఒక వ్యక్తి వచ్చి పది బస్తాలు యూరియా తీసుకున్నారు రెండు ప్యాకెట్ల నూనె తీసుకున్నారు మరియు నాలుగు ప్యాకెట్ల విత్తనాలు సొరకాయ ఇత్తనాలు తీసుకువెళ్లారు",
+	"multilingual": "తెలుగు స్పీచ్ టు టెక్స్ట్ టెస్ట్ ఆడియో వన్ మా దుకాణానికి ఒక వ్యక్తి వచ్చి పది బస్తాలు యూరియా తీసుకున్నారు రెండు ప్యాకెట్ల నూనె తీసుకున్నారు మరియు నాలుగు ప్యాకెట్ల విత్తనాలు సొరకాయ ఇత్తనాలు తీసుకువెళ్ళారు",
+	"nativeMultilingual": "తెలుగు స్పీచ్ టు టెక్స్ట్ టెస్ట్ ఆడియో వన్ మా దుకాణానికి ఒక వ్యక్తి వచ్చి పది బస్తాలు యూరియా తీసుకున్నారు రెండు ప్యాకెట్ల నూనె తీసుకున్నారు మరియు నాలుగు ప్యాకెట్ల విత్తనాలు సొరకాాయ ఇత్తనాలు తీసుకువెళ్ళారు",
+	"notes": "Browser multilingual golden matches the expected transcription in rust_backend/tests/transcription_test.rs. The current native reference repeats one Telugu vowel mark; tiny frontend and INT8 numerical differences affect that CTC decision."
+}

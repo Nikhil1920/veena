@@ -1,0 +1,88 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config/site.mjs";
+---
+
+<Layout
+	title="About Veena — Independent, On-Device Speech Recognition for India"
+	description="Veena is a free speech to text app for all 22 scheduled languages of India, built by an independent developer to run on your device instead of in the cloud."
+	canonicalURL={`${SITE.url}/about/`}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<section class="max-w-4xl mx-auto px-4 py-20">
+			<h1 class="text-5xl font-bold text-gray-900 mb-8">About Veena</h1>
+
+			<div class="prose prose-lg max-w-none text-gray-600">
+				<p class="text-xl mb-8">
+					Veena is a speech to text application built for India's languages. It
+					turns spoken words into written text in all 22 scheduled languages of
+					the Indian Constitution — from Telugu, Hindi, Tamil, Bengali and
+					Marathi to Bodo, Santali, Konkani and Sanskrit.
+				</p>
+
+				<p class="mb-6">
+					Speech recognition for Indian languages has historically meant sending
+					your voice to a cloud server. That is a poor fit for sensitive
+					conversations, for people with unreliable internet, and for languages
+					that big cloud providers ignore. Veena takes the opposite approach:
+					everything runs on your own device.
+				</p>
+
+				<p class="mb-12">
+					Tap the microphone, speak in your language, and Veena converts your
+					words into editable text you can copy or share. The app downloads a
+					speech model once during setup; after that it works completely
+					offline.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900 mb-6">
+					Built Telugu first, open to all 22 languages
+				</h2>
+				<p class="mb-6">
+					Veena started as a Telugu speech to text app — that is still how the
+					mobile stores describe it. Telugu gets its own dedicated recognition
+					model, tuned for the language. Every other scheduled language is
+					covered by one multilingual model, built on IndicConformer from
+					AI4Bharat, where each language decodes through its own vocabulary so a
+					sentence in Kannada does not drift into Marathi.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900 mb-6">Private by design</h2>
+				<p class="mb-12">
+					No account. No cloud transcription. No telemetry. Your recordings and
+					transcripts are stored locally and never uploaded anywhere. The mobile
+					apps ask for microphone permission, plus network access for that first
+					model download, and nothing else. The full story is on the <a
+						href="/privacy"
+						class="text-blue-600 hover:underline">privacy page</a
+					>.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900 mb-6">
+					On the devices you own
+				</h2>
+				<p class="mb-6">
+					Veena is available today for Android and iPhone, and as a Windows
+					desktop app that types into whatever you are working in. Desktop
+					builds for macOS and Linux are in development. Whatever the device,
+					your speech stays on it.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900 mb-6">
+					Made by an independent developer
+				</h2>
+				<p class="mb-12">
+					Veena is developed by Nikhil Reddy Avuthu. It is a small, independent
+					project — feedback, feature requests, and bug reports are welcome at
+					<a href={`mailto:${SITE.email}`} class="text-blue-600 hover:underline"
+						>{SITE.email}</a
+					>.
+				</p>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</Layout>

@@ -1,0 +1,214 @@
+---
+/**
+ * Floating dock shared by the five landing-page iterations (/1 … /5).
+ * Collapsed it is one small pill; click to fan out the five concepts.
+ * Arrow keys navigate between iterations.
+ */
+const CONCEPTS = [
+	{ n: 1, name: "Stage", note: "night, string & wave" },
+	{ n: 2, name: "Specimen", note: "22 scripts, type wall" },
+	{ n: 3, name: "Register", note: "census ledger & stamps" },
+	{ n: 4, name: "Schematic", note: "on-device cutaway" },
+	{ n: 5, name: "Poster", note: "matchbox colour blocks" },
+];
+
+interface Props {
+	index: number;
+	/** "dark" for dark pages, "light" for pale pages */
+	surface?: "dark" | "light";
+	/** accent used for the active chip + hover ring */
+	accent?: string;
+}
+
+const { index, surface = "light", accent = "#C9A227" } = Astro.props;
+const current = CONCEPTS.find((c) => c.n === index)!;
+const prev = index === 1 ? 5 : index - 1;
+const next = index === 5 ? 1 : index + 1;
+---
+
+<div class="iter-dock" data-surface={surface} style={`--sw-accent:${accent}`}>
+	<div class="dock-pill">
+		<a class="dock-arrow" href={`/${prev}`} aria-label={`Previous iteration: ${CONCEPTS.find((c) => c.n === prev)!.name}`}>
+			<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+		</a>
+		<button class="dock-badge" type="button" aria-expanded="false" aria-controls="iter-panel">
+			<span class="dock-num">{index}</span>
+			<span class="dock-sep"></span>
+			<span class="dock-name">{current.name}</span>
+			<svg class="dock-chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+		</button>
+		<a class="dock-arrow" href={`/${next}`} aria-label={`Next iteration: ${CONCEPTS.find((c) => c.n === next)!.name}`}>
+			<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+		</a>
+	</div>
+
+	<div class="dock-panel" id="iter-panel" hidden>
+		<p class="dock-hint">Five landing concepts</p>
+		{CONCEPTS.map((c) => (
+			<a class:list={["dock-chip", { "is-current": c.n === index }]} href={`/${c.n}`}>
+				<span class="chip-num">{c.n}</span>
+				<span class="chip-body">
+					<span class="chip-name">{c.name}</span>
+					<span class="chip-note">{c.note}</span>
+				</span>
+			</a>
+		))}
+	</div>
+</div>
+
+<style>
+	.iter-dock {
+		--sw-bg: #14130f;
+		--sw-fg: #f4efe3;
+		--sw-line: rgba(244, 239, 227, 0.22);
+		position: fixed;
+		left: 50%;
+		bottom: max(14px, env(safe-area-inset-bottom));
+		transform: translateX(-50%);
+		z-index: 9999;
+		font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	}
+	.iter-dock[data-surface="light"] {
+		--sw-bg: #ffffff;
+		--sw-fg: #1c1a14;
+		--sw-line: rgba(28, 26, 20, 0.2);
+	}
+	.dock-pill {
+		display: flex;
+		align-items: stretch;
+		background: var(--sw-bg);
+		color: var(--sw-fg);
+		border: 1px solid var(--sw-line);
+		border-radius: 999px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+		overflow: hidden;
+	}
+	.dock-arrow {
+		display: grid;
+		place-items: center;
+		width: 38px;
+		color: inherit;
+		opacity: 0.72;
+	}
+	.dock-arrow svg { width: 14px; height: 14px; }
+	.dock-arrow:hover { opacity: 1; }
+	.dock-badge {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 9px 12px;
+		background: none;
+		border: 0;
+		color: inherit;
+		font: 600 12.5px/1 inherit;
+		letter-spacing: 0.02em;
+		cursor: pointer;
+	}
+	.dock-num {
+		display: grid;
+		place-items: center;
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background: var(--sw-accent);
+		color: #14130f;
+		font-weight: 800;
+		font-size: 11px;
+	}
+	.dock-sep { width: 1px; align-self: stretch; background: var(--sw-line); }
+	.dock-chev { width: 10px; height: 10px; opacity: 0.6; transition: transform 0.2s ease; }
+	.dock-badge[aria-expanded="true"] .dock-chev { transform: rotate(180deg); }
+
+	.dock-panel {
+		position: absolute;
+		bottom: calc(100% + 10px);
+		left: 50%;
+		transform: translateX(-50%);
+		width: max-content;
+		max-width: min(92vw, 320px);
+		background: var(--sw-bg);
+		color: var(--sw-fg);
+		border: 1px solid var(--sw-line);
+		border-radius: 16px;
+		padding: 10px;
+		box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
+		display: grid;
+		gap: 2px;
+	}
+	.dock-panel[hidden] { display: none; }
+	.dock-hint {
+		margin: 2px 6px 8px;
+		font-size: 10.5px;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		opacity: 0.55;
+	}
+	.dock-chip {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 8px 10px;
+		border-radius: 10px;
+		color: inherit;
+		text-decoration: none;
+	}
+	.dock-chip:hover { background: color-mix(in srgb, var(--sw-fg) 8%, transparent); }
+	.dock-chip.is-current { outline: 1px solid var(--sw-accent); outline-offset: -1px; }
+	.chip-num {
+		display: grid;
+		place-items: center;
+		width: 22px;
+		height: 22px;
+		flex: none;
+		border-radius: 50%;
+		border: 1px solid var(--sw-line);
+		font-size: 11px;
+		font-weight: 700;
+	}
+	.dock-chip.is-current .chip-num { background: var(--sw-accent); border-color: var(--sw-accent); color: #14130f; }
+	.chip-body { display: grid; line-height: 1.25; }
+	.chip-name { font-size: 12.5px; font-weight: 650; }
+	.chip-note { font-size: 11px; opacity: 0.6; }
+
+	.dock-arrow:focus-visible,
+	.dock-badge:focus-visible,
+	.dock-chip:focus-visible {
+		outline: 2px solid var(--sw-accent);
+		outline-offset: 2px;
+		border-radius: 10px;
+	}
+	.dock-arrow:focus-visible { border-radius: 999px; }
+</style>
+
+<script>
+	const dock = document.querySelector<HTMLElement>(".iter-dock");
+	if (dock) {
+		const badge = dock.querySelector<HTMLButtonElement>(".dock-badge")!;
+		const panel = dock.querySelector<HTMLElement>(".dock-panel")!;
+
+		const setOpen = (open: boolean) => {
+			panel.hidden = !open;
+			badge.setAttribute("aria-expanded", String(open));
+		};
+		badge.addEventListener("click", () => setOpen(panel.hidden));
+		document.addEventListener("pointerdown", (e) => {
+			if (!dock.contains(e.target as Node)) setOpen(false);
+		});
+		document.addEventListener("keydown", (e) => {
+			if (e.key === "Escape") setOpen(false);
+		});
+
+		// Arrow keys jump between iterations unless focus is in a form field.
+		document.addEventListener("keydown", (e) => {
+			if (e.target instanceof HTMLElement) {
+				const tag = e.target.tagName;
+				if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || e.target.isContentEditable) return;
+			}
+			const here = Number(document.body.dataset.iteration);
+			if (!here) return;
+			if (e.key === "ArrowRight") location.href = `/${here === 5 ? 1 : here + 1}`;
+			if (e.key === "ArrowLeft") location.href = `/${here === 1 ? 5 : here - 1}`;
+		});
+	}
+</script>

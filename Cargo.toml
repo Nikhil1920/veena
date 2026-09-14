@@ -1,0 +1,30 @@
+# Veena monorepo — Cargo workspace.
+#
+# The engine crate, the desktop app's Tauri backend, and the browser
+# reference tooling all share this workspace: one lockfile, one target
+# directory, and shared profiles/patches defined here (Cargo only honors
+# [profile.*] and [patch.*] in the workspace root).
+
+[workspace]
+resolver = "2"
+members = [
+    "crates/rust-backend",
+    "apps/desktop/src-tauri",
+    "tools/browser-reference",
+]
+
+# Handy fork of the Tauri runtime exposing the handy-keys APIs used by
+# apps/desktop (upstream: https://github.com/cjpais/tauri, branch handy-2.10.2).
+[patch.crates-io]
+tauri-runtime = { git = "https://github.com/cjpais/tauri.git", branch = "handy-2.10.2" }
+tauri-runtime-wry = { git = "https://github.com/cjpais/tauri.git", branch = "handy-2.10.2" }
+tauri-utils = { git = "https://github.com/cjpais/tauri.git", branch = "handy-2.10.2" }
+
+[profile.dev]
+incremental = true
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+panic = "unwind"

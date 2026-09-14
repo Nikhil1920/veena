@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#111827"/>
+  <rect x="96" y="96" width="192" height="192" rx="40" fill="#ffffff"/>
+  <text x="192" y="244" font-family="Georgia, 'Times New Roman', serif" font-size="150" font-weight="bold" fill="#111827" text-anchor="middle">V</text>
+  <text x="96" y="400" font-family="Georgia, 'Times New Roman', serif" font-size="96" font-weight="bold" fill="#ffffff">Veena</text>
+  <text x="98" y="470" font-family="-apple-system, 'Segoe UI', sans-serif" font-size="40" fill="#9ca3af">Speech to text for 22 Indian languages</text>
+  <text x="98" y="522" font-family="-apple-system, 'Segoe UI', sans-serif" font-size="28" fill="#6b7280">On-device · Offline · Private — veena.byanr.com</text>
+</svg>

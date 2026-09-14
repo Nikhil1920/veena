@@ -1,0 +1,19 @@
+[project]
+name = "veena-voice-models"
+version = "0.1.0"
+description = "Model export, quantization, and validation pipeline for Veena's IndicConformer speech models"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "huggingface-hub>=0.30.0",
+    "librosa>=0.11.0",
+    "numpy>=2.4.4",
+    "onnx>=1.21.0",
+    "onnxconverter-common>=1.16.0",
+    "onnxruntime>=1.26.0",
+    "onnxsim>=0.6.3",
+    "soundfile>=0.13.1",
+    "torch>=2.11.0",
+    "torchaudio>=2.11.0",
+    "transformers>=4.52.0",
+]

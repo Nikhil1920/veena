@@ -1,0 +1,85 @@
+---
+import { Icon } from "astro-icon/components";
+import Brand from "./Brand.astro";
+const links = [
+	{ href: "/speech-to-text/", label: "Languages" },
+	{ href: "/features/", label: "Why Veena" },
+	{ href: "/blog/", label: "Guides" },
+];
+const active = (href: string) =>
+	Astro.url.pathname.startsWith(href.replace(/\/$/, ""));
+---
+
+<header class="site-header">
+	<nav class="site-shell site-nav" aria-label="Main navigation">
+		<Brand />
+		<div class="desktop-nav">
+			{
+				links.map((link) => (
+					<a
+						href={link.href}
+						aria-current={active(link.href) ? "page" : undefined}
+					>
+						{link.label}
+					</a>
+				))
+			}
+			<a href="/download/" class="button-primary">Get the app</a>
+		</div>
+		<button
+			type="button"
+			class="menu-toggle"
+			aria-label="Toggle menu"
+			aria-expanded="false"
+			aria-controls="mobile-menu"
+			id="mobile-menu-button"
+		>
+			<Icon name="tabler:menu-2" width="24" height="24" aria-hidden="true" />
+		</button>
+	</nav>
+	<nav
+		id="mobile-menu"
+		class="mobile-nav hidden"
+		aria-label="Mobile navigation"
+	>
+		{
+			links.map((link) => (
+				<a
+					href={link.href}
+					aria-current={active(link.href) ? "page" : undefined}
+				>
+					{link.label}
+				</a>
+			))
+		}
+		<a href="/download/">Get the app</a>
+	</nav>
+</header>
+<script>
+	const menuButton = document.getElementById("mobile-menu-button");
+	const mobileMenu = document.getElementById("mobile-menu");
+	if (menuButton && mobileMenu) {
+		const close = () => {
+			menuButton.setAttribute("aria-expanded", "false");
+			mobileMenu.classList.add("hidden");
+		};
+		menuButton.addEventListener("click", () => {
+			const expanded = menuButton.getAttribute("aria-expanded") === "true";
+			menuButton.setAttribute("aria-expanded", String(!expanded));
+			mobileMenu.classList.toggle("hidden", expanded);
+		});
+		document.addEventListener("click", (event) => {
+			if (
+				!menuButton.contains(event.target as Node) &&
+				!mobileMenu.contains(event.target as Node)
+			)
+				close();
+		});
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
+				close();
+				menuButton.focus();
+			}
+		});
+	}
+</script>

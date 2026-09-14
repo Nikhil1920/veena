@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FeaturesComponent from "../components/Features.astro";
+import CTA from "../components/CTA.astro";
+import { SITE } from "../config/site.mjs";
+---
+
+<Layout
+	title="Features — Offline, On-Device Speech to Text | Veena"
+	description="What Veena does: speech to text in all 22 scheduled languages of India on your own device, live dictation and audio file import, local history, copy or paste anywhere. Free."
+	canonicalURL={`${SITE.url}/features/`}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<div class="site-shell">
+			<section class="page-intro">
+				<h1 class="page-title">Less typing.<br />More of your own voice.</h1><p
+					class="page-lede"
+				>
+					Veena turns speech into editable text in the language you think in.
+					All 22 scheduled languages of India, with the work done on your own
+					device.
+				</p>
+			</section>
+			<section class="content-section" aria-label="What you can do with Veena">
+				<FeaturesComponent />
+			</section>
+		</div>
+		<section class="privacy-strip">
+			<div class="site-shell">
+				<h2>Offline is the point.</h2><div>
+					<p>
+						Once the speech model is downloaded, your audio is processed
+						locally. There’s no account to create, no transcript to send to a
+						server, and no subscription to keep track of.
+					</p><a href="/how-it-works/">See how it works</a>
+				</div>
+			</div>
+		</section>
+
+		<CTA />
+	</main>
+	<Footer />
+</Layout>

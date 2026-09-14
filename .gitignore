@@ -1,0 +1,105 @@
+# === macOS ===
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# === Windows ===
+Thumbs.db
+[Dd]esktop.ini
+
+# === Linux ===
+*~
+.directory
+
+# === Editors / IDEs ===
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.claude/
+.crush/
+.zcode/
+
+# === Secrets / local environment (never commit) ===
+.env
+.env.*
+!.env.example
+*.local
+*.local.*
+.tauri/*.key
+!*.key.pub
+
+# === Node / TypeScript (apps/desktop, apps/web) ===
+node_modules/
+dist/
+dist-ssr/
+playwright-report/
+test-results/
+blob-report/
+package-lock.json
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# === Rust ===
+target/
+
+# === Tauri (apps/desktop) ===
+apps/desktop/src-tauri/gen/schemas/
+recording_*
+
+# === Nix (apps/desktop) ===
+result
+result-*
+.direnv
+.envrc
+
+# === Python (tools/voice-models) ===
+__pycache__/
+*.py[oc]
+build/
+wheels/
+*.egg-info/
+.venv/
+venv/
+
+# === Astro (apps/web) ===
+.astro/
+
+# === Xcode (apps/ios) ===
+apps/ios/Veena.xcodeproj/
+apps/ios/frameworks/
+xcuserdata/
+*.xcuserstate
+DerivedData/
+
+# === Android (apps/android) ===
+apps/android/.gradle/
+apps/android/build/
+apps/android/app/build/
+apps/android/.cxx/
+apps/android/.kotlin/
+apps/android/local.properties
+apps/android/app/release/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.hprof
+keystore.properties
+signing.properties
+*.jks
+*.keystore
+*.p12
+# The JNI library is built from crates/rust-backend, never committed:
+apps/android/app/src/main/jniLibs/**/*.so

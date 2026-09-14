@@ -1,0 +1,543 @@
+---
+/**
+ * Iteration 5 — "Poster".
+ * Indian matchbox-label / hand-painted poster energy: stacked colour bands,
+ * thick ink borders, hard offset shadows, rotated stickers. Type by Ek Type
+ * (an Indian foundry): Baloo 2 display, Anek Latin body. The hold-to-speak
+ * mic is the interactive centrepiece.
+ */
+import Switcher from "../components/iterations/Switcher.astro";
+
+const STICKERS = [
+	{ text: "बोलो", lang: "hi", rot: "-4deg" },
+	{ text: "చెప్పండి", lang: "te", rot: "3deg" },
+	{ text: "சொல்லுங்கள்", lang: "ta", rot: "-2.5deg" },
+	{ text: "বলুন", lang: "bn", rot: "2deg" },
+	{ text: "ಹೇಳಿ", lang: "kn", rot: "-3deg" },
+];
+
+const WORDS = [
+	{ text: "नमस्ते", lang: "Hindi" },
+	{ text: "నమస్కారం", lang: "Telugu" },
+	{ text: "வணக்கம்", lang: "Tamil" },
+	{ text: "নমস্কার", lang: "Bengali" },
+	{ text: "ನಮಸ್ಕಾರ", lang: "Kannada" },
+	{ text: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", lang: "Punjabi" },
+	{ text: "નમસ્તે", lang: "Gujarati" },
+	{ text: "നമസ്കാരം", lang: "Malayalam" },
+	{ text: "ନମସ୍କାର", lang: "Odia" },
+	{ text: "नमस्कार", lang: "Marathi" },
+];
+
+const MARQUEE = ["नमस्ते", "నమస్కారం", "வணக்கம்", "নমস্কার", "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", "નમસ્તે", "ನಮಸ್ಕಾರ", "നമസ്കാരം", "ନମସ୍କାର", "नमस्कार", "اردو", "ᱥᱟᱱᱛᱟᱲᱤ"];
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>Veena — bolo, it writes · iteration 5</title>
+		<meta name="description" content="Veena turns speech into text in all 22 scheduled languages of India, entirely on your device. Free, offline, open source." />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Anek+Latin:wght@400;500;600&display=swap" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@600&family=Noto+Sans+Tamil:wght@600&family=Noto+Sans+Telugu:wght@600&family=Noto+Sans+Bengali:wght@600&family=Noto+Sans+Kannada:wght@600&family=Noto+Sans+Malayalam:wght@600&family=Noto+Sans+Gurmukhi:wght@600&family=Noto+Sans+Gujarati:wght@600&family=Noto+Sans+Oriya:wght@600&family=Noto+Sans+Arabic:wght@600&family=Noto+Sans+Ol+Chiki:wght@600&display=swap" />
+	</head>
+	<body data-iteration="5">
+		<header class="band top">
+			<span class="mark">Veena</span>
+			<nav class="top-links" aria-label="Links">
+				<a href="https://github.com/Nikhil1920/veena">GitHub</a>
+				<a class="top-cta" href="#get">Get the app</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="band hero">
+				<div class="hero-grid">
+					<div class="hero-copy">
+						<h1><span class="h-solid">Bolo.</span> <span class="h-outline">It writes.</span></h1>
+						<p class="hero-sub">
+							Veena turns speech into text in all 22 scheduled languages of
+							India — right on your device, with no internet and no account.
+						</p>
+					</div>
+					<div class="hero-toy">
+						<div class="bubble" id="bubble" hidden>
+							<span class="native" id="bubbleWord">नमस्ते</span>
+							<span class="bubble-lang" id="bubbleLang">Hindi</span>
+						</div>
+						<button class="press-mic" id="pressMic" type="button" aria-pressed="false">
+							<svg class="mic" viewBox="0 0 24 24" aria-hidden="true">
+								<rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor" />
+								<path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+								<path d="M12 18v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+							</svg>
+							<span class="press-label">Press &amp; hold</span>
+						</button>
+						<p class="toy-note">A 1-second demonstration of the moment. The real Veena listens for real.</p>
+					</div>
+				</div>
+				<div class="sticker-row" aria-hidden="true">
+					{STICKERS.map((s) => (
+						<span class="sticker native" style={`--rot:${s.rot}`} lang={s.lang}>{s.text}</span>
+					))}
+				</div>
+			</section>
+
+			<div class="strip" aria-hidden="true">
+				<div class="strip-track">
+					{[0, 1].map(() => MARQUEE.map((w) => <span class="native">{w}</span>))}
+				</div>
+			</div>
+
+			<section class="band feats">
+				<div class="feat">
+					<h2>No internet, ever</h2>
+					<p>The language model lives on your phone — about 125 MB for Telugu, about 480 MB for all 22. After one download, transcription works in flight mode, in a basement, on a mountain.</p>
+				</div>
+				<div class="feat feat-mid">
+					<h2>22 languages, typed natively</h2>
+					<p>From Hindi and Tamil to Santali in Ol Chiki and Manipuri in Meitei Mayek — Veena writes the script you speak, no Romanised detour.</p>
+				</div>
+				<div class="feat">
+					<h2>Free, and open</h2>
+					<p>No account, no price, no secrets. The whole app is MIT-licensed and public — read the code before you trust it with your voice.</p>
+				</div>
+			</section>
+
+			<section class="band how" aria-label="How it works">
+				<ol class="steps">
+					<li>
+						<span class="step-n" aria-hidden="true">1</span>
+						<div><h3>Pick your language</h3><p>All 22 are there from the start.</p></div>
+					</li>
+					<li>
+						<span class="step-n" aria-hidden="true">2</span>
+						<div><h3>Hold the mic, speak</h3><p>The words appear as text while you talk.</p></div>
+					</li>
+					<li>
+						<span class="step-n" aria-hidden="true">3</span>
+						<div><h3>Use the text</h3><p>Copy or share it — on Windows it pastes straight into the app you were in.</p></div>
+					</li>
+				</ol>
+			</section>
+
+			<section class="band get" id="get" aria-label="Download">
+				<h2 class="get-title">Take one home</h2>
+				<div class="tickets">
+					<a class="ticket" href="https://play.google.com/store/apps/details?id=com.byanr.veena">
+						<span class="stub" aria-hidden="true">A</span>
+						<span class="t-main">Android</span>
+						<span class="t-sub">Play Store · Android 8.0+</span>
+					</a>
+					<a class="ticket" href="https://apps.apple.com/us/app/id6769981675">
+						<span class="stub" aria-hidden="true">B</span>
+						<span class="t-main">iPhone</span>
+						<span class="t-sub">App Store</span>
+					</a>
+					<a class="ticket" href="https://dl.byanr.com/veena-byanr/desktop/Veena_0.0.2_x64-setup.exe">
+						<span class="stub" aria-hidden="true">C</span>
+						<span class="t-main">Windows</span>
+						<span class="t-sub">Installer · about 18 MB</span>
+					</a>
+				</div>
+				<p class="get-note">All three are free, with the same 22 languages and the same promise: your voice stays on the device.</p>
+			</section>
+		</main>
+
+		<footer class="band foot">
+			<p>Veena is free and open source under the MIT licence.</p>
+			<a href="https://github.com/Nikhil1920/veena">github.com/Nikhil1920/veena</a>
+			<p>Made by Nikhil Reddy Avuthu</p>
+		</footer>
+
+		<Switcher index={5} surface="light" accent="#D8442E" />
+	</body>
+</html>
+
+<style>
+	:global(body) {
+		margin: 0;
+		background: #faf2dc;
+		color: #1d1a14;
+		font-family: "Anek Latin", ui-sans-serif, system-ui, sans-serif;
+		line-height: 1.55;
+		-webkit-font-smoothing: antialiased;
+	}
+	.native {
+		font-family: "Noto Sans Devanagari", "Noto Sans Tamil", "Noto Sans Telugu",
+			"Noto Sans Bengali", "Noto Sans Kannada", "Noto Sans Malayalam",
+			"Noto Sans Gurmukhi", "Noto Sans Gujarati", "Noto Sans Oriya",
+			"Noto Sans Arabic", "Noto Sans Ol Chiki", sans-serif;
+	}
+	a:focus-visible, button:focus-visible { outline: 3px solid #1d1a14; outline-offset: 3px; }
+
+	.band { padding-left: clamp(18px, 5vw, 56px); padding-right: clamp(18px, 5vw, 56px); }
+	.band.top, .band.foot { background: #2c3a72; color: #faf2dc; }
+	.band.hero { background: #f5b31b; }
+	.band.feats { background: #0e7c74; color: #faf2dc; }
+	.band.how { background: #faf2dc; }
+	.band.get { background: #d8442e; color: #faf2dc; }
+
+	/* ---------- top ---------- */
+	.band.top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-top: 16px;
+		padding-bottom: 16px;
+		border-bottom: 3px solid #1d1a14;
+	}
+	.mark { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.01em; }
+	.top-links { display: flex; align-items: center; gap: 20px; }
+	.top-links a { color: #faf2dc; font-weight: 600; text-decoration: none; font-size: 15px; }
+	.top-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+	.top-cta {
+		background: #f5b31b;
+		color: #1d1a14 !important;
+		padding: 8px 18px;
+		border: 2.5px solid #1d1a14;
+		box-shadow: 3px 3px 0 #1d1a14;
+	}
+	.top-cta:hover { text-decoration: none !important; transform: translate(2px, 2px); box-shadow: 1px 1px 0 #1d1a14; }
+
+	/* ---------- hero ---------- */
+	.band.hero {
+		padding-top: clamp(48px, 7vw, 88px);
+		padding-bottom: clamp(44px, 6vw, 72px);
+		border-bottom: 3px solid #1d1a14;
+	}
+	.hero-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+		gap: clamp(28px, 5vw, 64px);
+		align-items: center;
+	}
+	.hero h1 {
+		font-family: "Baloo 2", sans-serif;
+		font-size: clamp(56px, 9vw, 118px);
+		line-height: 0.98;
+		font-weight: 800;
+		letter-spacing: -0.015em;
+		margin: 0 0 20px;
+	}
+	.h-outline {
+		color: transparent;
+		-webkit-text-stroke: 2.5px #1d1a14;
+		text-stroke: 2.5px #1d1a14;
+	}
+	.hero-sub {
+		font-size: clamp(17px, 2vw, 20px);
+		font-weight: 500;
+		max-width: 30em;
+		margin: 0;
+	}
+
+	.hero-toy { display: grid; justify-items: center; gap: 14px; position: relative; }
+	.bubble {
+		position: relative;
+		background: #faf2dc;
+		border: 3px solid #1d1a14;
+		box-shadow: 5px 5px 0 #1d1a14;
+		padding: 14px 22px 12px;
+		display: grid;
+		justify-items: center;
+		transform: rotate(-2deg);
+		animation: pop 0.22s cubic-bezier(0.2, 1.6, 0.4, 1);
+	}
+	.bubble[hidden] { display: none; }
+	.bubble::after {
+		content: "";
+		position: absolute;
+		bottom: -12px;
+		left: 34px;
+		width: 18px;
+		height: 18px;
+		background: inherit;
+		border-right: 3px solid #1d1a14;
+		border-bottom: 3px solid #1d1a14;
+		transform: rotate(45deg);
+	}
+	@keyframes pop { from { transform: rotate(-2deg) scale(0.6); opacity: 0; } }
+	#bubbleWord { font-size: 34px; font-weight: 600; line-height: 1.4; }
+	.bubble-lang { font-size: 13px; font-weight: 600; opacity: 0.65; }
+
+	.press-mic {
+		--p: 0deg;
+		position: relative;
+		display: grid;
+		justify-items: center;
+		gap: 8px;
+		width: 148px;
+		height: 148px;
+		border-radius: 50%;
+		background: #d8442e;
+		color: #faf2dc;
+		border: 3px solid #1d1a14;
+		box-shadow: 5px 5px 0 #1d1a14;
+		cursor: pointer;
+		font-family: inherit;
+		touch-action: none;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+	.press-mic::before {
+		content: "";
+		position: absolute;
+		inset: -12px;
+		border-radius: 50%;
+		background: conic-gradient(#1d1a14 var(--p), transparent 0deg);
+		-webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+		mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+		pointer-events: none;
+	}
+	.press-mic:active, .press-mic[aria-pressed="true"] { transform: translate(3px, 3px); box-shadow: 2px 2px 0 #1d1a14; }
+	.mic { width: 40px; height: 40px; }
+	.press-label { font-weight: 700; font-size: 15px; }
+	.toy-note { font-size: 13.5px; font-weight: 500; opacity: 0.72; text-align: center; max-width: 24em; margin: 0; }
+
+	.sticker-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+		margin-top: clamp(36px, 5vw, 56px);
+		justify-content: center;
+	}
+	.sticker {
+		background: #faf2dc;
+		border: 2.5px solid #1d1a14;
+		box-shadow: 4px 4px 0 #1d1a14;
+		padding: 8px 18px 6px;
+		font-size: 24px;
+		font-weight: 600;
+		line-height: 1.6;
+		transform: rotate(var(--rot));
+	}
+
+	/* ---------- marquee strip ---------- */
+	.strip {
+		background: #1d1a14;
+		color: #faf2dc;
+		border-bottom: 3px solid #1d1a14;
+		overflow: hidden;
+		padding: 10px 0;
+	}
+	.strip-track {
+		display: flex;
+		gap: 0;
+		width: max-content;
+		animation: roll 36s linear infinite;
+	}
+	.strip:hover .strip-track { animation-play-state: paused; }
+	.strip-track .native {
+		font-size: 22px;
+		font-weight: 600;
+		padding: 0 26px;
+		position: relative;
+		line-height: 1.6;
+		white-space: nowrap;
+	}
+	.strip-track .native::after {
+		content: "";
+		position: absolute;
+		right: -3px;
+		top: 50%;
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: #f5b31b;
+		transform: translateY(-50%);
+	}
+	@keyframes roll { to { transform: translateX(-50%); } }
+
+	/* ---------- features ---------- */
+	.band.feats {
+		padding-top: clamp(44px, 6vw, 72px);
+		padding-bottom: clamp(44px, 6vw, 72px);
+		border-bottom: 3px solid #1d1a14;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: clamp(18px, 3vw, 32px);
+	}
+	.feat {
+		background: #faf2dc;
+		color: #1d1a14;
+		border: 3px solid #1d1a14;
+		box-shadow: 6px 6px 0 #1d1a14;
+		padding: 26px 24px;
+	}
+	.feat-mid { transform: rotate(-1.2deg); }
+	.feat h2 { font-family: "Baloo 2", sans-serif; font-size: 26px; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.01em; }
+	.feat p { margin: 0; font-size: 15.5px; font-weight: 500; }
+
+	/* ---------- steps ---------- */
+	.band.how {
+		padding-top: clamp(44px, 6vw, 68px);
+		padding-bottom: clamp(44px, 6vw, 68px);
+		border-bottom: 3px solid #1d1a14;
+	}
+	.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 3vw, 36px); }
+	.steps li { display: flex; gap: 16px; align-items: flex-start; }
+	.step-n {
+		display: grid;
+		place-items: center;
+		width: 52px;
+		height: 52px;
+		flex: none;
+		border-radius: 50%;
+		background: #2c3a72;
+		color: #faf2dc;
+		font-family: "Baloo 2", sans-serif;
+		font-weight: 800;
+		font-size: 26px;
+		border: 3px solid #1d1a14;
+		box-shadow: 3px 3px 0 #1d1a14;
+	}
+	.steps h3 { font-family: "Baloo 2", sans-serif; font-size: 20px; font-weight: 700; margin: 4px 0 4px; }
+	.steps p { margin: 0; font-size: 14.5px; font-weight: 500; opacity: 0.85; }
+
+	/* ---------- tickets ---------- */
+	.band.get {
+		padding-top: clamp(44px, 6vw, 68px);
+		padding-bottom: clamp(44px, 6vw, 68px);
+		border-bottom: 3px solid #1d1a14;
+	}
+	.get-title { font-family: "Baloo 2", sans-serif; font-size: clamp(34px, 5vw, 52px); font-weight: 800; margin: 0 0 30px; text-align: center; }
+	.tickets { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 3vw, 28px); max-width: 980px; margin: 0 auto; }
+	.ticket {
+		position: relative;
+		display: grid;
+		grid-template-columns: 56px 1fr;
+		align-items: center;
+		gap: 4px 16px;
+		background: #faf2dc;
+		color: #1d1a14;
+		text-decoration: none;
+		border: 3px solid #1d1a14;
+		box-shadow: 6px 6px 0 #1d1a14;
+		padding: 20px 22px 20px 0;
+	}
+	.stub {
+		align-self: stretch;
+		display: grid;
+		place-items: center;
+		font-family: "Baloo 2", sans-serif;
+		font-weight: 800;
+		font-size: 30px;
+		border-right: 3px dashed #1d1a14;
+		margin-right: 16px;
+	}
+	.t-main { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: 28px; line-height: 1.1; grid-column: 2; }
+	.t-sub { font-size: 13.5px; font-weight: 600; opacity: 0.75; grid-column: 2; }
+	.ticket:hover { transform: translate(2px, 2px); box-shadow: 4px 4px 0 #1d1a14; }
+	.get-note { text-align: center; font-weight: 500; margin: 26px auto 0; max-width: 40em; font-size: 15px; }
+
+	/* ---------- foot ---------- */
+	.band.foot {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 28px;
+		justify-content: space-between;
+		align-items: center;
+		padding-top: 22px;
+		padding-bottom: 96px;
+		font-size: 14.5px;
+		font-weight: 500;
+	}
+	.band.foot p { margin: 0; }
+	.band.foot a { color: #f5b31b; font-weight: 700; text-decoration: none; }
+	.band.foot a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+	@media (max-width: 860px) {
+		.hero-grid { grid-template-columns: 1fr; }
+		.hero-toy { justify-items: start; }
+		.band.feats, .steps, .tickets { grid-template-columns: 1fr; }
+		.feat-mid { transform: none; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.strip-track { animation: none; flex-wrap: wrap; width: auto; }
+		.bubble { animation: none; }
+		.top-cta, .ticket, .press-mic { transition: none; }
+	}
+</style>
+
+<script>
+	const words = ["नमस्ते", "నమస్కారం", "வணக்கம்", "নমস্কার", "ನಮಸ್ಕಾರ", "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", "નમસ્તે", "നമസ്കാരം", "ନମସ୍କାର", "नमस्कार"].map((t, i) => ({
+		text: t,
+		lang: ["Hindi", "Telugu", "Tamil", "Bengali", "Kannada", "Punjabi", "Gujarati", "Malayalam", "Odia", "Marathi"][i],
+	}));
+
+	const btn = document.getElementById("pressMic") as HTMLButtonElement;
+	const bubble = document.getElementById("bubble") as HTMLElement;
+	const wordEl = document.getElementById("bubbleWord") as HTMLElement;
+	const langEl = document.getElementById("bubbleLang") as HTMLElement;
+	const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	const FILL_MS = 1000;
+	let raf = 0;
+	let startAt = 0;
+	let done = false;
+	let resetTimer = 0;
+
+	const setRing = (p: number) => btn.style.setProperty("--p", `${p * 360}deg`);
+
+	function complete() {
+		done = true;
+		setRing(1);
+		btn.setAttribute("aria-pressed", "true");
+		const w = words[Math.floor(Math.random() * words.length)]!;
+		wordEl.textContent = w.text;
+		langEl.textContent = w.lang;
+		bubble.hidden = false;
+		// restart the pop animation
+		bubble.style.animation = "none";
+		void bubble.offsetWidth;
+		bubble.style.animation = "";
+		resetTimer = window.setTimeout(release, 2600);
+	}
+
+	function release() {
+		done = false;
+		btn.setAttribute("aria-pressed", "false");
+		if (reduced) setRing(0);
+	}
+
+	function tick(now: number) {
+		const p = Math.min(1, (now - startAt) / FILL_MS);
+		setRing(p);
+		if (p >= 1) { complete(); return; }
+		raf = requestAnimationFrame(tick);
+	}
+
+	function press() {
+		if (done) { clearTimeout(resetTimer); release(); }
+		clearTimeout(resetTimer);
+		bubble.hidden = true;
+		if (reduced) { complete(); return; }
+		startAt = performance.now();
+		cancelAnimationFrame(raf);
+		raf = requestAnimationFrame(tick);
+	}
+
+	function lift() {
+		if (done) return;
+		cancelAnimationFrame(raf);
+		// drain the ring back
+		const from = parseFloat(btn.style.getPropertyValue("--p")) || 0;
+		const t0 = performance.now();
+		const drain = (now: number) => {
+			const p = Math.max(0, from - (now - t0) / 3);
+			setRing(p / 360);
+			if (p > 0) raf = requestAnimationFrame(drain);
+		};
+		raf = requestAnimationFrame(drain);
+	}
+
+	btn.addEventListener("pointerdown", (e) => { e.preventDefault(); press(); });
+	for (const ev of ["pointerup", "pointerleave", "pointercancel"]) btn.addEventListener(ev, lift);
+	btn.addEventListener("keydown", (e) => { if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); press(); } });
+	btn.addEventListener("keyup", (e) => { if (e.key === " " || e.key === "Enter") { if (!done) setRing(0); } });
+</script>

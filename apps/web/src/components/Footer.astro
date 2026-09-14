@@ -1,0 +1,35 @@
+---
+import Brand from "./Brand.astro";
+import { SITE, DOWNLOADS } from "../config/site.mjs";
+---
+
+<footer class="site-footer">
+	<div class="site-shell footer-grid">
+		<div class="footer-about">
+			<Brand /><p>
+				Made for the way India speaks.<br />Built to keep your words private.
+			</p><small>By {SITE.author}</small>
+		</div>
+		<div>
+			<h2>Explore</h2><a href="/speech-to-text/">All 22 languages</a><a
+				href="/features/">Why Veena</a
+			><a href="/how-it-works/">How it works</a><a href="/blog/"
+				>Blog &amp; guides</a>
+		</div>
+		<div>
+			<h2>Get Veena</h2><a href={DOWNLOADS.playStore}>Android</a><a
+				href={DOWNLOADS.appStore}>iPhone</a
+			><a href="/windows/">Windows</a><a href="/download/">Download options</a>
+		</div>
+		<div>
+			<h2>A little more</h2><a href="/about/">Our story</a><a href="/privacy/"
+				>Privacy</a
+			><a href={`mailto:${SITE.email}`}>Contact</a><a href="/rss.xml"
+				>RSS feed</a>
+		</div>
+	</div>
+	<div class="site-shell footer-bottom">
+		<span>© {new Date().getFullYear()} Veena</span><span
+			>Free to use. No account needed.</span>
+	</div>
+</footer>

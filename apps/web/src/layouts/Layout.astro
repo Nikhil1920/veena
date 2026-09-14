@@ -1,0 +1,139 @@
+---
+import "../styles/global.css";
+import { SITE } from "../config/site.mjs";
+import type { SEOProps } from "../types/seo";
+
+interface Props extends SEOProps {
+	lang?: string;
+	/** Optional JSON-LD structured data (object or array) injected as a script tag. */
+	jsonLd?: object | object[];
+}
+
+const {
+	title = SITE.title,
+	description = SITE.description,
+	canonicalURL,
+	ogTitle = title,
+	ogDescription = description,
+	ogImage = SITE.ogImage,
+	ogType = "website",
+	twitterCard = "summary_large_image",
+	twitterTitle = ogTitle,
+	twitterDescription = ogDescription,
+	twitterImage = ogImage,
+	noindex = false,
+	nofollow = false,
+	lang = SITE.defaultLanguage,
+	jsonLd,
+} = Astro.props;
+
+// Construct full URLs
+const currentPath = Astro.url.pathname;
+const canonicalPath = canonicalURL || currentPath;
+const siteURL = new URL(canonicalPath, SITE.url);
+
+// Handle image URLs - support both absolute URLs and relative paths
+const getFullImageUrl = (image: string): string => {
+	if (image.startsWith("http://") || image.startsWith("https://")) {
+		return image;
+	}
+	return new URL(image, SITE.url).href;
+};
+
+const fullOgImage = getFullImageUrl(ogImage);
+const fullTwitterImage = getFullImageUrl(twitterImage);
+
+// Build robots meta content
+const robotsContent = [
+	noindex ? "noindex" : "index",
+	nofollow ? "nofollow" : "follow",
+].join(", ");
+
+// Site-wide structured data, merged with any page-level JSON-LD.
+const websiteJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	name: SITE.name,
+	url: SITE.url,
+	description: SITE.description,
+	inLanguage: "en",
+	publisher: {
+		"@type": "Organization",
+		name: SITE.name,
+		url: SITE.url,
+	},
+};
+
+const allJsonLd = [
+	websiteJsonLd,
+	...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []),
+];
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" href="/brand/veena-mark.png" />
+		<link rel="apple-touch-icon" href="/brand/veena-mark.png" />
+		<meta name="theme-color" content="#164C40" />
+		<link
+			rel="preload"
+			href="/fonts/bricolage-grotesque-latin.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="/fonts/dm-sans-latin.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<meta name="generator" content={Astro.generator} />
+
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="robots" content={robotsContent} />
+		<link rel="canonical" href={siteURL.href} />
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title="Veena blog"
+			href={new URL("/rss.xml", SITE.url).href}
+		/>
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={ogType} />
+		<meta property="og:site_name" content={SITE.shortName} />
+		<meta property="og:locale" content="en_IN" />
+		<meta property="og:url" content={siteURL.href} />
+		<meta property="og:title" content={ogTitle} />
+		<meta property="og:description" content={ogDescription} />
+		<meta property="og:image" content={fullOgImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={SITE.ogImageAlt} />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content={twitterCard} />
+		<meta name="twitter:url" content={siteURL.href} />
+		<meta name="twitter:title" content={twitterTitle} />
+		<meta name="twitter:description" content={twitterDescription} />
+		<meta name="twitter:image" content={fullTwitterImage} />
+
+		<script type="application/ld+json" set:html={JSON.stringify(allJsonLd)} />
+	</head>
+	<body class="min-h-screen site-page">
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-black focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+		>
+			Skip to main content
+		</a>
+		<slot />
+	</body>
+</html>

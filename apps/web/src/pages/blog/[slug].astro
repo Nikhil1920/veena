@@ -1,0 +1,166 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE } from "../../config/site.mjs";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("blog");
+	return posts
+		.filter((post) => !post.data.draft)
+		.map((post) => ({
+			params: { slug: post.id },
+			props: { post },
+		}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const canonical = `${SITE.url}/blog/${post.id}/`;
+const formattedDate = post.data.pubDate.toLocaleDateString("en-IN", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+
+const breadcrumbJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{ "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "Blog",
+			item: `${SITE.url}/blog/`,
+		},
+		{ "@type": "ListItem", position: 3, name: post.data.title },
+	],
+};
+
+const articleJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: post.data.title,
+	description: post.data.description,
+	url: canonical,
+	datePublished: post.data.pubDate.toISOString(),
+	dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+	inLanguage: "en",
+	author: { "@type": "Person", name: SITE.author },
+	publisher: {
+		"@type": "Organization",
+		name: SITE.name,
+		url: SITE.url,
+	},
+	keywords: post.data.tags.join(", "),
+};
+
+const faqJsonLd = post.data.faq?.length
+	? {
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			mainEntity: post.data.faq.map((f) => ({
+				"@type": "Question",
+				name: f.q,
+				acceptedAnswer: { "@type": "Answer", text: f.a },
+			})),
+		}
+	: null;
+---
+
+<Layout
+	title={`${post.data.title} | ${SITE.title}`}
+	description={post.data.description}
+	canonicalURL={canonical}
+	ogType="article"
+	jsonLd={faqJsonLd
+		? [breadcrumbJsonLd, articleJsonLd, faqJsonLd]
+		: [breadcrumbJsonLd, articleJsonLd]}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<article class="max-w-3xl mx-auto px-4 py-16">
+			<nav class="text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
+				<ol class="flex flex-wrap items-center gap-2 list-none p-0">
+					<li>
+						<a href="/" class="hover:text-gray-900">Home</a>
+					</li>
+					<li aria-hidden="true">/</li>
+					<li>
+						<a href="/blog" class="hover:text-gray-900">Blog</a>
+					</li>
+					<li aria-hidden="true">/</li>
+					<li class="text-gray-900 font-medium" aria-current="page">
+						{post.data.title}
+					</li>
+				</ol>
+			</nav>
+
+			<header class="mb-10">
+				<h1 class="text-4xl font-bold text-gray-900 mb-4">{post.data.title}</h1>
+				<div class="flex items-center gap-4 text-sm text-gray-500">
+					<time datetime={post.data.pubDate.toISOString()}>
+						{formattedDate}
+					</time>
+					{
+						post.data.updatedDate && (
+							<span>
+								Updated{" "}
+								{post.data.updatedDate.toLocaleDateString("en-IN", {
+									year: "numeric",
+									month: "long",
+									day: "numeric",
+								})}
+							</span>
+						)
+					}
+				</div>
+				<div class="flex flex-wrap gap-2 mt-4">
+					{
+						post.data.tags.map((tag) => (
+							<span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+								{tag}
+							</span>
+						))
+					}
+				</div>
+			</header>
+
+			<div class="prose prose-lg max-w-none text-gray-700">
+				<Content />
+			</div>
+
+			{
+				post.data.faq?.length && (
+					<section class="mt-12" aria-labelledby="faq-heading">
+						<h2 id="faq-heading" class="text-3xl font-bold text-gray-900 mb-6">
+							Frequently asked questions
+						</h2>
+						<div class="space-y-6">
+							{post.data.faq.map((f) => (
+								<div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+									<h3 class="text-lg font-semibold text-gray-900 mb-2">
+										{f.q}
+									</h3>
+									<p class="text-gray-700">{f.a}</p>
+								</div>
+							))}
+						</div>
+					</section>
+				)
+			}
+
+			<section class="mt-14 pt-10 border-t border-gray-200">
+				<a
+					href="/blog"
+					class="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors"
+				>
+					← All articles
+				</a>
+			</section>
+		</article>
+	</main>
+	<Footer />
+</Layout>

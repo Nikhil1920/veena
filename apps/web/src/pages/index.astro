@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import CTA from "../components/CTA.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config/site.mjs";
+
+const appJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "SoftwareApplication",
+	name: "Veena",
+	applicationCategory: "MultimediaApplication",
+	operatingSystem: "Android, iOS, Windows",
+	description: SITE.description,
+	url: SITE.url,
+	inLanguage: "en",
+	author: { "@type": "Person", name: SITE.author },
+	offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+};
+---
+
+<Layout canonicalURL={`${SITE.url}/`} jsonLd={appJsonLd}>
+	<Header />
+	<main id="main-content" role="main">
+		<Hero />
+
+		<section class="site-shell home-process" aria-labelledby="process-heading">
+			<h2 id="process-heading">From a thought to a paragraph.</h2>
+			<ol class="process-list">
+				<li>
+					<h3>Make it yours</h3><p>
+						Choose your language and download its speech model once.
+					</p>
+				</li>
+				<li>
+					<h3>Say what’s on your mind</h3><p>
+						Record your voice, or open an audio file. Veena listens on your
+						device.
+					</p>
+				</li>
+				<li>
+					<h3>Keep your words</h3><p>
+						Edit your transcript, then copy it into a message, a note, or a
+						document.
+					</p>
+				</li>
+			</ol>
+		</section>
+		<section class="privacy-strip">
+			<div class="site-shell">
+				<h2>Your words stay with you.</h2><div>
+					<p>
+						Your voice doesn’t need a round trip to a server. After a one-time
+						model download, Veena transcribes on your device, even without an
+						internet connection.
+					</p><a href="/privacy/">Read how Veena protects your privacy</a>
+				</div>
+			</div>
+		</section>
+
+		<CTA />
+	</main>
+	<Footer />
+</Layout>

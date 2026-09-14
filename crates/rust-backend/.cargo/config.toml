@@ -1,0 +1,16 @@
+# Cross-compilation for Android (arm64-v8a).
+#
+# The toolchain names are resolved through PATH: before building, put your
+# NDK's LLVM toolchain bin directory on PATH, e.g.
+#
+#   export ANDROID_NDK_HOME="$HOME/Library/Android/sdk/ndk/<version>"
+#   export PATH="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64/bin:$PATH"
+#
+# (`darwin-x86_64` is `linux-x86_64` on Linux.) Alternatively, build with
+# `cargo ndk -t arm64-v8a` (https://github.com/bbqsrc/cargo-ndk), which sets
+# the linker itself.
+#
+# Run cargo from this directory so this file is picked up.
+[target.aarch64-linux-android]
+linker = "aarch64-linux-android21-clang"
+ar = "llvm-ar"

@@ -1,0 +1,160 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { Icon } from "astro-icon/components";
+import { SITE, DOWNLOADS } from "../config/site.mjs";
+
+const title = "Download Veena — Speech to Text for Android, iPhone & Windows";
+const description =
+	"Download Veena free: offline speech to text in 22 Indian languages. Get it on Google Play for Android, the App Store for iPhone, or the Windows installer. No account needed.";
+
+const canonical = `${SITE.url}/download/`;
+
+const softwareJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "SoftwareApplication",
+	name: "Veena",
+	applicationCategory: "MultimediaApplication",
+	operatingSystem: "Android, iOS, Windows",
+	description: description,
+	url: canonical,
+	inLanguage: "en",
+	author: { "@type": "Person", name: SITE.author },
+	offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+	featureList: [
+		"Speech to text in 22 scheduled languages of India",
+		"On-device transcription, works offline",
+		"Dictate live or import audio files",
+		"Local transcript history with replay",
+		"Copy or share transcripts to any app",
+	],
+};
+
+const faq = [
+	{
+		q: "Is Veena free to download?",
+		a: "Yes. Veena is free on Google Play, the App Store, and as a Windows installer. There is no account to create and no subscription.",
+	},
+	{
+		q: "Do I need internet after installing?",
+		a: "Only once: Veena downloads a speech model when you set it up (about 125 MB for Telugu, about 480 MB for the full 22-language model). After that, transcription works completely offline.",
+	},
+	{
+		q: "Which Android version does Veena need?",
+		a: "Veena runs on Android 8.0 or later.",
+	},
+	{
+		q: "Is there a Mac or Linux version?",
+		a: "Desktop builds for macOS and Linux are in development. Today the desktop app is available for Windows 10 and 11 (64-bit).",
+	},
+];
+
+const faqJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faq.map((f) => ({
+		"@type": "Question",
+		name: f.q,
+		acceptedAnswer: { "@type": "Answer", text: f.a },
+	})),
+};
+---
+
+<Layout
+	title={title}
+	description={description}
+	canonicalURL={canonical}
+	jsonLd={[softwareJsonLd, faqJsonLd]}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<div class="site-shell">
+			<section class="page-intro">
+				<h1 class="page-title">Your voice.<br />On your favourite device.</h1><p
+					class="page-lede"
+				>
+					Download Veena for free. Speak in your language, keep a local history,
+					and take your words wherever you need them. No account needed.
+				</p>
+			</section>
+			<section class="content-section" aria-label="Download Veena">
+				<div class="download-list">
+					<div class="download-option">
+						<Icon
+							name="tabler:brand-android"
+							width="34"
+							height="34"
+							aria-hidden="true"
+						/><h2>Android</h2><p>
+							Record a quick thought, import an audio file, and share the words
+							with any app.
+						</p><p class="download-requirement">
+							{DOWNLOADS.android.requirement}<br />Free on Google Play
+						</p><a class="button-primary" href={DOWNLOADS.playStore}
+							>Get it on Google Play</a>
+					</div>
+					<div class="download-option">
+						<Icon
+							name="tabler:brand-apple"
+							width="34"
+							height="34"
+							aria-hidden="true"
+						/><h2>iPhone</h2><p>
+							Capture a note or a longer passage. Edit your transcript and keep
+							your history close.
+						</p><p class="download-requirement">
+							See the App Store for device requirements.<br />Free on the App
+							Store
+						</p><a class="button-primary" href={DOWNLOADS.appStore}
+							>Download on the App Store</a>
+					</div>
+					<div class="download-option">
+						<Icon
+							name="tabler:brand-windows"
+							width="34"
+							height="34"
+							aria-hidden="true"
+						/><h2>Windows</h2><p>
+							Press a shortcut, speak, and paste the transcript straight into
+							the app you’re using.
+						</p><p class="download-requirement">
+							{DOWNLOADS.windows.requirement}<br />Version {
+								DOWNLOADS.windows.version
+							}, {DOWNLOADS.windows.size}
+						</p><a class="button-primary" href={DOWNLOADS.windows.url}
+							>Download for Windows</a>
+					</div>
+				</div>
+				<div class="directory-note">
+					<p>
+						Already at your computer? Try recording and transcribing right here
+						in a supported desktop browser.
+					</p><a class="button-secondary" href="/speech-to-text/"
+						>Try in browser</a>
+				</div>
+				<section class="setup-note" aria-labelledby="setup-heading">
+					<h2 id="setup-heading">A small setup.<br />Then it’s all yours.</h2><p
+					>
+						Open Veena, allow microphone access, and choose your language.
+						Download the speech model once: {DOWNLOADS.android.modelDownload}.
+						After that, transcription works offline on your device.
+					</p>
+				</section>
+				<section class="faq-list" aria-labelledby="dl-faq-heading">
+					<h2 id="dl-faq-heading">Download questions</h2>{
+						faq.map((f) => (
+							<details>
+								<>
+									<summary>{f.q}</summary>
+									<p>{f.a}</p>
+								</>
+							</details>
+						))
+					}
+				</section>
+			</section>
+		</div>
+	</main>
+	<Footer />
+</Layout>

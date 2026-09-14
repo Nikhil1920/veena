@@ -1,0 +1,19 @@
+---
+import { SITE } from "../config/site.mjs";
+import Layout from "../layouts/Layout.astro";
+import TranscriptionApp from "../components/transcription/TranscriptionApp";
+---
+
+<Layout
+	title="Transcribe privately in your browser — Veena"
+	description="Record or open an audio file and transcribe locally in your desktop browser. Download a voice model once; no installation or audio uploads."
+	canonicalURL={`${SITE.url}/speech-to-text/telugu/`}
+	noindex={true}
+>
+	<TranscriptionApp client:load initialLanguage="te" />
+	<noscript
+		><p>
+			Enable JavaScript to run Veena’s transcription model in your browser.
+		</p></noscript
+	>
+</Layout>

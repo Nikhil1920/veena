@@ -1,0 +1,198 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config/site.mjs";
+import { LANGUAGES } from "../config/languages.mjs";
+
+const title = "The 22 Scheduled Languages of India — List with Scripts";
+const description =
+	"The complete list of India's 22 scheduled languages under the Eighth Schedule of the Constitution, with scripts, speaker counts, and regions, plus how to dictate in each one offline.";
+
+const canonical = `${SITE.url}/scheduled-languages-of-india/`;
+
+const faq = [
+	{
+		q: "How many scheduled languages does India have?",
+		a: "India has 22 scheduled languages, listed in the Eighth Schedule of the Constitution. The original Constitution recognised 14 in 1950; amendments have added eight more since, most recently Bodo, Dogri, Maithili and Santali.",
+	},
+	{
+		q: "Which scheduled language has the most speakers?",
+		a: "Hindi has the most speakers by a wide margin, followed by Bengali, Marathi and Telugu. Speaker counts are approximate because many people speak more than one language.",
+	},
+	{
+		q: "Is English a scheduled language of India?",
+		a: "No. English is used for official purposes under the Official Languages Act, but it is not one of the 22 languages in the Eighth Schedule.",
+	},
+	{
+		q: "Can I use speech to text in all 22 scheduled languages?",
+		a: "Yes. Veena is a free app that transcribes speech to text in every scheduled language of India, entirely on your device. Each language page linked above explains what dictation sounds like in that language.",
+	},
+];
+
+const faqJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faq.map((f) => ({
+		"@type": "Question",
+		name: f.q,
+		acceptedAnswer: { "@type": "Answer", text: f.a },
+	})),
+};
+
+const breadcrumbJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{ "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "The 22 scheduled languages of India",
+		},
+	],
+};
+---
+
+<Layout
+	title={title}
+	description={description}
+	canonicalURL={canonical}
+	jsonLd={[breadcrumbJsonLd, faqJsonLd]}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<article class="max-w-4xl mx-auto px-4 py-16 md:py-20">
+			<nav class="text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
+				<ol class="flex flex-wrap items-center gap-2 list-none p-0">
+					<li><a href="/" class="hover:text-gray-900">Home</a></li>
+					<li aria-hidden="true">/</li>
+					<li class="text-gray-900 font-medium" aria-current="page">
+						The 22 scheduled languages
+					</li>
+				</ol>
+			</nav>
+
+			<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+				The 22 scheduled languages of India
+			</h1>
+			<p class="text-xl text-gray-600 mb-10 max-w-3xl">
+				India's Constitution lists 22 languages in its Eighth Schedule, known as
+				the scheduled languages. Together they are spoken by more than a billion
+				people across every state and union territory. This page lists all of
+				them with their scripts, approximate speaker counts, and where they are
+				spoken.
+			</p>
+
+			<div class="overflow-x-auto mb-12">
+				<table
+					class="w-full min-w-[720px] text-left bg-white border border-gray-200 rounded-xl text-sm"
+				>
+					<thead>
+						<tr class="border-b border-gray-200">
+							<th class="px-4 py-3 font-semibold text-gray-900">Language</th>
+							<th class="px-4 py-3 font-semibold text-gray-900">Native name</th>
+							<th class="px-4 py-3 font-semibold text-gray-900">Script</th>
+							<th class="px-4 py-3 font-semibold text-gray-900">Speakers</th>
+							<th class="px-4 py-3 font-semibold text-gray-900"
+								>Mainly spoken in</th
+							>
+						</tr>
+					</thead>
+					<tbody>
+						{
+							LANGUAGES.map((lang) => (
+								<tr class="border-b border-gray-100 align-top">
+									<td class="px-4 py-3 font-medium text-gray-900">
+										<a
+											href={`/speech-to-text/${lang.slug}/`}
+											class="hover:underline underline-offset-2"
+										>
+											{lang.name}
+										</a>
+									</td>
+									<td class="px-4 py-3 text-gray-700" lang={lang.code}>
+										{lang.nativeName}
+									</td>
+									<td class="px-4 py-3 text-gray-700">{lang.script}</td>
+									<td class="px-4 py-3 text-gray-700">{lang.speakers}</td>
+									<td class="px-4 py-3 text-gray-700">
+										{lang.regions.join(", ")}
+									</td>
+								</tr>
+							))
+						}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="prose prose-lg max-w-none text-gray-700">
+				<h2>What "scheduled language" means</h2>
+				<p>
+					The Eighth Schedule of the Indian Constitution recognises languages
+					for representation in the Official Languages Commission and for
+					cultural preservation. The original Constitution of 1950 listed 14
+					languages. Amendments added Sindhi in 1967, Konkani, Manipuri and
+					Nepali in 1992, and Bodo, Dogri, Maithili and Santali in 2003,
+					bringing the total to 22. The list is about recognition, not status:
+					each scheduled language has hundreds of years, sometimes thousands, of
+					literature behind it.
+				</p>
+				<p>
+					Speaker counts above are approximate Census-based estimates that
+					include first- and second-language speakers. Real numbers are higher,
+					because millions of people speak two or three of these languages
+					daily.
+				</p>
+
+				<h2>Typing and dictation in the scheduled languages</h2>
+				<p>
+					Several of these languages, including Hindi, Marathi, Nepali, Sanskrit
+					and Konkani, share the Devanagari script, while others use their own:
+					Telugu, Tamil, Kannada and Malayalam each have distinct scripts, and
+					Meitei Mayek is the official script of Manipuri. Typing any of them on
+					a phone keyboard is slow, which is why voice input matters here.
+				</p>
+				<p>
+					Veena is a free speech to text app built for exactly this list: it
+					transcribes all 22 scheduled languages on your device, offline, at no
+					charge. Every language name in the table links to a page on how well
+					it handles that language, from{" "}
+					<a href="/speech-to-text/hindi/" class="text-blue-600 hover:underline"
+						>Hindi voice typing</a
+					>{" "}
+					to{" "}
+					<a
+						href="/speech-to-text/santali/"
+						class="text-blue-600 hover:underline">Santali dictation</a
+					>. See the{" "}
+					<a href="/speech-to-text/" class="text-blue-600 hover:underline"
+						>speech to text hub</a
+					>{" "}
+					or{" "}
+					<a href="/download/" class="text-blue-600 hover:underline"
+						>download Veena</a
+					>{" "}
+					for Android, iPhone, or Windows.
+				</p>
+			</div>
+
+			<section aria-labelledby="sl-faq-heading" class="mt-12">
+				<h2 id="sl-faq-heading" class="text-2xl font-bold text-gray-900 mb-6">
+					Questions about India's scheduled languages
+				</h2>
+				<div class="space-y-6">
+					{
+						faq.map((f) => (
+							<div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+								<h3 class="text-lg font-semibold text-gray-900 mb-2">{f.q}</h3>
+								<p class="text-gray-700">{f.a}</p>
+							</div>
+						))
+					}
+				</div>
+			</section>
+		</article>
+	</main>
+	<Footer />
+</Layout>

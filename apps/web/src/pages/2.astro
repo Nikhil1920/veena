@@ -1,0 +1,366 @@
+---
+/**
+ * Iteration 2 — "Specimen".
+ * A type-foundry specimen sheet: the 22 native scripts of India ARE the
+ * artwork. Bright paper, ink, one marigold. Bricolage Grotesque for Latin,
+ * the Noto script families do the heavy lifting.
+ */
+import Switcher from "../components/iterations/Switcher.astro";
+
+const LANGUAGES: Array<[string, string, string, string]> = [
+	// [english, native, code, dir]
+	["Assamese", "অসমীয়া", "as", "ltr"],
+	["Bengali", "বাংলা", "bn", "ltr"],
+	["Bodo", "बड़ो", "brx", "ltr"],
+	["Dogri", "डोगरी", "doi", "ltr"],
+	["Gujarati", "ગુજરાતી", "gu", "ltr"],
+	["Hindi", "हिन्दी", "hi", "ltr"],
+	["Kannada", "ಕನ್ನಡ", "kn", "ltr"],
+	["Kashmiri", "کٲشُر", "ks", "rtl"],
+	["Konkani", "कोंकणी", "gom", "ltr"],
+	["Maithili", "मैथिली", "mai", "ltr"],
+	["Malayalam", "മലയാളം", "ml", "ltr"],
+	["Manipuri", "ꯃꯤꯇꯩꯂꯣꯟ", "mni", "ltr"],
+	["Marathi", "मराठी", "mr", "ltr"],
+	["Nepali", "नेपाली", "ne", "ltr"],
+	["Odia", "ଓଡ଼ିଆ", "or", "ltr"],
+	["Punjabi", "ਪੰਜਾਬੀ", "pa", "ltr"],
+	["Sanskrit", "संस्कृतम्", "sa", "ltr"],
+	["Santali", "ᱥᱟᱱᱛᱟᱲᱤ", "sat", "ltr"],
+	["Sindhi", "سنڌي", "sd", "rtl"],
+	["Tamil", "தமிழ்", "ta", "ltr"],
+	["Telugu", "తెలుగు", "te", "ltr"],
+	["Urdu", "اردو", "ur", "rtl"],
+];
+
+const CYCLE = [
+	{ text: "నమస్కారం", name: "Telugu" },
+	{ text: "नमस्ते", name: "Hindi" },
+	{ text: "வணக்கம்", name: "Tamil" },
+	{ text: "নমস্কার", name: "Bengali" },
+	{ text: "ನಮಸ್ಕಾರ", name: "Kannada" },
+	{ text: "നമസ്കാരം", name: "Malayalam" },
+	{ text: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", name: "Punjabi" },
+	{ text: "નમસ્તે", name: "Gujarati" },
+];
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>Veena — a specimen in 22 scripts · iteration 2</title>
+		<meta name="description" content="Veena turns speech into text in all 22 scheduled languages of India, entirely on your device. Free, offline, open source." />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&display=swap"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@500&family=Noto+Sans+Devanagari:wght@500&family=Noto+Sans+Tamil:wght@500&family=Noto+Sans+Telugu:wght@500&family=Noto+Sans+Kannada:wght@500&family=Noto+Sans+Malayalam:wght@500&family=Noto+Sans+Gurmukhi:wght@500&family=Noto+Sans+Gujarati:wght@500&family=Noto+Sans+Oriya:wght@500&family=Noto+Sans+Arabic:wght@500&family=Noto+Sans+Meetei+Mayek:wght@500&family=Noto+Sans+Ol+Chiki:wght@500&display=swap"
+		/>
+	</head>
+	<body data-iteration="2">
+		<header class="sheet-head">
+			<span class="mark">Veena</span>
+			<span class="colophon-line">speech to text · all 22 scheduled languages of India · on the device</span>
+			<span class="folio">ii</span>
+		</header>
+
+		<main>
+			<section class="hero">
+				<div class="hero-copy">
+					<h1>One app, twenty&#8209;two ways to say&nbsp;hello.</h1>
+					<p>
+						Veena writes down what you say, in the language you said it.
+						Talk to your phone in Telugu or Bodo — no switching keyboards,
+						no cloud in the middle. The words land as text, on your screen,
+						straight away.
+					</p>
+					<div class="hero-links">
+						<a class="pill" href="https://play.google.com/store/apps/details?id=com.byanr.veena">Android</a>
+						<a class="pill" href="https://apps.apple.com/us/app/id6769981675">iPhone</a>
+						<a class="pill" href="https://dl.byanr.com/veena-byanr/desktop/Veena_0.0.2_x64-setup.exe">Windows</a>
+						<a class="quiet" href="https://github.com/Nikhil1920/veena">Source on GitHub</a>
+					</div>
+				</div>
+				<figure class="case" aria-label="Cycling specimen">
+					<span class="case-tick tl" aria-hidden="true"></span>
+					<span class="case-tick tr" aria-hidden="true"></span>
+					<span class="case-tick bl" aria-hidden="true"></span>
+					<span class="case-tick br" aria-hidden="true"></span>
+					<blockquote class="native" id="cycleWord">నమస్కారం</blockquote>
+					<figcaption><span id="cycleName">Telugu</span> — one of twenty-two</figcaption>
+				</figure>
+			</section>
+
+			<section class="wall-section" aria-label="Every supported language, in its own script">
+				<h2 class="wall-heading">The whole family, set in itself</h2>
+				<p class="wall-sub">
+					Each language below is written the way its readers write it. Veena
+					listens and types in all of them — no Romanised detour.
+				</p>
+				<ul class="wall">
+					{LANGUAGES.map(([name, native, code, dir]) => (
+						<li class="tile">
+							<span class="code">{code}</span>
+							<span class="native word" dir={dir} lang={code}>{native}</span>
+							<span class="ename">{name}</span>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section class="duo">
+				<div class="duo-a">
+					<h2>Nothing to intercept</h2>
+					<p>
+						The language model lives on your device — about 125 MB if you
+						speak Telugu, about 480 MB for all 22. After that one download,
+						transcription never touches a network. Airplane mode is a valid
+						way to work.
+					</p>
+				</div>
+				<div class="duo-b">
+					<h2>Free, and proven free</h2>
+					<p>
+						Veena is open source under the MIT licence. You can read exactly
+						what happens to your voice, because the answer is public: it
+						stays in the room.
+					</p>
+					<a class="underline" href="https://github.com/Nikhil1920/veena">Read the source on GitHub</a>
+				</div>
+			</section>
+		</main>
+
+		<footer class="sheet-foot">
+			<span>Veena — by Nikhil Reddy Avuthu</span>
+			<span>Android 8+ · iPhone · Windows 10/11</span>
+		</footer>
+
+		<Switcher index={2} surface="light" accent="#E98A00" />
+	</body>
+</html>
+
+<style>
+	:global(body) {
+		margin: 0;
+		background: #fcfbf7;
+		color: #16140e;
+		font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+		font-optical-sizing: auto;
+		line-height: 1.55;
+		-webkit-font-smoothing: antialiased;
+	}
+	.native {
+		font-family: "Noto Sans Bengali", "Noto Sans Devanagari", "Noto Sans Tamil",
+			"Noto Sans Telugu", "Noto Sans Kannada", "Noto Sans Malayalam",
+			"Noto Sans Gurmukhi", "Noto Sans Gujarati", "Noto Sans Oriya",
+			"Noto Sans Arabic", "Noto Sans Meetei Mayek", "Noto Sans Ol Chiki", sans-serif;
+	}
+
+	a:focus-visible, button:focus-visible { outline: 2px solid #e98a00; outline-offset: 3px; border-radius: 3px; }
+
+	/* ---------- running head ---------- */
+	.sheet-head {
+		display: flex;
+		align-items: baseline;
+		gap: 18px;
+		max-width: 1160px;
+		margin: 0 auto;
+		padding: 20px 24px 14px;
+		border-bottom: 1.5px solid #16140e;
+	}
+	.mark { font-size: 22px; font-weight: 750; letter-spacing: -0.01em; }
+	.colophon-line { font-size: 13px; opacity: 0.62; }
+	.folio { margin-left: auto; font-size: 13px; font-weight: 650; color: #e98a00; }
+
+	/* ---------- hero ---------- */
+	.hero {
+		max-width: 1160px;
+		margin: 0 auto;
+		padding: clamp(48px, 7vw, 84px) 24px clamp(40px, 6vw, 72px);
+		display: grid;
+		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+		gap: clamp(32px, 5vw, 72px);
+		align-items: center;
+	}
+	.hero h1 {
+		font-size: clamp(38px, 5.6vw, 68px);
+		font-weight: 780;
+		line-height: 1.02;
+		letter-spacing: -0.025em;
+		margin: 0 0 22px;
+	}
+	.hero-copy p { font-size: 17.5px; line-height: 1.6; opacity: 0.8; max-width: 32em; margin: 0 0 28px; }
+	.hero-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+	.pill {
+		color: #16140e;
+		text-decoration: none;
+		font-weight: 650;
+		font-size: 15px;
+		padding: 10px 22px;
+		border: 1.5px solid #16140e;
+		border-radius: 999px;
+		transition: background 0.15s ease, color 0.15s ease;
+	}
+	.pill:hover { background: #16140e; color: #fcfbf7; }
+	.quiet { font-size: 15px; font-weight: 550; color: #16140e; opacity: 0.72; text-decoration: underline; text-underline-offset: 4px; }
+	.quiet:hover { opacity: 1; }
+
+	.case {
+		position: relative;
+		margin: 0;
+		border: 1.5px solid #16140e;
+		border-radius: 6px;
+		padding: clamp(28px, 3.4vw, 44px) 28px 22px;
+		text-align: center;
+		background:
+			linear-gradient(#fcfbf7, #fcfbf7) padding-box;
+	}
+	.case-tick { position: absolute; width: 14px; height: 14px; border-color: #e98a00; border-style: solid; border-width: 0; }
+	.case-tick.tl { top: -2px; left: -2px; border-top-width: 3px; border-left-width: 3px; }
+	.case-tick.tr { top: -2px; right: -2px; border-top-width: 3px; border-right-width: 3px; }
+	.case-tick.bl { bottom: -2px; left: -2px; border-bottom-width: 3px; border-left-width: 3px; }
+	.case-tick.br { bottom: -2px; right: -2px; border-bottom-width: 3px; border-right-width: 3px; }
+	.case blockquote {
+		margin: 0;
+		font-size: clamp(44px, 6vw, 72px);
+		font-weight: 500;
+		line-height: 1.35;
+		min-height: 1.5em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.case figcaption {
+		margin-top: 14px;
+		padding-top: 12px;
+		border-top: 1px solid rgba(22, 20, 14, 0.18);
+		font-size: 14px;
+		opacity: 0.62;
+	}
+
+	/* ---------- the wall ---------- */
+	.wall-section {
+		max-width: 1160px;
+		margin: 0 auto;
+		padding: 0 24px clamp(48px, 7vw, 80px);
+	}
+	.wall-heading {
+		font-size: clamp(24px, 3vw, 32px);
+		font-weight: 700;
+		letter-spacing: -0.015em;
+		margin: 0 0 8px;
+	}
+	.wall-sub { margin: 0 0 26px; font-size: 16px; opacity: 0.72; max-width: 44em; }
+	.wall {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+		border-top: 1px solid rgba(22, 20, 14, 0.16);
+		border-left: 1px solid rgba(22, 20, 14, 0.16);
+	}
+	.tile {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		gap: 2px;
+		min-height: 148px;
+		padding: 30px 16px 14px;
+		border-right: 1px solid rgba(22, 20, 14, 0.16);
+		border-bottom: 1px solid rgba(22, 20, 14, 0.16);
+		transition: background 0.15s ease;
+	}
+	.tile:hover { background: #e98a00; }
+	.tile:hover .code, .tile:hover .ename { color: #16140e; }
+	.code {
+		position: absolute;
+		top: 10px;
+		left: 14px;
+		font-size: 11px;
+		font-weight: 650;
+		opacity: 0.45;
+	}
+	.word {
+		font-size: clamp(26px, 2.6vw, 34px);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+	.ename { font-size: 12.5px; font-weight: 550; opacity: 0.6; }
+
+	/* ---------- duo ---------- */
+	.duo {
+		max-width: 1160px;
+		margin: 0 auto;
+		padding: 0 24px clamp(56px, 8vw, 96px);
+		display: grid;
+		grid-template-columns: 3fr 2fr;
+		gap: clamp(32px, 5vw, 80px);
+		border-top: 1.5px solid #16140e;
+		padding-top: 40px;
+	}
+	.duo h2 { font-size: 24px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.01em; }
+	.duo p { margin: 0 0 14px; font-size: 16px; opacity: 0.8; max-width: 36em; }
+	.underline { color: #16140e; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: #e98a00; text-decoration-thickness: 2px; }
+	.underline:hover { text-decoration-color: #16140e; }
+
+	/* ---------- footer ---------- */
+	.sheet-foot {
+		max-width: 1160px;
+		margin: 0 auto;
+		padding: 18px 24px 108px;
+		border-top: 1.5px solid #16140e;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 6px 24px;
+		font-size: 13.5px;
+		opacity: 0.68;
+	}
+
+	@media (max-width: 860px) {
+		.hero { grid-template-columns: 1fr; }
+		.duo { grid-template-columns: 1fr; gap: 28px; }
+		.colophon-line { display: none; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.tile, .pill { transition: none; }
+	}
+</style>
+
+<script>
+	const cycle = [
+		{ text: "నమస్కారం", name: "Telugu" },
+		{ text: "नमस्ते", name: "Hindi" },
+		{ text: "வணக்கம்", name: "Tamil" },
+		{ text: "নমস্কার", name: "Bengali" },
+		{ text: "ನಮಸ್ಕಾರ", name: "Kannada" },
+		{ text: "നമസ്കാരം", name: "Malayalam" },
+		{ text: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", name: "Punjabi" },
+		{ text: "નમસ્તે", name: "Gujarati" },
+	];
+	const wordEl = document.getElementById("cycleWord")!;
+	const nameEl = document.getElementById("cycleName")!;
+	const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+	let i = 0;
+	if (!reduced) {
+		setInterval(() => {
+			i = (i + 1) % cycle.length;
+			wordEl.style.opacity = "0";
+			setTimeout(() => {
+				wordEl.textContent = cycle[i].text;
+				nameEl.textContent = cycle[i].name;
+				wordEl.style.opacity = "1";
+			}, 180);
+		}, 2600);
+		wordEl.style.transition = "opacity 0.18s ease";
+	}
+</script>

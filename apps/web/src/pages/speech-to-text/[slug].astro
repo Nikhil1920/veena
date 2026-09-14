@@ -1,0 +1,228 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import StoreButtons from "../../components/StoreButtons.astro";
+import TranscriptionApp from "../../components/transcription/TranscriptionApp";
+import { SITE } from "../../config/site.mjs";
+import { LANGUAGE_BY_SLUG, LANGUAGES } from "../../config/languages.mjs";
+
+export async function getStaticPaths() {
+	const entries = await getCollection("languages");
+	return entries
+		.filter((entry) => LANGUAGE_BY_SLUG[entry.id])
+		.map((entry) => ({
+			params: { slug: entry.id },
+			props: { entry },
+		}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const lang = LANGUAGE_BY_SLUG[entry.id];
+const canonical = `${SITE.url}/speech-to-text/${lang.slug}/`;
+const title = `${lang.name} speech to text online — Free voice typing | Veena`;
+const description = `Convert ${lang.name} speech to text in your browser. Download the model once, then record or open audio and edit your transcript privately on your device.`;
+const otherLanguages = LANGUAGES.filter((l) => l.slug !== lang.slug);
+const faq = [
+	{
+		q: `How do I use ${lang.name} speech to text in my browser?`,
+		a: `Click Download model above to set up Veena in this browser. When the download finishes, ${lang.name} is already selected. Record your voice or open an audio file, then edit and copy the transcript. Your audio is processed on your device.`,
+	},
+	{
+		q: "Will the model download every time I visit?",
+		a: "No. The model downloads only when you click Download model and is saved in this browser for future visits. You may need to download it again if you clear browser data or your browser removes its saved files. Changing to a language that needs another model will show its download size before you begin.",
+	},
+	...(entry.data.faq || []),
+];
+
+const breadcrumbJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{ "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "Speech to text",
+			item: `${SITE.url}/speech-to-text/`,
+		},
+		{ "@type": "ListItem", position: 3, name: lang.name },
+	],
+};
+
+const articleJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Article",
+	headline: entry.data.title,
+	description: entry.data.description,
+	url: canonical,
+	inLanguage: "en",
+	keywords: entry.data.keywords?.join(", "),
+	author: { "@type": "Person", name: SITE.author },
+	publisher: {
+		"@type": "Organization",
+		name: SITE.name,
+		url: SITE.url,
+	},
+};
+
+const faqJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faq.map((f) => ({
+		"@type": "Question",
+		name: f.q,
+		acceptedAnswer: { "@type": "Answer", text: f.a },
+	})),
+};
+
+const appJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "WebApplication",
+	name: `Veena ${lang.name} speech to text`,
+	description,
+	url: canonical,
+	applicationCategory: "ProductivityApplication",
+	operatingSystem: "Web browser",
+	browserRequirements: "JavaScript and a supported modern desktop browser",
+	offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+};
+---
+
+<Layout
+	title={title}
+	description={description}
+	canonicalURL={canonical}
+	jsonLd={[breadcrumbJsonLd, appJsonLd, articleJsonLd, faqJsonLd]}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<div class="max-w-6xl mx-auto px-4 pt-6">
+			<nav class="text-sm text-gray-600" aria-label="Breadcrumb">
+				<ol class="flex flex-wrap items-center gap-2 list-none p-0">
+					<li>
+						<a href="/" class="hover:text-gray-900">Home</a>
+					</li>
+					<li aria-hidden="true">/</li>
+					<li>
+						<a href="/speech-to-text/" class="hover:text-gray-900"
+							>Speech to text</a
+						>
+					</li>
+					<li aria-hidden="true">/</li>
+					<li class="text-gray-900 font-medium" aria-current="page">
+						{lang.name}
+					</li>
+				</ol>
+			</nav>
+		</div>
+
+		<TranscriptionApp client:load initialLanguage={lang.code} embedded={true} />
+		<noscript>
+			<p class="max-w-4xl mx-auto px-4 py-6 text-gray-700">
+				Enable JavaScript to transcribe {lang.name} in your browser, or
+				<a href="/download/" class="underline underline-offset-4"
+					>use the Veena app</a
+				>.
+			</p>
+		</noscript>
+
+		<article id="language-guide" class="max-w-4xl mx-auto px-4 py-16">
+			<header class="mb-10">
+				<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+					About {lang.name} speech to text
+				</h2>
+				<p class="text-xl text-gray-600">{entry.data.description}</p>
+			</header>
+
+			<dl
+				class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 border-y border-gray-200 py-6"
+			>
+				<div>
+					<dt class="text-sm text-gray-600 mb-2">Native name</dt>
+					<dd class="text-2xl text-gray-900" lang={lang.code}>
+						{lang.nativeName}
+					</dd>
+				</div>
+				<div>
+					<dt class="text-sm text-gray-600 mb-2">Language family</dt>
+					<dd class="text-lg font-medium text-gray-900">{lang.family}</dd>
+				</div>
+				<div>
+					<dt class="text-sm text-gray-600 mb-2">Speakers</dt>
+					<dd class="text-lg font-medium text-gray-900">
+						{lang.speakers}
+					</dd>
+				</div>
+				<div>
+					<dt class="text-sm text-gray-600 mb-2">Script</dt>
+					<dd class="text-lg font-medium text-gray-900">
+						{lang.script}
+					</dd>
+				</div>
+			</dl>
+
+			<div class="prose prose-lg max-w-none text-gray-700">
+				<Content />
+			</div>
+
+			{
+				faq.length > 0 && (
+					<section class="mt-12" aria-labelledby="faq-heading">
+						<h2 id="faq-heading" class="text-3xl font-bold text-gray-900 mb-6">
+							Frequently asked questions
+						</h2>
+						<div class="divide-y divide-gray-200">
+							{faq.map((f) => (
+								<div class="py-6">
+									<h3 class="text-lg font-semibold text-gray-900 mb-2">
+										{f.q}
+									</h3>
+									<p class="text-gray-700">{f.a}</p>
+								</div>
+							))}
+						</div>
+					</section>
+				)
+			}
+
+			<section
+				class="mt-14 pt-10 border-t border-gray-200"
+				aria-labelledby="try-heading"
+			>
+				<h2 id="try-heading" class="text-2xl font-bold text-gray-900 mb-3">
+					Prefer the Veena app?
+				</h2>
+				<p class="text-gray-600 mb-6 max-w-2xl">
+					Use {lang.name} voice typing on your phone or computer. Veena is free, works
+					offline after setup, and needs no account.
+				</p>
+				<StoreButtons variant="links" />
+			</section>
+
+			<section
+				class="mt-14 pt-10 border-t border-gray-200"
+				aria-label="Related languages"
+			>
+				<h2 class="text-2xl font-bold text-gray-900 mb-6">
+					Speech to text in other languages
+				</h2>
+				<div class="flex flex-wrap gap-2">
+					{
+						otherLanguages.map((l) => (
+							<a
+								href={`/speech-to-text/${l.slug}/`}
+								class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+							>
+								{l.name}
+							</a>
+						))
+					}
+				</div>
+			</section>
+		</article>
+	</main>
+	<Footer />
+</Layout>

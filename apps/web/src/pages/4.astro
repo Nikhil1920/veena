@@ -1,0 +1,380 @@
+---
+/**
+ * Iteration 4 — "Schematic".
+ * An engineering drawing: the on-device pipeline as a cutaway with leader
+ * lines, a parts list, and a title block. The network path is drawn dashed
+ * and crossed out — the diagram IS the privacy argument.
+ * IBM Plex Sans/Mono (a schematic justifies mono labels), graph-paper ground.
+ */
+import Switcher from "../components/iterations/Switcher.astro";
+
+const OUTPUTS = [
+	{ text: "నమస్కారం", tag: "te", lang: "Telugu" },
+	{ text: "नमस्ते", tag: "hi", lang: "Hindi" },
+	{ text: "வணக்கம்", tag: "ta", lang: "Tamil" },
+	{ text: "নমস্কার", tag: "bn", lang: "Bengali" },
+];
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>Veena — on-device schematic · iteration 4</title>
+		<meta name="description" content="Veena turns speech into text in all 22 scheduled languages of India, entirely on your device. Free, offline, open source." />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@500&family=Noto+Sans+Devanagari:wght@500&family=Noto+Sans+Tamil:wght@500&family=Noto+Sans+Bengali:wght@500&display=swap" />
+	</head>
+	<body data-iteration="4">
+		<div class="sheet">
+			<header class="drawing-head">
+				<div class="brand">
+					<span class="mark">Veena</span>
+					<span class="mark-sub">speech to text, all 22 scheduled languages of India</span>
+				</div>
+				<nav class="head-links" aria-label="Links">
+					<a href="https://github.com/Nikhil1920/veena">GitHub</a>
+					<a href="https://play.google.com/store/apps/details?id=com.byanr.veena">Play Store</a>
+					<a href="https://apps.apple.com/us/app/id6769981675">App Store</a>
+				</nav>
+			</header>
+
+			<main>
+				<section class="hero">
+					<h1>Everything happens inside the&nbsp;case.</h1>
+					<p class="hero-sub">
+						Veena keeps the whole speech&#8209;to&#8209;text pipeline on your device. This is
+						its wiring — note what is missing: a server.
+					</p>
+				</section>
+
+				<figure class="diagram-wrap" aria-label="Cutaway diagram: microphone to on-device model to text, with the network path crossed out">
+					<svg class="diagram" viewBox="0 0 780 430" role="img">
+						<defs>
+							<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+								<path d="M0 0 L10 5 L0 10 z" fill="#17242b" />
+							</marker>
+						</defs>
+
+						<!-- device enclosure -->
+						<rect x="48" y="18" width="300" height="394" rx="26" fill="#fbfcfa" stroke="#17242b" stroke-width="2" />
+						<text class="lbl lbl-ink" x="198" y="44" text-anchor="middle">your device</text>
+
+						<!-- text out -->
+						<rect x="84" y="58" width="228" height="64" rx="4" fill="#eef3ea" stroke="#17242b" stroke-width="1.6" />
+						<text class="lbl lbl-ink" x="198" y="84" text-anchor="middle">transcript</text>
+						<text class="lbl lbl-blue" x="198" y="106" text-anchor="middle">editable · yours</text>
+
+						<!-- model stack -->
+						<rect x="84" y="170" width="228" height="62" rx="4" fill="#fff" stroke="#17242b" stroke-width="1.6" />
+						<text class="lbl lbl-ink" x="198" y="196" text-anchor="middle">multilingual model</text>
+						<text class="lbl lbl-mono" x="198" y="216" text-anchor="middle">all 22 languages · ~480 MB</text>
+
+						<rect x="84" y="246" width="228" height="54" rx="4" fill="#fff" stroke="#17242b" stroke-width="1.6" />
+						<text class="lbl lbl-ink" x="198" y="269" text-anchor="middle">Telugu model, dedicated</text>
+						<text class="lbl lbl-mono" x="198" y="288" text-anchor="middle">~125 MB</text>
+
+						<!-- buffer -->
+						<rect x="84" y="316" width="228" height="40" rx="4" fill="#fff" stroke="#17242b" stroke-width="1.6" />
+						<text class="lbl lbl-mono" x="198" y="341" text-anchor="middle">audio frames · 16 kHz</text>
+
+						<!-- mic -->
+						<circle cx="198" cy="386" r="7" fill="#fbfcfa" stroke="#17242b" stroke-width="1.8" />
+						<text class="lbl lbl-mono" x="178" y="391" text-anchor="end">mic</text>
+
+						<!-- flow arrows -->
+						<path d="M198 378 V361" stroke="#17242b" stroke-width="1.6" marker-end="url(#arr)" />
+						<path d="M198 315 V305" stroke="#17242b" stroke-width="1.6" marker-end="url(#arr)" />
+						<path d="M198 245 V237" stroke="#17242b" stroke-width="1.6" marker-end="url(#arr)" />
+						<path d="M198 169 V127" stroke="#17242b" stroke-width="1.6" marker-end="url(#arr)" />
+
+						<!-- signal pulses -->
+						<g class="pulses">
+							<circle r="3.4" fill="#2b5fa6">
+								<animateMotion dur="1.5s" begin="0s" repeatCount="indefinite" path="M198 386 L198 320" />
+							</circle>
+							<circle r="3.4" fill="#2b5fa6">
+								<animateMotion dur="1.5s" begin="0.5s" repeatCount="indefinite" path="M198 314 L198 248" />
+							</circle>
+							<circle r="3.4" fill="#2b5fa6">
+								<animateMotion dur="1.5s" begin="1s" repeatCount="indefinite" path="M198 168 L198 126" />
+							</circle>
+						</g>
+
+						<!-- the network path, not taken -->
+						<path class="crossed" d="M350 205 C 420 205, 444 192, 504 192" fill="none" stroke="#c03b2d" stroke-width="1.8" stroke-dasharray="5 5" />
+						<g class="cloud" stroke="#c03b2d" stroke-width="1.8" fill="none">
+							<path d="M510 226 a22 22 0 0 1 2 -44 a26 26 0 0 1 50 -8 a20 20 0 0 1 26 19 a18 18 0 0 1 -6 33 z" />
+							<path d="M524 170 l58 50 M582 170 l-58 50" />
+						</g>
+						<text class="lbl lbl-red" x="543" y="256" text-anchor="middle">no network</text>
+						<text class="lbl lbl-mono lbl-red" x="543" y="274" text-anchor="middle">the path not taken</text>
+
+						<!-- leader annotations -->
+						<g class="leaders">
+							<path d="M314 90 H428" stroke="#2b5fa6" stroke-width="1.2" />
+							<text class="lbl lbl-mono lbl-blue" x="436" y="87">nothing is uploaded</text>
+							<text class="lbl lbl-mono lbl-blue" x="436" y="103">the words stay yours</text>
+
+							<path d="M314 336 H428" stroke="#2b5fa6" stroke-width="1.2" />
+							<text class="lbl lbl-mono lbl-blue" x="436" y="333">audio never leaves</text>
+							<text class="lbl lbl-mono lbl-blue" x="436" y="349">the enclosure</text>
+						</g>
+					</svg>
+					<figcaption class="sr-caption">A signal flows from the microphone through audio framing into the on-device models and out as editable text. A dashed red path toward the cloud is crossed out: no network is used.</figcaption>
+				</figure>
+
+				<section class="outputs" aria-label="Sample transcripts">
+					{OUTPUTS.map((o) => (
+						<div class="out">
+							<span class="native" lang={o.tag} dir={o.tag === "te" ? "ltr" : "ltr"}>{o.text}</span>
+							<span class="out-tag">{o.tag} · {o.lang}</span>
+						</div>
+					))}
+				</section>
+
+				<section class="parts" aria-label="Parts list">
+					<h2>Parts list</h2>
+					<dl class="spec">
+						<div class="row">
+							<dt>Enclosure</dt>
+							<dd>Android 8.0+ phones · iPhone · Windows 10 or 11, 64-bit</dd>
+						</div>
+						<div class="row">
+							<dt>Languages</dt>
+							<dd>All 22 scheduled languages of India; Telugu carries a dedicated model, the rest share one multilingual model</dd>
+						</div>
+						<div class="row">
+							<dt>Models</dt>
+							<dd>About 125 MB (Telugu) or about 480 MB (all 22) — downloaded once, then the network is out of the loop</dd>
+						</div>
+						<div class="row">
+							<dt>Network</dt>
+							<dd>Not required after setup. Transcription never touches it, in any mode</dd>
+						</div>
+						<div class="row">
+							<dt>Account</dt>
+							<dd>None. No sign-in, no sync, no telemetry</dd>
+						</div>
+						<div class="row">
+							<dt>Licence</dt>
+							<dd>MIT — source public at <a href="https://github.com/Nikhil1920/veena">github.com/Nikhil1920/veena</a></dd>
+						</div>
+					</dl>
+				</section>
+
+				<section class="order" aria-label="Get Veena">
+					<h2>Ordering information</h2>
+					<div class="order-row">
+						<a class="chip" href="https://play.google.com/store/apps/details?id=com.byanr.veena">Android</a>
+						<a class="chip" href="https://apps.apple.com/us/app/id6769981675">iPhone</a>
+						<a class="chip" href="https://dl.byanr.com/veena-byanr/desktop/Veena_0.0.2_x64-setup.exe">Windows installer</a>
+					</div>
+					<p class="order-note">The Windows app is about 18 MB. Models are fetched once, inside the app, in your language.</p>
+				</section>
+			</main>
+
+			<footer class="titleblock" aria-label="Title block">
+				<div class="tb-cell"><span class="tb-k">Project</span><span class="tb-v">Veena</span></div>
+				<div class="tb-cell"><span class="tb-k">Sheet</span><span class="tb-v">4 of 5</span></div>
+				<div class="tb-cell"><span class="tb-k">Scale</span><span class="tb-v">on-device</span></div>
+				<div class="tb-cell"><span class="tb-k">Drawn by</span><span class="tb-v">Nikhil Reddy Avuthu</span></div>
+			</footer>
+		</div>
+
+		<Switcher index={4} surface="light" accent="#2B5FA6" />
+	</body>
+</html>
+
+<style>
+	:global(body) {
+		margin: 0;
+		background:
+			linear-gradient(rgba(43, 95, 166, 0.055) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(43, 95, 166, 0.055) 1px, transparent 1px),
+			#f3f5f1;
+		background-size: 26px 26px, 26px 26px, auto;
+		color: #17242b;
+		font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+		line-height: 1.55;
+		-webkit-font-smoothing: antialiased;
+	}
+	.native {
+		font-family: "Noto Sans Telugu", "Noto Sans Devanagari", "Noto Sans Tamil",
+			"Noto Sans Bengali", sans-serif;
+	}
+	.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+	a:focus-visible { outline: 2px solid #2b5fa6; outline-offset: 3px; }
+
+	.sheet {
+		max-width: 1020px;
+		margin: 0 auto;
+		padding: 0 clamp(16px, 4vw, 40px) 0;
+		border-left: 1px solid rgba(23, 36, 43, 0.18);
+		border-right: 1px solid rgba(23, 36, 43, 0.18);
+		background: rgba(251, 252, 250, 0.6);
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* ---------- head ---------- */
+	.drawing-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 22px 0 16px;
+		border-bottom: 2px solid #17242b;
+	}
+	.mark { font-weight: 600; font-size: 21px; letter-spacing: -0.01em; }
+	.mark-sub { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: #2b5fa6; margin-left: 14px; }
+	.head-links { display: flex; gap: 20px; }
+	.head-links a {
+		color: #17242b;
+		font-size: 14px;
+		font-weight: 500;
+		text-decoration: none;
+		border-bottom: 1px solid rgba(23, 36, 43, 0.4);
+	}
+	.head-links a:hover { border-color: #17242b; color: #2b5fa6; }
+
+	/* ---------- hero ---------- */
+	.hero { padding: clamp(40px, 6vw, 72px) 0 30px; }
+	.hero h1 {
+		font-size: clamp(34px, 5vw, 58px);
+		font-weight: 600;
+		line-height: 1.05;
+		letter-spacing: -0.022em;
+		margin: 0 0 16px;
+		max-width: 15em;
+	}
+	.hero-sub { font-size: 17.5px; max-width: 36em; margin: 0; opacity: 0.82; }
+
+	/* ---------- diagram ---------- */
+	.diagram-wrap { margin: 0; }
+	.diagram {
+		display: block;
+		width: 100%;
+		height: auto;
+		background: #fbfcfa;
+		border: 2px solid #17242b;
+	}
+	.diagram text { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12.5px; }
+	.lbl-ink { fill: #17242b; font-weight: 500; }
+	.lbl-blue { fill: #2b5fa6; }
+	.lbl-red { fill: #c03b2d; }
+	.lbl-mono { font-size: 11px; }
+	.sr-caption {
+		position: absolute; width: 1px; height: 1px; overflow: hidden;
+		clip: rect(0 0 0 0); white-space: nowrap;
+	}
+	.diagram-wrap { position: relative; }
+
+	/* ---------- outputs strip ---------- */
+	.outputs {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		border-left: 2px solid #17242b;
+		border-right: 2px solid #17242b;
+		border-bottom: 2px solid #17242b;
+		background: #fbfcfa;
+	}
+	.out {
+		display: grid;
+		gap: 2px;
+		padding: 18px 16px;
+		border-left: 1px solid rgba(23, 36, 43, 0.16);
+	}
+	.out:first-child { border-left: none; }
+	.out .native { font-size: 26px; font-weight: 500; line-height: 1.5; }
+	.out-tag { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: #2b5fa6; }
+
+	/* ---------- parts list ---------- */
+	.parts { padding: clamp(40px, 6vw, 64px) 0 10px; }
+	.parts h2, .order h2 {
+		font-family: "IBM Plex Mono", monospace;
+		font-size: 13px;
+		font-weight: 500;
+		color: #2b5fa6;
+		letter-spacing: 0.06em;
+		margin: 0 0 14px;
+	}
+	.spec { margin: 0; border-top: 1.5px solid #17242b; }
+	.spec .row {
+		display: grid;
+		grid-template-columns: 140px 1fr;
+		gap: 18px;
+		padding: 13px 0;
+		border-bottom: 1px solid rgba(23, 36, 43, 0.2);
+	}
+	.spec dt {
+		font-family: "IBM Plex Mono", monospace;
+		font-size: 12.5px;
+		color: #2b5fa6;
+		padding-top: 2px;
+	}
+	.spec dd { margin: 0; font-size: 15.5px; }
+	.spec dd a { color: #2b5fa6; }
+
+	/* ---------- ordering ---------- */
+	.order { padding: 34px 0 52px; }
+	.order-row { display: flex; flex-wrap: wrap; gap: 12px; }
+	.chip {
+		font-weight: 500;
+		font-size: 15px;
+		color: #17242b;
+		text-decoration: none;
+		padding: 11px 24px;
+		border: 1.5px solid #17242b;
+		background: #fbfcfa;
+		transition: background 0.15s ease, color 0.15s ease;
+	}
+	.chip:hover { background: #17242b; color: #fbfcfa; }
+	.order-note { font-size: 14px; opacity: 0.7; margin: 16px 0 0; }
+
+	/* ---------- title block ---------- */
+	.titleblock {
+		margin-top: auto;
+		display: grid;
+		grid-template-columns: 1.4fr 0.8fr 0.9fr 1.4fr;
+		border-top: 2px solid #17242b;
+		margin-bottom: 96px;
+	}
+	.tb-cell {
+		display: grid;
+		gap: 1px;
+		padding: 12px 14px 14px 0;
+	}
+	.tb-cell + .tb-cell { border-left: 1px solid rgba(23, 36, 43, 0.25); padding-left: 14px; }
+	.tb-k { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: #2b5fa6; }
+	.tb-v { font-size: 14px; font-weight: 500; }
+
+	@media (max-width: 780px) {
+		.outputs { grid-template-columns: 1fr 1fr; }
+		.out:nth-child(3) { border-left: none; }
+		.out { border-top: 1px solid rgba(23, 36, 43, 0.16); }
+		.out:nth-child(-n+2) { border-top: none; }
+		.spec .row { grid-template-columns: 1fr; gap: 4px; }
+		.titleblock { grid-template-columns: 1fr 1fr; }
+		.tb-cell:nth-child(odd) { border-left: none; padding-left: 0; }
+		.tb-cell:nth-child(n+3) { border-top: 1px solid rgba(23, 36, 43, 0.25); }
+		.mark-sub { display: none; }
+		.leaders { display: none; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.pulses { display: none; }
+		.chip { transition: none; }
+	}
+</style>
+
+<script>
+	// Reduced motion: remove the SMIL pulses entirely.
+	if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		document.querySelector(".pulses")?.remove();
+	}
+</script>

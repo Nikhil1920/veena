@@ -1,0 +1,50 @@
+---
+import { LANGUAGES } from "../config/languages.mjs";
+const featured = [
+	"telugu",
+	"hindi",
+	"tamil",
+	"bengali",
+	"kannada",
+	"marathi",
+].map((slug) => LANGUAGES.find((lang) => lang.slug === slug)!);
+---
+
+<section class="site-shell home-hero">
+	<div class="hero-copy">
+		<h1>Your voice.<br />Your language.<br />Your words.</h1>
+		<p>
+			Turn speech into text in all 22 scheduled languages of India. Right on
+			your device, with your voice kept private.
+		</p>
+		<a class="button-primary" href="/download/">Download Veena</a>
+		<span class="hero-aside">Free. No account needed.</span>
+	</div>
+	<div class="hero-languages">
+		<div class="hero-languages-intro">
+			<h2>Start in your language</h2><p>
+				Choose a language to try Veena in your desktop browser.
+			</p>
+		</div>
+		<ul role="list">
+			{
+				featured.map((lang) => (
+					<li>
+						<a href={`/speech-to-text/${lang.slug}/`}>
+							<>
+								<span lang={lang.code}>{lang.nativeName}</span>
+								<span>{lang.name}</span>
+							</>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+		<a class="hero-all-languages" href="/speech-to-text/"
+			>Explore all 22 languages <span aria-hidden="true">↗</span></a
+		>
+		<p class="hero-download-note">
+			One model download. Then you can transcribe offline.
+		</p>
+	</div>
+</section>

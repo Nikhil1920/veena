@@ -1,0 +1,135 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config/site.mjs";
+
+const title = "How Veena's Offline Speech Recognition Works";
+const description =
+	"How does speech to text run without the cloud? A plain-language tour of Veena's pipeline: IndicConformer, quantization, and per-language decoding, all on your device.";
+
+const canonical = `${SITE.url}/how-it-works/`;
+---
+
+<Layout title={title} description={description} canonicalURL={canonical}>
+	<Header />
+	<main id="main-content" role="main">
+		<article class="max-w-3xl mx-auto px-4 py-16 md:py-20">
+			<nav class="text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
+				<ol class="flex flex-wrap items-center gap-2 list-none p-0">
+					<li><a href="/" class="hover:text-gray-900">Home</a></li>
+					<li aria-hidden="true">/</li>
+					<li class="text-gray-900 font-medium" aria-current="page">
+						How it works
+					</li>
+				</ol>
+			</nav>
+
+			<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+				How speech to text can run without the cloud
+			</h1>
+			<p class="text-xl text-gray-600 mb-10">
+				Most speech recognition is a round trip: your voice goes to a server, a
+				huge model there turns it into text, and the text comes back. Veena
+				shrinks that model so the whole round trip happens on your device. Here
+				is what actually runs when you press the microphone.
+			</p>
+
+			<div class="prose prose-lg max-w-none text-gray-700">
+				<h2>The pipeline, end to end</h2>
+				<p>
+					When you dictate, Veena records your voice as 16 kHz mono audio. A
+					preprocessing step converts that raw audio into the feature
+					representation the model expects. The features go into a neural
+					network that outputs, for every slice of time, a probability over
+					possible sound units. A decoder turns those probabilities into words,
+					and the words appear in the transcript box. All of these steps run as
+					local code on your phone or computer.
+				</p>
+
+				<h2>The model: IndicConformer</h2>
+				<p>
+					Veena's engine is built on
+					<a
+						href="https://huggingface.co/ai4bharat/IndicConformer"
+						rel="noopener"
+						class="text-blue-600 hover:underline">IndicConformer</a
+					>, a speech recognition model published by AI4Bharat, a research lab
+					at IIT Madras that works on Indian-language datasets and models.
+					IndicConformer was trained on speech from all 22 scheduled languages
+					of India, which is why a single model can handle Telugu and Bodo
+					without being retrained.
+				</p>
+				<p>
+					The architecture is a Conformer, a network designed for audio: it
+					combines a convolution module, which is good at local sound patterns,
+					with self-attention, which tracks long-range context across the
+					sentence. It is trained with a CTC objective, which lets the model
+					align sounds to letters without anyone labelling exactly where each
+					word starts and ends.
+				</p>
+
+				<h2>One multilingual model, 22 language masks</h2>
+				<p>
+					Here is the part that surprises people: Veena does not ship 22
+					separate models. The multilingual model has one shared output head,
+					and each language owns a slice of it. When you pick Kannada, the
+					decoder only considers the classes in the Kannada slice; pick Bengali
+					and it only considers Bengali classes. That masked decoding is why the
+					model stays about the same size whether you use one language or all of
+					them, and why a sentence in one language does not drift into another.
+				</p>
+				<p>
+					Telugu is the exception worth knowing about: it gets its own dedicated
+					model, tuned specifically for the language.
+				</p>
+
+				<h2>Making it fit on a phone: quantization</h2>
+				<p>
+					A research model like this is large, and phones are not servers. Veena
+					runs the model exported to ONNX, a standard format for shipping neural
+					networks, and quantized to INT8: each weight is stored as an 8-bit
+					integer instead of a 32-bit float. The model gets several times
+					smaller and runs faster, at a small cost in precision that careful
+					calibration mostly recovers. This makes local transcription practical.
+					The time it takes depends on your device and the length of your
+					recording.
+				</p>
+
+				<h2>Why offline changes the experience</h2>
+				<ul>
+					<li>
+						<strong>Latency.</strong> There is no upload and no server queue, so the
+						transcript appears as soon as the model finishes, which is faster than
+						a network round trip on a bad connection.
+					</li>
+					<li>
+						<strong>Availability.</strong> Airplane mode, a basement, a village with
+						two bars of signal: none of it matters.
+					</li>
+					<li>
+						<strong>Privacy.</strong> The audio is never sent anywhere, so there is
+						no server log to leak and no retention policy to trust.
+					</li>
+				</ul>
+
+				<h2>Where it still needs the network</h2>
+				<p>
+					Once: the first launch, to download the model itself, about 125 MB for
+					Telugu or about 480 MB for the full multilingual model. After that
+					download completes, you can turn off wifi and data indefinitely. If
+					you want the product view rather than the technical one, see the <a
+						href="/features"
+						class="text-blue-600 hover:underline">feature list</a
+					>, or read <a
+						href="/blog/how-speech-to-text-works"
+						class="text-blue-600 hover:underline"
+						>how speech to text works in general</a
+					>
+					on the blog.
+				</p>
+			</div>
+		</article>
+	</main>
+	<Footer />
+</Layout>

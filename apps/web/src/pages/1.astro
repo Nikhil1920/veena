@@ -1,0 +1,519 @@
+---
+/**
+ * Iteration 1 — "Stage".
+ * A concert hall at night: one brass string across the page, and the moment
+ * sound becomes script. Serif (Fraunces) carries everything; the interactive
+ * transcript stage is the single spend of boldness.
+ */
+import Switcher from "../components/iterations/Switcher.astro";
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>Veena — sound becomes script · iteration 1</title>
+		<meta name="description" content="Veena turns speech into text in all 22 scheduled languages of India, entirely on your device. Free, offline, open source." />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..650;1,9..144,300..650&display=swap"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500&family=Noto+Sans+Tamil:wght@500&family=Noto+Sans+Telugu:wght@500&family=Noto+Sans+Bengali:wght@500&family=Noto+Sans+Kannada:wght@500&family=Noto+Sans+Gurmukhi:wght@500&family=Noto+Sans+Gujarati:wght@500&family=Noto+Sans+Malayalam:wght@500&family=Noto+Sans+Oriya:wght@500&display=swap"
+		/>
+	</head>
+	<body data-iteration="1">
+		<header class="masthead">
+			<a class="wordmark" href="/">Veena</a>
+			<nav class="mast-nav" aria-label="Site">
+				<a href="https://github.com/Nikhil1920/veena">Source</a>
+				<a class="mast-cta" href="https://play.google.com/store/apps/details?id=com.byanr.veena">Get the app</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="hero">
+				<p class="overture">Veena turns speech into text — on your device, in your language.</p>
+				<h1>Sound becomes&nbsp;script.</h1>
+				<p class="lede">
+					All 22 scheduled languages of India, typed as you talk. No cloud, no
+					account, no listening ears — your voice never leaves the room.
+				</p>
+			</section>
+
+			<section class="stage-block" aria-label="Simulated transcription">
+				<div class="stage">
+					<div class="stage-head">
+						<span class="rec" id="rec" hidden></span>
+						<span class="stage-title">The moment, staged</span>
+						<span class="stage-note">demonstration — the real thing runs on your phone</span>
+					</div>
+					<canvas id="wave" aria-hidden="true"></canvas>
+					<div class="stage-word" lang="hi" aria-live="polite">
+						<span id="word">नमस्ते</span><span class="caret" aria-hidden="true"></span>
+					</div>
+					<p class="stage-lang" id="lang">Hindi</p>
+					<div class="stage-controls">
+						<button class="brass-key" id="speakKey" type="button" aria-pressed="false">
+							<span class="key-dot" aria-hidden="true"></span>
+							Hold to speak
+						</button>
+						<p class="stage-hint">Hold the brass key — the string answers. Release, and the word stays.</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="facts" aria-label="What Veena is">
+				<div class="fact">
+					<h2>Everywhere you speak</h2>
+					<p>Android, iPhone and Windows today. Hold the mic, talk, and the transcript lands where you need it — pasted straight into any app on Windows, editable on mobile.</p>
+				</div>
+				<div class="fact">
+					<h2>Airplane mode is fine</h2>
+					<p>Transcription happens on the device, always. The language model is downloaded once — about 125 MB for Telugu, about 480 MB for all 22 — and after that the network stays out of it.</p>
+				</div>
+				<div class="fact">
+					<h2>Yours to read</h2>
+					<p>Free, no account, open source under MIT. The whole instrument — code and models — is public on GitHub.</p>
+				</div>
+			</section>
+
+			<section class="ribbon" aria-label="Some of the languages Veena supports">
+				<p class="ribbon-line">
+					<span lang="hi">नमस्ते</span><span lang="bn">নমস্কার</span><span lang="te">నమస్కారం</span><span lang="ta">வணக்கம்</span><span lang="kn">ನಮಸ್ಕಾರ</span><span lang="ml">നമസ്കാരം</span><span lang="pa">ਸਤ ਸ੍ਰੀ ਅਕਾਲ</span><span lang="gu">નમસ્તે</span><span lang="or">ନମସ୍କାର</span><span lang="mr">नमस्कार</span>
+				</p>
+				<p class="ribbon-caption">The same greeting, in some of the 22 languages Veena writes.</p>
+			</section>
+
+			<section class="get">
+				<h2>Take it home</h2>
+				<div class="get-row">
+					<a class="get-btn" href="https://play.google.com/store/apps/details?id=com.byanr.veena">Android</a>
+					<a class="get-btn" href="https://apps.apple.com/us/app/id6769981675">iPhone</a>
+					<a class="get-btn" href="https://dl.byanr.com/veena-byanr/desktop/Veena_0.0.2_x64-setup.exe">Windows</a>
+				</div>
+				<p class="get-note">The Windows app is about 18 MB. Android 8 or later, Windows 10 or 11.</p>
+			</section>
+		</main>
+
+		<footer class="colophon">
+			<p>Veena is free and open source, by Nikhil Reddy Avuthu.</p>
+			<a href="https://github.com/Nikhil1920/veena">Read the code on GitHub</a>
+		</footer>
+
+		<Switcher index={1} surface="dark" accent="#D2A63C" />
+	</body>
+</html>
+
+<style>
+	:global(html) { scroll-behavior: smooth; }
+	:global(body) {
+		margin: 0;
+		background: #0d0c0a;
+		color: #f2ecdd;
+		font-family: "Fraunces", Georgia, serif;
+		font-optical-sizing: auto;
+		line-height: 1.6;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	/* ---------- masthead ---------- */
+	.masthead {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 26px 24px 0;
+	}
+	.wordmark {
+		font-size: 26px;
+		font-style: italic;
+		font-weight: 480;
+		letter-spacing: 0.01em;
+		color: inherit;
+		text-decoration: none;
+	}
+	.mast-nav { display: flex; gap: 22px; align-items: baseline; }
+	.mast-nav a { color: inherit; opacity: 0.75; text-decoration: none; font-size: 15px; }
+	.mast-nav a:hover { opacity: 1; }
+	.mast-cta {
+		border: 1px solid rgba(242, 236, 221, 0.32);
+		border-radius: 999px;
+		padding: 7px 16px !important;
+		opacity: 1 !important;
+	}
+	.mast-cta:hover { border-color: rgba(242, 236, 221, 0.7); }
+	a:focus-visible, button:focus-visible {
+		outline: 2px solid #d2a63c;
+		outline-offset: 3px;
+		border-radius: 4px;
+	}
+
+	/* ---------- hero ---------- */
+	.hero {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: clamp(64px, 10vw, 120px) 24px clamp(40px, 6vw, 64px);
+		text-align: center;
+	}
+	.overture {
+		font-style: italic;
+		font-size: clamp(16px, 2vw, 19px);
+		opacity: 0.72;
+		margin: 0 0 18px;
+	}
+	.hero h1 {
+		font-size: clamp(46px, 8.4vw, 104px);
+		font-weight: 380;
+		line-height: 1.02;
+		letter-spacing: -0.015em;
+		margin: 0 0 26px;
+	}
+	.lede {
+		font-size: clamp(17px, 2.2vw, 21px);
+		line-height: 1.55;
+		opacity: 0.82;
+		max-width: 34em;
+		margin: 0 auto;
+	}
+
+	/* ---------- the stage ---------- */
+	.stage-block {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 0 24px clamp(56px, 8vw, 96px);
+	}
+	.stage {
+		background: linear-gradient(180deg, #131109 0%, #0f0d09 58%, #0b0a07 100%);
+		border: 1px solid rgba(210, 166, 60, 0.22);
+		border-radius: 18px;
+		padding: 22px 26px 30px;
+		box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(242, 236, 221, 0.06);
+	}
+	.stage-head {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 13.5px;
+		opacity: 0.66;
+		margin-bottom: 8px;
+	}
+	.stage-title { font-style: italic; }
+	.stage-note { margin-left: auto; font-size: 12px; }
+	.rec {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #c4502b;
+		box-shadow: 0 0 0 3px rgba(196, 80, 43, 0.22);
+	}
+	#wave {
+		display: block;
+		width: 100%;
+		height: 120px;
+	}
+	.stage-word {
+		display: flex;
+		justify-content: center;
+		align-items: baseline;
+		gap: 4px;
+		margin-top: 2px;
+		min-height: 76px;
+		font-size: clamp(40px, 7vw, 60px);
+		font-weight: 500;
+		line-height: 1.25;
+	}
+	.caret {
+		width: 3px;
+		height: 0.82em;
+		background: #d2a63c;
+		border-radius: 2px;
+		animation: blink 1.15s steps(1) infinite;
+	}
+	@keyframes blink { 50% { opacity: 0; } }
+	.stage-lang {
+		text-align: center;
+		font-style: italic;
+		font-size: 15px;
+		opacity: 0.55;
+		margin: 4px 0 0;
+	}
+	.stage-controls {
+		display: grid;
+		justify-items: center;
+		gap: 12px;
+		margin-top: 22px;
+	}
+	.brass-key {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		background: linear-gradient(180deg, #e8c05e, #b98a24);
+		color: #221a06;
+		border: 0;
+		border-radius: 999px;
+		padding: 13px 26px;
+		font-family: inherit;
+		font-size: 16.5px;
+		font-weight: 560;
+		cursor: pointer;
+		box-shadow: 0 2px 0 #7c5a12, 0 14px 30px rgba(210, 166, 60, 0.25);
+		transition: transform 0.12s ease, box-shadow 0.12s ease;
+		touch-action: none;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+	.brass-key:active,
+	.brass-key[aria-pressed="true"] {
+		transform: translateY(2px);
+		box-shadow: 0 0 0 #7c5a12, 0 8px 18px rgba(210, 166, 60, 0.22);
+	}
+	.key-dot { width: 9px; height: 9px; border-radius: 50%; background: #221a06; opacity: 0.85; }
+	.stage-hint { font-size: 13.5px; font-style: italic; opacity: 0.5; margin: 0; text-align: center; }
+
+	/* ---------- facts ---------- */
+	.facts {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 24px;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 40px;
+		border-top: 1px solid rgba(242, 236, 221, 0.14);
+		padding-top: 44px;
+		padding-bottom: 24px;
+	}
+	.fact h2 {
+		font-size: 22px;
+		font-weight: 480;
+		margin: 0 0 10px;
+	}
+	.fact p { font-size: 15.5px; opacity: 0.72; margin: 0; }
+
+	/* ---------- script ribbon ---------- */
+	.ribbon {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 56px 24px;
+		text-align: center;
+	}
+	.ribbon-line {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: baseline;
+		column-gap: clamp(18px, 3.4vw, 40px);
+		row-gap: 6px;
+		margin: 0 0 14px;
+		font-size: clamp(26px, 4.4vw, 40px);
+		font-weight: 500;
+	}
+	.ribbon-line span { transition: color 0.25s ease; }
+	.ribbon-line span:hover { color: #d2a63c; }
+	.ribbon-caption { font-style: italic; font-size: 14.5px; opacity: 0.55; margin: 0; }
+
+	/* ---------- get ---------- */
+	.get {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 8px 24px 88px;
+		text-align: center;
+	}
+	.get h2 { font-size: clamp(30px, 4.5vw, 44px); font-weight: 420; margin: 0 0 28px; }
+	.get-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+	.get-btn {
+		color: inherit;
+		text-decoration: none;
+		font-size: 17px;
+		font-weight: 500;
+		padding: 13px 34px;
+		border: 1px solid rgba(242, 236, 221, 0.35);
+		border-radius: 999px;
+		transition: border-color 0.2s ease, background 0.2s ease;
+	}
+	.get-btn:hover { border-color: #d2a63c; background: rgba(210, 166, 60, 0.1); }
+	.get-note { font-size: 14px; opacity: 0.55; margin: 18px 0 0; }
+
+	/* ---------- footer ---------- */
+	.colophon {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 26px 24px 110px;
+		border-top: 1px solid rgba(242, 236, 221, 0.14);
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 28px;
+		justify-content: space-between;
+		font-size: 14px;
+		opacity: 0.72;
+	}
+	.colophon p { margin: 0; }
+	.colophon a { color: #d2a63c; text-decoration: none; }
+	.colophon a:hover { text-decoration: underline; }
+
+	@media (max-width: 760px) {
+		.facts { grid-template-columns: 1fr; gap: 30px; }
+		.stage { padding: 16px 16px 24px; }
+		.stage-note { display: none; }
+		.mast-nav a:not(.mast-cta) { display: none; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(html) { scroll-behavior: auto; }
+		.caret { animation: none; }
+		.brass-key { transition: none; }
+	}
+</style>
+
+<script>
+	const words = [
+		{ text: "नमस्ते", lang: "Hindi", langCode: "hi" },
+		{ text: "வணக்கம்", lang: "Tamil", langCode: "ta" },
+		{ text: "నమస్కారం", lang: "Telugu", langCode: "te" },
+		{ text: "নমস্কার", lang: "Bengali", langCode: "bn" },
+		{ text: "ನಮಸ್ಕಾರ", lang: "Kannada", langCode: "kn" },
+		{ text: "നമസ്കാരം", lang: "Malayalam", langCode: "ml" },
+		{ text: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", lang: "Punjabi", langCode: "pa" },
+		{ text: "નમસ્તે", lang: "Gujarati", langCode: "gu" },
+		{ text: "ନମସ୍କାର", lang: "Odia", langCode: "or" },
+		{ text: "नमस्कार", lang: "Marathi", langCode: "mr" },
+	];
+
+	const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const canvas = document.getElementById("wave") as HTMLCanvasElement;
+	const key = document.getElementById("speakKey") as HTMLButtonElement;
+	const wordEl = document.getElementById("word") as HTMLElement;
+	const langEl = document.getElementById("lang") as HTMLElement;
+	const recEl = document.getElementById("rec") as HTMLElement;
+
+	const ctx = canvas.getContext("2d")!;
+	let dpr = Math.min(devicePixelRatio || 1, 2);
+	function size() {
+		dpr = Math.min(devicePixelRatio || 1, 2);
+		canvas.width = canvas.clientWidth * dpr;
+		canvas.height = canvas.clientHeight * dpr;
+	}
+	size();
+	addEventListener("resize", size);
+
+	// Speech-like envelope: bursts of energy over a gentle noise bed.
+	const env = (t: number) => {
+		const burst = Math.max(0, Math.sin(t * 2.1) * Math.sin(t * 0.83 + 1.3));
+		return 0.18 + 0.82 * Math.pow(burst, 1.6) * (0.75 + 0.25 * Math.sin(t * 7.3));
+	};
+
+	let speaking = false;
+	let raf = 0;
+	let t0 = 0;
+
+	function draw(now: number, amp: number) {
+		const w = canvas.width, h = canvas.height, mid = h / 2;
+		ctx.clearRect(0, 0, w, h);
+		const bars = Math.max(28, Math.floor(w / (10 * dpr)));
+		const gap = w / bars;
+		ctx.lineWidth = Math.max(1.5, 2 * dpr);
+		for (let i = 0; i < bars; i++) {
+			const x = gap * (i + 0.5);
+			// Standing-wave shape: bigger in the middle of the string, like a plucked veena.
+			const shape = Math.sin((Math.PI * (i + 0.5)) / bars);
+			const n =
+				Math.sin(i * 0.55 + now * 0.006) * 0.55 +
+				Math.sin(i * 1.31 - now * 0.004) * 0.3 +
+				Math.sin(i * 2.7 + now * 0.008) * 0.15;
+			const bh = Math.max(2 * dpr, Math.abs(n) * shape * amp * (h * 0.42));
+			ctx.strokeStyle =
+				bh > h * 0.28
+					? "rgba(242,236,221,0.85)"
+					: "rgba(210,166,60,0.8)";
+			ctx.beginPath();
+			ctx.moveTo(x, mid - bh);
+			ctx.lineTo(x, mid + bh);
+			ctx.stroke();
+		}
+		// the string itself
+		ctx.strokeStyle = "rgba(242,236,221,0.22)";
+		ctx.lineWidth = 1;
+		ctx.beginPath();
+		ctx.moveTo(0, mid);
+		ctx.lineTo(w, mid);
+		ctx.stroke();
+	}
+
+	function loop(now: number) {
+		if (!t0) t0 = now;
+		const t = (now - t0) / 1000;
+		const amp = speaking ? env(t) : Math.max(0, ampTail);
+		draw(now, amp);
+		ampTail = speaking ? env(t) : ampTail * 0.94;
+		if (speaking || ampTail > 0.02) {
+			raf = requestAnimationFrame(loop);
+		} else {
+			raf = 0;
+			draw(now, 0);
+		}
+	}
+	let ampTail = 0;
+
+	function showWord(i: number) {
+		const w = words[i % words.length];
+		wordEl.style.opacity = "0";
+		setTimeout(() => {
+			wordEl.textContent = w.text;
+			wordEl.parentElement!.setAttribute("lang", w.langCode);
+			langEl.textContent = w.lang;
+			wordEl.style.opacity = "1";
+		}, 140);
+	}
+	wordEl.style.transition = "opacity 0.14s ease";
+
+	let idx = 0;
+	let swapTimer = 0;
+
+	function start() {
+		if (speaking) return;
+		speaking = true;
+		t0 = 0;
+		key.setAttribute("aria-pressed", "true");
+		recEl.hidden = false;
+		if (!raf) raf = requestAnimationFrame(loop);
+		swapTimer = window.setInterval(() => showWord(++idx), 1900);
+	}
+	function stop() {
+		speaking = false;
+		clearInterval(swapTimer);
+		key.setAttribute("aria-pressed", "false");
+		recEl.hidden = true;
+	}
+
+	key.addEventListener("pointerdown", (e) => { e.preventDefault(); start(); });
+	for (const ev of ["pointerup", "pointerleave", "pointercancel"]) {
+		key.addEventListener(ev, stop);
+	}
+	key.addEventListener("keydown", (e) => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); start(); } });
+	key.addEventListener("keyup", (e) => { if (e.key === " " || e.key === "Enter") stop(); });
+
+	if (reduced) {
+		// No wave animation: a static string, words change on each press only.
+		draw(0, 0);
+		key.addEventListener("click", () => showWord(++idx));
+	} else {
+		// One orchestrated opening: the string breathes, then speaks a phrase.
+		draw(0, 0);
+		raf = requestAnimationFrame(function breathe(now) {
+			if (!speaking) {
+				const t = (now - (t0 ||= now)) / 1000;
+				draw(now, 0.06 + 0.03 * Math.sin(t * 1.2));
+				raf = requestAnimationFrame(breathe);
+			}
+		});
+		setTimeout(() => {
+			if (!speaking) { start(); setTimeout(stop, 4200); }
+		}, 900);
+	}
+</script>

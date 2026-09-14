@@ -1,0 +1,60 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE } from "../../config/site.mjs";
+import { LANGUAGES } from "../../config/languages.mjs";
+---
+
+<Layout
+	title="Speech to Text in 22 Indian Languages — Offline & Free | Veena"
+	description="Veena converts speech to text in all 22 scheduled languages of India — Telugu, Hindi, Tamil, Bengali, Marathi, Malayalam and more. Fully offline, on-device, and free."
+	canonicalURL={`${SITE.url}/speech-to-text/`}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<div class="site-shell">
+			<section class="page-intro">
+				<h1 class="page-title">Every language.<br />A place to be heard.</h1><p
+					class="page-lede"
+				>
+					Speech to text for all 22 scheduled languages of India. Choose yours
+					to record or open an audio file in your desktop browser. Your audio
+					stays on your device.
+				</p>
+			</section>
+			<section class="content-section" aria-label="Choose your speech language">
+				<ul class="language-grid" role="list">
+					{
+						LANGUAGES.map((lang) => (
+							<li>
+								<a href={`/speech-to-text/${lang.slug}/`} class="language-link">
+									<>
+										<span lang={lang.code} dir="auto">
+											{lang.nativeName}
+										</span>
+										<span>{lang.name}</span>
+									</>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+				<div class="directory-note">
+					<p>
+						Download your language’s model once, then transcribe offline. On
+						your phone, use the Veena app.
+					</p><a href="/download/" class="button-primary">Get the app</a>
+				</div>
+				<p class="mt-8 text-sm text-gray-500">
+					Explore scripts, speakers, and regions in our <a
+						class="text-link"
+						href="/scheduled-languages-of-india/"
+						>guide to the 22 scheduled languages of India</a
+					>.
+				</p>
+			</section>
+		</div>
+	</main>
+	<Footer />
+</Layout>

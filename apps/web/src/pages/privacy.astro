@@ -1,0 +1,89 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config/site.mjs";
+
+const title = "Privacy — Your Voice Never Leaves Your Device | Veena";
+const description =
+	"Veena's privacy policy in plain words: no account, no cloud, no telemetry, no data collection. Transcription runs on your device and recordings stay on it.";
+
+const canonical = `${SITE.url}/privacy/`;
+---
+
+<Layout title={title} description={description} canonicalURL={canonical}>
+	<Header />
+	<main id="main-content" role="main">
+		<section class="max-w-3xl mx-auto px-4 py-16 md:py-20">
+			<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
+				What Veena does and does not do with your voice
+			</h1>
+
+			<div class="prose prose-lg max-w-none text-gray-700">
+				<p class="text-xl">
+					Veena exists because dictation tools that upload your audio are a bad
+					fit for real life. This page explains, in plain words, what happens to
+					your data. The short version: it stays with you.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900">
+					What leaves your device
+				</h2>
+				<p>
+					Almost nothing. When you set the app up for the first time, Veena
+					downloads a speech model from our servers. That download contains no
+					personal data; it is a fixed file, the same for everyone, and it
+					happens once per model. After that, transcription needs no network at
+					all.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900">
+					What stays on your device
+				</h2>
+				<p>
+					Everything else. Your recordings and transcripts are stored in the
+					app's local database on your phone or computer. Nothing is synced,
+					backed up to our servers, or shared. Delete an entry in the history
+					and it is gone.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900">What we do not have</h2>
+				<ul>
+					<li>No account. There is nothing to sign up for.</li>
+					<li>No analytics or telemetry in the apps.</li>
+					<li>No ads and no third-party trackers.</li>
+					<li>
+						No audio uploads. The recognition engine runs locally, so the audio
+						never has to leave the device for transcription.
+					</li>
+				</ul>
+
+				<h2 class="text-3xl font-bold text-gray-900">Permissions</h2>
+				<p>
+					The mobile apps ask for microphone access, because recording your
+					voice is the job. On Android the app also holds the network
+					permission, which it uses only to fetch the speech model on first
+					setup. The Windows app uses the microphone for recording and can paste
+					your transcript into another application.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900">The app stores</h2>
+				<p>
+					Google Play and the App Store handle their own installation and
+					payment data under their own policies; Veena never sees it. Veena
+					itself collects no data, which matches the "no data collected"
+					declaration in its Play Store and App Store listings.
+				</p>
+
+				<h2 class="text-3xl font-bold text-gray-900">Questions</h2>
+				<p>
+					Write to
+					<a href={`mailto:${SITE.email}`} class="text-blue-600 hover:underline"
+						>{SITE.email}</a
+					> and a human answers.
+				</p>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</Layout>

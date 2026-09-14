@@ -1,0 +1,170 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE, DOWNLOADS } from "../config/site.mjs";
+
+const title =
+	"Offline Speech to Text for Windows PC — Dictate in 22 Indian Languages | Veena";
+const description =
+	"Free Windows speech to text software for Hindi, Telugu, Tamil and 19 more Indian languages. Press a shortcut in any app, speak, and Veena types it in. Offline and private.";
+
+const canonical = `${SITE.url}/windows/`;
+
+const faq = [
+	{
+		q: "Does Veena work offline on Windows?",
+		a: "Yes. After the one-time speech model download, all transcription runs on your PC. You can dictate with the network cable pulled out.",
+	},
+	{
+		q: "Which languages can I dictate in?",
+		a: "Veena recognizes all 22 scheduled languages of India, including Hindi, Telugu, Tamil, Bengali, and Marathi. Processing runs on your PC, so your recordings are not uploaded.",
+	},
+	{
+		q: "Which Windows versions are supported?",
+		a: "Windows 10 and Windows 11, 64-bit.",
+	},
+	{
+		q: "Can I use it in any application?",
+		a: "Yes. Veena registers a global keyboard shortcut. Press it in your browser, email client, editor or anywhere else, speak, and the text is pasted at the cursor.",
+	},
+];
+
+const faqJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faq.map((f) => ({
+		"@type": "Question",
+		name: f.q,
+		acceptedAnswer: { "@type": "Answer", text: f.a },
+	})),
+};
+---
+
+<Layout
+	title={title}
+	description={description}
+	canonicalURL={canonical}
+	jsonLd={faqJsonLd}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<section class="max-w-4xl mx-auto px-4 py-16 md:py-20">
+			<p class="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
+				Veena for Windows
+			</p>
+			<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+				Speech to text for your Windows PC, offline
+			</h1>
+			<p class="text-xl text-gray-600 mb-8 max-w-3xl">
+				Install Veena, press a keyboard shortcut in whatever app you are using,
+				and speak. The transcript lands at your cursor in Devanagari, Telugu
+				script, Tamil script or any of the 22 scheduled languages of India.
+				Recognition runs on your PC, so it is fast, free, and works without
+				internet.
+			</p>
+			<div class="mb-4">
+				<a class="button-primary" href={DOWNLOADS.windows.url}
+					>Download Veena for Windows</a
+				>
+				<p class="mt-3 text-sm text-gray-500">
+					{DOWNLOADS.windows.requirement} · v{DOWNLOADS.windows.version} · {
+						DOWNLOADS.windows.size
+					} installer
+				</p>
+			</div>
+
+			<section aria-labelledby="win-how" class="mt-14 mb-14">
+				<h2 id="win-how" class="text-2xl font-bold text-gray-900 mb-6">
+					How the desktop app works
+				</h2>
+				<div class="space-y-6 max-w-3xl">
+					<div>
+						<h3 class="text-lg font-semibold text-gray-900 mb-1">
+							A global shortcut that types for you
+						</h3>
+						<p class="text-gray-600">
+							You do not switch windows or open an editor. Press the
+							configurable shortcut from anywhere, talk, and Veena pastes the
+							finished text into the field you were in. A push-to-talk mode is
+							available too.
+						</p>
+					</div>
+					<div>
+						<h3 class="text-lg font-semibold text-gray-900 mb-1">
+							Choose the model that fits your machine
+						</h3>
+						<p class="text-gray-600">
+							Telugu dictation uses a dedicated model. For the other 21
+							languages, Veena downloads one multilingual model trained on all
+							22. You can download, switch, or delete models from the settings,
+							and add custom words so names and technical terms come out right.
+						</p>
+					</div>
+					<div>
+						<h3 class="text-lg font-semibold text-gray-900 mb-1">
+							History on your machine
+						</h3>
+						<p class="text-gray-600">
+							Past transcripts are kept locally so you can look them up, replay
+							the recording, or copy the text again later.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<section aria-labelledby="win-privacy" class="mb-14">
+				<h2 id="win-privacy" class="text-2xl font-bold text-gray-900 mb-4">
+					Why on-device matters on a PC
+				</h2>
+				<p class="text-gray-700 mb-4 max-w-3xl">
+					Meeting notes, patient records, legal drafts, personal messages: a lot
+					of what you dictate on a computer is not stuff you would upload to a
+					stranger's server. Veena's engine is a quantized neural network that
+					runs locally, so the audio goes from your microphone to system memory
+					and nowhere else. There is no account, no telemetry, and no cloud step
+					in the pipeline.
+				</p>
+			</section>
+
+			<section aria-labelledby="win-faq" class="mb-14">
+				<h2 id="win-faq" class="text-2xl font-bold text-gray-900 mb-6">
+					Windows FAQ
+				</h2>
+				<div class="space-y-6">
+					{
+						faq.map((f) => (
+							<div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+								<h3 class="text-lg font-semibold text-gray-900 mb-2">{f.q}</h3>
+								<p class="text-gray-700">{f.a}</p>
+							</div>
+						))
+					}
+				</div>
+			</section>
+
+			<section
+				class="bg-gray-50 border border-gray-200 rounded-2xl p-8"
+				aria-label="Related pages"
+			>
+				<h2 class="text-xl font-bold text-gray-900 mb-3">
+					Also available on mobile
+				</h2>
+				<p class="text-gray-600">
+					Veena ships for <a
+						href="/android"
+						class="text-gray-900 underline underline-offset-2">Android</a
+					>
+					and <a href="/ios" class="text-gray-900 underline underline-offset-2"
+						>iPhone</a
+					>
+					with the same 22-language engine. See
+					<a href="/download" class="text-gray-900 underline underline-offset-2"
+						>all downloads</a
+					>.
+				</p>
+			</section>
+		</section>
+	</main>
+	<Footer />
+</Layout>

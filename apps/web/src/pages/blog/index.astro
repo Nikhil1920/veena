@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE } from "../../config/site.mjs";
+
+const posts = (await getCollection("blog"))
+	.filter((post) => !post.data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout
+	title={`Blog & Guides | ${SITE.title}`}
+	description="Guides and articles about speech to text for Indian languages — voice typing, offline transcription, privacy, and how Veena works."
+	canonicalURL={`${SITE.url}/blog/`}
+>
+	<Header />
+	<main id="main-content" role="main">
+		<div class="site-shell">
+			<section class="page-intro">
+				<h1 class="page-title">A few words<br />on finding yours.</h1><p
+					class="page-lede"
+				>
+					Practical guides to voice typing, Indian languages, and making a
+					little more room for your own voice.
+				</p>
+			</section>
+			<section
+				class="content-section article-list"
+				aria-label="Blog and guides"
+			>
+				{
+					posts.map((post) => (
+						<a href={`/blog/${post.id}/`} class="article-row">
+							<>
+								<time datetime={post.data.pubDate.toISOString()}>
+									{post.data.pubDate.toLocaleDateString("en-IN", {
+										year: "numeric",
+										month: "long",
+										day: "numeric",
+									})}
+								</time>
+								<div>
+									<>
+										<h2>{post.data.title}</h2>
+										<p>{post.data.description}</p>
+									</>
+								</div>
+							</>
+						</a>
+					))
+				}
+			</section>
+		</div>
+	</main>
+	<Footer />
+</Layout>

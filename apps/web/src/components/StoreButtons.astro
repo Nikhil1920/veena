@@ -1,0 +1,103 @@
+---
+import { Icon } from "astro-icon/components";
+import { DOWNLOADS } from "../config/site.mjs";
+import playStoreBadge from "../assets/play-store-badge.svg";
+import appStoreBadge from "../assets/app-store-badge-light.svg";
+
+interface Props {
+	/** "badges" renders the official store badges; "links" renders plain text buttons. */
+	variant?: "badges" | "links";
+	/** "dark" for light pages, "light" for dark panels. */
+	tone?: "dark" | "light";
+	/** Include the Windows direct-download button. */
+	windows?: boolean;
+	/** Center the buttons. */
+	center?: boolean;
+}
+
+const {
+	variant = "badges",
+	tone = "dark",
+	windows = true,
+	center = false,
+} = Astro.props;
+
+const storeClass =
+	tone === "dark"
+		? "bg-gray-900 text-white hover:bg-gray-700"
+		: "bg-white text-gray-900 hover:bg-gray-200";
+const windowsClass =
+	tone === "dark"
+		? "border-gray-300 bg-white text-gray-900 hover:bg-gray-50"
+		: "border-gray-500 bg-transparent text-white hover:bg-gray-800";
+---
+
+<div
+	class={`flex flex-wrap gap-3 items-center ${center ? "justify-center" : ""}`}
+>
+	<a
+		href={DOWNLOADS.playStore}
+		rel="noopener"
+		aria-label="Get Veena on Google Play"
+	>
+		{
+			variant === "badges" ? (
+				<img
+					src={playStoreBadge.src}
+					alt="Get Veena on Google Play"
+					width="180"
+					height="53"
+					loading="lazy"
+					class="h-12 w-auto"
+				/>
+			) : (
+				<span
+					class={`inline-flex items-center gap-2 px-5 py-3 rounded-lg font-medium transition-colors ${storeClass}`}
+				>
+					<Icon
+						name="tabler:brand-android"
+						class="w-5 h-5"
+						aria-hidden="true"
+					/>
+					Android — Google Play
+				</span>
+			)
+		}
+	</a>
+	<a
+		href={DOWNLOADS.appStore}
+		rel="noopener"
+		aria-label="Download Veena on the App Store"
+	>
+		{
+			variant === "badges" ? (
+				<img
+					src={appStoreBadge.src}
+					alt="Download Veena on the App Store"
+					width="160"
+					height="53"
+					loading="lazy"
+					class="h-12 w-auto"
+				/>
+			) : (
+				<span
+					class={`inline-flex items-center gap-2 px-5 py-3 rounded-lg font-medium transition-colors ${storeClass}`}
+				>
+					<Icon name="tabler:brand-apple" class="w-5 h-5" aria-hidden="true" />
+					iPhone — App Store
+				</span>
+			)
+		}
+	</a>
+	{
+		windows && (
+			<a
+				href={DOWNLOADS.windows.url}
+				class={`inline-flex items-center gap-2 px-5 py-3 border rounded-lg font-medium transition-colors ${windowsClass}`}
+			>
+				<Icon name="tabler:brand-windows" class="w-5 h-5" aria-hidden="true" />
+				Windows
+			</a>
+		)
+	}
+</div>

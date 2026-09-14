@@ -1,0 +1,34 @@
+---
+import { Icon } from "astro-icon/components";
+const features = [
+	{
+		icon: "tabler:microphone",
+		title: "Speak it. Or bring a recording.",
+		text: "Record a thought while it’s fresh, or open an audio file you already have. Veena turns the speech into text on your device.",
+	},
+	{
+		icon: "tabler:text-recognition",
+		title: "Words you can work with.",
+		text: "Read through your transcript, make an edit, and copy it into a message or document. In your browser, you can also save a text file.",
+	},
+	{
+		icon: "tabler:device-floppy",
+		title: "Pick up where you left off.",
+		text: "Keep a local transcript history, replay a recording, and return to your words later. You decide what stays and what gets deleted.",
+	},
+];
+---
+
+<div class="feature-list">
+	{
+		features.map((feature) => (
+			<div class="feature-row">
+				<>
+					<Icon name={feature.icon} width="30" height="30" aria-hidden="true" />
+					<h2>{feature.title}</h2>
+					<p>{feature.text}</p>
+				</>
+			</div>
+		))
+	}
+</div>

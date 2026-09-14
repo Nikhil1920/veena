@@ -1,0 +1,33 @@
+name: "Desktop CI"
+
+on:
+  pull_request:
+    paths:
+      - "apps/desktop/**"
+      - "crates/rust-backend/**"
+      - "Cargo.lock"
+      - ".github/workflows/desktop-build.yml"
+      - ".github/workflows/desktop-ci.yml"
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    uses: ./.github/workflows/desktop-build.yml
+    with:
+      platform: macos-latest
+      target: aarch64-apple-darwin
+      upload-artifacts: true
+
+  build-linux:
+    uses: ./.github/workflows/desktop-build.yml
+    with:
+      platform: ubuntu-24.04
+      target: x86_64-unknown-linux-gnu
+      upload-artifacts: true
+
+  build-windows:
+    uses: ./.github/workflows/desktop-build.yml
+    with:
+      platform: windows-latest
+      target: x86_64-pc-windows-msvc
+      upload-artifacts: true
