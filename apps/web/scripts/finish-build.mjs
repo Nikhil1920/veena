@@ -23,7 +23,8 @@ const paths = (await files("dist")).filter(
 		path.startsWith("dist/brand/") ||
 		path === "dist/transcribe/index.html" ||
 		(path.startsWith("dist/speech-to-text/") && path.endsWith("/index.html")) ||
-		path === "dist/favicon.svg"
+		/^dist\/favicon\.(svg|png|ico)$/.test(path) ||
+		path === "dist/apple-touch-icon.png"
 );
 const hash = createHash("sha256");
 // Cached worker responses must receive updated isolation headers after a deploy.
