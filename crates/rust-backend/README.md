@@ -55,7 +55,7 @@ Put the NDK LLVM toolchain on `PATH` (see `.cargo/config.toml`), then:
 ```bash
 cd crates/rust-backend
 cargo build --release --target aarch64-linux-android
-cp target/aarch64-linux-android/release/librust_backend.so \
+cp ../../target/aarch64-linux-android/release/librust_backend.so \
    ../../apps/android/app/src/main/jniLibs/arm64-v8a/
 ```
 

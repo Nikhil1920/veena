@@ -24,7 +24,8 @@ and review past transcriptions in a local history.
    ```bash
    cd crates/rust-backend
    cargo build --release --target aarch64-linux-android
-   cp target/aarch64-linux-android/release/librust_backend.so \
+   mkdir -p ../../apps/android/app/src/main/jniLibs/arm64-v8a
+   cp ../../target/aarch64-linux-android/release/librust_backend.so \
       ../../apps/android/app/src/main/jniLibs/arm64-v8a/
    ```
 
@@ -36,6 +37,19 @@ and review past transcriptions in a local history.
 
 ## Signing
 
-Release signing is configured locally via `local.properties` /
-`keystore.properties` (both gitignored) — never commit keystores or the
-signed `.aab`/`.apk` output.
+Release signing reads `apps/android/keystore.properties` (gitignored); paths
+are relative to `apps/android`:
+
+```properties
+storeFile=../../../keys/my-release-key.keystore
+storePassword=…
+keyAlias=key0
+keyPassword=…
+```
+
+Then `./gradlew :app:bundleRelease` writes the signed bundle to
+`app/build/outputs/bundle/release/app-release.aab`. Without the file the
+bundle is built unsigned. Use Android Studio's JDK if the system one is newer
+than Gradle supports:
+`JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"`.
+Never commit keystores or the signed `.aab`/`.apk` output.

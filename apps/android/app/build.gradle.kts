@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
@@ -32,8 +34,27 @@ android {
         }
     }
 
+    // Release signing reads the gitignored apps/android/keystore.properties
+    // (storeFile, storePassword, keyAlias, keyPassword). Without it,
+    // bundleRelease still succeeds but produces an unsigned bundle.
+    val keystoreProperties = rootProject.file("keystore.properties")
+        .takeIf { it.exists() }
+        ?.let { file -> Properties().apply { file.inputStream().use(::load) } }
+
+    signingConfigs {
+        if (keystoreProperties != null) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.findByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

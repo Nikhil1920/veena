@@ -96,6 +96,7 @@ apps/android/.gradle/
 apps/android/build/
 apps/android/app/build/
 apps/android/.cxx/
+apps/android/app/.cxx/
 apps/android/.kotlin/
 apps/android/local.properties
 apps/android/app/release/
