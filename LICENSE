@@ -27,6 +27,9 @@ Third-party notices:
 - apps/desktop is derived from Handy by CJ Pais and contributors
   (https://github.com/cjpais/Handy), licensed under the MIT License.
   Copyright (c) 2025 CJ Pais.
+- apps/desktop/src-tauri/resources/models/silero_vad_v4.onnx is Silero VAD
+  by Silero Team (https://github.com/snakers4/silero-vad), licensed under
+  the MIT License. Copyright (c) 2020-present Silero Team.
 - Model weights and vocabularies prepared by tools/voice-models derive from
   IndicConformer by AI4Bharat (https://ai4bharat.iitm.ac.in), and are
   downloaded separately at runtime — they are not part of this repository.

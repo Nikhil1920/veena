@@ -58,7 +58,10 @@ impl Transcriber {
 
         Ok(Transcriber {
             session: Mutex::new(session),
-            backend: Backend::Single { blank_id, label_map },
+            backend: Backend::Single {
+                blank_id,
+                label_map,
+            },
         })
     }
 
@@ -128,9 +131,10 @@ impl Transcriber {
         let logits = self.infer_logits(audio, sample_rate)?;
 
         match &self.backend {
-            Backend::Single { blank_id, label_map } => {
-                decode::ctc_greedy_decode(&logits, *blank_id, label_map)
-            }
+            Backend::Single {
+                blank_id,
+                label_map,
+            } => decode::ctc_greedy_decode(&logits, *blank_id, label_map),
             Backend::Multilingual {
                 blank_id,
                 vocab,

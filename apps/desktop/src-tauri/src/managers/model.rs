@@ -214,7 +214,6 @@ impl ModelManager {
         models.get(model_id).cloned()
     }
 
-
     fn update_download_status(&self) -> Result<()> {
         let mut models = self.available_models.lock().unwrap();
 
@@ -967,8 +966,6 @@ impl ModelManager {
         Ok(())
     }
 }
-
-
 
 #[cfg(test)]
 mod tests {

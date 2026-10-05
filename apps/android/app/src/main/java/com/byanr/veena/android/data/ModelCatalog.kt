@@ -2,7 +2,7 @@ package com.byanr.veena.android.data
 
 /**
  * Downloadable voice models, mirroring the desktop catalog
- * (desktop-venna/src-tauri/src/managers/model.rs).
+ * (apps/desktop/src-tauri/src/managers/model.rs).
  */
 data class ModelDef(
     val id: String,
