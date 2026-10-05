@@ -1,0 +1,80 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/ur/evaluation/audio/iv-v1-ur-valid-5351a958-6edb-406d-945f-c1d4de5b86bf_0-0003.wav",
+  "audio_duration_seconds": 2.754,
+  "audio_sample_rate": 8000,
+  "audio_samples": 22032,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/ur/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/ur/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/ur/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "ur",
+  "measured_runs": 5,
+  "model": "candidates/mobile-builds/ur/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 304.069333,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 34.572334000000005,
+      "transcript": "کیا آپ میری بات بُتیک سے ہو رہی ہے بُتیک والے سے"
+    },
+    {
+      "iteration": 1,
+      "preprocess_inference_decode_ms": 35.622,
+      "transcript": "کیا آپ میری بات بُتیک سے ہو رہی ہے بُتیک والے سے"
+    },
+    {
+      "iteration": 2,
+      "preprocess_inference_decode_ms": 35.441041,
+      "transcript": "کیا آپ میری بات بُتیک سے ہو رہی ہے بُتیک والے سے"
+    },
+    {
+      "iteration": 3,
+      "preprocess_inference_decode_ms": 38.904208000000004,
+      "transcript": "کیا آپ میری بات بُتیک سے ہو رہی ہے بُتیک والے سے"
+    },
+    {
+      "iteration": 4,
+      "preprocess_inference_decode_ms": 42.479375,
+      "transcript": "کیا آپ میری بات بُتیک سے ہو رہی ہے بُتیک والے سے"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 2,
+  "variant": "balanced-int8",
+  "source_utterance_id": "iv-v1-ur-valid-5351a958-6edb-406d-945f-c1d4de5b86bf_0-0003",
+  "verified_input_sha256": {
+    "candidates/mobile-builds/ur/balanced-int8/model.onnx": "313707202038dd01a1b83be23752515f4e5ba7a470aca63794d88ff128fc6435",
+    "candidates/mobile-builds/ur/balanced-int8/decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "candidates/mobile-builds/ur/balanced-int8/vocab.json": "7d85e8114dc760ed0f223478c174b40c0433dff92c0cc628ede9680acdd86471",
+    "corpus/indicvoices-v1-pilot/ur/evaluation/audio/iv-v1-ur-valid-5351a958-6edb-406d-945f-c1d4de5b86bf_0-0003.wav": "ec2407218ea2ba9f5a99d43229491b918f308ee8d590766fde2fdf04bd5f316e",
+    "candidates/mobile-builds/ur/balanced-int8/language_masks.json": "da2bcd5f6f755392cea01bbd948e1ce7464a40621b194882daae1d401c37fead"
+  },
+  "median_total_ms": 35.622,
+  "peak_rss_bytes": 436207616,
+  "rtf": 0.012934640522875818,
+  "physical_phone_tested": false
+}

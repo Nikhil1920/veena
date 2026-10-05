@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "purpose": "Exact recipe code used by the 44 existing mobile candidates, archived before strengthening source quantization validation.",
+  "builder_sha256": {
+    "quantize_int4.py": "bb2da83954170af86289b6c1bbceb402bc3f0db4d18ea73c5dc6daa21d950a2b",
+    "quantize_mobile_mixed.py": "faf2f1a83f93527036505ae35efcddc8cd8dd39b5dc7def05d5b1986b5da6110"
+  },
+  "files": {
+    "quantize_int4.py": {
+      "size_bytes": 13685,
+      "sha256": "bb2da83954170af86289b6c1bbceb402bc3f0db4d18ea73c5dc6daa21d950a2b"
+    },
+    "quantize_mobile_mixed.py": {
+      "size_bytes": 9372,
+      "sha256": "faf2f1a83f93527036505ae35efcddc8cd8dd39b5dc7def05d5b1986b5da6110"
+    }
+  },
+  "verified_build_count": 44,
+  "verified_build_records": [
+    {
+      "path": "candidates/mobile-builds/as/balanced-int8/build.json",
+      "sha256": "de6811592a324af90f4f8605ad2a4bf04e482406bbc9f766692ee1b3fd905dd4"
+    },
+    {
+      "path": "candidates/mobile-builds/as/compact-int4/build.json",
+      "sha256": "1cbe28a9cd768d9bd8f516258773f9c01552fb47f6bab0728b6d1a9de56ef49a"
+    },
+    {
+      "path": "candidates/mobile-builds/bn/balanced-int8/build.json",
+      "sha256": "c8e471a375e61ff5af6b9383ea6fef299fa3b9d2944d6edb079e630e0e147ede"
+    },
+    {
+      "path": "candidates/mobile-builds/bn/compact-int4/build.json",
+      "sha256": "49d45fcd6c56273e084adf86e3a23de16cc39789f50d2029383f2c3486897de4"
+    },
+    {
+      "path": "candidates/mobile-builds/brx/balanced-int8/build.json",
+      "sha256": "d60ae7ea3e8eb20011dd47740b94b1bc7bcf708506fc6dd23eb0ec3c81916106"
+    },
+    {
+      "path": "candidates/mobile-builds/brx/compact-int4/build.json",
+      "sha256": "56de8ba1a06fc028430d49f80ebb48a03e5a004ee3db32c87425af3b5ddf6825"
+    },
+    {
+      "path": "candidates/mobile-builds/doi/balanced-int8/build.json",
+      "sha256": "98956b0689007cdeaa11afa02aec1dc2c50cbfa89715b2900a21ae75f0ffbc07"
+    },
+    {
+      "path": "candidates/mobile-builds/doi/compact-int4/build.json",
+      "sha256": "9652178ee60a1e27ec43362b123147c82b43952440d46d909c081d1b55ecfe4e"
+    },
+    {
+      "path": "candidates/mobile-builds/gu/balanced-int8/build.json",
+      "sha256": "fa4f8fb74fe3b322263f4605037f527bd9536b3185d2ab88bfcc5abeaf9991bf"
+    },
+    {
+      "path": "candidates/mobile-builds/gu/compact-int4/build.json",
+      "sha256": "6c55a6b36aded57f167d80373f4ded8cbb9f7138fd261baab16000676b6997d5"
+    },
+    {
+      "path": "candidates/mobile-builds/hi/balanced-int8/build.json",
+      "sha256": "cd72cc6e0c692348a539e98706209e0748d121cae48e742c150204b0060f1e92"
+    },
+    {
+      "path": "candidates/mobile-builds/hi/compact-int4/build.json",
+      "sha256": "2124ca2987dab9e1ca490c8df050269cf4913fa7a3e6afb70af9b9aba6407458"
+    },
+    {
+      "path": "candidates/mobile-builds/kn/balanced-int8/build.json",
+      "sha256": "22166074d72cd418730de72a47c348126ace5e35004bcdf5d4151bdb17f4d084"
+    },
+    {
+      "path": "candidates/mobile-builds/kn/compact-int4/build.json",
+      "sha256": "5c6e3410d5a794f4656d699e61d402d41d67e1fd414add1425863f1c4c1b62df"
+    },
+    {
+      "path": "candidates/mobile-builds/kok/balanced-int8/build.json",
+      "sha256": "13f07c5068a2eee83d4af17e949185a58007aedd28126e13d797beb40b900907"
+    },
+    {
+      "path": "candidates/mobile-builds/kok/compact-int4/build.json",
+      "sha256": "421464e6715ba035b03c29e64256c2fb33eb6e67a6a9ae2b983bf631f48bce20"
+    },
+    {
+      "path": "candidates/mobile-builds/ks/balanced-int8/build.json",
+      "sha256": "50659da09c695ddb8894e7b7b1fa3316a04921996bf0aa5f6509e34ee81cc7ab"
+    },
+    {
+      "path": "candidates/mobile-builds/ks/compact-int4/build.json",
+      "sha256": "c491e5731bd7dd91a0289507482e57145c910527a3b62909f4e04ea6d075f7e7"
+    },
+    {
+      "path": "candidates/mobile-builds/mai/balanced-int8/build.json",
+      "sha256": "c4dcfb17389df99f4bd4cdec2cda28229fd4798987f68c9258a63f4a8fbd02d2"
+    },
+    {
+      "path": "candidates/mobile-builds/mai/compact-int4/build.json",
+      "sha256": "3991efd1bacb001abb94a4b63b66aeebe023ed6666b596ac9e36dd1f07b6426f"
+    },
+    {
+      "path": "candidates/mobile-builds/ml/balanced-int8/build.json",
+      "sha256": "3a7cf131907e5059d5ab65f54e4aef131abbf709845b70a5249a4930c1de5962"
+    },
+    {
+      "path": "candidates/mobile-builds/ml/compact-int4/build.json",
+      "sha256": "c04a7c4ab3b49259be1c92a2748af05963c78e0415fcc38b93373b0fc28ce456"
+    },
+    {
+      "path": "candidates/mobile-builds/mni/balanced-int8/build.json",
+      "sha256": "f7afea379f34663121d32bf4b8104dbfa3e231ace9737d3c6a16a1a43493aebf"
+    },
+    {
+      "path": "candidates/mobile-builds/mni/compact-int4/build.json",
+      "sha256": "82893804c8cf73f92efd16eed7d623221e08c2f3194186ec64bed95ec93593a9"
+    },
+    {
+      "path": "candidates/mobile-builds/mr/balanced-int8/build.json",
+      "sha256": "842c56ad0e6fe6d5fca93257d05a8b06b21abef224e8fae107a2e584407b596a"
+    },
+    {
+      "path": "candidates/mobile-builds/mr/compact-int4/build.json",
+      "sha256": "1cd3d5e62b48fec6575141055018dd897248d5b86b7ca19d8099dc426db7be7e"
+    },
+    {
+      "path": "candidates/mobile-builds/ne/balanced-int8/build.json",
+      "sha256": "6946c0e7e5f130ccb730c40d543e9f3d4104cd964abe48ac94fd61eaee8474da"
+    },
+    {
+      "path": "candidates/mobile-builds/ne/compact-int4/build.json",
+      "sha256": "7451144f30a0aa2208ca06990492da1d5316321b133a016e3864b6fe09a0de55"
+    },
+    {
+      "path": "candidates/mobile-builds/or/balanced-int8/build.json",
+      "sha256": "2860e7f97cf0e1a62726c459f3ce927f6ffd0d0b58d3d3d623d7a3f695b4e81d"
+    },
+    {
+      "path": "candidates/mobile-builds/or/compact-int4/build.json",
+      "sha256": "d884a90d44294bf9bb7653bb431ee62699233302a3337a83405dfbd46d04a8dd"
+    },
+    {
+      "path": "candidates/mobile-builds/pa/balanced-int8/build.json",
+      "sha256": "f7a56861f8acbba6dc42698e59f071261c973a1b5a9b5f863b9a75f247bfc94e"
+    },
+    {
+      "path": "candidates/mobile-builds/pa/compact-int4/build.json",
+      "sha256": "a84253385ca665e21e004f25bbebb72301487f18e4453e60decfdd4d09f72bf6"
+    },
+    {
+      "path": "candidates/mobile-builds/sa/balanced-int8/build.json",
+      "sha256": "4ca1878b524f4e16271cc3be850acaf81082e3a5a57feac58fa8f25013e27e25"
+    },
+    {
+      "path": "candidates/mobile-builds/sa/compact-int4/build.json",
+      "sha256": "6a39d81cb7c58dd40f3dc415e8c0d2c4f173cb376e3cb66d561c1bc10e7bc2e1"
+    },
+    {
+      "path": "candidates/mobile-builds/sat/balanced-int8/build.json",
+      "sha256": "668c55e1b378b00ce10d66ea7c7f1c8fd283f892b78fd508923c8accc1a7e77d"
+    },
+    {
+      "path": "candidates/mobile-builds/sat/compact-int4/build.json",
+      "sha256": "5478aee0eb594e481639da18f178b480acefe5e6aaa305e75f59a0dd4943d02f"
+    },
+    {
+      "path": "candidates/mobile-builds/sd/balanced-int8/build.json",
+      "sha256": "806598dcb4f605fae4006c881f708b4ca70760d350ef40e9a323ac5eaed69709"
+    },
+    {
+      "path": "candidates/mobile-builds/sd/compact-int4/build.json",
+      "sha256": "d37d85697fd6f3410c772ad36bd3ff950cf415b2a5464941d09798f5338d26cf"
+    },
+    {
+      "path": "candidates/mobile-builds/ta/balanced-int8/build.json",
+      "sha256": "ea6bf373078ec7922814a0561f6b8f7091af1a2d8949d8d337bbe60e1b432d2b"
+    },
+    {
+      "path": "candidates/mobile-builds/ta/compact-int4/build.json",
+      "sha256": "3d15eb920ed45966be6527071c068e1cee74d7d458e45de0e637db85437389fa"
+    },
+    {
+      "path": "candidates/mobile-builds/te/balanced-int8/build.json",
+      "sha256": "a97bb9ef6fc97816e28de8cefaa3d8bd50fa8a811513dcb5090d9c3d52955e38"
+    },
+    {
+      "path": "candidates/mobile-builds/te/compact-int4/build.json",
+      "sha256": "48eae19bc0c38348e977daac2a00e128e8b8e0fb49ca2ca8837641f2ce367cdd"
+    },
+    {
+      "path": "candidates/mobile-builds/ur/balanced-int8/build.json",
+      "sha256": "2622615fde3f4825888fa6532aa09c97c8d33bbbaa04318efd3870cf00063c5b"
+    },
+    {
+      "path": "candidates/mobile-builds/ur/compact-int4/build.json",
+      "sha256": "fa0d7b2c1cfa8c6a1f25a7347b111bf69bcd949f149946203076927fe714658b"
+    }
+  ],
+  "note": "Existing build records and model bytes are unchanged. Current-source strict resume intentionally fails after the validator update; this snapshot permits historical recipe verification only."
+}

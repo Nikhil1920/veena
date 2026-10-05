@@ -1,0 +1,80 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/ta/evaluation/audio/iv-v1-ta-valid-3096224743859743-0000.wav",
+  "audio_duration_seconds": 7.743990929705215,
+  "audio_sample_rate": 44100,
+  "audio_samples": 341510,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "browser-assets/indicconformer-multi/decoder_config.json",
+    "language_masks": "browser-assets/indicconformer-multi/language_masks.json",
+    "vocab": "browser-assets/indicconformer-multi/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 5632,
+    "num_classes": 5633
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "ta",
+  "measured_runs": 5,
+  "model": "browser-assets/indicconformer-multi/indicconformer_multi_ctc_int8.onnx",
+  "model_bytes": 675849231,
+  "model_load_ms": 867.365459,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 290.741667,
+      "transcript": "எனக்கு ட்ிரரைவிங்னால் எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்து நான் வந்து வண்டி ஓட்டதுந்தலாம் மூணாவது ஆாலாவலே கற்றுக்கினேன்"
+    },
+    {
+      "iteration": 1,
+      "preprocess_inference_decode_ms": 270.09808400000003,
+      "transcript": "எனக்கு ட்ிரரைவிங்னால் எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்து நான் வந்து வண்டி ஓட்டதுந்தலாம் மூணாவது ஆாலாவலே கற்றுக்கினேன்"
+    },
+    {
+      "iteration": 2,
+      "preprocess_inference_decode_ms": 271.474041,
+      "transcript": "எனக்கு ட்ிரரைவிங்னால் எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்து நான் வந்து வண்டி ஓட்டதுந்தலாம் மூணாவது ஆாலாவலே கற்றுக்கினேன்"
+    },
+    {
+      "iteration": 3,
+      "preprocess_inference_decode_ms": 270.530583,
+      "transcript": "எனக்கு ட்ிரரைவிங்னால் எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்து நான் வந்து வண்டி ஓட்டதுந்தலாம் மூணாவது ஆாலாவலே கற்றுக்கினேன்"
+    },
+    {
+      "iteration": 4,
+      "preprocess_inference_decode_ms": 269.633291,
+      "transcript": "எனக்கு ட்ிரரைவிங்னால் எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்து நான் வந்து வண்டி ஓட்டதுந்தலாம் மூணாவது ஆாலாவலே கற்றுக்கினேன்"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 2,
+  "variant": "shipped",
+  "source_utterance_id": "iv-v1-ta-valid-3096224743859743-0000",
+  "verified_input_sha256": {
+    "browser-assets/indicconformer-multi/indicconformer_multi_ctc_int8.onnx": "5e58c25286d268d551c86ee6db5932d818f333e51692f4d1ed8144f2c141c890",
+    "browser-assets/indicconformer-multi/decoder_config.json": "a83cfbd0a449a1456fabdf5f257ed7aa517de8c1810461439b2df60980be3985",
+    "browser-assets/indicconformer-multi/vocab.json": "eda380b3ba4507cb0850b6d0666298babe07eaf3f299b2d08f91db4b491a59bf",
+    "corpus/indicvoices-v1-pilot/ta/evaluation/audio/iv-v1-ta-valid-3096224743859743-0000.wav": "e0673e52a34c7682f0cec726ce8fe2682a6ddd8095f55f5714f6f392f39af708",
+    "browser-assets/indicconformer-multi/language_masks.json": "de02a9384ef897b7f97cd416d7f27238e0cb9bf252c56e4a34db562eccf75a63"
+  },
+  "median_total_ms": 270.530583,
+  "peak_rss_bytes": 1453064192,
+  "rtf": 0.034934258763432986,
+  "physical_phone_tested": false
+}

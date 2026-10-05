@@ -1,0 +1,87 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/bn/evaluation/audio/iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0002.wav",
+  "audio_duration_seconds": 2.753,
+  "audio_sample_rate": 8000,
+  "audio_samples": 22024,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/bn/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/bn/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/bn/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "bn",
+  "measured_runs": 1,
+  "model": "candidates/mobile-builds/bn/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 370.943833,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 50.760167,
+      "transcript": "হ্যাঁ বলছি এটা কি নিউসু হাউসের দোকান"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 0,
+  "variant": "balanced-int8",
+  "returncode": 0,
+  "model_sha256": "cb3f8fb13999590d8cac00688b981dbb2d3070c497de1286da8085d0bbb2a74d",
+  "decoder_asset_sha256": {
+    "decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "vocab.json": "50666de9a0f08c29b857ee9f9103a0150d9648a80ba8a5cf488abf79c7c8c3aa",
+    "language_masks.json": "0f2cae13d8c0be330f5419c622895fbcbd384c8d2869bcccde5d68f5c5c88e9c"
+  },
+  "binary_sha256": "ad5db19691b2c6a631283e2678df10ac01e25fd1eca6f395eced6e3bd4662935",
+  "sample_id": "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0002",
+  "reference": "হুম বলছি এটা কি নিউ শ্যু হাউসের দোকান",
+  "audio_sha256": "fb02154bc1ca82d33807ad36f1e97ee8cdcf346959c0a5ad5a4bb01415104a0d",
+  "sample_source": {
+    "source_dataset": "AI4Bharat/IndicVoices",
+    "source_split": "valid",
+    "source_archive_url": "https://iv-release.objectstore.e2enetworks.net/dmu_release/v1_Bengali_valid.tgz",
+    "source_member": "Bengali/v1/valid/03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0.wav",
+    "license": "CC-BY-4.0"
+  },
+  "command": [
+    "../../target/release/model_smoke",
+    "--model",
+    "candidates/mobile-builds/bn/balanced-int8/model.onnx",
+    "--decoder-config",
+    "candidates/mobile-builds/bn/balanced-int8/decoder_config.json",
+    "--vocab",
+    "candidates/mobile-builds/bn/balanced-int8/vocab.json",
+    "--language-masks",
+    "candidates/mobile-builds/bn/balanced-int8/language_masks.json",
+    "--audio",
+    "corpus/indicvoices-v1-pilot/bn/evaluation/audio/iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0002.wav",
+    "--language",
+    "bn",
+    "--warmup",
+    "0",
+    "--runs",
+    "1"
+  ],
+  "python_1_26_prediction": "হ্যাঁ বলছি এটা কি নিউসু হাউসের দোকান",
+  "native_matches_python_1_26": true
+}

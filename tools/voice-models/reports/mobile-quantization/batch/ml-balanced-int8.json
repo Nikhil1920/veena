@@ -1,0 +1,880 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/ml/balanced-int8/model.onnx",
+  "required_languages": [
+    "ml"
+  ],
+  "evaluated_languages": [
+    "ml"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 146746008,
+  "manifest": "corpus/indicvoices-v1-pilot/ml/evaluation/manifest.jsonl",
+  "corpus_sha256": "27eccc3cdc41bf31f7b1d7616df347689925046d029c52894c9720ee405d5aa7",
+  "coverage": {
+    "languages": [
+      "ml"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "ml"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": true,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "model_artifact": {
+    "sha256": "a55e3a495be0437f059a19d311109f3b89810f5e8a932b98df7e1ba9a3777ec3",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 146746008,
+        "sha256": "a55e3a495be0437f059a19d311109f3b89810f5e8a932b98df7e1ba9a3777ec3"
+      }
+    ],
+    "artifact_sha256": "82662944deeca76bb31f5bbe621dae83220de7e079428bdb53a84615876d3d22",
+    "size_bytes": 146746008
+  },
+  "decoder_assets": {
+    "decoder_config.json": {
+      "size_bytes": 45,
+      "sha256": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017"
+    },
+    "language_masks.json": {
+      "size_bytes": 2220,
+      "sha256": "f92e2b4ec3c5dea8fc7d7e4b6446f619d7ed9199d7da2d250009b486483e4246"
+    },
+    "vocab.json": {
+      "size_bytes": 3721,
+      "sha256": "93ca88757382baf5898786ea05f5a31696dd28d81e9b173a3f1fd237ca4434fc"
+    }
+  },
+  "artifact_binding": {
+    "status": "verified",
+    "method": "sha256",
+    "checked_before_inference": true,
+    "checked_after_inference": true,
+    "scope": "worker model protobuf, external weights, and decoder assets"
+  },
+  "load_time_seconds": 0.3467595419497229,
+  "peak_rss_bytes": 1149353984,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-ml-valid-03d50cb9-92e5-4f42-a77a-c5677dbbcfdc_1-0000",
+      "language": "ml",
+      "reference": "ഹലോ ഡോക്ടർ റെഷിദ സ്പീക്കിങ് ആരാണ് സംസാരിക്കുന്നത്",
+      "duration_seconds": 3.296,
+      "prediction": "ഹലോ ഹലോ ഡോക്ടർ റഷുദാ സ്പീക്കിംഗ് ആരാണ് സംസാരിക്കുന്നത്",
+      "reference_words": 6,
+      "word_errors": 3,
+      "reference_characters": 49,
+      "character_errors": 9,
+      "inference_seconds": [
+        0.08066391700413078
+      ],
+      "inference_median_seconds": 0.08066391700413078
+    },
+    {
+      "id": "iv-v1-ml-valid-03d50cb9-92e5-4f42-a77a-c5677dbbcfdc_1-0002",
+      "language": "ml",
+      "reference": "ഓക്കെ എത്ര വയസ്സായി",
+      "duration_seconds": 2.105,
+      "prediction": "ഓക്കെ എത്ര വയസ്സായി",
+      "reference_words": 3,
+      "word_errors": 0,
+      "reference_characters": 19,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.04579362500226125
+      ],
+      "inference_median_seconds": 0.04579362500226125
+    },
+    {
+      "id": "iv-v1-ml-valid-03d50cb9-92e5-4f42-a77a-c5677dbbcfdc_1-0003",
+      "language": "ml",
+      "reference": "ഇരുപത്തിയാറ് പിന്നെ ചൂടുവെള്ളത്തി കുടിക്കുക ചൂടുവെള്ളം കുളിയ്ക്കുക കുടിക്കാൻ ചൂടുവെള്ളം ഉപയോഗിക്കുക പിന്നെ തണുത്ത ആഹാരങ്ങൾ ചൂടാക്കി കഴിയ്ക്കുക",
+      "duration_seconds": 10.807,
+      "prediction": "ഇരുപത്താറ് പിന്നെ ചൂടു്വെള്ളത്തിൽ കുടിക്കാ ചൂടു്വെള്ളം കുടിക്കുക കുടിക്കാൻ ചൂടു്വെള്ളം ഉപയോഗിക്കുക പിന്നെ തണുത്ത ആഹാരങ്ങൾ ചൂടാക്കി കഴിക്കുക",
+      "reference_words": 14,
+      "word_errors": 7,
+      "reference_characters": 142,
+      "character_errors": 13,
+      "inference_seconds": [
+        0.23298591596540064
+      ],
+      "inference_median_seconds": 0.23298591596540064
+    },
+    {
+      "id": "iv-v1-ml-valid-03d50cb9-92e5-4f42-a77a-c5677dbbcfdc_1-0004",
+      "language": "ml",
+      "reference": "അതെ പിന്നെ പിന്നെ പിന്നെന്താ തണുത്ത മഞ്ഞു കൊള്ളാതിരിക്കാനും മഴ കൊള്ളാതിരിക്കാനും പ്രത്യേകം ശ്രദ്ധിക്കുക",
+      "duration_seconds": 5.952,
+      "prediction": "ആ പിന്നെ പിന്നെ പിന്നെ തണ മഞ്ഞ് കൊള്ളാതിരിക്കാനും മഴ കൊള്ളാതിരിക്കാനും പ്രത്യേകം ശ്രദ്ധിക്കുക",
+      "reference_words": 11,
+      "word_errors": 4,
+      "reference_characters": 103,
+      "character_errors": 12,
+      "inference_seconds": [
+        0.1392415830050595
+      ],
+      "inference_median_seconds": 0.1392415830050595
+    },
+    {
+      "id": "iv-v1-ml-valid-03d50cb9-92e5-4f42-a77a-c5677dbbcfdc_1-0005",
+      "language": "ml",
+      "reference": "അതെ ഓക്കെ പിന്നെ തൽക്കാലത്തേക്ക് ഇപ്പോ വേണമെങ്കിലൊന്ന് ആവി പിടിക്ക പിന്നെ സിട്രിസിൻ അതെ ഒരു നേരം യൂസ് ചെയ്യുക വൈകുന്നേരം ആറ് മണിക്ക് അതെ പിന്നെ പിന്നെ ഉറക്കം ഉണ്ടാകും അപ്പോ അത് കണ്ടറിഞ്ഞ് കഴിക്കണം",
+      "duration_seconds": 14.123,
+      "prediction": "ആ ഓക്കെ പിന്നെ തൽക്കാലത്തേക്ക് ഇപ്പോൾ വേണമെങ്കിൽ ഇതൊന്ന് ആവി പിടിക്കുക പിന്നെ സ്റ്റിറ്റ്രസ് ഒരുരുന്നേരം യൂസ് ചെയ്യുക വൈകുന്നേരം ആറ മണിക്ക് ആ പിന്നെ പിന്നെ ഉറക്കം ഉണ്ടാവും അപ്പം അത് കണ്ടറിഞ്ഞ് കഴിക്കണം",
+      "reference_words": 27,
+      "word_errors": 13,
+      "reference_characters": 196,
+      "character_errors": 30,
+      "inference_seconds": [
+        0.2330370420240797
+      ],
+      "inference_median_seconds": 0.2330370420240797
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767109807-0001",
+      "language": "ml",
+      "reference": "ചില ഷോക്ക് കൊണ്ട് അസുഖ വരുന്നവര് ഉണ്ടാകാം ചില കാര്യങ്ങള് ജീവിതത്തില് നടക്കുമ്പോള് ഉണ്ടാക്കുന്ന ഷോക്ക് ഉണ്ടാവാം അങ്ങെനെ ഉണ്ടാവുന്നുണ്ടാവും അല്ലെങ്കില് എന്താ പറയുക",
+      "duration_seconds": 9.20299319727891,
+      "prediction": "ചില ശോക്ക് കൊണ്ട് അസ്തകം വരുന്നവരുണ്ടാാവും ചില കാര്യങ്ങള് ജീവിതത്തിൽ നടക്കുമ്പോൾ ഉണ്ടാകുന്ന ശോക്ക്ുണ്ടാകും അങ്ങനെ ഉണ്ടാകുന്നുണ്ടകും അല്ലെങ്കില എന്താ പറയുക",
+      "reference_words": 18,
+      "word_errors": 12,
+      "reference_characters": 161,
+      "character_errors": 27,
+      "inference_seconds": [
+        0.17257712502032518
+      ],
+      "inference_median_seconds": 0.17257712502032518
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767109807-0002",
+      "language": "ml",
+      "reference": "ചിലപ്പോള് വെറുതെ ഡിപ്രഷനില് ആയിപോകാറുണ്ട് തന്റെ ലൈഫ് എന്തായി പോകുമെന്നറിയാണ്ട് ഡിപ്രഷനിലേക്ക് പോകുന്നവര് ഉണ്ട്",
+      "duration_seconds": 5.736984126984127,
+      "prediction": "ചിലപ്പോൾ വെറുതെ ഡിപ്രഷനിലായി പോകാറുണ്ട് തൻ്റെ ലൈഫ് എന്തായി പോകുമെന്ന് അറിയാണ്ട് ഡിപ്രഷനിലേക്ക് പോന്നാറുണ്ട്",
+      "reference_words": 11,
+      "word_errors": 8,
+      "reference_characters": 110,
+      "character_errors": 17,
+      "inference_seconds": [
+        0.10392466600751504
+      ],
+      "inference_median_seconds": 0.10392466600751504
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767109807-0003",
+      "language": "ml",
+      "reference": "ഡിപ്രഷന് എന്നൊരു ഒറ്റ വാക്ക് കൊണ്ട് ഇതിനെ കുറെ പേര് വലിയ വിഷയമായിട്ട് ഗൗരവമായിട്ട് ഒന്നും എടുക്കാറില്ല",
+      "duration_seconds": 6.916009070294785,
+      "prediction": "ഡിപ്രഷൻ എന്നൊരൊറ്റ വക്ക്ുകൊണ്ട് ഇതിനെ കുറേ പേര് വലിയ വിഷയമായിട്ട് ഗൗരവമായിട്ടൊന്നും എടുക്കാറില്ല",
+      "reference_words": 13,
+      "word_errors": 8,
+      "reference_characters": 102,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.16167629201663658
+      ],
+      "inference_median_seconds": 0.16167629201663658
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767109807-0004",
+      "language": "ml",
+      "reference": "അ അവനു ഡിപ്രഷനാ അങ്ങെനെ ഒരു രീതിയിലേക്ക് പോവുന്ന വരുണ്ട് പക്ഷേ ഡിപ്രഷന് കൊണ്ട് ചെയ്തു കൂട്ടുന്ന കാര്യങ്ങള് ചിലപ്പം അവരുടെ ജീവന് തന്നെ ഇല്ലാണ്ടാക്കും",
+      "duration_seconds": 8.892993197278912,
+      "prediction": "ഡ ഓ അവരെ ഡിപ്രഷനാ അങ്ങനെ ഒരു രീതിയിലേക്ക് പോകുന്നുണ്ട് പക്ഷേ ഡിപ്രഷൻ കൊണ്ട് ചെയ്ത് കൂട്ടുന്ന കാര്യങ്ങൾ ചിലപ്പം അവരുടെ ജീവൻ തന്നെ ഇല്ലാണ്ടാക്കും",
+      "reference_words": 19,
+      "word_errors": 10,
+      "reference_characters": 148,
+      "character_errors": 17,
+      "inference_seconds": [
+        0.18379020795691758
+      ],
+      "inference_median_seconds": 0.18379020795691758
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767109807-0005",
+      "language": "ml",
+      "reference": "ചിലത് മറ്റൊരാളുടെ ജീവന് എടുക്കാന് വരെ തുന്നിയും അപ്പം അങ്ങെനെ ഉള്ള സമയങ്ങളില് ഇതൊരു ഗൗരവമായിട്ട് കാണുന്നുണ്ട് ഈ ഇടയ്ക്ക് ഇല്ല കുറച്ച് വര്ഷങ്ങള്ക്ക് മുന്പ് ഒരു സിനിമ താരം",
+      "duration_seconds": 13.164013605442177,
+      "prediction": "ചിലത് മറ്റൊരാളുടെ ജീവൻ എടുക്കാൻ വരെ തുനിയും അപ്പം അങ്ങനെയുള്ള സമയങ്ങളിൽ ഇതൊരു ഗൗരവമായിട്ട് കാണുന്നുണ്ട് ഇപ്പോൾ ഈ ഇടയക്ക്ുള്ള ഒരു കുറച്ച് വർഷങ്ങൾക്ക് മുമ്പ് ഒരു സിനിമ താരം",
+      "reference_words": 22,
+      "word_errors": 11,
+      "reference_characters": 169,
+      "character_errors": 31,
+      "inference_seconds": [
+        0.2643697499879636
+      ],
+      "inference_median_seconds": 0.2643697499879636
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767110975-0000",
+      "language": "ml",
+      "reference": "കേരള മധ്യപ്രദേശ് ഉത്തർപ്രദേശ്",
+      "duration_seconds": 3.205986394557823,
+      "prediction": "കേരള മധ്യപ്രദേശ് ഉത്തർപ്രദേശ്",
+      "reference_words": 3,
+      "word_errors": 0,
+      "reference_characters": 29,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.09135225001955405
+      ],
+      "inference_median_seconds": 0.09135225001955405
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767111839-0000",
+      "language": "ml",
+      "reference": "ദുബായ് ലണ്ടൻ പാരിസ് ടോക്കിയോ ന്യൂയോർക് സിറ്റി",
+      "duration_seconds": 3.710997732426304,
+      "prediction": "ദുബായ് ലണ്ടൻ പേരിസ് ടോക്കിയോ ന്യൂയോർക്ക് സിറ്റി",
+      "reference_words": 6,
+      "word_errors": 2,
+      "reference_characters": 45,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.07631195802241564
+      ],
+      "inference_median_seconds": 0.07631195802241564
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767112262-0000",
+      "language": "ml",
+      "reference": "നിർമ്മിത ബുദ്ധി അഥവാ ആർട്ടിഫിഷ്യൽ ഇന്റലിജൻസ്",
+      "duration_seconds": 3.6160090702947847,
+      "prediction": "നിർമ്മിത ബുദ്ധി അഥവാ ആർട്ടിഫിഷ്യൽ ഇൻറലിജൻസ്",
+      "reference_words": 5,
+      "word_errors": 1,
+      "reference_characters": 44,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.07482050004182383
+      ],
+      "inference_median_seconds": 0.07482050004182383
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767112262-0002",
+      "language": "ml",
+      "reference": "ഒരുപാട് ഗുണങ്ങളും അതുപോലെത്തന്നെ ദോഷങ്ങളും ഉള്ള ഒരു സംവിധാനമാണ് ഇതൊരു പുതിയ ടെക്നോളജി ആണ്",
+      "duration_seconds": 5.726984126984127,
+      "prediction": "ഒരുപാട് ഗുണങ്ങളും അതുപോലെ തന്നെ ദോഷങ്ങളുമ ഉള്ള ഒരു സംവിധാനമാണ് ഇതൊരു പുതിയ ടെക്നോളജിയാണ്",
+      "reference_words": 11,
+      "word_errors": 5,
+      "reference_characters": 89,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.07086325000273064
+      ],
+      "inference_median_seconds": 0.07086325000273064
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767112262-0004",
+      "language": "ml",
+      "reference": "ഇപ്പോൾ നമ്മുടെ വിവിധ പ്രൊഡക്ഷൻ യൂണിറ്റുകളില് ഇത്തരത്തിലുള്ള നിർമ്മിത ബുദ്ധികൾ ഉപയോഗിച്ചു കൊണ്ട് ആ ടെക്നോളജി ഉപയോഗിച്ചുകൊണ്ട്",
+      "duration_seconds": 9.567006802721089,
+      "prediction": "ഇപ്പോൾ നമ്മുടെ വിവിധ പ്രൊഡക്ഷൻ യൂണിറ്റുകളിൽ ഇത്തരത്തിലുള്ള നിർമ്മിത ബുദ്ധി ബുദ്ധികൾ ഉപയോഗിച്ചുകണ്ട് ആ ടെക്നോളജി ഉപയോഗിച്ചുകൊണ്ട്",
+      "reference_words": 13,
+      "word_errors": 4,
+      "reference_characters": 124,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.12581087497528642
+      ],
+      "inference_median_seconds": 0.12581087497528642
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767112262-0005",
+      "language": "ml",
+      "reference": "നമുക്ക് കൃത്യമായ പ്രൊഡക്ഷൻ അതിന്റെ ക്വാളിറ്റിയില് ചെയ്യാനായിട്ട് നമുക്ക് സാധിക്കുന്നു അതുപോലെതന്നെ ക്വാളിറ്റി ചെക്ക് ചെയ്യുന്നതിന് നമുക്ക് സാധിക്കുന്നു",
+      "duration_seconds": 8.8,
+      "prediction": "നമുക്ക് കൃത്യമായ പ്രൊഡക്ഷൻ അതിൻ്റെ ക്വാളിറ്റിയിൽ ചെയ്യാനായിട്ട് നമുക്ക് സാധിക്കുന്നു അതുപോലെ തന്നെ ക്വാളിറ്റി ചെക്ക് ചെയ്യുന്നതിന് നമുക്ക് സാധിക്കുന്നു",
+      "reference_words": 14,
+      "word_errors": 4,
+      "reference_characters": 151,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.10206137498607859
+      ],
+      "inference_median_seconds": 0.10206137498607859
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767112262-0006",
+      "language": "ml",
+      "reference": "അതുപോലെത്തന്നെ ഒരു റെഗുലർ പ്രോസസ്സ് അലെങ്കില് റിപ്പീറ്റെഡ് ആയിട്ടുള്ളൊരു ഒരു പ്രവർത്തനം വളരെ കൃത്യമായി കമ്പ്യൂട്ടർ മുഖേന കൺട്രോൾ ചെയ്യാനായിട്ട് നമുക്ക് നിർമിതബുദ്ധി വഴി സാധിക്കുന്നു എന്നാൽ",
+      "duration_seconds": 13.69501133786848,
+      "prediction": "അതുപോലെ തന്നെ ഒരു റെഗുലർ പ്രോസസ് അല്ലെങ്കിൽ ഒരു റിപ്പീറ്റഡ് ആയിട്ടുള്ള ഒരു ഒരു പ്രവർത്തനം വളരെ കൃത്യമായി കമ്പ്യൂട്ടർ മുഖേന കൺട്രോൾ ചെയ്യാനായിട്ട് നമുക്ക് നിർമ്മിത ബുദ്ധ വഴി സാധിക്കുന്നു",
+      "reference_words": 20,
+      "word_errors": 11,
+      "reference_characters": 188,
+      "character_errors": 25,
+      "inference_seconds": [
+        0.18286208296194673
+      ],
+      "inference_median_seconds": 0.18286208296194673
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767115553-0000",
+      "language": "ml",
+      "reference": "എനിക്ക് ഇപ്പൊൾ എൽപിജി കണക്ഷൻ ഉണ്ട് നേരത്തെ വിറകായിരുന്നു ഉപയോഗിച്ചിരുന്നത് എൽപിജി കണക്ഷൻ കിട്ടിയതോട് കൂടീട്ട് പാചകമൊക്കെ വളരെ എളുപ്പമായി തുടങ്ങി",
+      "duration_seconds": 11.185986394557823,
+      "prediction": "എനിക്കിപ്പോൾ എൽ പി ജി കണക്ഷൻ ഉണ്ട് നേരത്തെ വിറകായിരുന്നു ഉപയോഗിച്ചിരുന്നത് ഈ എൽ പി ജി കണക്ഷൻ കിട്ടിയതോട കൂടിയിട്ട് പാചകമൊക്കെ വളരെ എളുപ്പമായി തുടങ്ങി",
+      "reference_words": 16,
+      "word_errors": 10,
+      "reference_characters": 144,
+      "character_errors": 14,
+      "inference_seconds": [
+        0.21957699995255098
+      ],
+      "inference_median_seconds": 0.21957699995255098
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767115553-0001",
+      "language": "ml",
+      "reference": "വിറക് സമയലാഭം ഉണ്ട് അല്ലെങ്കിൽ വിറക് കത്തിച്ച് അതില് പാചകം ചെയ്യുമ്പത്തേക്കും ഒരുപാട് സമയം നഷ്ടമാവുമായിരുന്നു",
+      "duration_seconds": 8.61498866213152,
+      "prediction": "ഇപ്പോ വിറക്് സമയ ലാഭം ഉണ്ട് അല്ലെങ്കിൽ വിറക് കത്തിച്ച് അതിൽ പാചകം ചെയ്യുമ്പോഴത്തേക്കും ഒരുപാട് സമയം നഷ്ടമാവുമായിരുന്നു",
+      "reference_words": 12,
+      "word_errors": 6,
+      "reference_characters": 109,
+      "character_errors": 12,
+      "inference_seconds": [
+        0.17196262499783188
+      ],
+      "inference_median_seconds": 0.17196262499783188
+    },
+    {
+      "id": "iv-v1-ml-valid-2814749767115553-0002",
+      "language": "ml",
+      "reference": "ഇന്ന് ഇതിലാവുമ്പോൾ വളരെ എളുപ്പത്തിൽ എല്ലാം തയ്യാറാക്കാൻ പറ്റുന്നുണ്ട്",
+      "duration_seconds": 4.272993197278912,
+      "prediction": "ഇന്ന് ഇതിനാകുമ്പോൾ വളരെ എളുപ്പത്തിലെല്ലാം തയ്യാറാക്കാൻ പറ്റുന്നുണ്ട്",
+      "reference_words": 7,
+      "word_errors": 3,
+      "reference_characters": 69,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.052580707997549325
+      ],
+      "inference_median_seconds": 0.052580707997549325
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 122,
+    "reference_words": 251,
+    "wer": 0.4860557768924303,
+    "character_errors": 248,
+    "reference_characters": 2191,
+    "cer": 0.11319032405294387,
+    "duration_seconds": 152.59195691609975,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.13252622899017297,
+    "latency_p95_seconds": 0.23460367742227392,
+    "inference_seconds": 2.786262747948058,
+    "rtf": 0.018259564948629896
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 122,
+      "reference_words": 251,
+      "wer": 0.4860557768924303,
+      "character_errors": 248,
+      "reference_characters": 2191,
+      "cer": 0.11319032405294387,
+      "duration_seconds": 152.59195691609975,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.13252622899017297,
+      "latency_p95_seconds": 0.23460367742227392,
+      "inference_seconds": 2.786262747948058,
+      "rtf": 0.018259564948629896
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "comparison": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "ml"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "ml": {
+        "passed": true,
+        "wer_regression": -0.007968127490039834,
+        "cer_regression": -0.002738475581926053
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.9238512002547453,
+      "peak_rss_bytes_ratio": 1.0135084373555248,
+      "latency_p50_seconds_ratio": 1.189990596700294,
+      "latency_p95_seconds_ratio": 0.6403052499746147,
+      "rtf_ratio": 0.8639754681728504
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_fp32": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "ml"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "ml": {
+        "passed": true,
+        "wer_regression": -0.007968127490039834,
+        "cer_regression": -0.002738475581926053
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.9238512002547453,
+      "peak_rss_bytes_ratio": 1.0135084373555248,
+      "latency_p50_seconds_ratio": 1.189990596700294,
+      "latency_p95_seconds_ratio": 0.6403052499746147,
+      "rtf_ratio": 0.8639754681728504
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "ml"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "ml": {
+        "passed": true,
+        "wer_regression": -0.03984063745019917,
+        "cer_regression": -0.0273847558192606
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.2171283198515617,
+      "load_time_seconds_ratio": 0.3346315198784911,
+      "peak_rss_bytes_ratio": 0.9249136407984601,
+      "latency_p50_seconds_ratio": 0.3554703969112713,
+      "latency_p95_seconds_ratio": 0.3446631248337511,
+      "rtf_ratio": 0.3582968850107505
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "candidate_variant": "balanced-int8",
+  "status_classification": "candidate_unvalidated",
+  "latency_qualified": false,
+  "timing_note": "Accuracy-only screen; two independent candidate workers may overlap. Use the separate controlled host benchmark for timing; physical phone performance is unqualified.",
+  "selection_note": "Pilot used for candidate screening. Fresh speaker-disjoint confirmation data and mobile measurements are required. No automatic selection."
+}

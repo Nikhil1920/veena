@@ -1,0 +1,87 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/sd/evaluation/audio/iv-v1-sd-valid-5629499534216300-0002.wav",
+  "audio_duration_seconds": 8.226009070294785,
+  "audio_sample_rate": 44100,
+  "audio_samples": 362767,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/sd/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/sd/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/sd/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "sd",
+  "measured_runs": 1,
+  "model": "candidates/mobile-builds/sd/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 324.93204199999997,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 161.753291,
+      "transcript": "ऐं असां जो थाणा डिस्ट्रिक्ट चङो वसी वियो आहे जंहिं जे करे कारोबार बि सुठो थी रहियो आहे ऐं चङियूं फैसिलिटियूं बि माण्हुनि खे मिली रहियूं आहिनि"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 0,
+  "variant": "balanced-int8",
+  "returncode": 0,
+  "model_sha256": "36c47d4a98c6d6f2c0743a49f6501210aa14d2aa5921f47b15db0f8295f98cd5",
+  "decoder_asset_sha256": {
+    "decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "vocab.json": "e3fcc7936173ed1899fe55f38c4215b9fb1ddeecf08271fca493fd0e06dad435",
+    "language_masks.json": "53d88a53fb92d2da040c2837981d56c860379e5489ee8181da19fdeadf596256"
+  },
+  "binary_sha256": "ad5db19691b2c6a631283e2678df10ac01e25fd1eca6f395eced6e3bd4662935",
+  "sample_id": "iv-v1-sd-valid-5629499534216300-0002",
+  "reference": "ऐं असां थाणा डिस्ट्रिक्ट चङो वसी वियो आहे जंहिं जे करे कारोबार बि सुठो थी वियो आहे ऐं चङियूं फैसिलिटी बि माण्हुनि खे मिली रहियूं आहिनि",
+  "audio_sha256": "1ec83e5b5fe17a1cb6c473510923f654db33613eb19024fa992472742f958d0e",
+  "sample_source": {
+    "source_dataset": "AI4Bharat/IndicVoices",
+    "source_split": "valid",
+    "source_archive_url": "https://iv-release.objectstore.e2enetworks.net/dmu_release/v1_Sindhi_valid.tgz",
+    "source_member": "Sindhi/v1/valid/5629499534216300.wav",
+    "license": "CC-BY-4.0"
+  },
+  "command": [
+    "../../target/release/model_smoke",
+    "--model",
+    "candidates/mobile-builds/sd/balanced-int8/model.onnx",
+    "--decoder-config",
+    "candidates/mobile-builds/sd/balanced-int8/decoder_config.json",
+    "--vocab",
+    "candidates/mobile-builds/sd/balanced-int8/vocab.json",
+    "--language-masks",
+    "candidates/mobile-builds/sd/balanced-int8/language_masks.json",
+    "--audio",
+    "corpus/indicvoices-v1-pilot/sd/evaluation/audio/iv-v1-sd-valid-5629499534216300-0002.wav",
+    "--language",
+    "sd",
+    "--warmup",
+    "0",
+    "--runs",
+    "1"
+  ],
+  "python_1_26_prediction": "ऐं असां जो थाणा डिस्ट्रिक्ट चङो वसी वियो आहे जंहिं जे करे कारोबार बि सुठो थी रहियो आहे ऐं चङियूं फैसिलिटियूं बि माण्हुनि खे मिली रहियूं आहिनि",
+  "native_matches_python_1_26": true
+}

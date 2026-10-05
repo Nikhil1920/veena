@@ -1,0 +1,882 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/ks/compact-int4/model.onnx",
+  "required_languages": [
+    "ks"
+  ],
+  "evaluated_languages": [
+    "ks"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 102971375,
+  "manifest": "corpus/indicvoices-v1-pilot/ks/evaluation/manifest.jsonl",
+  "corpus_sha256": "d1b162b3de3ba95d745f3aa29cf175d37972884936c88935f57b2e1402a8f26c",
+  "coverage": {
+    "languages": [
+      "ks"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "ks"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": false,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "model_artifact": {
+    "sha256": "14d73dce5f224706e0312fed83734a95af0a575352ef77ed643debd6efd34c64",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 102971375,
+        "sha256": "14d73dce5f224706e0312fed83734a95af0a575352ef77ed643debd6efd34c64"
+      }
+    ],
+    "artifact_sha256": "fcaaa6c12f885d9bdf863a40418e155554cfacf8d42d05a1264a2f7138aa7e8a",
+    "size_bytes": 102971375
+  },
+  "decoder_assets": {
+    "decoder_config.json": {
+      "size_bytes": 45,
+      "sha256": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017"
+    },
+    "language_masks.json": {
+      "size_bytes": 2220,
+      "sha256": "419308351c2583b9728a064464165a0bf6f40c87c8d1e57a788d687d5d08e929"
+    },
+    "vocab.json": {
+      "size_bytes": 3286,
+      "sha256": "ea16ac75c5d0c27a675f57e29acb2b8d536ee8656ad629d18994d4f258985278"
+    }
+  },
+  "artifact_binding": {
+    "status": "verified",
+    "method": "sha256",
+    "checked_before_inference": true,
+    "checked_after_inference": true,
+    "scope": "worker model protobuf, external weights, and decoder assets"
+  },
+  "load_time_seconds": 0.279688915994484,
+  "peak_rss_bytes": 1067122688,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-ks-valid-1970324836975292-0000",
+      "language": "ks",
+      "reference": "دُبیی لنڈن سنگاپور ٹوکیو پیرس",
+      "duration_seconds": 4.766984126984127,
+      "prediction": "دُبی لنڈن سنگاپور ٹوکیو پیرس",
+      "reference_words": 5,
+      "word_errors": 1,
+      "reference_characters": 29,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.1259440839639865
+      ],
+      "inference_median_seconds": 0.1259440839639865
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836975489-0000",
+      "language": "ks",
+      "reference": "مےٚ ہسا چھِ واریاہ پکوان پسنٛد مگر ساروٕے کھۄتہٕ پسنٛد پکوان یُس زن چھُ مےٚ تتھ چھُ ناو گۄشتاب یُس زن کٔشیٖر ہنٛدِس وازوانس منٛز اکھ لٔزیٖز پکوان چھُ کٔشیٖر منٛز یُس تہِ کانٛہہ فنکشن گژھان چھُ مثلاً",
+      "duration_seconds": 13.12,
+      "prediction": "مےٚ ہسا چھِ واریاہ پکوان پسنٛد مگر ساروٕے کھۄتہٕ پسنٛد پکوان یُس زن چھُ مےٚ تتھ چھُ ناو گوشتاب یُس زن کٔشیٖرِ ہنٛدِس وازوانس منٛز اکھ لٔزیٖز پکوان چھُ کٔشیٖر منٛز یُس تہِ کانٛہہ فنکشن گژھان چھُ مثلن",
+      "reference_words": 38,
+      "word_errors": 3,
+      "reference_characters": 198,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.30535650003002957
+      ],
+      "inference_median_seconds": 0.30535650003002957
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836975489-0001",
+      "language": "ks",
+      "reference": "خانٛدر میرے گروٕچھے عیدٕ یا بڑِ دۄہ یِمن پٮ ٹھ چھُ یِوان گۄشتاب بناونہٕ گۄشتاب بناونہٕ خٲطرٕ چھُ ساروٕے کھۄتہٕ",
+      "duration_seconds": 9.76,
+      "prediction": "خانٛدر مرِ گروٕ چھِے عیدٕ عیٖد یا بڈہِ دۄہ یِمن پٮ ٹھ چھِ یِوان گوشتاب بناونہٕ گوشتاب بناونہٕ خٲطرٕ چھُ ساروٕے کھۄتہٕ",
+      "reference_words": 20,
+      "word_errors": 8,
+      "reference_characters": 110,
+      "character_errors": 14,
+      "inference_seconds": [
+        0.2467623749980703
+      ],
+      "inference_median_seconds": 0.2467623749980703
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836975489-0003",
+      "language": "ks",
+      "reference": "ایڈِشنل مسالہٕ تراونہٕ یِمن منٛز زَن تیٚمبر ہیٚنٛدی کھوٗپرٕ دالچیٖن وغٲرٕ آسان چھُ",
+      "duration_seconds": 5.823990929705215,
+      "prediction": "ایٚڈشنل مسالہٕ تراونہٕ یِمن منٛز زن تیٚمبر ہنٛدی کھوپرٕ دالچ ن وغٲر آسان چھُ",
+      "reference_words": 13,
+      "word_errors": 7,
+      "reference_characters": 82,
+      "character_errors": 9,
+      "inference_seconds": [
+        0.15955191699322313
+      ],
+      "inference_median_seconds": 0.15955191699322313
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836975489-0005",
+      "language": "ks",
+      "reference": "اتھ بناونہٕ دوران چھُس بہٕ پننہِ ماجہِ پانہٕ مدد تہِ کران تہٕ",
+      "duration_seconds": 5.889002267573696,
+      "prediction": "اتھ بناونہٕ دوران چھُس بہٕ پننہِ ماجہِ پانہٕ مدد تہِ کران تہٕ",
+      "reference_words": 12,
+      "word_errors": 0,
+      "reference_characters": 61,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.1695397500297986
+      ],
+      "inference_median_seconds": 0.1695397500297986
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836975489-0006",
+      "language": "ks",
+      "reference": "امے موجوٗب تہِ چھِ ونان پانہٕ بنٲمۍتِس چھُ واریاہ مزٕ لگان",
+      "duration_seconds": 4.6709977324263035,
+      "prediction": "امے موجوٗب تہِ چھِ ونان پانہٕ بنٲم ت چھُ واریاہ مزٕ لگان",
+      "reference_words": 11,
+      "word_errors": 2,
+      "reference_characters": 58,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.1932680830359459
+      ],
+      "inference_median_seconds": 0.1932680830359459
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836977952-0000",
+      "language": "ks",
+      "reference": "جرمنی اِٹلی چاینا جاپان ٹرکی",
+      "duration_seconds": 6.287006802721089,
+      "prediction": "جرمنی اٹلی چاینا جاپان تُرکی",
+      "reference_words": 5,
+      "word_errors": 2,
+      "reference_characters": 28,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.2829115000204183
+      ],
+      "inference_median_seconds": 0.2829115000204183
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836979626-0000",
+      "language": "ks",
+      "reference": "اگر أسۍ پننہِ مُلکٕچ کتھ کرو",
+      "duration_seconds": 2.079002267573696,
+      "prediction": "اگر أسۍ پننہِ مُلکٕچ کتھ کرو",
+      "reference_words": 6,
+      "word_errors": 0,
+      "reference_characters": 28,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.0891091669909656
+      ],
+      "inference_median_seconds": 0.0891091669909656
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836979626-0001",
+      "language": "ks",
+      "reference": "دۄہ کھۄتہ دۄہ چھِ لٹریسی ریٹ چھِ بڑان",
+      "duration_seconds": 3.519002267573696,
+      "prediction": "دۄہ کھۄ دۄہ چھِ لِٹرچری ریٹ چھِ بڑان",
+      "reference_words": 8,
+      "word_errors": 2,
+      "reference_characters": 37,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.1480139580089599
+      ],
+      "inference_median_seconds": 0.1480139580089599
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836979626-0002",
+      "language": "ks",
+      "reference": "مگر گورمینٹ یٮ کہِ نہٕ سارنٕے روزگار فراہم کٔرتھ کینٛہہ مگر یُس تہِ وۄنۍ سون یہِ اٮ جوکیٹِڈ یوٗتھ چھُ گورمینٹ چھُ یِمن موقع دِوان پنُن روزگار کماونُک",
+      "duration_seconds": 12.543990929705215,
+      "prediction": "مگر گورمنٹ ہٮ کہِ نہٕ سارنٕے روزگار فراہم کٔرتھ کینٛہہ مگر یُس تہِ وۄنۍ سون یہِ اٮ جوٗکیٹڈ یوٗتھ چھُ گورمٚنٹ چھُ یِمن موقعہٕ دِوان پنُن روزگار کماونہٕ",
+      "reference_words": 28,
+      "word_errors": 6,
+      "reference_characters": 149,
+      "character_errors": 9,
+      "inference_seconds": [
+        0.5211430829949677
+      ],
+      "inference_median_seconds": 0.5211430829949677
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836979626-0003",
+      "language": "ks",
+      "reference": "یہِ چھُ یِہنٛدِ خٲطرٕ مختلف سکیٖم تھاوان",
+      "duration_seconds": 2.848004535147392,
+      "prediction": "یہِ چھُ یِہنٛدِ خٲطرٕ مختلف سکیٖم تھاوان",
+      "reference_words": 7,
+      "word_errors": 0,
+      "reference_characters": 40,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.07916954200481996
+      ],
+      "inference_median_seconds": 0.07916954200481996
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836979626-0004",
+      "language": "ks",
+      "reference": "یِمو ذٔریعہٕ یہِ اٮ جوکیٹڈ یوٗتھ سون پنُن روزگار ہٮ کہِ کمٲیِتھ",
+      "duration_seconds": 5.054988662131519,
+      "prediction": "یِمو ذٔریعہِ یہِ ایٚجوکیٹِڈ یوٗتھژون پَنُن روزگار ہٮ کہِ کَمٲیِتھ",
+      "reference_words": 12,
+      "word_errors": 7,
+      "reference_characters": 63,
+      "character_errors": 8,
+      "inference_seconds": [
+        0.13453783397562802
+      ],
+      "inference_median_seconds": 0.13453783397562802
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836982403-0000",
+      "language": "ks",
+      "reference": "آ بہٕ ہسا چُھس پسند کران دوُن مارننِگَس منٛز",
+      "duration_seconds": 6.016009070294785,
+      "prediction": "آ بہٕ ہَسا چھُس پَسنٛد کَران ڈاوُن مارنِنٛگَس منٛز",
+      "reference_words": 9,
+      "word_errors": 6,
+      "reference_characters": 44,
+      "character_errors": 10,
+      "inference_seconds": [
+        0.15138845797628164
+      ],
+      "inference_median_seconds": 0.15138845797628164
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836982403-0001",
+      "language": "ks",
+      "reference": "تہٕ امہِ خٲطرٕ ہسا چھُس بہ کم اَز کم اکھ گٲنٛٹہٕ سپیٚنڈ کران یُس ہسا مےٚ پَننس ٹایم ٹیبلَس منٛز چھُ تھوٚمُت",
+      "duration_seconds": 10.528004535147392,
+      "prediction": "تہٕ اَمہِ خٲطرٕ ہَسا چھُس بہٕ کَم از کَم اَکھ گٲنٛٹہٕ سپٮ نڈ کَران یُس ہَسا مےٚ پنٛنِس ٹایم ٹیبلَس منٛز چھُ تھوٚمُت",
+      "reference_words": 22,
+      "word_errors": 12,
+      "reference_characters": 107,
+      "character_errors": 14,
+      "inference_seconds": [
+        0.24394304101588205
+      ],
+      "inference_median_seconds": 0.24394304101588205
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836983124-0000",
+      "language": "ks",
+      "reference": "اگر أسۍ وٕچھو زِ أکِس اُستادَس کیاہ پَزِ سکوٗل منٛز پرناوُن خاص کر ییٚمہِ ساتہٕ أسۍ وٕچھان چھِ",
+      "duration_seconds": 7.840997732426304,
+      "prediction": "اگر أسۍ وٕچھو زِ أکِس اُستادَس کیاہ پَزِ سکوٗل منٛز پَرناوُن خاص کَرر ییٚمہِ ساتہٕ أسۍ وٕچھان چھِ",
+      "reference_words": 18,
+      "word_errors": 2,
+      "reference_characters": 94,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.18081508396426216
+      ],
+      "inference_median_seconds": 0.18081508396426216
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836983124-0001",
+      "language": "ks",
+      "reference": "پوٗرٕ ییٚتیُٚک یُس زَن ہِنٛدوستانُک ایٚجوکیشنَل سِسٹَم چھُ اَتھ چھِ واریاہ زیادٕ پرٛابلِمٕز",
+      "duration_seconds": 6.015986394557823,
+      "prediction": "پوٗرٕ ییٚتچۍ ی زَن ہِندوُستانُک اٮ جوکیشَن سِسٹَم چھُ اَتھ چھِ واریاہ زیادٕ پرٛابلِمٕز",
+      "reference_words": 13,
+      "word_errors": 5,
+      "reference_characters": 91,
+      "character_errors": 12,
+      "inference_seconds": [
+        0.15119954198598862
+      ],
+      "inference_median_seconds": 0.15119954198598862
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836983124-0003",
+      "language": "ks",
+      "reference": "تِکیازِ اَکھ ٹیٖچَر چھُنہٕ ہٮ کَان اَمہِ نٮ بَر نیٖرِتھ کینٛہہ تہٕ یُس ہَسا اوٚوَر آل بَچَس باقٕے ایٚکسپوجَر مِلُن گَژھِ تَمہِ نِش چھُ سُہ روزَان",
+      "duration_seconds": 8.416009070294784,
+      "prediction": "تِکیازِ اکھ ٹیٖچر چھُ ن ہٮ کان اَمہِ نٮ بر نیٖرِتھ کیٚنٛہہ تہٕ یُس ہسا اوٚوَرآل بَچس باقے ایٮکٕسپوجر مِلُن گژھِ تَمہِ نِش چھُ سُہ روزان",
+      "reference_words": 26,
+      "word_errors": 15,
+      "reference_characters": 145,
+      "character_errors": 17,
+      "inference_seconds": [
+        0.25008916697697714
+      ],
+      "inference_median_seconds": 0.25008916697697714
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836983124-0004",
+      "language": "ks",
+      "reference": "بالکُل واریاہ زیادٕ دوٗر تہٕ مگر اَمہِ خٲطرٕ تِہ چِھ اَمہِ نٮ بَر تہِ اگر ہَسا اَکھ ٹیٖچَر یژھِ تیٚلہِ تہِ کینٛہہ ہیٚچھناوُن",
+      "duration_seconds": 6.878004535147392,
+      "prediction": "بالکل واریاہ زیادٕ دوٗر تہٕ مگر امہِ خٲطرٕ چھِ امہِ نٮ بَر تہِ اگر ہَسا اَکھ ٹیٖچَر یژھ تیٚلہِ تہِ کہِنٛہہ ہیٚچھناوُن",
+      "reference_words": 23,
+      "word_errors": 7,
+      "reference_characters": 124,
+      "character_errors": 12,
+      "inference_seconds": [
+        0.17414199997438118
+      ],
+      "inference_median_seconds": 0.17414199997438118
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836983124-0005",
+      "language": "ks",
+      "reference": "أکِس بَچَس سُہ ہَسا گوٚو اَمہِ منٛزٕ کِتابو ترٲوِتھ ہَسا چِھ یِمَن أسۍ وَنان چھِ ایٚکٕسٹرٛا کیٚرِکیوٗلَر ایٚکٹِوِٹیٖز",
+      "duration_seconds": 6.017981859410431,
+      "prediction": "أکِس بَچَس سُہ ہَسا ہٮ کو اَمہِ منٛز یِمو کِتابہٕ ترٲوِتھ ہَسا چھِ یِم أسۍ وَنان چھِ اٮکٕسٹراا کیرِکیوٗلر اٮکٹٕوِٹیٖز",
+      "reference_words": 18,
+      "word_errors": 10,
+      "reference_characters": 117,
+      "character_errors": 23,
+      "inference_seconds": [
+        0.13988787500420585
+      ],
+      "inference_median_seconds": 0.13988787500420585
+    },
+    {
+      "id": "iv-v1-ks-valid-1970324836985583-0000",
+      "language": "ks",
+      "reference": "بڈگام پُلووم ورمُل کۄپوور گاندربل",
+      "duration_seconds": 6.303990929705216,
+      "prediction": "بڈگام پُلووم ورمُل کۄپوور گاندربل",
+      "reference_words": 5,
+      "word_errors": 0,
+      "reference_characters": 33,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.15997154195792973
+      ],
+      "inference_median_seconds": 0.15997154195792973
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 95,
+    "reference_words": 299,
+    "wer": 0.3177257525083612,
+    "character_errors": 147,
+    "reference_characters": 1638,
+    "cer": 0.08974358974358974,
+    "duration_seconds": 134.37995464852608,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.16475564599386416,
+    "latency_p95_seconds": 0.3161458291782766,
+    "inference_seconds": 3.906744501902722,
+    "rtf": 0.02907237550511833
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 95,
+      "reference_words": 299,
+      "wer": 0.3177257525083612,
+      "character_errors": 147,
+      "reference_characters": 1638,
+      "cer": 0.08974358974358974,
+      "duration_seconds": 134.37995464852608,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.16475564599386416,
+      "latency_p95_seconds": 0.3161458291782766,
+      "inference_seconds": 3.906744501902722,
+      "rtf": 0.02907237550511833
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "comparison": {
+    "quality_passed": false,
+    "quality_gate_passed": false,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "ks"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "ks": {
+        "passed": false,
+        "wer_regression": 0.013377926421404673,
+        "cer_regression": 0.009157509157509153,
+        "reason": "quality regression exceeds the configured absolute tolerance"
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.6899683057296738,
+      "peak_rss_bytes_ratio": 0.8532837248300167,
+      "latency_p50_seconds_ratio": 1.3537760565105623,
+      "latency_p95_seconds_ratio": 1.7495026690270463,
+      "rtf_ratio": 1.7367074665368576
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_fp32": {
+    "quality_passed": false,
+    "quality_gate_passed": false,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "ks"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "ks": {
+        "passed": false,
+        "wer_regression": 0.013377926421404673,
+        "cer_regression": 0.009157509157509153,
+        "reason": "quality regression exceeds the configured absolute tolerance"
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.6899683057296738,
+      "peak_rss_bytes_ratio": 0.8532837248300167,
+      "latency_p50_seconds_ratio": 1.3537760565105623,
+      "latency_p95_seconds_ratio": 1.7495026690270463,
+      "rtf_ratio": 1.7367074665368576
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "ks"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "ks": {
+        "passed": true,
+        "wer_regression": -0.04347826086956519,
+        "cer_regression": -0.015262515262515264
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.15235849990927933,
+      "load_time_seconds_ratio": 0.24548255793049206,
+      "peak_rss_bytes_ratio": 0.7138692211578509,
+      "latency_p50_seconds_ratio": 0.503411662771339,
+      "latency_p95_seconds_ratio": 0.4511827030647487,
+      "rtf_ratio": 0.524089150272316
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "candidate_variant": "compact-int4",
+  "status_classification": "candidate_unvalidated",
+  "latency_qualified": false,
+  "timing_note": "Accuracy-only screen; two independent candidate workers may overlap. Use the separate controlled host benchmark for timing; physical phone performance is unqualified.",
+  "selection_note": "Pilot used for candidate screening. Fresh speaker-disjoint confirmation data and mobile measurements are required. No automatic selection."
+}

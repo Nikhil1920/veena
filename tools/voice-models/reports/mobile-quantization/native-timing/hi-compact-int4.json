@@ -1,0 +1,80 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/hi/evaluation/audio/iv-v1-hi-valid-1894b585-b9d7-488e-8902-e28fa11f27da_0-0007.wav",
+  "audio_duration_seconds": 5.451,
+  "audio_sample_rate": 8000,
+  "audio_samples": 43608,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/hi/compact-int4/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/hi/compact-int4/language_masks.json",
+    "vocab": "candidates/mobile-builds/hi/compact-int4/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "hi",
+  "measured_runs": 5,
+  "model": "candidates/mobile-builds/hi/compact-int4/model.onnx",
+  "model_bytes": 102971375,
+  "model_load_ms": 268.152459,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 86.663792,
+      "transcript": "अच्छा अच्छा खातीपुर में हाँ वो जो नल नल लीक कर रहा था उसी की बात कर रहे हैं ना आप"
+    },
+    {
+      "iteration": 1,
+      "preprocess_inference_decode_ms": 85.220458,
+      "transcript": "अच्छा अच्छा खातीपुर में हाँ वो जो नल नल लीक कर रहा था उसी की बात कर रहे हैं ना आप"
+    },
+    {
+      "iteration": 2,
+      "preprocess_inference_decode_ms": 83.145042,
+      "transcript": "अच्छा अच्छा खातीपुर में हाँ वो जो नल नल लीक कर रहा था उसी की बात कर रहे हैं ना आप"
+    },
+    {
+      "iteration": 3,
+      "preprocess_inference_decode_ms": 83.328875,
+      "transcript": "अच्छा अच्छा खातीपुर में हाँ वो जो नल नल लीक कर रहा था उसी की बात कर रहे हैं ना आप"
+    },
+    {
+      "iteration": 4,
+      "preprocess_inference_decode_ms": 83.72875,
+      "transcript": "अच्छा अच्छा खातीपुर में हाँ वो जो नल नल लीक कर रहा था उसी की बात कर रहे हैं ना आप"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 2,
+  "variant": "compact-int4",
+  "source_utterance_id": "iv-v1-hi-valid-1894b585-b9d7-488e-8902-e28fa11f27da_0-0007",
+  "verified_input_sha256": {
+    "candidates/mobile-builds/hi/compact-int4/model.onnx": "aaab27fd7ed9546def4b9ef4379782c4c63b7120b8b0e10d73ab29aaa2c7194c",
+    "candidates/mobile-builds/hi/compact-int4/decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "candidates/mobile-builds/hi/compact-int4/vocab.json": "b9e374620c83bf34d7b579685b8995ae3a40437d9078d8ee70f1c9f7bdd4bef5",
+    "corpus/indicvoices-v1-pilot/hi/evaluation/audio/iv-v1-hi-valid-1894b585-b9d7-488e-8902-e28fa11f27da_0-0007.wav": "c94aed16aaa6bbe85352bb1d0fff11c528311ab1e5e81bc8560dfa3b01fbbdb4",
+    "candidates/mobile-builds/hi/compact-int4/language_masks.json": "77d0f1cac89802d4fe3dc2f5ab48df1bdd2a9e03ba42bdeac76e5f353097fb55"
+  },
+  "median_total_ms": 83.72875,
+  "peak_rss_bytes": 408272896,
+  "rtf": 0.015360254999082739,
+  "physical_phone_tested": false
+}

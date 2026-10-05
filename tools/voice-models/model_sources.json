@@ -1,0 +1,2044 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-09-30",
+  "purpose": "Candidate sources for comparing smaller language-specific IndicConformer models with the existing shared multilingual Veena model. Not a production model catalogue.",
+  "status": "candidate_unvalidated",
+  "validation": {
+    "community_metadata": "All 22 ONNX entries, sizes and expected SHA256 values were read from the pinned Hugging Face API. Model SHA256 values are publisher metadata, not local content verification.",
+    "official_downloads": "Anonymous HEAD requests returned HTTP 200 and Content-Length 523192320 for all 22 publisher-linked .nemo URLs. Payload identity has not been verified.",
+    "shared_tokens": "Downloaded at the pinned revision and SHA256 computed locally.",
+    "model_execution": "This catalogue does not assert runtime, accuracy, browser compatibility or performance validation. Independent benchmark reports are required."
+  },
+  "sources": {
+    "official": {
+      "publisher": "AI4Bharat",
+      "readme_url": "https://github.com/AI4Bharat/IndicConformerASR",
+      "collection_url": "https://huggingface.co/collections/ai4bharat/indicconformer",
+      "license": "MIT",
+      "format": "NeMo hybrid CTC/RNNT checkpoint",
+      "download_access": "Official objectstore links are publicly accessible; official Hugging Face model repositories require acceptance of access conditions."
+    },
+    "community": {
+      "publisher": "parismitaglobalsolutions",
+      "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+      "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+      "model_card_url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/blob/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/README.md",
+      "metadata_url": "https://huggingface.co/api/models/parismitaglobalsolutions/indicconformer-sherpa-onnx/revision/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a?blobs=true",
+      "repository_metadata_license": "apache-2.0",
+      "indic_model_license_as_stated_in_card": "MIT",
+      "license_note": "The repository-level metadata is Apache-2.0 and includes other model families. Its model card identifies the IndicConformer source weights as MIT; preserve applicable upstream notices.",
+      "quantization_recipe": "ONNX Runtime quant_pre_process, then dynamic QUInt8 per-channel quantization of MatMul only; convolution weights remain floating point.",
+      "export_notebook_url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/ai4bharat_export_pipeline.ipynb",
+      "format": "ONNX CTC, opset 16, language mask baked into output, global aggregate vocabulary",
+      "declared_inputs": [
+        "audio_signal",
+        "length"
+      ],
+      "declared_output": "logprobs",
+      "declared_vocab_size": 5633,
+      "declared_blank_id": 5632,
+      "declared_subsampling_factor": 4
+    },
+    "community_fp32": {
+      "publisher": "sulabhkatiyar",
+      "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+      "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+      "metadata_url": "https://huggingface.co/api/models/sulabhkatiyar/indicconformer-120m-onnx/revision/16f1697d0631c9bb88e371fca24577efe0aa8617?blobs=true",
+      "model_card_url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/blob/16f1697d0631c9bb88e371fca24577efe0aa8617/README.md",
+      "repository_metadata_license": "cc-by-4.0",
+      "format": "Unquantized ONNX CTC community export; intended as an optional source for fresh quantization, subject to interface and quality validation.",
+      "coverage": [
+        "as",
+        "bn",
+        "gu",
+        "hi",
+        "kn",
+        "ml",
+        "mr",
+        "or",
+        "pa",
+        "ta",
+        "te",
+        "ur"
+      ],
+      "status": "candidate_unvalidated",
+      "license_note": "This export repository declares CC-BY-4.0. Keep that source attribution and license separate from the MIT-labelled official and parismitaglobalsolutions artifacts."
+    },
+    "openvoiceos": {
+      "publisher": "OpenVoiceOS",
+      "repository_pattern": "OpenVoiceOS/ai4bharat-indicconformer-<language>-onnx",
+      "example_model_card_url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-te-onnx",
+      "runtime_repository": "https://github.com/OpenVoiceOS/ovos-stt-plugin-onnx-asr",
+      "license": "MIT",
+      "coverage": [
+        "bn",
+        "brx",
+        "doi",
+        "gu",
+        "hi",
+        "kn",
+        "kok",
+        "ks",
+        "mai",
+        "ml",
+        "mni",
+        "mr",
+        "ne",
+        "or",
+        "pa",
+        "sa",
+        "sat",
+        "sd",
+        "ta",
+        "te",
+        "ur"
+      ],
+      "missing_artifacts": {
+        "as": {
+          "repository": "OpenVoiceOS/ai4bharat-indicconformer-as-onnx",
+          "revision": "a277f66d4d9896b38602c987198c32bb232fc43f",
+          "reason": "Only README.md and .gitattributes present; no model weights."
+        }
+      },
+      "format": "Language-specific ONNX FP32 with external data, or single-file INT8; Telugu graph verified to use own local 257-class vocabulary. Other models remain uninspected locally.",
+      "status": "candidate_unvalidated"
+    }
+  },
+  "shared_assets": {
+    "tokens": {
+      "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/tokens.txt",
+      "size_bytes": 67605,
+      "sha256": "ee60967630213f31951817ac8b402b92ec18cce80718a24a49b388e56672dfb2",
+      "sha256_provenance": "computed_from_downloaded_bytes",
+      "status": "checksum_verified"
+    }
+  },
+  "selection_notes": [
+    "Download only chosen language packs when minimizing per-user storage; all 22 separate models use substantially more aggregate disk space than the single shared multilingual model.",
+    "Do not treat smaller file size as a speed guarantee; measure preprocessing, session load, warmed inference, peak memory and language-wise WER/CER on target hardware.",
+    "The community card does not supply a comprehensive all-22-language WER or target-device latency evaluation; its notebook acknowledges possible utterance-start differences from Sherpa preprocessing.",
+    "The current 600M multilingual model remains the all-language shared baseline. No smaller officially released shared all-22 checkpoint was identified in the AI4Bharat model inventory during this review.",
+    "Quantization validation must use held-out speech in each language. A single Telugu transcript or random-feature smoke test is insufficient for a production claim.",
+    "OpenVoiceOS publishes additional FP32 ONNX graphs plus external weights and smaller INT8 candidates for 21 languages; its Assamese repository contains no weights. Together with the existing sulabhkatiyar Assamese source, FP32 exports are available for all 22 languages. The OpenVoiceOS Telugu graph has 257 output classes and local blank 256; validate its runtime contract separately from the existing 5633-class graph."
+  ],
+  "languages": [
+    {
+      "code": "as",
+      "name": "Assamese",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_as_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/as/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "as/model.int8.onnx",
+        "size_bytes": 197595509,
+        "sha256": "b8c027e8ab6c9f64417a879b85c61254aefc3557b1875bf793fb5a33abb20426",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/as/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "as/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "ab5e85346058f1dbaa631ad52cded7ac779c64522f5c8fbe4216718c348180a5",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": null,
+      "openvoiceos_int8": null,
+      "openvoiceos_assets": null,
+      "community_fp32_assets": {
+        "vocab.json": {
+          "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/as/vocab.json",
+          "size_bytes": 68706,
+          "git_blob_sha1": "8d512bd9506d7bd5e72342ceeebf4aa20df1e357",
+          "sha256": "69fb197067f139f7961e70fed986274f366c7d1c26f777aada635f6237b75d43",
+          "sha256_provenance": "computed_from_downloaded_bytes",
+          "status": "checksum_verified"
+        }
+      },
+      "community_fp32_decoder": {
+        "num_classes": 5633,
+        "blank_idx": 5632,
+        "indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          5632
+        ],
+        "blank_token": "<blk>",
+        "tokenizer_verification": "All 5632 source vocabulary strings exactly match the published shared community tokens; Assamese indices verified from the downloaded community Assamese graph additive mask.",
+        "mask_source_sha256": "b8c027e8ab6c9f64417a879b85c61254aefc3557b1875bf793fb5a33abb20426"
+      }
+    },
+    {
+      "code": "bn",
+      "name": "Bengali",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_bn_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/bn/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "bn/model.int8.onnx",
+        "size_bytes": 197595578,
+        "sha256": "e9120a534f69df065314be468bf15579f1b92a4cd8c07ad119b80b69244718a8",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/bn/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "bn/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "2f19f179844ac6cfb0d7e940696fc1dc6535fc725d2aacd4d43c6d1f3e9016f8",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-bn-onnx",
+        "revision": "46053d8f1c1b1ed12eb1b34f3f7ccf8512fb08b1",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-bn-onnx/resolve/46053d8f1c1b1ed12eb1b34f3f7ccf8512fb08b1/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-bn-onnx/resolve/46053d8f1c1b1ed12eb1b34f3f7ccf8512fb08b1/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "e7b7c69ba921f08633732769ee59cb9e29cd8273b4371aef5d7c59f39e6ea9d7",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-bn-onnx",
+        "revision": "46053d8f1c1b1ed12eb1b34f3f7ccf8512fb08b1",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-bn-onnx/resolve/46053d8f1c1b1ed12eb1b34f3f7ccf8512fb08b1/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "800f1dd216bc85ebd0ab9b18f35e83d34665b61f24db382683a68616922bf753",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-bn-onnx/resolve/46053d8f1c1b1ed12eb1b34f3f7ccf8512fb08b1/vocab.txt",
+          "size_bytes": 2727,
+          "git_blob_sha1": "d6726ad1cf282f7e61d84268d18d1309e5cba166",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-bn-onnx/resolve/46053d8f1c1b1ed12eb1b34f3f7ccf8512fb08b1/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "brx",
+      "name": "Bodo",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_brx_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/brx/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "brx/model.int8.onnx",
+        "size_bytes": 197584960,
+        "sha256": "05e4681819eccb06a39d0481828d52b90619171313ef6d7677db6842d205b177",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-brx-onnx",
+        "revision": "ed5d8a38181a37ef021bf4c14635c07b1c1bb5ac",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-brx-onnx/resolve/ed5d8a38181a37ef021bf4c14635c07b1c1bb5ac/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-brx-onnx/resolve/ed5d8a38181a37ef021bf4c14635c07b1c1bb5ac/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "12f7b2cda2c23829604b0d694b27329a037a0432097c81de3f7778fafbbf24d1",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-brx-onnx",
+        "revision": "ed5d8a38181a37ef021bf4c14635c07b1c1bb5ac",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-brx-onnx/resolve/ed5d8a38181a37ef021bf4c14635c07b1c1bb5ac/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "b166debfdbfc5a29f5bd83ad4a2ae9e8649f96b2a9b9bac743614be7cdf60be2",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-brx-onnx/resolve/ed5d8a38181a37ef021bf4c14635c07b1c1bb5ac/vocab.txt",
+          "size_bytes": 2859,
+          "git_blob_sha1": "9aa8bd1d53cd065a80c58cce37da1c6f542f9386",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-brx-onnx/resolve/ed5d8a38181a37ef021bf4c14635c07b1c1bb5ac/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "doi",
+      "name": "Dogri",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_doi_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/doi/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "doi/model.int8.onnx",
+        "size_bytes": 197584880,
+        "sha256": "cf2031118dcdd3eacb0738e7dd45a749770d276a6217f4e6f56e7175a44f2bbd",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-doi-onnx",
+        "revision": "c2ebc38efc6653569a6152a72fd2b8493929e192",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-doi-onnx/resolve/c2ebc38efc6653569a6152a72fd2b8493929e192/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-doi-onnx/resolve/c2ebc38efc6653569a6152a72fd2b8493929e192/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "948dede4602156b67f039ec3475f6c219d07c095fd21ed94642e0881df8d2eb3",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-doi-onnx",
+        "revision": "c2ebc38efc6653569a6152a72fd2b8493929e192",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-doi-onnx/resolve/c2ebc38efc6653569a6152a72fd2b8493929e192/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "146887308ad673dc07080151384d1ecbb6fd6ada862491bf054066b37cabe28a",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-doi-onnx/resolve/c2ebc38efc6653569a6152a72fd2b8493929e192/vocab.txt",
+          "size_bytes": 2787,
+          "git_blob_sha1": "2e45db1b6a14a2b42f67d284c13e4332cc56b78e",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-doi-onnx/resolve/c2ebc38efc6653569a6152a72fd2b8493929e192/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "gu",
+      "name": "Gujarati",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_gu_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/gu/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "gu/model.int8.onnx",
+        "size_bytes": 197595461,
+        "sha256": "822ed7f0b809bbd479275bf91c913d05564b88c0d082bbcba2f37999b88cb598",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/gu/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "gu/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "26d581cb44632cbbf11692cad6929972cbc03fc738167716521b61efc571f793",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-gu-onnx",
+        "revision": "2042e7df6f2cbcffc4c1046b2122da77ad5d8ceb",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-gu-onnx/resolve/2042e7df6f2cbcffc4c1046b2122da77ad5d8ceb/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-gu-onnx/resolve/2042e7df6f2cbcffc4c1046b2122da77ad5d8ceb/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "17c95e500e32a6e0c3ce37c97ec18654f68c03560483310a91ee95566bfa5e9b",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-gu-onnx",
+        "revision": "2042e7df6f2cbcffc4c1046b2122da77ad5d8ceb",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-gu-onnx/resolve/2042e7df6f2cbcffc4c1046b2122da77ad5d8ceb/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "a8e5612fac4960c333ea34b8826a34c94999d5b7655666399505da129e29eec7",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-gu-onnx/resolve/2042e7df6f2cbcffc4c1046b2122da77ad5d8ceb/vocab.txt",
+          "size_bytes": 2742,
+          "git_blob_sha1": "e5605aa934517e71518122bbe571dc8af68f366c",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-gu-onnx/resolve/2042e7df6f2cbcffc4c1046b2122da77ad5d8ceb/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "hi",
+      "name": "Hindi",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_hi_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/hi/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "hi/model.int8.onnx",
+        "size_bytes": 197595593,
+        "sha256": "915c71e04dd7e5378a4057fdebb252b3a587188e4e99db6d7ce0909ad5ad05fa",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/hi/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "hi/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "fb362cae38fd183546d92a614bab2dcb6098702d53efb8e2f6fe850cda43e0d1",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-hi-onnx",
+        "revision": "8960b8611af5b8c375d442d52907360176410c8b",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-hi-onnx/resolve/8960b8611af5b8c375d442d52907360176410c8b/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-hi-onnx/resolve/8960b8611af5b8c375d442d52907360176410c8b/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "a0338251d4a7d7e6e2add39ddaff009c7cc97d9f569ae3df4cc31bc31aab40fb",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-hi-onnx",
+        "revision": "8960b8611af5b8c375d442d52907360176410c8b",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-hi-onnx/resolve/8960b8611af5b8c375d442d52907360176410c8b/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "c2044177b6d44494fe40be755466845a4c7bd1b5a5d1f6a15b33b2b4ba6011cd",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-hi-onnx/resolve/8960b8611af5b8c375d442d52907360176410c8b/vocab.txt",
+          "size_bytes": 2700,
+          "git_blob_sha1": "1789f08676a04d5a4f00452e11dbe9d9df4a8b0f",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-hi-onnx/resolve/8960b8611af5b8c375d442d52907360176410c8b/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "kn",
+      "name": "Kannada",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_kn_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/kn/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "kn/model.int8.onnx",
+        "size_bytes": 197595728,
+        "sha256": "b226ce7e4ea35b0dd66991964bd00e011b6b14b0fcdf4f7d1cccd777781c94dc",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/kn/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "kn/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "5c5969dbf587e6c6d8ad848a8d3b52e9a48ff57a93889e18bbe6f0d82758b491",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-kn-onnx",
+        "revision": "55b6f618ade2fc7cf8127f1c6778ea069961fb8c",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kn-onnx/resolve/55b6f618ade2fc7cf8127f1c6778ea069961fb8c/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kn-onnx/resolve/55b6f618ade2fc7cf8127f1c6778ea069961fb8c/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "bc36f7a3aac377d6f7e6972bd5e082c862f46bad9cc5a51dd1931a2d230fdcb5",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-kn-onnx",
+        "revision": "55b6f618ade2fc7cf8127f1c6778ea069961fb8c",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kn-onnx/resolve/55b6f618ade2fc7cf8127f1c6778ea069961fb8c/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "40f8b318a22bb2f1ba943bb7d897369776707b98b746821e914420aa82619813",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kn-onnx/resolve/55b6f618ade2fc7cf8127f1c6778ea069961fb8c/vocab.txt",
+          "size_bytes": 2814,
+          "git_blob_sha1": "49402b4502bad72232fa6d71f61c8a1f84439a8f",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kn-onnx/resolve/55b6f618ade2fc7cf8127f1c6778ea069961fb8c/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "kok",
+      "name": "Konkani",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_kok_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/kok/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "kok/model.int8.onnx",
+        "size_bytes": 197585030,
+        "sha256": "34c952a5817bef09bc118999598fa035b96c5c1900881a2bc438026bf480db07",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-kok-onnx",
+        "revision": "a7c75f5add005d99ee5d22cb537c6afcbc0edf75",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kok-onnx/resolve/a7c75f5add005d99ee5d22cb537c6afcbc0edf75/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kok-onnx/resolve/a7c75f5add005d99ee5d22cb537c6afcbc0edf75/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "a430b89dcb7e27a82fde337748d793ea6013c6ccae6296ea711f2bda44abaabb",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-kok-onnx",
+        "revision": "a7c75f5add005d99ee5d22cb537c6afcbc0edf75",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kok-onnx/resolve/a7c75f5add005d99ee5d22cb537c6afcbc0edf75/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "c8502eae976dd1616b43883f154e801d2cb2f9865acc141e038d363d8b09c563",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kok-onnx/resolve/a7c75f5add005d99ee5d22cb537c6afcbc0edf75/vocab.txt",
+          "size_bytes": 2709,
+          "git_blob_sha1": "31b36fe8883b3e1a761fcf5f43e3f525db9fb131",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-kok-onnx/resolve/a7c75f5add005d99ee5d22cb537c6afcbc0edf75/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "ks",
+      "name": "Kashmiri",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_ks_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/ks/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "ks/model.int8.onnx",
+        "size_bytes": 197584968,
+        "sha256": "d800d7bc4fd4adda9e1ec5ba3fcceb0539347cbe1b6fdf91deda90cc0bae2a6b",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ks-onnx",
+        "revision": "c28e0a4737d0e901c769e83ab9df63a9d2856384",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ks-onnx/resolve/c28e0a4737d0e901c769e83ab9df63a9d2856384/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ks-onnx/resolve/c28e0a4737d0e901c769e83ab9df63a9d2856384/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "221338e42411a543e1ed554d4bfd0aeb0da9315f88faac2f2e36a352a18033d3",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ks-onnx",
+        "revision": "c28e0a4737d0e901c769e83ab9df63a9d2856384",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ks-onnx/resolve/c28e0a4737d0e901c769e83ab9df63a9d2856384/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "394a52749b8a0cb48f2339f4ed3b5dcb7502319948363110a373c638803c7875",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ks-onnx/resolve/c28e0a4737d0e901c769e83ab9df63a9d2856384/vocab.txt",
+          "size_bytes": 2388,
+          "git_blob_sha1": "214f54e0a2bda94d215011e38713f0661299319c",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ks-onnx/resolve/c28e0a4737d0e901c769e83ab9df63a9d2856384/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "mai",
+      "name": "Maithili",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_mai_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/mai/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "mai/model.int8.onnx",
+        "size_bytes": 197585045,
+        "sha256": "27a6cee11bf20679821aa079e49694c5989ae16c9b7a58ea6f2052f80acff2bd",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-mai-onnx",
+        "revision": "86a6cad8c4dd9286d7bc3abfb2979dee7a1a9c6c",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mai-onnx/resolve/86a6cad8c4dd9286d7bc3abfb2979dee7a1a9c6c/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mai-onnx/resolve/86a6cad8c4dd9286d7bc3abfb2979dee7a1a9c6c/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "e769a5d19d24e6d38f1fcc75fbf571e149a8219fee9e87a124ae1ef50d247d03",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-mai-onnx",
+        "revision": "86a6cad8c4dd9286d7bc3abfb2979dee7a1a9c6c",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mai-onnx/resolve/86a6cad8c4dd9286d7bc3abfb2979dee7a1a9c6c/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "6280bd170a560d6ffe418e9362d9e4f58e23c871baaf9490eaecfac5bd45615f",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mai-onnx/resolve/86a6cad8c4dd9286d7bc3abfb2979dee7a1a9c6c/vocab.txt",
+          "size_bytes": 2655,
+          "git_blob_sha1": "4ecc47536dbedc404156a932ab4ad9bf07197b28",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mai-onnx/resolve/86a6cad8c4dd9286d7bc3abfb2979dee7a1a9c6c/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "ml",
+      "name": "Malayalam",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_ml_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/ml/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "ml/model.int8.onnx",
+        "size_bytes": 197595555,
+        "sha256": "dcbdfa9f773db910508b40b703cb76c5974e8d4c6f123ea81265b40853c3f0c2",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/ml/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "ml/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "7d58e7c453ad1c2413701d3425e7a37099abd7b20f92a68bc91dba634bb46a14",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ml-onnx",
+        "revision": "e3c79c0a33835432119fd27bf7d53a40138a6401",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ml-onnx/resolve/e3c79c0a33835432119fd27bf7d53a40138a6401/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ml-onnx/resolve/e3c79c0a33835432119fd27bf7d53a40138a6401/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "7f4b93490adc0f3407da7f2407d6f885f339403407730dc28fafaebdbd6b05c9",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ml-onnx",
+        "revision": "e3c79c0a33835432119fd27bf7d53a40138a6401",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ml-onnx/resolve/e3c79c0a33835432119fd27bf7d53a40138a6401/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "e1d1bfd48ecc92d3731b40f14e4ed68741b7365d42835ae0fab87ea2fdb9a415",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ml-onnx/resolve/e3c79c0a33835432119fd27bf7d53a40138a6401/vocab.txt",
+          "size_bytes": 2823,
+          "git_blob_sha1": "c86f598d546a1eda6f2142cb899c0063d106fde7",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ml-onnx/resolve/e3c79c0a33835432119fd27bf7d53a40138a6401/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "mni",
+      "name": "Manipuri",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_mni_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/mni/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "mni/model.int8.onnx",
+        "size_bytes": 197585042,
+        "sha256": "885adb2d6d48ce413e54e37fa88b41bd5eb86c78020f898fd55a554fc04df7ec",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-mni-onnx",
+        "revision": "1089298724b5e09c6df4680519ee4da5d15285a4",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mni-onnx/resolve/1089298724b5e09c6df4680519ee4da5d15285a4/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mni-onnx/resolve/1089298724b5e09c6df4680519ee4da5d15285a4/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "a0821755c6e3b3370db350856b11a42532e0b31c2f35bfe6dd7c4d9f5a8aaaed",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-mni-onnx",
+        "revision": "1089298724b5e09c6df4680519ee4da5d15285a4",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mni-onnx/resolve/1089298724b5e09c6df4680519ee4da5d15285a4/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "c3fc671652ebef2345611cffa0023cd534d36875e4c68a68709f41f8c3b6b52f",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mni-onnx/resolve/1089298724b5e09c6df4680519ee4da5d15285a4/vocab.txt",
+          "size_bytes": 3273,
+          "git_blob_sha1": "06afb13704f104d63856488e369a24276d31dbd8",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mni-onnx/resolve/1089298724b5e09c6df4680519ee4da5d15285a4/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "mr",
+      "name": "Marathi",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_mr_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/mr/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "mr/model.int8.onnx",
+        "size_bytes": 197595593,
+        "sha256": "1ea81e55c4b9b12624c9d02a5b9c1b6f7c871c78a55ff52d333f81cb5136eaf2",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/mr/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "mr/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "f39ebf19d0499aa0a124d4861a05e5c5b0c13a2271114f12302ac56ea161c5ac",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-mr-onnx",
+        "revision": "b738dbf822f12c57ae8d9ea46c9fa9a52f977060",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mr-onnx/resolve/b738dbf822f12c57ae8d9ea46c9fa9a52f977060/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mr-onnx/resolve/b738dbf822f12c57ae8d9ea46c9fa9a52f977060/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "cf1608bcb39e99d388f12e777e549ae3a92b1176cac416dd805c8f661e7395fa",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-mr-onnx",
+        "revision": "b738dbf822f12c57ae8d9ea46c9fa9a52f977060",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mr-onnx/resolve/b738dbf822f12c57ae8d9ea46c9fa9a52f977060/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "df2d4fb0af1a2b395e6f21f6536c5dfd6510e7db9b567b634f0bc0b412d34c93",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mr-onnx/resolve/b738dbf822f12c57ae8d9ea46c9fa9a52f977060/vocab.txt",
+          "size_bytes": 2721,
+          "git_blob_sha1": "26487e015681114e1ee70d87ad971cb4164a27e9",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-mr-onnx/resolve/b738dbf822f12c57ae8d9ea46c9fa9a52f977060/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "ne",
+      "name": "Nepali",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_ne_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/ne/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "ne/model.int8.onnx",
+        "size_bytes": 197585135,
+        "sha256": "fbbc564e369046fd788d4150192a7e47c4e675346ec3f1b78002937fb3ccfb56",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ne-onnx",
+        "revision": "5b29dcf7cf27dfc6dbd2e5d2f72583cb9001ddb6",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ne-onnx/resolve/5b29dcf7cf27dfc6dbd2e5d2f72583cb9001ddb6/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ne-onnx/resolve/5b29dcf7cf27dfc6dbd2e5d2f72583cb9001ddb6/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "bdf5ff1f8b8dab3a162e8f7bf571fe57e8ebc5c86f796e91f3fbf405a84b5b32",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ne-onnx",
+        "revision": "5b29dcf7cf27dfc6dbd2e5d2f72583cb9001ddb6",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ne-onnx/resolve/5b29dcf7cf27dfc6dbd2e5d2f72583cb9001ddb6/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "d0ebb2298f49af137296169a9b2e7511e0aae62a780649a941ec7e10d2071513",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ne-onnx/resolve/5b29dcf7cf27dfc6dbd2e5d2f72583cb9001ddb6/vocab.txt",
+          "size_bytes": 2811,
+          "git_blob_sha1": "33be0af999155c757c214429d1f7cc1218205c31",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ne-onnx/resolve/5b29dcf7cf27dfc6dbd2e5d2f72583cb9001ddb6/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "or",
+      "name": "Odia",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_or_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/or/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "or/model.int8.onnx",
+        "size_bytes": 197584928,
+        "sha256": "31730e06bd186bca5c3214003c2a0b5eeb3234d079b5b81aa72547adbe1c9be7",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/or/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "or/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "8a2075e8a73e17f0a6d5b43f417e77ec46168ff0bf650f7aa0ce20e2710a4e79",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-or-onnx",
+        "revision": "d22557deb8610706dcd841b10ff5edeab9ec4b64",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-or-onnx/resolve/d22557deb8610706dcd841b10ff5edeab9ec4b64/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-or-onnx/resolve/d22557deb8610706dcd841b10ff5edeab9ec4b64/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "54b630cd863d79aafc5f6178a5cd9eb854b76f197c626a7ce4a933eb4d37f48f",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-or-onnx",
+        "revision": "d22557deb8610706dcd841b10ff5edeab9ec4b64",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-or-onnx/resolve/d22557deb8610706dcd841b10ff5edeab9ec4b64/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "175d16b83013d0426883beeb5783808f9b08fa3117827606cac417ec14c0223f",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-or-onnx/resolve/d22557deb8610706dcd841b10ff5edeab9ec4b64/vocab.txt",
+          "size_bytes": 2757,
+          "git_blob_sha1": "7208cb93c21c231c5e41d6bcdc7effe8d561894c",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-or-onnx/resolve/d22557deb8610706dcd841b10ff5edeab9ec4b64/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "pa",
+      "name": "Punjabi",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_pa_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/pa/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "pa/model.int8.onnx",
+        "size_bytes": 197595548,
+        "sha256": "ccd02e5ae7e71b6719de517c2819ce570247c1d9e79b3348e76cfd5eb3e5dbbc",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/pa/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "pa/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "b5b9cb8e50be2b62def54729d4e477dfd151e8f805250b702325916f96006f52",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-pa-onnx",
+        "revision": "a02bd2a0b75d41bd26c9f1e6d7e520a8f83f468d",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-pa-onnx/resolve/a02bd2a0b75d41bd26c9f1e6d7e520a8f83f468d/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-pa-onnx/resolve/a02bd2a0b75d41bd26c9f1e6d7e520a8f83f468d/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "4775a37df2e28fd3eba9408634bf8db5753ecf6413a643e2b2db021a6de63da2",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-pa-onnx",
+        "revision": "a02bd2a0b75d41bd26c9f1e6d7e520a8f83f468d",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-pa-onnx/resolve/a02bd2a0b75d41bd26c9f1e6d7e520a8f83f468d/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "fc4b5b704338d3d83c9d67d7c44824e7d5c05d8e71c36a85de2dcc27a262a89c",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-pa-onnx/resolve/a02bd2a0b75d41bd26c9f1e6d7e520a8f83f468d/vocab.txt",
+          "size_bytes": 2814,
+          "git_blob_sha1": "7952f7728aee63c11e67a14250aa8b7352c4c244",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-pa-onnx/resolve/a02bd2a0b75d41bd26c9f1e6d7e520a8f83f468d/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "sa",
+      "name": "Sanskrit",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_sa_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/sa/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "sa/model.int8.onnx",
+        "size_bytes": 197585030,
+        "sha256": "08a878cdc31ef93c2a05545dbd0c44c5a95b3884d0754104beed984262a5b981",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-sa-onnx",
+        "revision": "954bbd69a518c58642d35279acdd47b771e2453e",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sa-onnx/resolve/954bbd69a518c58642d35279acdd47b771e2453e/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sa-onnx/resolve/954bbd69a518c58642d35279acdd47b771e2453e/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "8ca8c12da72df777bf421562bc3d530edfbe44a66ee3a12a8e1dbce895cd0f59",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-sa-onnx",
+        "revision": "954bbd69a518c58642d35279acdd47b771e2453e",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sa-onnx/resolve/954bbd69a518c58642d35279acdd47b771e2453e/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "25d111f552f31fd0ea130b190e28cb41e727309aebc1d3e5517e928f9313d03e",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sa-onnx/resolve/954bbd69a518c58642d35279acdd47b771e2453e/vocab.txt",
+          "size_bytes": 2625,
+          "git_blob_sha1": "974d0e02538b4ec92fc56df595c740a7dc021ac4",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sa-onnx/resolve/954bbd69a518c58642d35279acdd47b771e2453e/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "sat",
+      "name": "Santali",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_sat_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/sat/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "sat/model.int8.onnx",
+        "size_bytes": 197584818,
+        "sha256": "fc22b03c18bf911ce18ca1f7dafe8e5ccf2521f1a8c72596da22117cb8acf147",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-sat-onnx",
+        "revision": "cabdeaf695731527211b7feffca6b3954327b491",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sat-onnx/resolve/cabdeaf695731527211b7feffca6b3954327b491/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sat-onnx/resolve/cabdeaf695731527211b7feffca6b3954327b491/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "089efd897be0a20fe99d9ab067ac084928af1e358731bc340098efa3fb785adc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-sat-onnx",
+        "revision": "cabdeaf695731527211b7feffca6b3954327b491",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sat-onnx/resolve/cabdeaf695731527211b7feffca6b3954327b491/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "b1956aa8d6603a2a01da88e7707e8d406ef268b8df6c1744eb1c5c16e782fdce",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sat-onnx/resolve/cabdeaf695731527211b7feffca6b3954327b491/vocab.txt",
+          "size_bytes": 3132,
+          "git_blob_sha1": "75846faa801b2c0034f3dedf5976fed9b0b5db80",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sat-onnx/resolve/cabdeaf695731527211b7feffca6b3954327b491/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "sd",
+      "name": "Sindhi",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_sd_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/sd/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "sd/model.int8.onnx",
+        "size_bytes": 197584945,
+        "sha256": "6529b3ffac5a159696b3fd34dddb6e3bda4f3cb7521307f817e201cdc37d20b3",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": null,
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-sd-onnx",
+        "revision": "ed9268df9c3f742f4d75ce0a18f801694610d691",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sd-onnx/resolve/ed9268df9c3f742f4d75ce0a18f801694610d691/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sd-onnx/resolve/ed9268df9c3f742f4d75ce0a18f801694610d691/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "54d94554115535bf8d144a8e23709a2d53dd9af3623e543e48885c419c474f9b",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-sd-onnx",
+        "revision": "ed9268df9c3f742f4d75ce0a18f801694610d691",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sd-onnx/resolve/ed9268df9c3f742f4d75ce0a18f801694610d691/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "6eecc6279df43cb92ab7ae5a91e3f4c460405843c41c032dfe1876d297995ca5",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sd-onnx/resolve/ed9268df9c3f742f4d75ce0a18f801694610d691/vocab.txt",
+          "size_bytes": 2970,
+          "git_blob_sha1": "b76e7eeddf8310d7503c97fd602021613ae9a03b",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-sd-onnx/resolve/ed9268df9c3f742f4d75ce0a18f801694610d691/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "ta",
+      "name": "Tamil",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_ta_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/ta/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "ta/model.int8.onnx",
+        "size_bytes": 197595513,
+        "sha256": "abb7b59d706b8d27ba3fb5e5e3db7671c9e1a09bf7bc6122de507c60030e65fb",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/ta/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "ta/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "5770cfa60b7c528cb51c1c863e07ee2e3f47d66005ffb587399caea3f6338cad",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ta-onnx",
+        "revision": "10e43940d12106763c3aebe1922b70d37fc0c6fd",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ta-onnx/resolve/10e43940d12106763c3aebe1922b70d37fc0c6fd/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ta-onnx/resolve/10e43940d12106763c3aebe1922b70d37fc0c6fd/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "abdbaeb8976b3945c475c6a0d8a285c1b276e03381d89b76c83bc1b526ed7997",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ta-onnx",
+        "revision": "10e43940d12106763c3aebe1922b70d37fc0c6fd",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ta-onnx/resolve/10e43940d12106763c3aebe1922b70d37fc0c6fd/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "b96af48383b0bd4b31014cddf3810e253c89865776264562a88926bfec339b48",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ta-onnx/resolve/10e43940d12106763c3aebe1922b70d37fc0c6fd/vocab.txt",
+          "size_bytes": 3042,
+          "git_blob_sha1": "a2d77646301b016f7103a771a7ba2189025e4c25",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ta-onnx/resolve/10e43940d12106763c3aebe1922b70d37fc0c6fd/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    },
+    {
+      "code": "te",
+      "name": "Telugu",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_te_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/te/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "te/model.int8.onnx",
+        "size_bytes": 197595693,
+        "sha256": "710f176e33080f1be84b4f38bb5f33be3f522dcf4f191bf4d5cc89f7a85924f3",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/te/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "te/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "5111ab6228bc42abbf62d92c37574bbf5f3c3a39f15426131792e4f61f7171e5",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-te-onnx",
+        "revision": "d952dec2a1d256a1569cdfc9a9615cba05a1a2e3",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-te-onnx/resolve/d952dec2a1d256a1569cdfc9a9615cba05a1a2e3/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-te-onnx/resolve/d952dec2a1d256a1569cdfc9a9615cba05a1a2e3/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "1339480ac6d25a25c044b372a6ade4b67122e2bf4287ec7aac7149f9e291b703",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-te-onnx",
+        "revision": "d952dec2a1d256a1569cdfc9a9615cba05a1a2e3",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-te-onnx/resolve/d952dec2a1d256a1569cdfc9a9615cba05a1a2e3/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "d615acecbfcffca3fa04ed8bc62284ba30cf48f90f537d4d0040b1b0e75f0b1c",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-te-onnx/resolve/d952dec2a1d256a1569cdfc9a9615cba05a1a2e3/vocab.txt",
+          "size_bytes": 2706,
+          "git_blob_sha1": "90ca045cc0e26c9e0733655699f5faa901c54dcc",
+          "status": "downloaded",
+          "sha256": "dc0b7bbb9eca8d3c8aebf1eb86e3144c90d692b4008cf5a32d46437b942b23ac",
+          "sha256_provenance": "computed_from_downloaded_bytes"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-te-onnx/resolve/d952dec2a1d256a1569cdfc9a9615cba05a1a2e3/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "downloaded",
+          "sha256": "4bfb1d53736f8b675b784d6ece61f5b8e7ae73ca2c0ed4c232e9135ac44ab909",
+          "sha256_provenance": "computed_from_downloaded_bytes"
+        }
+      }
+    },
+    {
+      "code": "ur",
+      "name": "Urdu",
+      "official_nemo": {
+        "url": "https://objectstore.e2enetworks.net/indicconformer/models/indicconformer_stt_ur_hybrid_rnnt_large.nemo",
+        "size_bytes": 523192320,
+        "license": "MIT",
+        "availability_check": "anonymous_HEAD_200",
+        "status": "source_checkpoint_not_downloaded"
+      },
+      "community_int8": {
+        "url": "https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx/resolve/9721eb71eea141fae0982cfcdb9dd2e3d4953c4a/ur/model.int8.onnx",
+        "repository": "parismitaglobalsolutions/indicconformer-sherpa-onnx",
+        "revision": "9721eb71eea141fae0982cfcdb9dd2e3d4953c4a",
+        "path": "ur/model.int8.onnx",
+        "size_bytes": 197585089,
+        "sha256": "0239f1c371a38f7623f29a8d7bae79f91f16f58aba45ea67103630dbb425cb07",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "MIT",
+        "status": "candidate_unvalidated"
+      },
+      "community_fp32": {
+        "url": "https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx/resolve/16f1697d0631c9bb88e371fca24577efe0aa8617/ur/model.onnx",
+        "repository": "sulabhkatiyar/indicconformer-120m-onnx",
+        "revision": "16f1697d0631c9bb88e371fca24577efe0aa8617",
+        "path": "ur/model.onnx",
+        "size_bytes": 493060285,
+        "sha256": "4b110ae0a306412f20b60ad9a318dd58ba8cf7ca9aec7a01f75deaa00d8f55b9",
+        "sha256_provenance": "huggingface_lfs_api_metadata",
+        "license": "CC-BY-4.0",
+        "status": "candidate_unvalidated"
+      },
+      "openvoiceos_fp32": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ur-onnx",
+        "revision": "c93610bb4c08642b1e48b6f17b2141d5446898fc",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "files": [
+          {
+            "path": "model.onnx",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ur-onnx/resolve/c93610bb4c08642b1e48b6f17b2141d5446898fc/model.onnx",
+            "size_bytes": 685514,
+            "sha256": "3ed6bfab7afc58a7b6924c6f45c060c75e7d45172dd624e51c38482f882514cc",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          },
+          {
+            "path": "model.onnx_data",
+            "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ur-onnx/resolve/c93610bb4c08642b1e48b6f17b2141d5446898fc/model.onnx_data",
+            "size_bytes": 481381380,
+            "sha256": "55207890f16c57a1e0abcdec4434e977a2bd8ce64a41906c150efa821e9c719b",
+            "sha256_provenance": "huggingface_lfs_api_metadata"
+          }
+        ],
+        "size_bytes": 482066894
+      },
+      "openvoiceos_int8": {
+        "repository": "OpenVoiceOS/ai4bharat-indicconformer-ur-onnx",
+        "revision": "c93610bb4c08642b1e48b6f17b2141d5446898fc",
+        "license": "MIT",
+        "status": "candidate_unvalidated",
+        "path": "model.int8.onnx",
+        "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ur-onnx/resolve/c93610bb4c08642b1e48b6f17b2141d5446898fc/model.int8.onnx",
+        "size_bytes": 137677313,
+        "sha256": "e4e3ac4b30544c1f2b3531c791d4986341df61f40ea25d93050f135e02f6faac",
+        "sha256_provenance": "huggingface_lfs_api_metadata"
+      },
+      "openvoiceos_assets": {
+        "vocab.txt": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ur-onnx/resolve/c93610bb4c08642b1e48b6f17b2141d5446898fc/vocab.txt",
+          "size_bytes": 2066,
+          "git_blob_sha1": "3443c05caec154c5cd6fd3535a640e060dbd63e6",
+          "status": "metadata_verified_only"
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenVoiceOS/ai4bharat-indicconformer-ur-onnx/resolve/c93610bb4c08642b1e48b6f17b2141d5446898fc/config.json",
+          "size_bytes": 119,
+          "git_blob_sha1": "a9ddcb769d9e1f8a9b1c4318ffbcd1e118796d34",
+          "status": "metadata_verified_only"
+        }
+      }
+    }
+  ],
+  "total_community_model_size_bytes": 4346975641
+}

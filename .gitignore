@@ -71,6 +71,11 @@ wheels/
 *.egg-info/
 .venv/
 venv/
+# Model weights, generated candidates and licensed audio corpora (tools/voice-models)
+*.onnx
+tools/voice-models/candidates/
+tools/voice-models/corpus/
+tools/voice-models/browser-assets/
 
 # === Astro / Cloudflare Pages (apps/web) ===
 .astro/

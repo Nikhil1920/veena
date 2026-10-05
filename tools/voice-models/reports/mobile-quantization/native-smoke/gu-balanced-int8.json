@@ -1,0 +1,87 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/gu/evaluation/audio/iv-v1-gu-valid-08330cec-d718-4c78-8dfc-83b246988108_1-0000.wav",
+  "audio_duration_seconds": 11.392,
+  "audio_sample_rate": 8000,
+  "audio_samples": 91136,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/gu/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/gu/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/gu/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "gu",
+  "measured_runs": 1,
+  "model": "candidates/mobile-builds/gu/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 414.710833,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 344.046625,
+      "transcript": "નમસ્તે હું કલ્શક સમાચાર ચેનેલ માંથી પત્રકાર અંજલિ વાત કરું છું આપણે નવીનતમ હવામાન ઉપતે કરવા માટે અમારી સાથે અમારા હવામાન શાસ્ત્રી પ્રિયાજી પટેલ છે"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 0,
+  "variant": "balanced-int8",
+  "returncode": 0,
+  "model_sha256": "f9a648b2313f45afaf7652b135aeb65cd3008eb02b4310355eac9bc6cbf1b851",
+  "decoder_asset_sha256": {
+    "decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "vocab.json": "896cd98dd9c529e28360e229377ac30732907bf768de9c324c24df4f78b99ad5",
+    "language_masks.json": "e485f6c5bcab1577bc8846f0e80052e3915e26913bc663d869087d9d703c08d0"
+  },
+  "binary_sha256": "ad5db19691b2c6a631283e2678df10ac01e25fd1eca6f395eced6e3bd4662935",
+  "sample_id": "iv-v1-gu-valid-08330cec-d718-4c78-8dfc-83b246988108_1-0000",
+  "reference": "નમસ્તે હું કલ તક સમાચાર ચેનલમાંથી પત્રકાર અંજલિ વાત કરું છું આપણે નવીનતમ હવામાન અપડેટ કરવા માટે અમારી સાથે અમારા હવામાનશાસ્ત્રી પ્રિયાજી પટેલ છે",
+  "audio_sha256": "10ed9b18f13b61b96c68b682ffc0f58f43f31233346070ef60c1c1eacc5f9992",
+  "sample_source": {
+    "source_dataset": "AI4Bharat/IndicVoices",
+    "source_split": "valid",
+    "source_archive_url": "https://iv-release.objectstore.e2enetworks.net/dmu_release/v1_Gujarati_valid.tgz",
+    "source_member": "Gujarati/v1/valid/08330cec-d718-4c78-8dfc-83b246988108_1.wav",
+    "license": "CC-BY-4.0"
+  },
+  "command": [
+    "../../target/release/model_smoke",
+    "--model",
+    "candidates/mobile-builds/gu/balanced-int8/model.onnx",
+    "--decoder-config",
+    "candidates/mobile-builds/gu/balanced-int8/decoder_config.json",
+    "--vocab",
+    "candidates/mobile-builds/gu/balanced-int8/vocab.json",
+    "--language-masks",
+    "candidates/mobile-builds/gu/balanced-int8/language_masks.json",
+    "--audio",
+    "corpus/indicvoices-v1-pilot/gu/evaluation/audio/iv-v1-gu-valid-08330cec-d718-4c78-8dfc-83b246988108_1-0000.wav",
+    "--language",
+    "gu",
+    "--warmup",
+    "0",
+    "--runs",
+    "1"
+  ],
+  "python_1_26_prediction": "નમસ્તે હું કલ્શક સમાચાર ચેનેલ માંથી પત્રકાર અંજલિ વાત કરું છું આપણે નવીનતમ હવામાન ઉપતે કરવા માટે અમારી સાથે અમારા હવામાન શાસ્ત્રી પ્રિયાજી પટેલ છે",
+  "native_matches_python_1_26": true
+}

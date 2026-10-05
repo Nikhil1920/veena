@@ -1,0 +1,80 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/kn/evaluation/audio/iv-v1-kn-valid-01d68b4b-b83e-4ec8-83ad-ef137fcf8ec7_1-0002.wav",
+  "audio_duration_seconds": 2.177,
+  "audio_sample_rate": 8000,
+  "audio_samples": 17416,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/kn/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/kn/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/kn/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "kn",
+  "measured_runs": 5,
+  "model": "candidates/mobile-builds/kn/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 309.228958,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 33.177583,
+      "transcript": "ಹಾಂ ಸರ್ ಎಲ್ಲಿ ಎಲ್ಲಿಗೆ ಸರ್"
+    },
+    {
+      "iteration": 1,
+      "preprocess_inference_decode_ms": 35.669,
+      "transcript": "ಹಾಂ ಸರ್ ಎಲ್ಲಿ ಎಲ್ಲಿಗೆ ಸರ್"
+    },
+    {
+      "iteration": 2,
+      "preprocess_inference_decode_ms": 35.263916,
+      "transcript": "ಹಾಂ ಸರ್ ಎಲ್ಲಿ ಎಲ್ಲಿಗೆ ಸರ್"
+    },
+    {
+      "iteration": 3,
+      "preprocess_inference_decode_ms": 35.51675,
+      "transcript": "ಹಾಂ ಸರ್ ಎಲ್ಲಿ ಎಲ್ಲಿಗೆ ಸರ್"
+    },
+    {
+      "iteration": 4,
+      "preprocess_inference_decode_ms": 35.7485,
+      "transcript": "ಹಾಂ ಸರ್ ಎಲ್ಲಿ ಎಲ್ಲಿಗೆ ಸರ್"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 2,
+  "variant": "balanced-int8",
+  "source_utterance_id": "iv-v1-kn-valid-01d68b4b-b83e-4ec8-83ad-ef137fcf8ec7_1-0002",
+  "verified_input_sha256": {
+    "candidates/mobile-builds/kn/balanced-int8/model.onnx": "bed9e30f1a7e685845d738e85d260b622e4d657160eb01be9421591341c8e474",
+    "candidates/mobile-builds/kn/balanced-int8/decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "candidates/mobile-builds/kn/balanced-int8/vocab.json": "85005690ebdd53cb670ecda22032ce4a2675f9908398f3516ab5c9407ffcfe2b",
+    "corpus/indicvoices-v1-pilot/kn/evaluation/audio/iv-v1-kn-valid-01d68b4b-b83e-4ec8-83ad-ef137fcf8ec7_1-0002.wav": "6b885b34738c4c435b9adad6731cf097c5fa6513030e1d2dfbb92888b93bbe59",
+    "candidates/mobile-builds/kn/balanced-int8/language_masks.json": "9da6dde5a7df9b732266d78fe1104f8c41ad5b2f6db656dc567f79a91ff33ab6"
+  },
+  "median_total_ms": 35.51675,
+  "peak_rss_bytes": 425541632,
+  "rtf": 0.01631453835553514,
+  "physical_phone_tested": false
+}

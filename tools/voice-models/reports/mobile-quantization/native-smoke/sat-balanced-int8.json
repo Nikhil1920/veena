@@ -1,0 +1,87 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/sat/evaluation/audio/iv-v1-sat-valid-0a504836-dc3a-4297-9a0a-0e0508274980_0-0000.wav",
+  "audio_duration_seconds": 5.324,
+  "audio_sample_rate": 8000,
+  "audio_samples": 42592,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/sat/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/sat/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/sat/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "sat",
+  "measured_runs": 1,
+  "model": "candidates/mobile-builds/sat/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 308.107042,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 86.2795,
+      "transcript": "ᱦᱮᱸ ᱮᱛ ᱠᱷᱚᱱ ᱵᱤᱱ ᱞᱟᱹᱭᱫᱟ ᱵᱤᱱ ᱾"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 0,
+  "variant": "balanced-int8",
+  "returncode": 0,
+  "model_sha256": "54ce31f3208e4b852f8017a96d207d7587ad672dd72b573eb9cdec25d2918a9d",
+  "decoder_asset_sha256": {
+    "decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "vocab.json": "cd89073985274ef22eb4570bd051fc43f76de6f248582d2d6c92b9e833043e5d",
+    "language_masks.json": "bd46de2d42caeeb954a8065dc5139ef621f7f048065dd559fdbbd392ed4ece2d"
+  },
+  "binary_sha256": "ad5db19691b2c6a631283e2678df10ac01e25fd1eca6f395eced6e3bd4662935",
+  "sample_id": "iv-v1-sat-valid-0a504836-dc3a-4297-9a0a-0e0508274980_0-0000",
+  "reference": "ᱦᱮᱸ ᱚᱠᱟ ᱠᱷᱚᱱ ᱵᱮᱱ ᱞᱟᱹᱭᱮᱫᱟ ᱟᱵᱤᱱ",
+  "audio_sha256": "c149051884abcfb10cd939f5d259d076798a63d74ce3e29b0175925dc54e63fa",
+  "sample_source": {
+    "source_dataset": "AI4Bharat/IndicVoices",
+    "source_split": "valid",
+    "source_archive_url": "https://iv-release.objectstore.e2enetworks.net/dmu_release/v1_Santali_valid.tgz",
+    "source_member": "Santali/v1/valid/0a504836-dc3a-4297-9a0a-0e0508274980_0.wav",
+    "license": "CC-BY-4.0"
+  },
+  "command": [
+    "../../target/release/model_smoke",
+    "--model",
+    "candidates/mobile-builds/sat/balanced-int8/model.onnx",
+    "--decoder-config",
+    "candidates/mobile-builds/sat/balanced-int8/decoder_config.json",
+    "--vocab",
+    "candidates/mobile-builds/sat/balanced-int8/vocab.json",
+    "--language-masks",
+    "candidates/mobile-builds/sat/balanced-int8/language_masks.json",
+    "--audio",
+    "corpus/indicvoices-v1-pilot/sat/evaluation/audio/iv-v1-sat-valid-0a504836-dc3a-4297-9a0a-0e0508274980_0-0000.wav",
+    "--language",
+    "sat",
+    "--warmup",
+    "0",
+    "--runs",
+    "1"
+  ],
+  "python_1_26_prediction": "ᱦᱮᱸ ᱮᱛ ᱠᱷᱚᱱ ᱵᱤᱱ ᱞᱟᱹᱭᱫᱟ ᱵᱤᱱ ᱾",
+  "native_matches_python_1_26": true
+}

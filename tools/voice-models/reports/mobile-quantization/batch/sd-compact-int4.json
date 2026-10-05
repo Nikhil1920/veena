@@ -1,0 +1,880 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/sd/compact-int4/model.onnx",
+  "required_languages": [
+    "sd"
+  ],
+  "evaluated_languages": [
+    "sd"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 102971375,
+  "manifest": "corpus/indicvoices-v1-pilot/sd/evaluation/manifest.jsonl",
+  "corpus_sha256": "d658bba5a476fa0311e2ddc102bd883220bbb29f5eec13386ff0c000aa06eef7",
+  "coverage": {
+    "languages": [
+      "sd"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "sd"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": true,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "model_artifact": {
+    "sha256": "f887b58f0f24babf5eaae106d68bea7a4cd897aa4e1a4b2777d5a9359c0334c4",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 102971375,
+        "sha256": "f887b58f0f24babf5eaae106d68bea7a4cd897aa4e1a4b2777d5a9359c0334c4"
+      }
+    ],
+    "artifact_sha256": "24a6cd7fa3c4161fb36377cf2135921c7abebd9859fd4344f4ec924dc6e61c4c",
+    "size_bytes": 102971375
+  },
+  "decoder_assets": {
+    "decoder_config.json": {
+      "size_bytes": 45,
+      "sha256": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017"
+    },
+    "language_masks.json": {
+      "size_bytes": 2220,
+      "sha256": "53d88a53fb92d2da040c2837981d56c860379e5489ee8181da19fdeadf596256"
+    },
+    "vocab.json": {
+      "size_bytes": 3868,
+      "sha256": "e3fcc7936173ed1899fe55f38c4215b9fb1ddeecf08271fca493fd0e06dad435"
+    }
+  },
+  "artifact_binding": {
+    "status": "verified",
+    "method": "sha256",
+    "checked_before_inference": true,
+    "checked_after_inference": true,
+    "scope": "worker model protobuf, external weights, and decoder assets"
+  },
+  "load_time_seconds": 0.2692576249828562,
+  "peak_rss_bytes": 990412800,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-sd-valid-5629499534216300-0002",
+      "language": "sd",
+      "reference": "ऐं असां थाणा डिस्ट्रिक्ट चङो वसी वियो आहे जंहिं जे करे कारोबार बि सुठो थी वियो आहे ऐं चङियूं फैसिलिटी बि माण्हुनि खे मिली रहियूं आहिनि",
+      "duration_seconds": 8.226009070294785,
+      "prediction": "ऐं असां जो थाणा डिस्ट्रिक्ट चंङियो वसी वियो आहे जंहिं जे करे कारोबार बि सुठो थी रहियो आहे ऐं चङियूं फैसिलिटियूं बि माण्हुनि खे मिली रहियूं आहिनि",
+      "reference_words": 26,
+      "word_errors": 4,
+      "reference_characters": 134,
+      "character_errors": 12,
+      "inference_seconds": [
+        0.19676033302675933
+      ],
+      "inference_median_seconds": 0.19676033302675933
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534216300-0003",
+      "language": "sd",
+      "reference": "हिते मॉल्स पासे में आहिनि हॉस्पिटल्स पासे में आहिनि ऐं चङा गार्डनस ऐं कुझु घुमण यूं जॻहियूं बि आसे पासे में आहिनि",
+      "duration_seconds": 7.1670068027210885,
+      "prediction": "हिते मॉल्स पासे में आहिनि हॉस्पिटल्स पासे में आहिनि ऐं चङा गार्डन्स ऐं कुझु घुमण जूं जॻहियूं बि आसे पासे में आहिनि",
+      "reference_words": 22,
+      "word_errors": 2,
+      "reference_characters": 113,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.16113870800472796
+      ],
+      "inference_median_seconds": 0.16113870800472796
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534216300-0004",
+      "language": "sd",
+      "reference": "ऐं जेकर अगर कंहिं खे बजट नाहे त उहो माण्हू रेंट ते बि रही सघन्दो आहे वन बी एच के जी रेंट छह हज़ार का वठी करे टीह हज़ार आहे पोइ जीअं एरिया तीअं पैसा",
+      "duration_seconds": 11.872018140589569,
+      "prediction": "ऐं जेकर अगरि कंहिं खे बजट न आहे त उहो माण्हू रेंट ते बि रही सघंदो आहे वन बी एच के जी रेंट छह हज़ार खां वठी करे टी हज़ार आहे उहो जीअं एहिड़ा तीअं पेसा",
+      "reference_words": 35,
+      "word_errors": 9,
+      "reference_characters": 147,
+      "character_errors": 15,
+      "inference_seconds": [
+        0.25849412503885105
+      ],
+      "inference_median_seconds": 0.25849412503885105
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534216300-0005",
+      "language": "sd",
+      "reference": "पेहिरियों असां खे ऑपशान हूंदो हो सिर्फ़ दलालनि जो की दलाल असां खे जॻहि ॾेखारींदो त असां जॻहि ॾिसी सघंदा हुआसीं",
+      "duration_seconds": 5.344988662131519,
+      "prediction": "पहिरियों असां खे ऑपशन हूंदो होओ सिर्फ़ु दलालनि जो कि दलाल असांखे जॻहि ॾेखारींदो त असां जॻहि ॾिसी सघंदाआ",
+      "reference_words": 21,
+      "word_errors": 9,
+      "reference_characters": 110,
+      "character_errors": 12,
+      "inference_seconds": [
+        0.12209537503076717
+      ],
+      "inference_median_seconds": 0.12209537503076717
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534216300-0006",
+      "language": "sd",
+      "reference": "ऐं हाणे असां जे भारत सरकार चङो टेक्नोलॉजी कढ़ी ररी आहे जंहिं मे चङी मोबाइल में एप्स अची चुकी आहिनि जेको असां घर वेठे मोबाइल में घरु ॾिसी सघन्दा आहियूं",
+      "duration_seconds": 9.471995464852608,
+      "prediction": "ऐं हाणे असां जे भारत सरकार चङो टेक्नोलॉजी कढी रही आहे जंहिं में चंङी मोबाइलस में ऐप अची चुकी आहिनि जेको असां घरु वेठे मोबाइल में घरु ॾिसी सघंदा आहियूं",
+      "reference_words": 30,
+      "word_errors": 8,
+      "reference_characters": 150,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.2094692909740843
+      ],
+      "inference_median_seconds": 0.2094692909740843
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534217583-0000",
+      "language": "sd",
+      "reference": "छवीं जनवरी उणवीह सौ पंजाह पंद्रहीं ऑगस्ट उणवीह सौ सतेतालीह चौथी जनवरी उणिवीह सौ सतरि पंजुवीह सप्टेम्बरु ॿ हज़ार वीह एकवीह ऑक्टूबरु ॿ हज़ार ॿावीह",
+      "duration_seconds": 11.508004535147393,
+      "prediction": "छवीीं जनवरी उणवीह सौ पंजाहु पंद्रहीं अगस्ट उणवीह सौ सतेतालीह चौथी जनवरी उणवीह सौ सतरि पंजीह सेप्टेम्बर ॿ हज़ार वीह एकवीह अक्टोबर ॿ हज़ार ॿावीह",
+      "reference_words": 25,
+      "word_errors": 7,
+      "reference_characters": 144,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.24759554100455716
+      ],
+      "inference_median_seconds": 0.24759554100455716
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534217590-0000",
+      "language": "sd",
+      "reference": "मूंखे तव्हां पंहिंजे बारे में सॼो अहवालु कयो",
+      "duration_seconds": 2.848004535147392,
+      "prediction": "मूंखे तव्हां पंहिंजे बारे में सॼो अहिवालु कयो",
+      "reference_words": 8,
+      "word_errors": 1,
+      "reference_characters": 44,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.046205791004467756
+      ],
+      "inference_median_seconds": 0.046205791004467756
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534217590-0001",
+      "language": "sd",
+      "reference": "मुंहिंजो नालो दिव्य मोटवानी आहे मुंहिंजो हाणे सी ए जी पढ़ाई थी हले हुन खां पोइ पहिरियों मां टी वाय",
+      "duration_seconds": 6.400997732426304,
+      "prediction": "मुंहिंजो नालो दिव्या मोटवानी आहे मुंहिंजो हाणे सीए जी पढ़ाई थी हले हुन खां पोइ पहिरियों मां टी वाए",
+      "reference_words": 20,
+      "word_errors": 4,
+      "reference_characters": 98,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.13782916602212936
+      ],
+      "inference_median_seconds": 0.13782916602212936
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534217590-0002",
+      "language": "sd",
+      "reference": "सी एच एम कॉलेज मां कयो आहे स्कूल मुंहिंजो आर जी एस इंग्लिश हाई स्कूल हुयो हुन खां पोइ मां गवर्नमेंट जो एम एस एम ई सर्टिफिकेट जी एस टी कई आहे ऐं प्लस हाणे",
+      "duration_seconds": 11.006009070294784,
+      "prediction": "सी एच एम कॉलेज मां कयो आहे स्कूल मुंहिंजो आर जी एस इंग्लिश हाई स्कूल हुयो हुन खां पोइ मां गवर्नमेंट जो एम एस एम ई सर्टिफिकेट जी एस टी कई आहे ऐं प्लस हाणे",
+      "reference_words": 35,
+      "word_errors": 0,
+      "reference_characters": 153,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.22930583404377103
+      ],
+      "inference_median_seconds": 0.22930583404377103
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534217590-0003",
+      "language": "sd",
+      "reference": "मां अञा सी ए हिन में इंटर जो आर्टिकलशिप कयां थी मूंखे जाम कुझु करणों आहे पंहिंजी ज़िंदगी में",
+      "duration_seconds": 5.826009070294784,
+      "prediction": "मां अञां सी ए हिन में इंटर जो आर्टिकलशिप कयां थी मूंखे जाम कुझु करणो आहे मुंहिंजी ज़िंदगी में",
+      "reference_words": 19,
+      "word_errors": 3,
+      "reference_characters": 92,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.1415488330530934
+      ],
+      "inference_median_seconds": 0.1415488330530934
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534218820-0000",
+      "language": "sd",
+      "reference": "असांजे महाराष्ट्र राज्य में चङा ही धर्म आहिनि जीअं त हिंदू मुस्लिम सिख ईसाई ऐं हर धर्म जा माण्हू",
+      "duration_seconds": 8.990997732426305,
+      "prediction": "असांजे महाराष्ट्र राज्य में चङा ई धर्म आहिनि जीअं त हिंदू मुस्लिम सिख ईसाई ऐं हर धर्म जा माण्हू",
+      "reference_words": 19,
+      "word_errors": 1,
+      "reference_characters": 96,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.19719933299347758
+      ],
+      "inference_median_seconds": 0.19719933299347758
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534218820-0002",
+      "language": "sd",
+      "reference": "सिख माण्हू वैसाख मनाईंदा आहिनि असां हिंदू थी करे असां ॾियारी ऐं होली आम तौरु वधीक मनाईंदा आहियूं पर असां ॿियनि ॿियनि माण्हुनि जे",
+      "duration_seconds": 14.079002267573696,
+      "prediction": "सिख माण्हू वैसाखु मनाईंदा आहिनि असां हिंदू थी करे असां ॾियारी ऐं होली आमतौर वधीक मलाईंदा आहियूं पर असां ॿियनि ॿियनि माण्हुनि जे",
+      "reference_words": 24,
+      "word_errors": 4,
+      "reference_characters": 128,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.2973472499870695
+      ],
+      "inference_median_seconds": 0.2973472499870695
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534218820-0003",
+      "language": "sd",
+      "reference": "त्योहारनि में बि हिसो वठंदा आहियूं असां भाईचारे में हलंदा आहियूं",
+      "duration_seconds": 4.576009070294784,
+      "prediction": "त्योहारनि में बि हिसो वठंदा आहियूं असां भाइचारे में हलंदा आहियूं",
+      "reference_words": 11,
+      "word_errors": 1,
+      "reference_characters": 64,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.1198414170066826
+      ],
+      "inference_median_seconds": 0.1198414170066826
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534218824-0001",
+      "language": "sd",
+      "reference": "सरकारु अरिड़ाहं सौ पंटीह में इज़ाद कयो हुओ अॼु उनजी जो",
+      "duration_seconds": 6.017006802721088,
+      "prediction": "सरकारु अरिड़ाहं सौ पंट्रीह में इजादु कयो हुओ अॼु उनज",
+      "reference_words": 11,
+      "word_errors": 4,
+      "reference_characters": 54,
+      "character_errors": 8,
+      "inference_seconds": [
+        0.1405924999853596
+      ],
+      "inference_median_seconds": 0.1405924999853596
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534218824-0002",
+      "language": "sd",
+      "reference": "उनजी कीमत तक़रीबन हिकु लख ताईं आहे ऐं ॿियो सिको जेको ॿिन आननि जो आहे",
+      "duration_seconds": 8.8,
+      "prediction": "उनजी क़ीमत तकरीबनि हिकु लख ताईं आहे ऐं ॿियो सिको जेको ॿिनि आननि जो आहे",
+      "reference_words": 15,
+      "word_errors": 3,
+      "reference_characters": 68,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.19595808302983642
+      ],
+      "inference_median_seconds": 0.19595808302983642
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534219622-0000",
+      "language": "sd",
+      "reference": "अॼुकल्ह जे ज़माने में माईअ ऐं भाईअ में कोई वधीक फ़र्कु न आहे कोई वधीक तफ़ावत न आहे जेके पहिरियों भाई कमु कंदा हुआ अॼुकल्ह मायूं बि हुन ई लैवल ते कमु थियूं कनि",
+      "duration_seconds": 9.662993197278912,
+      "prediction": "अॼुकल्ह जे ज़माने में माईअ ऐं भाईअ में कोई वधीक फ़र्क़ु ना आहे कोई वधीक तफ़ावत ना आहे जेके पहिरियों भाईअ कमु कंदा हुआ अॼुकल्ह मायूं बि उन ई लेवल ते कमु थियूं कनि",
+      "reference_words": 34,
+      "word_errors": 6,
+      "reference_characters": 158,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.21526241698302329
+      ],
+      "inference_median_seconds": 0.21526241698302329
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534219622-0001",
+      "language": "sd",
+      "reference": "त इहो जेको आहे इक्वैलिटी आहे हिकु लैवल ते अचण ई ॻाल्हि आहे हिक स्तर ते अचण जी ॻाल्हि आहे त अॼु ॿ ई इक्वल आहिनि",
+      "duration_seconds": 6.782993197278912,
+      "prediction": "त इहो जेको आहे इक्वलिटी आहे हिक लेवल ते अचण जी ॻाल्हि आहे हिक स्तर ते अचण जी ॻाल्हि आहे त अॼु ॿई इक्वल आहिनि",
+      "reference_words": 26,
+      "word_errors": 6,
+      "reference_characters": 110,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.16440116602461785
+      ],
+      "inference_median_seconds": 0.16440116602461785
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534219622-0002",
+      "language": "sd",
+      "reference": "इन लाइ अॼुकल्ह मायूं ॿाहिरि निकितियूं आहिनि कमु करण लाइ जॉब करण लाइ ऐं इन लाइ जेको आहे जॉब जेको कनि था गॾु त अॼुकल्ह जो जेको खर्चो आहे उहो बराबरि हले थो घर जो",
+      "duration_seconds": 11.296984126984126,
+      "prediction": "इन लाइ अॼुकल्ह माययूं ॿाहिरिनिकितियूं आहिनि कम करण लाइ जॉब करण लाइ ऐं इन लाइ जेको आहे जॉब जेको कनि था गॾु त अॼुकल्ह जो जेको ख़र्चो आहे उहो बराबरि हले थो घर जो",
+      "reference_words": 35,
+      "word_errors": 5,
+      "reference_characters": 158,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.2333111249608919
+      ],
+      "inference_median_seconds": 0.2333111249608919
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534219622-0003",
+      "language": "sd",
+      "reference": "हिन लाइ ॿई था कमाइनि त ॿई सुठे सां घरु पंहिंजो हलाए था सघनि त जीअं माई घर जे ॿाहिरि निकिती आहे कमु करण लाइ ऊअंई भाइयनि खे बि हसबेंड्स खे बि पंहिंजो थोरो सपोर्ट ॾियणु खपे वाइफ खे घर जे कम में",
+      "duration_seconds": 11.488979591836735,
+      "prediction": "इन लाइ ॿई था कमुाइनि त ॿई सुठे सां घरु पंहिंजो हलाए था सघनि त जीअं माई घर जे ॿाहिरिनिकिती आहे कमु करण लाइऊअं ई भाइयनि खे बि हसबैंडस खे बि पंहिंजो थोरो सपोर्ट ॾियणु खपे वाइफ खे घर जे कम में",
+      "reference_words": 43,
+      "word_errors": 7,
+      "reference_characters": 190,
+      "character_errors": 8,
+      "inference_seconds": [
+        0.2448019590228796
+      ],
+      "inference_median_seconds": 0.2448019590228796
+    },
+    {
+      "id": "iv-v1-sd-valid-5629499534219622-0004",
+      "language": "sd",
+      "reference": "त हुनजे हिसाब सां मैन ऐं विमैन जेका आहे अॼुकल्ह इक्वल आहिनि इनइक्वैलिटी किथे बि न आई जीअं पंहिंरो हुओ",
+      "duration_seconds": 6.304013605442177,
+      "prediction": "त उन हिसाब सां मेन ऐं वुमैन जेका आहे अॼुकल्ह इक्वल आहिनि इन इक्वालिटी किथे बि नाहे जीअं पहिरियों हुओ",
+      "reference_words": 20,
+      "word_errors": 8,
+      "reference_characters": 101,
+      "character_errors": 16,
+      "inference_seconds": [
+        0.14277537498855963
+      ],
+      "inference_median_seconds": 0.14277537498855963
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 92,
+    "reference_words": 479,
+    "wer": 0.19206680584551147,
+    "character_errors": 131,
+    "reference_characters": 2312,
+    "cer": 0.05666089965397924,
+    "duration_seconds": 167.67002267573696,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.19635920802829787,
+    "latency_p95_seconds": 0.260436781286262,
+    "inference_seconds": 3.7019336221856065,
+    "rtf": 0.022078685045238577
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 92,
+      "reference_words": 479,
+      "wer": 0.19206680584551147,
+      "character_errors": 131,
+      "reference_characters": 2312,
+      "cer": 0.05666089965397924,
+      "duration_seconds": 167.67002267573696,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.19635920802829787,
+      "latency_p95_seconds": 0.260436781286262,
+      "inference_seconds": 3.7019336221856065,
+      "rtf": 0.022078685045238577
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "comparison": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "verified",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "sd"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "sd": {
+        "passed": true,
+        "wer_regression": -0.0020876826722338315,
+        "cer_regression": -0.003460207612456745
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.8084249691873896,
+      "peak_rss_bytes_ratio": 0.8382560945170148,
+      "latency_p50_seconds_ratio": 1.1071273573867975,
+      "latency_p95_seconds_ratio": 1.0061497967879585,
+      "rtf_ratio": 1.0498222047751296
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_fp32": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "verified",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "sd"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "sd": {
+        "passed": true,
+        "wer_regression": -0.0020876826722338315,
+        "cer_regression": -0.003460207612456745
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.8084249691873896,
+      "peak_rss_bytes_ratio": 0.8382560945170148,
+      "latency_p50_seconds_ratio": 1.1071273573867975,
+      "latency_p95_seconds_ratio": 1.0061497967879585,
+      "rtf_ratio": 1.0498222047751296
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "verified",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "sd"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "sd": {
+        "passed": true,
+        "wer_regression": -0.031315240083507306,
+        "cer_regression": -0.01730103806228373
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.15235849990927933,
+      "load_time_seconds_ratio": 0.31181723440187664,
+      "peak_rss_bytes_ratio": 0.46635242202386923,
+      "latency_p50_seconds_ratio": 0.5186299457085661,
+      "latency_p95_seconds_ratio": 0.49369585635158447,
+      "rtf_ratio": 0.4945278126680991
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "candidate_variant": "compact-int4",
+  "status_classification": "candidate_unvalidated",
+  "latency_qualified": false,
+  "timing_note": "Accuracy-only screen; two independent candidate workers may overlap. Use the separate controlled host benchmark for timing; physical phone performance is unqualified.",
+  "selection_note": "Pilot used for candidate screening. Fresh speaker-disjoint confirmation data and mobile measurements are required. No automatic selection."
+}

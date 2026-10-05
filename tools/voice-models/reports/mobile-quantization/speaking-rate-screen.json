@@ -1,0 +1,295 @@
+{
+  "status": "exploratory_natural_speech_rate_screen",
+  "release_ready": false,
+  "limitations": "Fastest five clips are selected by reference whitespace-token count / segment duration within each language; this proxy includes pauses, is script-dependent, and does not isolate speaking rate from speaker, content or noise. Five clips cannot establish statistical confidence or causal improvement. No cross-language speed ranking.",
+  "languages": {
+    "hi": {
+      "fastest_five_ids": [
+        "iv-v1-hi-valid-1894b585-b9d7-488e-8902-e28fa11f27da_0-0007",
+        "iv-v1-hi-valid-2892452d-2d04-4a70-ad1f-b0409f4ece0a_1-0005",
+        "iv-v1-hi-valid-2892452d-2d04-4a70-ad1f-b0409f4ece0a_1-0007",
+        "iv-v1-hi-valid-44a46b8f-c123-4ce6-ae17-48cc590f4f1d_0-0006",
+        "iv-v1-hi-valid-44a46b8f-c123-4ce6-ae17-48cc590f4f1d_0-0008"
+      ],
+      "minimum_reference_words_per_second": 3.8340885325897522,
+      "models": {
+        "fp32": {
+          "word_errors": 14,
+          "reference_words": 124,
+          "wer": 0.11290322580645161,
+          "report": "reports/mobile-quantization/priority/hi-fp32.json"
+        },
+        "shipped": {
+          "word_errors": 31,
+          "reference_words": 124,
+          "wer": 0.25,
+          "report": "reports/mobile-quantization/priority/hi-current-shared.json"
+        },
+        "compact-int4": {
+          "word_errors": 14,
+          "reference_words": 124,
+          "wer": 0.11290322580645161,
+          "report": "reports/mobile-quantization/batch/hi-compact-int4.json"
+        },
+        "balanced-int8": {
+          "word_errors": 14,
+          "reference_words": 124,
+          "wer": 0.11290322580645161,
+          "report": "reports/mobile-quantization/batch/hi-balanced-int8.json"
+        }
+      }
+    },
+    "bn": {
+      "fastest_five_ids": [
+        "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0002",
+        "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0005",
+        "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0007",
+        "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0009",
+        "iv-v1-bn-valid-1407374883560588-0001"
+      ],
+      "minimum_reference_words_per_second": 2.840909090909091,
+      "models": {
+        "fp32": {
+          "word_errors": 9,
+          "reference_words": 59,
+          "wer": 0.15254237288135594,
+          "report": "reports/mobile-quantization/priority/bn-fp32.json"
+        },
+        "shipped": {
+          "word_errors": 14,
+          "reference_words": 59,
+          "wer": 0.23728813559322035,
+          "report": "reports/mobile-quantization/priority/bn-current-shared.json"
+        },
+        "compact-int4": {
+          "word_errors": 11,
+          "reference_words": 59,
+          "wer": 0.1864406779661017,
+          "report": "reports/mobile-quantization/batch/bn-compact-int4.json"
+        },
+        "balanced-int8": {
+          "word_errors": 9,
+          "reference_words": 59,
+          "wer": 0.15254237288135594,
+          "report": "reports/mobile-quantization/batch/bn-balanced-int8.json"
+        }
+      }
+    },
+    "mr": {
+      "fastest_five_ids": [
+        "iv-v1-mr-valid-562949953426594-0000",
+        "iv-v1-mr-valid-562949953429615-0001",
+        "iv-v1-mr-valid-562949953429615-0004",
+        "iv-v1-mr-valid-562949953430968-0002",
+        "iv-v1-mr-valid-562949953430968-0003"
+      ],
+      "minimum_reference_words_per_second": 1.9266238021520898,
+      "models": {
+        "fp32": {
+          "word_errors": 8,
+          "reference_words": 97,
+          "wer": 0.08247422680412371,
+          "report": "reports/mobile-quantization/priority/mr-fp32.json"
+        },
+        "shipped": {
+          "word_errors": 7,
+          "reference_words": 97,
+          "wer": 0.07216494845360824,
+          "report": "reports/mobile-quantization/priority/mr-current-shared.json"
+        },
+        "compact-int4": {
+          "word_errors": 8,
+          "reference_words": 97,
+          "wer": 0.08247422680412371,
+          "report": "reports/mobile-quantization/batch/mr-compact-int4.json"
+        },
+        "balanced-int8": {
+          "word_errors": 8,
+          "reference_words": 97,
+          "wer": 0.08247422680412371,
+          "report": "reports/mobile-quantization/batch/mr-balanced-int8.json"
+        }
+      }
+    },
+    "te": {
+      "fastest_five_ids": [
+        "iv-v1-te-valid-1b749abf-135f-4752-8618-bc063e811d14_1-0004",
+        "iv-v1-te-valid-4503599627485576-0001",
+        "iv-v1-te-valid-4503599627485576-0002",
+        "iv-v1-te-valid-4503599627485576-0003",
+        "iv-v1-te-valid-4503599627485576-0004"
+      ],
+      "minimum_reference_words_per_second": 2.0663825390675448,
+      "models": {
+        "fp32": {
+          "word_errors": 21,
+          "reference_words": 89,
+          "wer": 0.23595505617977527,
+          "report": "reports/mobile-quantization/priority/te-fp32.json"
+        },
+        "shipped": {
+          "word_errors": 23,
+          "reference_words": 89,
+          "wer": 0.25842696629213485,
+          "report": "reports/mobile-quantization/te/current-te.json"
+        },
+        "compact-int4": {
+          "word_errors": 24,
+          "reference_words": 89,
+          "wer": 0.2696629213483146,
+          "report": "reports/mobile-quantization/batch/te-compact-int4.json"
+        },
+        "balanced-int8": {
+          "word_errors": 21,
+          "reference_words": 89,
+          "wer": 0.23595505617977527,
+          "report": "reports/mobile-quantization/batch/te-balanced-int8.json"
+        }
+      }
+    },
+    "ta": {
+      "fastest_five_ids": [
+        "iv-v1-ta-valid-3096224743859743-0001",
+        "iv-v1-ta-valid-3096224743896134-0000",
+        "iv-v1-ta-valid-3096224743896134-0002",
+        "iv-v1-ta-valid-3096224743960885-0001",
+        "iv-v1-ta-valid-3096224743960885-0005"
+      ],
+      "minimum_reference_words_per_second": 2.5866498368240394,
+      "models": {
+        "fp32": {
+          "word_errors": 35,
+          "reference_words": 101,
+          "wer": 0.3465346534653465,
+          "report": "reports/mobile-quantization/priority/ta-fp32.json"
+        },
+        "shipped": {
+          "word_errors": 41,
+          "reference_words": 101,
+          "wer": 0.40594059405940597,
+          "report": "reports/mobile-quantization/priority/ta-current-shared.json"
+        },
+        "compact-int4": {
+          "word_errors": 38,
+          "reference_words": 101,
+          "wer": 0.37623762376237624,
+          "report": "reports/mobile-quantization/batch/ta-compact-int4.json"
+        },
+        "balanced-int8": {
+          "word_errors": 36,
+          "reference_words": 101,
+          "wer": 0.3564356435643564,
+          "report": "reports/mobile-quantization/batch/ta-balanced-int8.json"
+        }
+      }
+    },
+    "gu": {
+      "fastest_five_ids": [
+        "iv-v1-gu-valid-08330cec-d718-4c78-8dfc-83b246988108_1-0001",
+        "iv-v1-gu-valid-08330cec-d718-4c78-8dfc-83b246988108_1-0002",
+        "iv-v1-gu-valid-08330cec-d718-4c78-8dfc-83b246988108_1-0004",
+        "iv-v1-gu-valid-3377699720528537-0007",
+        "iv-v1-gu-valid-3377699720578270-0000"
+      ],
+      "minimum_reference_words_per_second": 2.3006134969325154,
+      "models": {
+        "fp32": {
+          "word_errors": 8,
+          "reference_words": 96,
+          "wer": 0.08333333333333333,
+          "report": "reports/mobile-quantization/priority/gu-fp32.json"
+        },
+        "shipped": {
+          "word_errors": 11,
+          "reference_words": 96,
+          "wer": 0.11458333333333333,
+          "report": "reports/mobile-quantization/priority/gu-current-shared.json"
+        },
+        "compact-int4": {
+          "word_errors": 9,
+          "reference_words": 96,
+          "wer": 0.09375,
+          "report": "reports/mobile-quantization/batch/gu-compact-int4.json"
+        },
+        "balanced-int8": {
+          "word_errors": 8,
+          "reference_words": 96,
+          "wer": 0.08333333333333333,
+          "report": "reports/mobile-quantization/batch/gu-balanced-int8.json"
+        }
+      }
+    },
+    "ur": {
+      "fastest_five_ids": [
+        "iv-v1-ur-valid-5351a958-6edb-406d-945f-c1d4de5b86bf_0-0003",
+        "iv-v1-ur-valid-5351a958-6edb-406d-945f-c1d4de5b86bf_0-0004",
+        "iv-v1-ur-valid-5351a958-6edb-406d-945f-c1d4de5b86bf_0-0006",
+        "iv-v1-ur-valid-5910974510936249-0001",
+        "iv-v1-ur-valid-5910974510972915-0000"
+      ],
+      "minimum_reference_words_per_second": 2.8698979591836733,
+      "models": {
+        "fp32": {
+          "word_errors": 9,
+          "reference_words": 87,
+          "wer": 0.10344827586206896,
+          "report": "reports/mobile-quantization/priority/ur-fp32.json"
+        },
+        "shipped": {
+          "word_errors": 10,
+          "reference_words": 87,
+          "wer": 0.11494252873563218,
+          "report": "reports/mobile-quantization/priority/ur-current-shared.json"
+        },
+        "compact-int4": {
+          "word_errors": 10,
+          "reference_words": 87,
+          "wer": 0.11494252873563218,
+          "report": "reports/mobile-quantization/batch/ur-compact-int4.json"
+        },
+        "balanced-int8": {
+          "word_errors": 9,
+          "reference_words": 87,
+          "wer": 0.10344827586206896,
+          "report": "reports/mobile-quantization/batch/ur-balanced-int8.json"
+        }
+      }
+    },
+    "kn": {
+      "fastest_five_ids": [
+        "iv-v1-kn-valid-01d68b4b-b83e-4ec8-83ad-ef137fcf8ec7_1-0008",
+        "iv-v1-kn-valid-24479240-81cf-432f-8cf8-69d6e3ed41e2_0-0006",
+        "iv-v1-kn-valid-24479240-81cf-432f-8cf8-69d6e3ed41e2_0-0010",
+        "iv-v1-kn-valid-6192449487641125-0003",
+        "iv-v1-kn-valid-6192449487654175-0004"
+      ],
+      "minimum_reference_words_per_second": 2.5327142254115658,
+      "models": {
+        "fp32": {
+          "word_errors": 16,
+          "reference_words": 54,
+          "wer": 0.2962962962962963,
+          "report": "reports/mobile-quantization/priority/kn-fp32.json"
+        },
+        "shipped": {
+          "word_errors": 21,
+          "reference_words": 54,
+          "wer": 0.3888888888888889,
+          "report": "reports/mobile-quantization/priority/kn-current-shared.json"
+        },
+        "compact-int4": {
+          "word_errors": 19,
+          "reference_words": 54,
+          "wer": 0.35185185185185186,
+          "report": "reports/mobile-quantization/batch/kn-compact-int4.json"
+        },
+        "balanced-int8": {
+          "word_errors": 16,
+          "reference_words": 54,
+          "wer": 0.2962962962962963,
+          "report": "reports/mobile-quantization/batch/kn-balanced-int8.json"
+        }
+      }
+    }
+  }
+}

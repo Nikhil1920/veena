@@ -1,0 +1,80 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/mr/evaluation/audio/iv-v1-mr-valid-562949953426594-0000.wav",
+  "audio_duration_seconds": 11.937981859410431,
+  "audio_sample_rate": 44100,
+  "audio_samples": 526465,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/mr/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/mr/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/mr/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "mr",
+  "measured_runs": 5,
+  "model": "candidates/mobile-builds/mr/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 304.791084,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 173.27070799999998,
+      "transcript": "मी शेती आणि शेतकऱ्याकरिता समाज याकडून पाठिंबा असा मिळतो की मी एक शेतकरी बचत गट तयार केलेले आहेत आणि शेतीवर जास्तीत जास्त मार्गदर्शन करतो"
+    },
+    {
+      "iteration": 1,
+      "preprocess_inference_decode_ms": 163.644667,
+      "transcript": "मी शेती आणि शेतकऱ्याकरिता समाज याकडून पाठिंबा असा मिळतो की मी एक शेतकरी बचत गट तयार केलेले आहेत आणि शेतीवर जास्तीत जास्त मार्गदर्शन करतो"
+    },
+    {
+      "iteration": 2,
+      "preprocess_inference_decode_ms": 171.97379199999997,
+      "transcript": "मी शेती आणि शेतकऱ्याकरिता समाज याकडून पाठिंबा असा मिळतो की मी एक शेतकरी बचत गट तयार केलेले आहेत आणि शेतीवर जास्तीत जास्त मार्गदर्शन करतो"
+    },
+    {
+      "iteration": 3,
+      "preprocess_inference_decode_ms": 165.30208299999998,
+      "transcript": "मी शेती आणि शेतकऱ्याकरिता समाज याकडून पाठिंबा असा मिळतो की मी एक शेतकरी बचत गट तयार केलेले आहेत आणि शेतीवर जास्तीत जास्त मार्गदर्शन करतो"
+    },
+    {
+      "iteration": 4,
+      "preprocess_inference_decode_ms": 172.122833,
+      "transcript": "मी शेती आणि शेतकऱ्याकरिता समाज याकडून पाठिंबा असा मिळतो की मी एक शेतकरी बचत गट तयार केलेले आहेत आणि शेतीवर जास्तीत जास्त मार्गदर्शन करतो"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 2,
+  "variant": "balanced-int8",
+  "source_utterance_id": "iv-v1-mr-valid-562949953426594-0000",
+  "verified_input_sha256": {
+    "candidates/mobile-builds/mr/balanced-int8/model.onnx": "9d14fc5130b00fbc99612b9d2894aad2123de369c4349d26b77b4c4df6e34223",
+    "candidates/mobile-builds/mr/balanced-int8/decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "candidates/mobile-builds/mr/balanced-int8/vocab.json": "c087f94ac4eaec6ee86a63ef78b03b18f8d27deff60d9cc624e034307ad3f8a9",
+    "corpus/indicvoices-v1-pilot/mr/evaluation/audio/iv-v1-mr-valid-562949953426594-0000.wav": "e82dee6f85d852e3a355dd5f257a7976c1371a53b4d69975069ea7566ca4bc38",
+    "candidates/mobile-builds/mr/balanced-int8/language_masks.json": "92dd508ea2254d26ea8eff2f2206e877483b9221ae6f1c8f52a9b7990a466c60"
+  },
+  "median_total_ms": 171.97379199999997,
+  "peak_rss_bytes": 680984576,
+  "rtf": 0.014405600044067504,
+  "physical_phone_tested": false
+}

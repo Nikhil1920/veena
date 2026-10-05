@@ -1,0 +1,87 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/kok/evaluation/audio/iv-v1-kok-valid-281474976943207-0000.wav",
+  "audio_duration_seconds": 7.84,
+  "audio_sample_rate": 44100,
+  "audio_samples": 345744,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/kok/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/kok/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/kok/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "kok",
+  "measured_runs": 1,
+  "model": "candidates/mobile-builds/kok/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 349.71754100000004,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 125.009667,
+      "transcript": "तुमगेर पाळीव जनावर आसा आनी आसा जाल्यार तुजो असो ततूंतलो फेवरेट पाळीव जनावर खंयचे आनी कित्याक"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 0,
+  "variant": "balanced-int8",
+  "returncode": 0,
+  "model_sha256": "8906820afa6e9e46008a91b8d5586be0c04a459dc18305a05133e4895889810d",
+  "decoder_asset_sha256": {
+    "decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "vocab.json": "fa9d9b5671f539da1ff0459b6216bedeb2e36274f4f7177560e6fb26a65750e8",
+    "language_masks.json": "775cca8e0c6aa80fa28ab6c80961307fe45648ac90b347d992dcee2e60bafab9"
+  },
+  "binary_sha256": "ad5db19691b2c6a631283e2678df10ac01e25fd1eca6f395eced6e3bd4662935",
+  "sample_id": "iv-v1-kok-valid-281474976943207-0000",
+  "reference": "तुमगेर पाळीव जनावर आसा आनी आसा जाल्यार तुजो असो तितूंतलो फेवरेट पाळीव जनावर खंयचें आनी कित्याक",
+  "audio_sha256": "cd8c48e33c5fbb7df389676577ef6386dd9d5ec2ca6631b5783b9bef6d62abe8",
+  "sample_source": {
+    "source_dataset": "AI4Bharat/IndicVoices",
+    "source_split": "valid",
+    "source_archive_url": "https://iv-release.objectstore.e2enetworks.net/dmu_release/v1_Konkani_valid.tgz",
+    "source_member": "Konkani/v1/valid/281474976943207.wav",
+    "license": "CC-BY-4.0"
+  },
+  "command": [
+    "../../target/release/model_smoke",
+    "--model",
+    "candidates/mobile-builds/kok/balanced-int8/model.onnx",
+    "--decoder-config",
+    "candidates/mobile-builds/kok/balanced-int8/decoder_config.json",
+    "--vocab",
+    "candidates/mobile-builds/kok/balanced-int8/vocab.json",
+    "--language-masks",
+    "candidates/mobile-builds/kok/balanced-int8/language_masks.json",
+    "--audio",
+    "corpus/indicvoices-v1-pilot/kok/evaluation/audio/iv-v1-kok-valid-281474976943207-0000.wav",
+    "--language",
+    "kok",
+    "--warmup",
+    "0",
+    "--runs",
+    "1"
+  ],
+  "python_1_26_prediction": "तुमगेर पाळीव जनावर आसा आनी आसा जाल्यार तुजो असो ततूंतलो फेवरेट पाळीव जनावर खंयचे आनी कित्याक",
+  "native_matches_python_1_26": true
+}

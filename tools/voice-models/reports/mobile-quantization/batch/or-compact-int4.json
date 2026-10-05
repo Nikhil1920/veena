@@ -1,0 +1,880 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/or/compact-int4/model.onnx",
+  "required_languages": [
+    "or"
+  ],
+  "evaluated_languages": [
+    "or"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 102971375,
+  "manifest": "corpus/indicvoices-v1-pilot/or/evaluation/manifest.jsonl",
+  "corpus_sha256": "e17e7db5e8bc356150f8d85b9136f79d377307ab05614087d7b720a78ea66094",
+  "coverage": {
+    "languages": [
+      "or"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "or"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": true,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "model_artifact": {
+    "sha256": "11427a2610e31f203c344fcff9f7691465124b09cedd2ab61e441663c7fda3f3",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 102971375,
+        "sha256": "11427a2610e31f203c344fcff9f7691465124b09cedd2ab61e441663c7fda3f3"
+      }
+    ],
+    "artifact_sha256": "06f8d64cf4006de8ba2443b328b1a0e74ec0cd0cd4789728f99fc6f6e62fd5c5",
+    "size_bytes": 102971375
+  },
+  "decoder_assets": {
+    "decoder_config.json": {
+      "size_bytes": 45,
+      "sha256": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017"
+    },
+    "language_masks.json": {
+      "size_bytes": 2220,
+      "sha256": "21bef59730ed4f1b6f9a0e363f4c331e630c6be3d015a21b5652729d8cb83a60"
+    },
+    "vocab.json": {
+      "size_bytes": 3655,
+      "sha256": "7a38b47a3e551bcc0adf4f82137ce07ea8531000253be3f62dab5606b4d242d5"
+    }
+  },
+  "artifact_binding": {
+    "status": "verified",
+    "method": "sha256",
+    "checked_before_inference": true,
+    "checked_after_inference": true,
+    "scope": "worker model protobuf, external weights, and decoder assets"
+  },
+  "load_time_seconds": 0.29024162504356354,
+  "peak_rss_bytes": 899383296,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-or-valid-1688849860265581-0000",
+      "language": "or",
+      "reference": "ଆମ ଦେଶକୁ ଇଂରେଜ ମାନେ ଶାସନ କରୁଥିଲେ ଆମର କିଛି ସ୍ୱାଧୀନତା ନଥିଲା ଆମେ ତାଙ୍କ ଦ୍ୱାରା ଆମେ ପରିଚାଳିତ ହେଉଥିଲୁ ଆମେ ବହୁତ ହଇରାଣ ହରକତ କରୁଥିଲୁ ଆମର ସ୍ୱାଧୀନତା ବୋଲି କିଛି ନଥିଲା ଲର୍ଡ଼ ମାଲାଲ ନୀତିଶିକ୍ଷା",
+      "duration_seconds": 13.533990929705215,
+      "prediction": "ଆମ ଦେଶକୁ ଇଂରେଜମାନ ଶାସନ କରୁଥିଲେ ଆମର କିଛି ସ୍ୱାଧୀନତା ନଥିଲା ଆମେ ତାଙ୍କ ଦ୍ୱାରା ଆମେ ପରିଚାଳିତ ହେଉଥିଲୁ ଆମେ ବହୁତ ହଇରାଣ ହରକତ କରିୁଥିଲୁ ଆମର ସ୍ୱାଧୀନତା ବୋଲି କିଛି ନଥିଲା ଲର୍ଡ଼ ମାଲାଲ ନୀତି ଶିକ୍ଷା",
+      "reference_words": 29,
+      "word_errors": 5,
+      "reference_characters": 176,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.34273899998515844
+      ],
+      "inference_median_seconds": 0.34273899998515844
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860265581-0001",
+      "language": "or",
+      "reference": "ନୀତିଶିକ୍ଷା ଭାବରେ ଭାରତର ଶିକ୍ଷାନୀତିକୁ ଅଧଃପତନ ଆଡ଼କୁ ଟାଣିନେଇଛି ଭାରତ ସରକାର ଙ୍କ ପ୍ରଣୀତ ଶିକ୍ଷାନୀତି ଦୁଇ ହଜାର କୋଡ଼ିଏ ରେ ପାଞ୍ଚ ଯୁକ୍ତ ତିନି ଯୁକ୍ତ ତିନି ଯୁକ୍ତ ଚାରି ସମାନ",
+      "duration_seconds": 11.290997732426304,
+      "prediction": "ନୀତି ଶିକ୍ଷା ଭାବରେ ଭାରତର ଶିକ୍ଷାନୀତିକୁ ଅଧପତନ ଆଡ଼କୁ ଟାଣି ନେଇଛି ଭାରତ ସରକାରଙ୍କ ପ୍ରଣୀତ ଶିକ୍ଷାନୀତି ଦୁଇ ହଜାର କୋଡ଼ିଏରେ ପାଞ୍ଚ ଯୁକ୍ତ ତିନି ଯୁକ୍ତ ତିନିଯୁକ୍ତ ଚାରି ସମାନ",
+      "reference_words": 24,
+      "word_errors": 11,
+      "reference_characters": 154,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.2817073750193231
+      ],
+      "inference_median_seconds": 0.2817073750193231
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860265911-0000",
+      "language": "or",
+      "reference": "କ୍ଲୋଜ୍ଅପ୍ ଘଷିଲା ବେଳେ ଭଲ ଦାନ୍ତ ସଫା ହେଉ ନାହିଁ",
+      "duration_seconds": 3.6039909297052155,
+      "prediction": "କ୍ଲୋଜ୍ ଅଫ୍ ଘଷିଲ ବେଳେ ଭଲ ଦାନ୍ତ ସଫା ହେଉନାହିଁ",
+      "reference_words": 8,
+      "word_errors": 5,
+      "reference_characters": 43,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.0974974170094356
+      ],
+      "inference_median_seconds": 0.0974974170094356
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860267367-0000",
+      "language": "or",
+      "reference": "ମୋତେ କ୍ରିମର ବାସ୍ନା ବହୁତ ଭଲ ଲାଗୁଛି ତାକୁ ଲଗାଇଲେ ମୁଁହ କୋମଳ ମଧ୍ୟ ଦିଶୁଛି",
+      "duration_seconds": 7.072018140589569,
+      "prediction": "ମୋତେ କ୍ରିମ୍ର ବାସ୍ନା ବହୁତ ଭଲ ଲାଗୁଛି ତାକୁ ଲଗାଇଲେ ମୁହଁ କୋମଳ ମଧ୍ୟ ଦିଶୁଛି",
+      "reference_words": 12,
+      "word_errors": 2,
+      "reference_characters": 67,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.1590090409736149
+      ],
+      "inference_median_seconds": 0.1590090409736149
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860267367-0001",
+      "language": "or",
+      "reference": "ଦୀର୍ଘ ସମୟ ଧରି ଚମକ ରହୁଛି ଆଉ ସେଥିରେ ଦାଗ ବି କମିଯାଉଛି କିଛି ସେ କ୍ରିମ ଲଗାଇବା ଦ୍ୱାରା ଆମ ମୁଁହରେ କିଛି ଦାଗ ଫାଗ ରହୁନି",
+      "duration_seconds": 9.28,
+      "prediction": "ଦୀର୍ଘ ସମୟ ଧରି ଚମକ ରହୁଛି ଆଉ ସେଥିରେ ଦାଗ ବି କମିଯାଉଛି କିଛି ସେ କ୍ରିମ୍ ଲଗାଇବା ଦ୍ୱାରା ଆମ ମୁହଁରେ ବି କିଛି ଦାଗ ଫାଗ ରହୁନି",
+      "reference_words": 21,
+      "word_errors": 3,
+      "reference_characters": 106,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.16369637503521517
+      ],
+      "inference_median_seconds": 0.16369637503521517
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860267445-0000",
+      "language": "or",
+      "reference": "ହଁ ମୁଁ ଆରମ୍ଭରୁ ଗୋଟିଏ ଖାଦ୍ୟ ସୃଷ୍ଟି କରିଥିଲି ସିଏ ଗୋଟିଏ ଡାଲମା",
+      "duration_seconds": 5.293990929705215,
+      "prediction": "ହଁ ମୁଁ ଆରମ୍ଭରୁ ଗୋଟିଏ ଖାଦ୍ୟ ସୃଷ୍ଟି କରିଥିଲି ସି ଗୋଟିଏ ଡାଲମା",
+      "reference_words": 10,
+      "word_errors": 1,
+      "reference_characters": 57,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.13807200000155717
+      ],
+      "inference_median_seconds": 0.13807200000155717
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860267445-0001",
+      "language": "or",
+      "reference": "ସେ ଡାଲମାରେ ଚାରି ପାଞ୍ଚ ପ୍ରକାର ଡାଲି ମିଶିଥିଲା ଆଉ ସବୁଜ ପନିପରିବା ମଧ୍ୟ ମିଶିଥିଲା",
+      "duration_seconds": 6.496009070294784,
+      "prediction": "ସେ ଡାଲମାରେ ଚାରି ପାଞ୍ଚ ପ୍ରକାର ଡାଲି ମିଶିଥିଲା ଆଉ ସବୁଜ ପନିପରିବା ମଧ୍ୟ ମିଶିଥିଲା",
+      "reference_words": 12,
+      "word_errors": 0,
+      "reference_characters": 73,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.15592479205224663
+      ],
+      "inference_median_seconds": 0.15592479205224663
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860267445-0002",
+      "language": "or",
+      "reference": "ସେ ହରଡ଼ ଡାଲି ମୁଗ ଡାଲି ମସୁର ଡାଲି ବିରି ଡାଲି ବୁଟ ଡାଲି",
+      "duration_seconds": 6.111995464852607,
+      "prediction": "ସେ ହରଡ଼ ଡାଲି ମୁଗ ଡାଲି ମସୁର ଡାଲି ବିରି ଡାଲି ବୁଟ ଡାଲି",
+      "reference_words": 11,
+      "word_errors": 0,
+      "reference_characters": 50,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.11208824999630451
+      ],
+      "inference_median_seconds": 0.11208824999630451
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860267445-0003",
+      "language": "or",
+      "reference": "ଆଉ ପକେଇକି ତା ସହିତ ସବୁଜ ପନିପରିବା ପକେଇଥିଲି ଯାହାକି ଛୁଇଁ ଆଳୁ ଆଉ ମାଟିଆଳୁ",
+      "duration_seconds": 9.259002267573695,
+      "prediction": "ଆଉ ପକେଇକି ତା ସହିତ ସବୁଜ ପନିପରିବା ପକାଇଥିଲି ଯାହାକି ଛୁଇଁ ଆଳୁ ଆଉ ମାଟିଆଳୁ",
+      "reference_words": 12,
+      "word_errors": 1,
+      "reference_characters": 67,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.16073125001275912
+      ],
+      "inference_median_seconds": 0.16073125001275912
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860267445-0004",
+      "language": "or",
+      "reference": "ଆଉ ବରୁଗୁଡ଼ି କଖାରୁ ଏହିସବୁ ପକେଇ ଗୋଟିଏ ଡାଲମା କରିଥିଲି ଯାହାକି ମୁଁ ବହୁତ ମାନେ",
+      "duration_seconds": 8.03299319727891,
+      "prediction": "ଆଉ ବରୁକୁଡ଼ି କଖାରୁ ଏସବୁ ପକାଇ ଗୋଟିଏ ଡାଲମା କରିଥିଲି ଯାହାକି ମୁଁ ବହୁତ ମାନେ",
+      "reference_words": 12,
+      "word_errors": 3,
+      "reference_characters": 70,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.19003529200563207
+      ],
+      "inference_median_seconds": 0.19003529200563207
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269166-0000",
+      "language": "or",
+      "reference": "ଛୋଟ ବ୍ୟବସାୟ ହେଉଛି ଅଗରବତୀ ବ୍ୟବସାୟ ଏହା ଏକ ଲାଭଦାୟକ କ୍ଷୁଦ୍ର ବ୍ୟବସାୟ ଅଟେ ଏହା ଦ୍ୱାରା ନିଜେ ଚାକିରୀ କରେଇବ କରିବା ଦ୍ୱାରା",
+      "duration_seconds": 10.623990929705215,
+      "prediction": "ଛୋଟ ବ୍ୟବସାୟ ହେଉଛି ଅଗରବତୀ ବ୍ୟବସାୟ ଏହା ଏକ ଲାଭଦାୟକ କ୍ଷୁଦ୍ର ବ୍ୟବସାୟ ଅଟେ ଏହା ଦ୍ୱାରା ନିଜେ ଚାକିରି କର କରିବା ଦ୍ୱାରା",
+      "reference_words": 18,
+      "word_errors": 2,
+      "reference_characters": 109,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.22946862498065457
+      ],
+      "inference_median_seconds": 0.22946862498065457
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269166-0001",
+      "language": "or",
+      "reference": "ଅନ୍ୟମାନଙ୍କୁ ମଧ୍ୟ ଚାକିରୀରେ ସାମିଲ କରାଯାଇଥାଏ ଫଳରେ ଅନ୍ୟମାନେ ନିଜର ପରିବାର ପୋଷିଥାନ୍ତି ଏହି ବ୍ୟବସାୟରେ ଧୂପକାଠି ତିଆରି କରାଯାଇଥାଏ",
+      "duration_seconds": 11.585986394557823,
+      "prediction": "ଅନ୍ୟମାନଙ୍କୁ ମଧ୍ୟ ଚାକିରିରେ ସାମିଲ କରାଯାଇଥାଏ ଫଳରେ ଅନ୍ୟମାନେ ନିଜର ପରିବାର ପୋଷିଥାନ୍ତି ଏହି ବ୍ୟବସାୟରେ ଧୂପ କାଠି ତିଆରି କରାଯାଇଥାଏ",
+      "reference_words": 15,
+      "word_errors": 3,
+      "reference_characters": 116,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.22513958299532533
+      ],
+      "inference_median_seconds": 0.22513958299532533
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269166-0002",
+      "language": "or",
+      "reference": "ଧୂପକାଠି ତିଆରି କରି ଏହାକୁ ପ୍ୟାକିଂ କରାଯାଏ ପ୍ୟାକିଂ କରାଯାଇସାରିଲା ପରେ ଏହାକୁ ବିଭିନ୍ନ ଆଡ଼େ",
+      "duration_seconds": 6.877981859410431,
+      "prediction": "ଧୂପକାଠି ତିଆରି କରି ଏହାକୁ ପ୍ୟାକିଂ କରାଯାଏ ପ୍ୟାକିଂ କରାଇ ସାରିଲା ପରେ ଏହାକୁ ବିଭିନ୍ନ ଆଡ଼େ",
+      "reference_words": 12,
+      "word_errors": 2,
+      "reference_characters": 82,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.2816599999787286
+      ],
+      "inference_median_seconds": 0.2816599999787286
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269166-0003",
+      "language": "or",
+      "reference": "ସପ୍ଲାଏ କରାଯାଏ ଦୋକାନ ଦୋକାନ ଗାଁ ଗାଁ ବୁଲି ଏହାକୁ ଦିଆଯାଏ ଫଳରେ ସେମାନେ ମଧ୍ୟ କଷ୍ଟମର ମାନଙ୍କୁ ଏହା ବିକିଥାନ୍ତି ଫଳରେ ସେମାନଙ୍କର ମଧ୍ୟ ଲାଭ ହୋଇଥାଏ",
+      "duration_seconds": 12.256009070294784,
+      "prediction": "ସପ୍ଲାଏ କରାଯାଏ ଦୋକାନ ଦୋକାନ ଗାଁ ଗାଁ ବୁଲି ଏହାକୁ ଦିଆଯାଏ ଫଳରେ ସେମାନେ ମଧ୍ୟ କଷ୍ଟମର ମଙ୍କୁ ଏହା ବିକିଥାନ୍ତି ଫଳରେ ସେମାନଙ୍କର ମଧ୍ୟ ଲାଭ ହୋଇଥାଏ",
+      "reference_words": 21,
+      "word_errors": 1,
+      "reference_characters": 129,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.40559149999171495
+      ],
+      "inference_median_seconds": 0.40559149999171495
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269166-0004",
+      "language": "or",
+      "reference": "ଏହା ହିଁ ହେଉଛି ଛୋଟ ବ୍ୟବସାୟର ଲାଭଦାୟକ ଯାହା ଆପଣ ପରିଚିତ ଏବଂ ନିର୍ଦ୍ଧିଷ୍ଟ ବ୍ୟବସାୟର ଆକର୍ଷଣୀୟ ଅଟେ",
+      "duration_seconds": 9.941995464852608,
+      "prediction": "ଏହା ହିଁ ହେଉଛି ଛୋଟ ବ୍ୟବସାୟର ଲାଭଦାୟକ ଯାହା ଆପଣ ପରିଚିତ ଏବଂ ନିର୍ଦ୍ଦିଷ୍ଟ ବ୍ୟବସାୟର ଆକର୍ଷଣୀୟ ଅଟେ",
+      "reference_words": 14,
+      "word_errors": 1,
+      "reference_characters": 88,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.22845887497533113
+      ],
+      "inference_median_seconds": 0.22845887497533113
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269809-0000",
+      "language": "or",
+      "reference": "ମୁଁ ଏକ ସଫଳ ପରିବା ଚାଷୀ ଅଟେ ମୁଁ ଅନେକ ପ୍ରକାର ପରିବା ଚାଷ ମଧ୍ୟ କରେ",
+      "duration_seconds": 8.361995464852608,
+      "prediction": "ମୁଁ ଏକ ସଫଳ ପରିବା ଚାଷୀ ଅଟେ ମୁଁ ଅନେକ ପ୍ରକାର ପରିବା ଚାଷ ମଧ୍ୟ କରେ",
+      "reference_words": 13,
+      "word_errors": 0,
+      "reference_characters": 60,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.1900172919849865
+      ],
+      "inference_median_seconds": 0.1900172919849865
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269809-0001",
+      "language": "or",
+      "reference": "ଯେମିତିକି ବାଇଗଣ ଚାଷ ଭେଣ୍ଡିଚାଷ କଲରାଚାଷ ଝୁଡଙ୍ଗଚାଷ ଧଣିଆପତ୍ର ଓ କୋବି ଚାଷ ଇତ୍ୟାଦି କରେ",
+      "duration_seconds": 12.987006802721089,
+      "prediction": "ଯେମିତିକି ବାଇଗଣ ଚାଷ ଭେଣ୍ଡି ଚାଷ କଲରା ଚାଷ ଝୁଡ଼ଙ୍ଗ ଚାଷ ଧଣିଆ ପତ୍ର ଓ କୋଭି ଚାଷ ଇତ୍ୟାଦି କରେ",
+      "reference_words": 12,
+      "word_errors": 9,
+      "reference_characters": 78,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.3663968749460764
+      ],
+      "inference_median_seconds": 0.3663968749460764
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269809-0002",
+      "language": "or",
+      "reference": "ଏଇସବୁ ପରିବାକୁ ମୁଁ ମୋର ପାଖ ବଜାରରେ ବିକ୍ରି କରିଥାଏ",
+      "duration_seconds": 5.919002267573696,
+      "prediction": "ଏହିସବୁ ପରିବାକୁ ମୁଁ ମୋର ପାଖ ବଜାରରେ ବିକ୍ରି କରିଥାଏ",
+      "reference_words": 8,
+      "word_errors": 1,
+      "reference_characters": 46,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.16348733397899196
+      ],
+      "inference_median_seconds": 0.16348733397899196
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269809-0003",
+      "language": "or",
+      "reference": "ଆହୁରି ମଧ୍ୟ ପରିବା ମୋ ପାଖରେ ଅଧିକ ରୁହେ ଯେଉଁଟା କି ମତେ ବିକ୍ରି କରିବାକୁ ବହୁତ କଷ୍ଟ ହୁଏ",
+      "duration_seconds": 9.950997732426304,
+      "prediction": "ଆହୁରି ମଧ୍ୟ ପରିବା ମୋ ପାଖରେ ଅଧିକ ରୁହେ ଯେଉଁଟାକି ମୋତେ ବିକ୍ରି କରିବାକୁ ବହୁତ କଷ୍ଟ ହୁଏ",
+      "reference_words": 15,
+      "word_errors": 3,
+      "reference_characters": 78,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.23448166699381545
+      ],
+      "inference_median_seconds": 0.23448166699381545
+    },
+    {
+      "id": "iv-v1-or-valid-1688849860269809-0004",
+      "language": "or",
+      "reference": "ଯାହାଫଳରେ ପରିବା କିଛି ନଷ୍ଟ ହୋଇଯାଏ ସେଥିପାଇଁ ଆମ ଅଞ୍ଚଳରେ ଥିବା ସରକାରୀ ମଣ୍ଡି ଉପରେ ନିର୍ଭର କରେ",
+      "duration_seconds": 11.91,
+      "prediction": "ଯାହାଫଳରେ ପରିବା କିଛି ନଷ୍ଟ ହୋଇଯାଏ ସେଥିପାଇଁ ଆମ ଅଞ୍ଚଳରେ ଥିବା ସରକାରୀ ମଣ୍ଡି ଉପରେ ନିର୍ଭର କରେ",
+      "reference_words": 14,
+      "word_errors": 0,
+      "reference_characters": 85,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.2692388339783065
+      ],
+      "inference_median_seconds": 0.2692388339783065
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 53,
+    "reference_words": 293,
+    "wer": 0.18088737201365188,
+    "character_errors": 51,
+    "reference_characters": 1734,
+    "cer": 0.029411764705882353,
+    "duration_seconds": 180.38995464852604,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.2075874375004787,
+    "latency_p95_seconds": 0.36835660619835836,
+    "inference_seconds": 4.395441376895178,
+    "rtf": 0.02436633118212879
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 53,
+      "reference_words": 293,
+      "wer": 0.18088737201365188,
+      "character_errors": 51,
+      "reference_characters": 1734,
+      "cer": 0.029411764705882353,
+      "duration_seconds": 180.38995464852604,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.2075874375004787,
+      "latency_p95_seconds": 0.36835660619835836,
+      "inference_seconds": 4.395441376895178,
+      "rtf": 0.02436633118212879
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "comparison": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "or"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "or": {
+        "passed": true,
+        "wer_regression": -0.0068259385665528916,
+        "cer_regression": -0.0005767012687427908
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.8230708234103791,
+      "peak_rss_bytes_ratio": 0.8512281354670637,
+      "latency_p50_seconds_ratio": 1.0571534840056553,
+      "latency_p95_seconds_ratio": 1.1585407245956152,
+      "rtf_ratio": 1.0865935290530824
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_fp32": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "or"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "or": {
+        "passed": true,
+        "wer_regression": -0.0068259385665528916,
+        "cer_regression": -0.0005767012687427908
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.8230708234103791,
+      "peak_rss_bytes_ratio": 0.8512281354670637,
+      "latency_p50_seconds_ratio": 1.0571534840056553,
+      "latency_p95_seconds_ratio": 1.1585407245956152,
+      "rtf_ratio": 1.0865935290530824
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "or"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "or": {
+        "passed": true,
+        "wer_regression": -0.0068259385665528916,
+        "cer_regression": -0.010380622837370242
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.15235849990927933,
+      "load_time_seconds_ratio": 0.31858759817466215,
+      "peak_rss_bytes_ratio": 0.603257286034551,
+      "latency_p50_seconds_ratio": 0.4516987464656818,
+      "latency_p95_seconds_ratio": 0.5815967407517046,
+      "rtf_ratio": 0.5008377225065929
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "candidate_variant": "compact-int4",
+  "status_classification": "candidate_unvalidated",
+  "latency_qualified": false,
+  "timing_note": "Accuracy-only screen; two independent candidate workers may overlap. Use the separate controlled host benchmark for timing; physical phone performance is unqualified.",
+  "selection_note": "Pilot used for candidate screening. Fresh speaker-disjoint confirmation data and mobile measurements are required. No automatic selection."
+}

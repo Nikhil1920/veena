@@ -1,0 +1,481 @@
+{
+  "status": "compatibility_smoke_complete",
+  "release_ready": false,
+  "languages": [
+    "hi",
+    "bn",
+    "mr",
+    "te",
+    "ta",
+    "gu",
+    "ur",
+    "kn",
+    "or",
+    "ml",
+    "pa",
+    "as",
+    "mai",
+    "sat",
+    "ks",
+    "ne",
+    "sd",
+    "doi",
+    "kok",
+    "mni",
+    "brx",
+    "sa"
+  ],
+  "candidate_count": 44,
+  "native_compatibility_passed": 44,
+  "python_prediction_matches": 44,
+  "host_platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "timing_note": "Single real public evaluation clip per language, one run, concurrent jobs. Host native compatibility only; no physical phone tested and timings are not qualified speed comparisons.",
+  "android_binary_evidence": {
+    "path": "veena-android/app/src/main/jniLibs/arm64-v8a/librust_backend.so",
+    "strings_version": "1.24.2",
+    "strings_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+    "executed": false
+  },
+  "results": [
+    {
+      "language": "hi",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "अच्छा अच्छा खातीपुर में हाँ वो जो नल नल लीक कर रहा था उसी की बात कर रहे हैं ना आप",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/hi-compact-int4.json"
+    },
+    {
+      "language": "hi",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "अच्छा अच्छा खातीपुरा में हाँ वो जो नल नल लीक कर रहा था उसी की बात कर रहे हैं ना आप",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/hi-balanced-int8.json"
+    },
+    {
+      "language": "bn",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "হ্যাঁ বলছি এটা কি নিউসু হাউসের দোকান",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/bn-compact-int4.json"
+    },
+    {
+      "language": "bn",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "হ্যাঁ বলছি এটা কি নিউসু হাউসের দোকান",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/bn-balanced-int8.json"
+    },
+    {
+      "language": "mr",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "मी शेती आणि शेतकऱ्याकरिता समाज याकडून पाठिंबा असा मिळतो की मी एक शेतकरी बचत गट तयार केलेले आहेत आणि शेतीवर जास्तीत जास्त मार्गदर्शन करतो",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/mr-compact-int4.json"
+    },
+    {
+      "language": "mr",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "मी शेती आणि शेतकऱ्याकरिता समाज याकडून पाठिंबा असा मिळतो की मी एक शेतकरी बचत गट तयार केलेले आहेत आणि शेतीवर जास्तीत जास्त मार्गदर्शन करतो",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/mr-balanced-int8.json"
+    },
+    {
+      "language": "te",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/te-compact-int4.json"
+    },
+    {
+      "language": "te",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/te-balanced-int8.json"
+    },
+    {
+      "language": "ta",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "எனக்கு டிரைவிங்னா எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்தே நான் வந்து வண்டி ஓட்டுகிறதுெல்லாம் மூணாவது ஆடாவலே கற்றுக்கினேன்",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ta-compact-int4.json"
+    },
+    {
+      "language": "ta",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "எனக்கு டிரைவிங்னால்ா எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்தே நான் வந்து வண்டி ஓட்டுகிறதுெல்லாம் மூணாவது ஆாலாவதுலே கற்றுக்கினேன்",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ta-balanced-int8.json"
+    },
+    {
+      "language": "gu",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "નમસ્તે હું કલ્શક સમાચાર ચનેલ માંથી પત્રકાર અંજલિ વાત કરું છું આપણે નવીનતમ હવામાન ઉપતે કરવા માટે અમારી સાથે અમારા હવામાન શાસ્ત્રી પ્રિયાજી પટેલ છે",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/gu-compact-int4.json"
+    },
+    {
+      "language": "gu",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "નમસ્તે હું કલ્શક સમાચાર ચેનેલ માંથી પત્રકાર અંજલિ વાત કરું છું આપણે નવીનતમ હવામાન ઉપતે કરવા માટે અમારી સાથે અમારા હવામાન શાસ્ત્રી પ્રિયાજી પટેલ છે",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/gu-balanced-int8.json"
+    },
+    {
+      "language": "kn",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ಹಾಂ ಸರ್ ಎಲ್ಲಿ ಎಲ್ಲಿಗೆ ಸರ್",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/kn-compact-int4.json"
+    },
+    {
+      "language": "kn",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ಹಾಂ ಸರ್ ಎಲ್ಲಿ ಎಲ್ಲಿಗೆ ಸರ್",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/kn-balanced-int8.json"
+    },
+    {
+      "language": "ur",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "کیا آپ میری بات بُتیک سے ہو رہی ہے بُتیک والے سے",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ur-compact-int4.json"
+    },
+    {
+      "language": "ur",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "کیا آپ میری بات بُتیک سے ہو رہی ہے بُتیک والے سے",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ur-balanced-int8.json"
+    },
+    {
+      "language": "or",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ଆମ ଦେଶକୁ ଇଂରେଜମାନ ଶାସନ କରୁଥିଲେ ଆମର କିଛି ସ୍ୱାଧୀନତା ନଥିଲା ଆମେ ତାଙ୍କ ଦ୍ୱାରା ଆମେ ପରିଚାଳିତ ହେଉଥିଲୁ ଆମେ ବହୁତ ହଇରାଣ ହରକତ କରିୁଥିଲୁ ଆମର ସ୍ୱାଧୀନତା ବୋଲି କିଛି ନଥିଲା ଲର୍ଡ଼ ମାଲାଲ ନୀତି ଶିକ୍ଷା",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/or-compact-int4.json"
+    },
+    {
+      "language": "or",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ଆମ ଦେଶକୁ ଇଂରେଜମାନ ଶାସନ କରୁଥିଲେ ଆମର କିଛି ସ୍ୱାଧୀନତା ନଥିଲା ଆମେ ତାଙ୍କ ଦ୍ୱାରା ଆମେ ପରିଚାଳିତ ହେଉଥିଲୁ ଆମେ ବହୁତ ହଇରାଣ ହରକତ କରିୁଥିଲୁ ଆମର ସ୍ୱାଧୀନତା ବୋଲି କିଛି ନଥିଲା ଲର୍ଡ଼ ମାଲାଲ ନୀତି ଶିକ୍ଷା",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/or-balanced-int8.json"
+    },
+    {
+      "language": "ml",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ഹലോ ഹലോ ഡോക്ടർ റഷുദാ സ്പീക്കിംഗ് ആരാണ് സംസാരിക്കുന്നത്",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ml-compact-int4.json"
+    },
+    {
+      "language": "ml",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ഹലോ ഹലോ ഡോക്ടർ റഷുദാ സ്പീക്കിംഗ് ആരാണ് സംസാരിക്കുന്നത്",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ml-balanced-int8.json"
+    },
+    {
+      "language": "pa",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ਮੈਂ ਬੀ ਟੈਕ ਕਰਨਾ ਤੁਸੀਂ ਮੈਨੂੰ ਦੱਸੋ ਕਿ ਕਿਹੜੀ ਯੂਨੀਵਰਸਿਟੀ ਉਹਦੇ ਲਈ ਬੈਟਰ ਹੈ",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/pa-compact-int4.json"
+    },
+    {
+      "language": "pa",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ਮੈਂ ਬੀਟੈਕ ਕਰਨਾ ਤੁਸੀਂ ਮੈਨੂੰ ਦੱਸੋ ਕਿ ਕਿਹੜੀ ਯੂਨੀਵਰਸਿਟੀ ਉਹਦੇ ਲਈ ਬੈਟਰ ਹੈ",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/pa-balanced-int8.json"
+    },
+    {
+      "language": "as",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "অসম মেঘালয় নাগালেণ্ড ত্ৰিপুৰা মণিপুৰ",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/as-compact-int4.json"
+    },
+    {
+      "language": "as",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "অসম মেঘালয় নাগালেণ্ড ত্ৰিপুৰা মণিপুৰ",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/as-balanced-int8.json"
+    },
+    {
+      "language": "mai",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "हँ तहिय परिवारमे मिलजुलिकऽ रहने चहिए",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/mai-compact-int4.json"
+    },
+    {
+      "language": "mai",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "हँ तहिय परिवारमे मिलजुल कऽ रहने चाहिए",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/mai-balanced-int8.json"
+    },
+    {
+      "language": "sat",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ᱦᱮᱸ ᱚᱠᱟ ᱠᱷᱚᱱ ᱵᱤᱱ ᱞᱟᱹᱭᱫᱟ ᱵᱤᱱ",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/sat-compact-int4.json"
+    },
+    {
+      "language": "sat",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ᱦᱮᱸ ᱮᱛ ᱠᱷᱚᱱ ᱵᱤᱱ ᱞᱟᱹᱭᱫᱟ ᱵᱤᱱ ᱾",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/sat-balanced-int8.json"
+    },
+    {
+      "language": "ks",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "دُبی لنڈن سنگاپور ٹوکیو پیرس",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ks-compact-int4.json"
+    },
+    {
+      "language": "ks",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "دُبیی لنڈن سنگاپوٗر ٹوکیو پیرس",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ks-balanced-int8.json"
+    },
+    {
+      "language": "ne",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ए म चाहिँ यहाँ कुमुदिनी स्कुलबाट बोलेको कि",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ne-compact-int4.json"
+    },
+    {
+      "language": "ne",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ए म चाहिँ यहाँ कुमुदिनी स्कुलबाट बोलेको कि",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/ne-balanced-int8.json"
+    },
+    {
+      "language": "sd",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ऐं असां जो थाणा डिस्ट्रिक्ट चंङियो वसी वियो आहे जंहिं जे करे कारोबार बि सुठो थी रहियो आहे ऐं चङियूं फैसिलिटियूं बि माण्हुनि खे मिली रहियूं आहिनि",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/sd-compact-int4.json"
+    },
+    {
+      "language": "sd",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ऐं असां जो थाणा डिस्ट्रिक्ट चङो वसी वियो आहे जंहिं जे करे कारोबार बि सुठो थी रहियो आहे ऐं चङियूं फैसिलिटियूं बि माण्हुनि खे मिली रहियूं आहिनि",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/sd-balanced-int8.json"
+    },
+    {
+      "language": "doi",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "सर जी दरअसल में बमार होई गे दा हा ते इक इक हफ्ता सर जी में कालेज गै निं आया रो में अस्पताल एडमिट होई गे दा हा अपने अग्गें",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/doi-compact-int4.json"
+    },
+    {
+      "language": "doi",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "सर जी दरअसल में बमार होई गे दा हा ते इक इक हफ्ता सर जी में कालेज गै निं आया रो में अस्पताल एडमिट होई गे दा हा अपने अग्गें",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/doi-balanced-int8.json"
+    },
+    {
+      "language": "kok",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "तुमगेर पाळीव जनावर आसा आनी आसा जाल्यार तुजो असो ततूंतलो फेवरेट पाळीव जनावर खंयचे आनी कित्याक",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/kok-compact-int4.json"
+    },
+    {
+      "language": "kok",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "तुमगेर पाळीव जनावर आसा आनी आसा जाल्यार तुजो असो ततूंतलो फेवरेट पाळीव जनावर खंयचे आनी कित्याक",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/kok-balanced-int8.json"
+    },
+    {
+      "language": "mni",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ꯍꯂꯣ ꯀꯩ ꯀꯩ ꯂꯩꯕꯤꯒꯤꯗꯣꯏꯅꯣ",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/mni-compact-int4.json"
+    },
+    {
+      "language": "mni",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "ꯍꯂꯣ ꯀꯔꯤ ꯀꯔꯤ ꯂꯩꯕꯤꯗꯣꯏꯅꯣ",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/mni-balanced-int8.json"
+    },
+    {
+      "language": "brx",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "मासबाथ दङ ओमफ्राय रयेल दङ ओमफ्राय",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/brx-compact-int4.json"
+    },
+    {
+      "language": "brx",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "मासपाथ दङ ओमफ्राय रयेल दङ ओमफ्राय",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/brx-balanced-int8.json"
+    },
+    {
+      "language": "sa",
+      "variant": "compact-int4",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "हा जी नमस्ते अहम् आरस्पुरं तः वदामि",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/sa-compact-int4.json"
+    },
+    {
+      "language": "sa",
+      "variant": "balanced-int8",
+      "status": "native_compatibility_passed",
+      "onnxruntime_version": "1.24.2",
+      "native_matches_python_1_26": true,
+      "transcript": "हा जि नमस्ते अहम् आरस्पुरं तः वदामि",
+      "error": null,
+      "report": "reports/mobile-quantization/native-smoke/sa-balanced-int8.json"
+    }
+  ]
+}

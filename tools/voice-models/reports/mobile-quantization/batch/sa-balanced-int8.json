@@ -1,0 +1,880 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/sa/balanced-int8/model.onnx",
+  "required_languages": [
+    "sa"
+  ],
+  "evaluated_languages": [
+    "sa"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 146746008,
+  "manifest": "corpus/indicvoices-v1-pilot/sa/evaluation/manifest.jsonl",
+  "corpus_sha256": "7cc2efa59bb42ccc2e1176fd519a46a9e3a53fe777322def75380a0187e7872d",
+  "coverage": {
+    "languages": [
+      "sa"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "sa"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": true,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "model_artifact": {
+    "sha256": "a479e300130b07ecc7b212b70c62c40f55856638cf46fcc6bec2b932b1eb548d",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 146746008,
+        "sha256": "a479e300130b07ecc7b212b70c62c40f55856638cf46fcc6bec2b932b1eb548d"
+      }
+    ],
+    "artifact_sha256": "3678bf488fa6a6a842f576f062f63ae890f7868f5371d953e5ebf580367cdb80",
+    "size_bytes": 146746008
+  },
+  "decoder_assets": {
+    "decoder_config.json": {
+      "size_bytes": 45,
+      "sha256": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017"
+    },
+    "language_masks.json": {
+      "size_bytes": 2220,
+      "sha256": "bfa5d4fd3779581d1ad706a7f3fc2d442d8b39333fe3b204f5f3d7cded5bace6"
+    },
+    "vocab.json": {
+      "size_bytes": 3523,
+      "sha256": "986b8586ef8c073e3f07c67e5560d4cf985c3c3b753048843049ab4467bae600"
+    }
+  },
+  "artifact_binding": {
+    "status": "verified",
+    "method": "sha256",
+    "checked_before_inference": true,
+    "checked_after_inference": true,
+    "scope": "worker model protobuf, external weights, and decoder assets"
+  },
+  "load_time_seconds": 0.34666179202031344,
+  "peak_rss_bytes": 1384054784,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-sa-valid-0f0e2468-2ed3-40ae-90c0-6b8f7d53bcb1_0-0000",
+      "language": "sa",
+      "reference": "जी नमस्ते अहम् आर् एस् पुरं तः वदामि",
+      "duration_seconds": 5.727,
+      "prediction": "हा जि नमस्ते अहम् आरस्पुरं तः वदामि",
+      "reference_words": 8,
+      "word_errors": 5,
+      "reference_characters": 36,
+      "character_errors": 8,
+      "inference_seconds": [
+        0.12139904202194884
+      ],
+      "inference_median_seconds": 0.12139904202194884
+    },
+    {
+      "id": "iv-v1-sa-valid-0f0e2468-2ed3-40ae-90c0-6b8f7d53bcb1_0-0001",
+      "language": "sa",
+      "reference": "आं तत्र मेनेजर् अस्ति वा सदाशिवः",
+      "duration_seconds": 4.029,
+      "prediction": "आम् तत्र म्येनेजर् अस्ति वा ददातिवः",
+      "reference_words": 6,
+      "word_errors": 3,
+      "reference_characters": 32,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.09404266701312736
+      ],
+      "inference_median_seconds": 0.09404266701312736
+    },
+    {
+      "id": "iv-v1-sa-valid-0f0e2468-2ed3-40ae-90c0-6b8f7d53bcb1_0-0002",
+      "language": "sa",
+      "reference": "आं अत्र आर् एस् पुरम् एरिया कः पश्यति",
+      "duration_seconds": 4.864,
+      "prediction": "हा अत्र आरस्परं एरिया कः पश्यति",
+      "reference_words": 8,
+      "word_errors": 4,
+      "reference_characters": 37,
+      "character_errors": 9,
+      "inference_seconds": [
+        0.0761446250253357
+      ],
+      "inference_median_seconds": 0.0761446250253357
+    },
+    {
+      "id": "iv-v1-sa-valid-0f0e2468-2ed3-40ae-90c0-6b8f7d53bcb1_0-0003",
+      "language": "sa",
+      "reference": "एवं वा ह्यः अहं यद् जलं प्रेषितवान् आनीतवान्",
+      "duration_seconds": 6.304,
+      "prediction": "एवं वा ह्यः अहं यद् जलं प्रेषितवान् आनीतवान्",
+      "reference_words": 8,
+      "word_errors": 0,
+      "reference_characters": 44,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.21395699999993667
+      ],
+      "inference_median_seconds": 0.21395699999993667
+    },
+    {
+      "id": "iv-v1-sa-valid-0f0e2468-2ed3-40ae-90c0-6b8f7d53bcb1_0-0004",
+      "language": "sa",
+      "reference": "तद् बहु तद् मलिनमस्ति जी",
+      "duration_seconds": 5.15,
+      "prediction": "तद् बहु तद् मलिदम अस्ति जि",
+      "reference_words": 5,
+      "word_errors": 3,
+      "reference_characters": 24,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.1742123339790851
+      ],
+      "inference_median_seconds": 0.1742123339790851
+    },
+    {
+      "id": "iv-v1-sa-valid-1ff9c901-db94-401a-a4ba-2c2421f4a026_1-0001",
+      "language": "sa",
+      "reference": "सर्वम् ईश्वरकृपया कुशलम् अस्ति",
+      "duration_seconds": 2.276,
+      "prediction": "सर्वम् ईश्वरकृपया कुशलम अस्ति",
+      "reference_words": 4,
+      "word_errors": 1,
+      "reference_characters": 30,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.05764358298620209
+      ],
+      "inference_median_seconds": 0.05764358298620209
+    },
+    {
+      "id": "iv-v1-sa-valid-1ff9c901-db94-401a-a4ba-2c2421f4a026_1-0006",
+      "language": "sa",
+      "reference": "हा हा हा उत् उत्तम उत्तमलक्ष्यं हा हा हा",
+      "duration_seconds": 4.481,
+      "prediction": "ह हा हा उत् उत्तम उत्तमलक्ष्यं आ ह ह",
+      "reference_words": 9,
+      "word_errors": 4,
+      "reference_characters": 40,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.09162633400410414
+      ],
+      "inference_median_seconds": 0.09162633400410414
+    },
+    {
+      "id": "iv-v1-sa-valid-1ff9c901-db94-401a-a4ba-2c2421f4a026_1-0009",
+      "language": "sa",
+      "reference": "निश्चयेन सर्वसम्भवसाहाय्यं मया दातुं शक्यते निश्चयेन भगिनि आगच्छतु कीदृशं साहाय्यम् इति वदति चेत् अहं सिद्धः भविष्यामि",
+      "duration_seconds": 13.503,
+      "prediction": "निश्चयेन सर्वसम्भवसाहाय्यं मया दातुं शक्यते निश्चयेन भगिनी आगच्छतु कीदृशं साहायम् इति वदति चेत् अहं सिद्धः भविष्यामि",
+      "reference_words": 16,
+      "word_errors": 2,
+      "reference_characters": 118,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.35503566602710634
+      ],
+      "inference_median_seconds": 0.35503566602710634
+    },
+    {
+      "id": "iv-v1-sa-valid-1ff9c901-db94-401a-a4ba-2c2421f4a026_1-0015",
+      "language": "sa",
+      "reference": "सर्वप्रकारेण साहाय्यं कर्तुम् इच्छामि एव पूर्णमनसा इच्छामि",
+      "duration_seconds": 5.536,
+      "prediction": "सर्वप्रकारेण साहाय्यं कर्तुम् इच्छामि एव पूर्णमनसा इच्छामि अस्तु",
+      "reference_words": 7,
+      "word_errors": 1,
+      "reference_characters": 58,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.10290966700995341
+      ],
+      "inference_median_seconds": 0.10290966700995341
+    },
+    {
+      "id": "iv-v1-sa-valid-1ff9c901-db94-401a-a4ba-2c2421f4a026_1-0018",
+      "language": "sa",
+      "reference": "यापितवन्तः अस्तु हा",
+      "duration_seconds": 2.464,
+      "prediction": "यापितवन्तः अस्तु हा",
+      "reference_words": 3,
+      "word_errors": 0,
+      "reference_characters": 19,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.03702104097465053
+      ],
+      "inference_median_seconds": 0.03702104097465053
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813686099-0000",
+      "language": "sa",
+      "reference": "पवनः मनोहरः अभिषेकः आनन्दः मञ्जुनाथः",
+      "duration_seconds": 7.070997732426304,
+      "prediction": "पवनः मनोहरः अभिषेकः आनन्दः मञ्जुनाथः",
+      "reference_words": 5,
+      "word_errors": 0,
+      "reference_characters": 36,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.1446964999777265
+      ],
+      "inference_median_seconds": 0.1446964999777265
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687717-0000",
+      "language": "sa",
+      "reference": "अशीतिः दशसहस्रम् एककोटिः",
+      "duration_seconds": 6.260997732426304,
+      "prediction": "अशीतिः दशसहस्रम् एककोटिं",
+      "reference_words": 3,
+      "word_errors": 1,
+      "reference_characters": 24,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.13278812501812354
+      ],
+      "inference_median_seconds": 0.13278812501812354
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687735-0001",
+      "language": "sa",
+      "reference": "सः उत्तमः चित्रकारः वर्तते सः सावधानतया पठितवान्",
+      "duration_seconds": 6.474988662131519,
+      "prediction": "सः उत्तमः चित्रकारः वर्तते सः सावधानतया पाठितवान्",
+      "reference_words": 7,
+      "word_errors": 1,
+      "reference_characters": 48,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.135706165980082
+      ],
+      "inference_median_seconds": 0.135706165980082
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687735-0002",
+      "language": "sa",
+      "reference": "तत्र अहं कस्य कस्य वर्णस्य मेलनेन कः वर्णः प्राप्तुं शक्यते",
+      "duration_seconds": 7.408979591836735,
+      "prediction": "तत्र अहं कस्य कस्य वर्णस्य मेलनेन कः वर्णः प्राप्तुं शक्यते",
+      "reference_words": 10,
+      "word_errors": 0,
+      "reference_characters": 59,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.15817949996562675
+      ],
+      "inference_median_seconds": 0.15817949996562675
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687735-0003",
+      "language": "sa",
+      "reference": "इति ज्ञातवती वर्णकुब्जं कथं गृहीतव्यं कथं वर्णलेपनं कर्तुं कथं चित्रं वर्णमयं कर्तुं शक्यते इति अधीतं मया",
+      "duration_seconds": 13.962993197278912,
+      "prediction": "इति ज्ञातवती वर्णकुञ्चं कथं गृहीतव्यं कथं वर्णलेपनं कर्तुं कथं चित्रं वर्णमयं कर्तुं शक्यते इति अधीतं मया",
+      "reference_words": 16,
+      "word_errors": 1,
+      "reference_characters": 105,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.245202291989699
+      ],
+      "inference_median_seconds": 0.245202291989699
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687917-0000",
+      "language": "sa",
+      "reference": "अहम् आधुनिकशैलीजीवनं निश्चितम् अभिनन्दं करोमि",
+      "duration_seconds": 12.928004535147393,
+      "prediction": "अहम् आधुनिकशैलीजीवनं निश्चितम् अभिनन्दं करोमि विविधक्षेत्रे नैपुण्यम् अस्ति तर्हि सङ्गीतक्षेत्रे प्राकृतिकसङ्गीतज्ञानं न परिष्करोति",
+      "reference_words": 5,
+      "word_errors": 8,
+      "reference_characters": 45,
+      "character_errors": 86,
+      "inference_seconds": [
+        0.30401037499541417
+      ],
+      "inference_median_seconds": 0.30401037499541417
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687917-0001",
+      "language": "sa",
+      "reference": "तान्त्रिकसहायम् अधिकम् उपयुक्ताः",
+      "duration_seconds": 2.366984126984127,
+      "prediction": "तान्त्रिकसाहाय्यम् अधिकम् उपयुक्तम्",
+      "reference_words": 3,
+      "word_errors": 2,
+      "reference_characters": 32,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.04618379200110212
+      ],
+      "inference_median_seconds": 0.04618379200110212
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687917-0002",
+      "language": "sa",
+      "reference": "गीताः शब्दमात्रम् एव श्रवणीयाः साहित्यं तूष्णीं कोमलभावाः मधुरं न आवश्यकम् इति मम मतं",
+      "duration_seconds": 10.335011337868481,
+      "prediction": "गीताः शब्दमात्रम् एव श्रवणीयाः साहित्यं तूष्णीं कोमलभावाः मधुरं न आवश्यकतम् इति मम मतम्",
+      "reference_words": 13,
+      "word_errors": 2,
+      "reference_characters": 85,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.24051995802437887
+      ],
+      "inference_median_seconds": 0.24051995802437887
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687917-0003",
+      "language": "sa",
+      "reference": "आर्भटं कर्णकष्टं उत्पादयति एतत् गीतम् इति मम सङ्कट",
+      "duration_seconds": 6.6880045351473925,
+      "prediction": "आर्भटं कर्णकष्टम् उत्पादयति एतद् गीतम् इति मम सङ्कटम्",
+      "reference_words": 8,
+      "word_errors": 3,
+      "reference_characters": 50,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.16551066702231765
+      ],
+      "inference_median_seconds": 0.16551066702231765
+    },
+    {
+      "id": "iv-v1-sa-valid-2251799813687917-0005",
+      "language": "sa",
+      "reference": "मे सन्ति तेषां नास्ति परन्तु युवजनाः सङ्गीतप्रियाः अन्यकौशल्ये रसिकाः अहं",
+      "duration_seconds": 11.2,
+      "prediction": "मे सन्ति तेषां नास्ति परन्तु युवजनाः सङ्गीतप्रियाः अन्यकौशल्ये रसिकाः अहं",
+      "reference_words": 10,
+      "word_errors": 0,
+      "reference_characters": 73,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.17307820898713544
+      ],
+      "inference_median_seconds": 0.17307820898713544
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 41,
+    "reference_words": 154,
+    "wer": 0.2662337662337662,
+    "character_errors": 145,
+    "reference_characters": 995,
+    "cer": 0.1457286432160804,
+    "duration_seconds": 139.03096145124718,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.14020133297890425,
+    "latency_p95_seconds": 0.30656163954699883,
+    "inference_seconds": 3.069867543003056,
+    "rtf": 0.022080459711699117
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 41,
+      "reference_words": 154,
+      "wer": 0.2662337662337662,
+      "character_errors": 145,
+      "reference_characters": 995,
+      "cer": 0.1457286432160804,
+      "duration_seconds": 139.03096145124718,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.14020133297890425,
+      "latency_p95_seconds": 0.30656163954699883,
+      "inference_seconds": 3.069867543003056,
+      "rtf": 0.022080459711699117
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "comparison": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "sa"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "sa": {
+        "passed": true,
+        "wer_regression": 0.0,
+        "cer_regression": 0.0
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.890596879134941,
+      "peak_rss_bytes_ratio": 1.0134849793646223,
+      "latency_p50_seconds_ratio": 1.6225225958603533,
+      "latency_p95_seconds_ratio": 1.0679007219779024,
+      "rtf_ratio": 1.2575991513076699
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_fp32": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "sa"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "sa": {
+        "passed": true,
+        "wer_regression": 0.0,
+        "cer_regression": 0.0
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.890596879134941,
+      "peak_rss_bytes_ratio": 1.0134849793646223,
+      "latency_p50_seconds_ratio": 1.6225225958603533,
+      "latency_p95_seconds_ratio": 1.0679007219779024,
+      "rtf_ratio": 1.2575991513076699
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "sa"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "sa": {
+        "passed": true,
+        "wer_regression": -0.05844155844155846,
+        "cer_regression": -0.013065326633165841
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.2171283198515617,
+      "load_time_seconds_ratio": 0.34788841771019463,
+      "peak_rss_bytes_ratio": 0.9552974702868968,
+      "latency_p50_seconds_ratio": 0.36532536233348695,
+      "latency_p95_seconds_ratio": 0.39094615194066124,
+      "rtf_ratio": 0.3628410065118277
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "candidate_variant": "balanced-int8",
+  "status_classification": "candidate_unvalidated",
+  "latency_qualified": false,
+  "timing_note": "Accuracy-only screen; two independent candidate workers may overlap. Use the separate controlled host benchmark for timing; physical phone performance is unqualified.",
+  "selection_note": "Pilot used for candidate screening. Fresh speaker-disjoint confirmation data and mobile measurements are required. No automatic selection."
+}

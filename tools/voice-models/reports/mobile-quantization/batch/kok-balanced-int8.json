@@ -1,0 +1,880 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/kok/balanced-int8/model.onnx",
+  "required_languages": [
+    "kok"
+  ],
+  "evaluated_languages": [
+    "kok"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 146746008,
+  "manifest": "corpus/indicvoices-v1-pilot/kok/evaluation/manifest.jsonl",
+  "corpus_sha256": "830a19b8a1c742a5e374e36e404f234216fdc805a87144fc71f6a3acfb102a34",
+  "coverage": {
+    "languages": [
+      "kok"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "kok"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": true,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "model_artifact": {
+    "sha256": "8906820afa6e9e46008a91b8d5586be0c04a459dc18305a05133e4895889810d",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 146746008,
+        "sha256": "8906820afa6e9e46008a91b8d5586be0c04a459dc18305a05133e4895889810d"
+      }
+    ],
+    "artifact_sha256": "a551b7dc426cfd97b27761502b228ed04c39d32d845d84a8a5c065e38d7f2d8a",
+    "size_bytes": 146746008
+  },
+  "decoder_assets": {
+    "decoder_config.json": {
+      "size_bytes": 45,
+      "sha256": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017"
+    },
+    "language_masks.json": {
+      "size_bytes": 2221,
+      "sha256": "775cca8e0c6aa80fa28ab6c80961307fe45648ac90b347d992dcee2e60bafab9"
+    },
+    "vocab.json": {
+      "size_bytes": 3608,
+      "sha256": "fa9d9b5671f539da1ff0459b6216bedeb2e36274f4f7177560e6fb26a65750e8"
+    }
+  },
+  "artifact_binding": {
+    "status": "verified",
+    "method": "sha256",
+    "checked_before_inference": true,
+    "checked_after_inference": true,
+    "scope": "worker model protobuf, external weights, and decoder assets"
+  },
+  "load_time_seconds": 0.34450733300764114,
+  "peak_rss_bytes": 1531183104,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-kok-valid-281474976943207-0000",
+      "language": "kok",
+      "reference": "तुमगेर पाळीव जनावर आसा आनी आसा जाल्यार तुजो असो तितूंतलो फेवरेट पाळीव जनावर खंयचें आनी कित्याक",
+      "duration_seconds": 7.84,
+      "prediction": "तुमगेर पाळीव जनावर आसा आनी आसा जाल्यार तुजो असो ततूंतलो फेवरेट पाळीव जनावर खंयचे आनी कित्याक",
+      "reference_words": 16,
+      "word_errors": 2,
+      "reference_characters": 94,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.16662229102803394
+      ],
+      "inference_median_seconds": 0.16662229102803394
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976943207-0001",
+      "language": "kok",
+      "reference": "हय आमगेर दोन पाळीव जनावरां आसात एक पेटो आनी आनी एक माजर आसा पेट्याचें नांव बंकू",
+      "duration_seconds": 6.590997732426304,
+      "prediction": "हय आमगेर दोन पाळीव जनावरां आसाात एक पेटो आसा आनी एक माजर आसा पेट्याचें नांव बंकू",
+      "reference_words": 16,
+      "word_errors": 2,
+      "reference_characters": 79,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.14706554199801758
+      ],
+      "inference_median_seconds": 0.14706554199801758
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976943207-0002",
+      "language": "kok",
+      "reference": "आनी माजराचें नांव गिबू अशीं नांवां दवरल्यात तांकां आमच्यांनी भयणीन आनी हांयेन मेळोन म्हाका दोगांय आवडटा पूण चडसो म्हाका गिबू आवडटा बुकलो आसा तो",
+      "duration_seconds": 11.391995464852608,
+      "prediction": "आनी माजराचें नांव गिबू अशीं नांवां दवरल्या तंकां आमच्यांनी भयणीननी हांवें मेळून म्हाका दोगांय आवडटा पूण चडसो म्हाका गिबू आवडटा बुकलो आसा तो",
+      "reference_words": 24,
+      "word_errors": 6,
+      "reference_characters": 143,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.22479366697371006
+      ],
+      "inference_median_seconds": 0.22479366697371006
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976943207-0003",
+      "language": "kok",
+      "reference": "कित्याक म्हाका अशे पेटे तितले आवडना कित्याक ते चाट्टात म्हाका चाटलेलें बी आवडना अशें",
+      "duration_seconds": 6.496009070294784,
+      "prediction": "कित्याक म्हाका अशें पेटे तितले आवडना कित्याक ते चाटटात चाटलेले बी आवडना अशें",
+      "reference_words": 14,
+      "word_errors": 4,
+      "reference_characters": 84,
+      "character_errors": 10,
+      "inference_seconds": [
+        0.10228808299871162
+      ],
+      "inference_median_seconds": 0.10228808299871162
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976943207-0006",
+      "language": "kok",
+      "reference": "तेका वाज हाडपाक खूब बरें दिसता पेट्यांक अशें वाज हाडपाक मेळना न्हू आनी खेळटाय बी दोनूय आमची खेळटात तींं बाॅल घेवन खेळटात सो म्हाका माजर चड आवडटा",
+      "duration_seconds": 9.857006802721088,
+      "prediction": "ताका वाज हाडपाक खूब बरें दिसता पेट्यांक अशें वाज हाडूंक मेळना न्हू आनी खेळटाय बी दोनूय आमची खेळटात ती बॉल घेवन खेळटाय सो म्हाका माजर चड आवडटा",
+      "reference_words": 27,
+      "word_errors": 5,
+      "reference_characters": 144,
+      "character_errors": 8,
+      "inference_seconds": [
+        0.11622712499229237
+      ],
+      "inference_median_seconds": 0.11622712499229237
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976945961-0002",
+      "language": "kok",
+      "reference": "खुबशे वाॅटरफाॅल्स आसात जें आमकां पळोवचे सारके दिसता बट ते आमचे पर्यटका",
+      "duration_seconds": 6.112993197278912,
+      "prediction": "खुबशे वॉटरफॉल्स आसात जे आमकां पळोवचे सारके दिसतात बट ते आमच्या पर्यटकक",
+      "reference_words": 12,
+      "word_errors": 5,
+      "reference_characters": 70,
+      "character_errors": 10,
+      "inference_seconds": [
+        0.06869049998931587
+      ],
+      "inference_median_seconds": 0.06869049998931587
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976945961-0003",
+      "language": "kok",
+      "reference": "दाखयना जे भायले ट्यूरिस्ट येता तांकां ते दाखयनात फक्त हे लिमीटेड दाखयतात कसिनाॅज",
+      "duration_seconds": 7.167981859410431,
+      "prediction": "दाखयनात जे कोण भायले ट्युरिस्ट येतात तांकां ते दाखयनात फक्त हे लिमिटेड दाखयतात कसिंगोज",
+      "reference_words": 13,
+      "word_errors": 6,
+      "reference_characters": 80,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.08272379101254046
+      ],
+      "inference_median_seconds": 0.08272379101254046
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976945961-0004",
+      "language": "kok",
+      "reference": "जातूंत आमच्या गोंयाची हें खूब वाडटा इकोनाॅमी स्टेटस वाडटा बट",
+      "duration_seconds": 5.630997732426303,
+      "prediction": "जितून आमची गोंयाची हे खूब वाडटा इकॉनॉमीक स्टेटस वाडटा बट",
+      "reference_words": 10,
+      "word_errors": 4,
+      "reference_characters": 60,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.0700710840173997
+      ],
+      "inference_median_seconds": 0.0700710840173997
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976945961-0005",
+      "language": "kok",
+      "reference": "दीस इज नाॅट द रिजन गोंयाक आमचो इल्लुसो म्हणून फायदो ना",
+      "duration_seconds": 4.9609977324263035,
+      "prediction": "दिीस इज नॉट द रिजन गोंया आमचो इल्लुसो म्हणून कय फायदो ना",
+      "reference_words": 11,
+      "word_errors": 4,
+      "reference_characters": 54,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.056571624998468906
+      ],
+      "inference_median_seconds": 0.056571624998468906
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976945961-0006",
+      "language": "kok",
+      "reference": "थंय झऱ्यो आमच्या बारीक बारीक गांवान कशी परिस्थिती आसा",
+      "duration_seconds": 5.153990929705215,
+      "prediction": "थंय झऱ्यो आमच्या बारीक बारीक गांवांत कशी परिस्थिती आसात",
+      "reference_words": 9,
+      "word_errors": 2,
+      "reference_characters": 53,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.05778954195557162
+      ],
+      "inference_median_seconds": 0.05778954195557162
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976946185-0000",
+      "language": "kok",
+      "reference": "गोंयची जी पोलिटिकल सिस्टम आसा राजनितीक जी वेवस्था आसा तें आप आपले तरेन कल्चरल आनी लिंगविस्टीक डायवर्सीटी जी लोकांचे मदीं आसता ती प्रमोट करपाक कांय कार्यावळी आयोजीत करता",
+      "duration_seconds": 13.31,
+      "prediction": "गोंयची जी पोलिटीकल सिस्टम आसा राजनितीक जी वेवस्था आसा ते आप आपले तरेन कल्चरल आनी लिंग्विस्टीक डायवर्सिटी जी लोकांचे मदीं आसता ती प्रोमोट करपाक कांय कार्यावळी आयोजीत करता",
+      "reference_words": 28,
+      "word_errors": 5,
+      "reference_characters": 168,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.18616916699102148
+      ],
+      "inference_median_seconds": 0.18616916699102148
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976946185-0001",
+      "language": "kok",
+      "reference": "लेंग्वेज पाॅलीसी जर गव्हरमेंन्टाची पळयली जाल्यार तातूंत भितर कोंकणी आमी प्रमोट करपाक",
+      "duration_seconds": 4.38501133786848,
+      "prediction": "लॅंग्वेज पॉलिसी जर गोव्हर्नमेंटाची पळयली तातूंत भितर कोंकणी आमी प्रोमोट करपाक",
+      "reference_words": 12,
+      "word_errors": 5,
+      "reference_characters": 84,
+      "character_errors": 18,
+      "inference_seconds": [
+        0.057633708987850696
+      ],
+      "inference_median_seconds": 0.057633708987850696
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976946185-0003",
+      "language": "kok",
+      "reference": "आनी हेर कांय सरकारी कार्यालयांत सुद्दां कोंकणीचो वापर जावप हो मुख्य गरजेचो आसा",
+      "duration_seconds": 5.152993197278912,
+      "prediction": "आनी हेर कांय सरकारी कार्यालयान सुद्दां आतां कोंकणीचो वापर जावप हो मुख्य गरजेचो आसा",
+      "reference_words": 13,
+      "word_errors": 2,
+      "reference_characters": 78,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.06540033302735537
+      ],
+      "inference_median_seconds": 0.06540033302735537
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976946185-0004",
+      "language": "kok",
+      "reference": "तशेंच जें गोंयचें कल्चर आसा गोंयची हेरिटेज आसा ती आमी प्रमोट करपाक जाय आनी तातूंतय भितर आमी जी कोंकणी आसा तिचोच वापर आमकां जावपाक गरजेचो आसा",
+      "duration_seconds": 9.472993197278912,
+      "prediction": "तशेंच जे गोंयचे कल्चर आसा गोंयची हेरिटेज आसा ती आमी प्रोमोट करपाक जाय आनी तातुंतय भितर आमी जी कोंकणी आसा तिचोच वापर आमकां जावपाक गरजेचो आसा",
+      "reference_words": 26,
+      "word_errors": 4,
+      "reference_characters": 140,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.11768020800082013
+      ],
+      "inference_median_seconds": 0.11768020800082013
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976946185-0005",
+      "language": "kok",
+      "reference": "आनी त्याच भायर वेगळ्यो वेगळ्यो गोंयांत ज्यो जाती आसात त्यो आपआपल्या तरेन ज्यो आप आपलो कल्चर जो प्रमोट करता किंवां तो प्रिजर्व करता तें आयोजन करतात तें आमकां खंयचेच आमकां भेदभाव करनासतना आमकां दुसरे दुसरे जातींचो जो प्रोग्राम आसतात",
+      "duration_seconds": 13.312993197278912,
+      "prediction": "आनी तेच भायर वेग्यो वेेगळ्यो गोंयांत ज्यो जाती आसात त्यो आप आपले तरेन ज्यो आपलो आपलो कल्चर जो प्रमोट करतात किंवा तो प्रिजर्व करपाक तें आयोजन करतात तेयी आमकां खंयचेच आमकां भेदभाव करनासतना आमी दुसरे्या दुसऱ्या जातींचो जो प्रोग्राम आसतात",
+      "reference_words": 39,
+      "word_errors": 13,
+      "reference_characters": 230,
+      "character_errors": 27,
+      "inference_seconds": [
+        0.1712014169897884
+      ],
+      "inference_median_seconds": 0.1712014169897884
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976947804-0000",
+      "language": "kok",
+      "reference": "आमच्या गोंयांत पाॅलिटिक्स म्हणजे कशें आसा पार्टी पेक्षा इंडिव्यूजलाक चड महत्व दिलें वयता",
+      "duration_seconds": 7.072018140589569,
+      "prediction": "आमच्या गोंयांत पॉलिटिक्स म्हणजे कशें आसा पार्टी पेक्षा इंडिव्यजलाक चड म्हत्व दिलें वयता",
+      "reference_words": 13,
+      "word_errors": 3,
+      "reference_characters": 88,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.14021887502167374
+      ],
+      "inference_median_seconds": 0.14021887502167374
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976947804-0001",
+      "language": "kok",
+      "reference": "पूण पार्ट्यां बद्दल उलोवपाक गेल्यार गोंयांत अनेकशे पार्ट्यो आसात येदो ल्हान राज्य आसून कोण विश्वास करचोना की गोंयांत इतले पार्टीज आसात म्हणून",
+      "duration_seconds": 11.870997732426304,
+      "prediction": "पूण पार्ट्यां बद्दल उलोवपाक गेल्यार गोंयांत अनेकशे पार्टी आस येदो ल्हान राज्य आसून कोण विश्वास करचो ना की गोंयांत इतले पार्टीज आसा म्हणून",
+      "reference_words": 22,
+      "word_errors": 5,
+      "reference_characters": 141,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.2687850419897586
+      ],
+      "inference_median_seconds": 0.2687850419897586
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976947804-0003",
+      "language": "kok",
+      "reference": "केंद्रीय पार्टीज आसता जे नॅशनल पार्टीज आसा जशें की भारतीय जनता पार्टी आसतली नाजाल्यार इंडियन नॅशनल काँग्रेस आसा नाजाल्यार नॅशनल",
+      "duration_seconds": 9.665011337868481,
+      "prediction": "केंद्रीय पार्टीज आसता जे नॅशनल पार्टीज आस जशें की भारतीय जनता पार्टी आसतली नाजाल्यार इंडियन नॅशनल काग्रेस आसा नाजाल्यार नॅशनल",
+      "reference_words": 20,
+      "word_errors": 2,
+      "reference_characters": 127,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.18697249999968335
+      ],
+      "inference_median_seconds": 0.18697249999968335
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976947804-0005",
+      "language": "kok",
+      "reference": "आतां हालीं आप आसा ती सुद्दां एक नँशनल पार्टी म्हणून रेकाॅगनायज जाल्या",
+      "duration_seconds": 4.4819954648526075,
+      "prediction": "आतां हालीं आप आसा ती सुद्दां एक नॅशनल पार्टी म्हणून रेकोगनायज जाल्या",
+      "reference_words": 12,
+      "word_errors": 2,
+      "reference_characters": 69,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.08816395804751664
+      ],
+      "inference_median_seconds": 0.08816395804751664
+    },
+    {
+      "id": "iv-v1-kok-valid-281474976947804-0006",
+      "language": "kok",
+      "reference": "तें सोडून मागीर लाॅकल पार्टीज आसात गोवा सुरक्षा मंच जशी मागीर रेव्हेल्यूशनरी गोवन्स पार्टी कशी मागीर गोवा सुराज पार्टी कशी",
+      "duration_seconds": 14.271995464852608,
+      "prediction": "ते सोडून मागीर लोकल पार्टीज आसा गोवा सुरक्षा मंच जशी मागीर रॅवल्यूशनरी गोवन्स पार्टी कशी मागीर गोवा सुराज पार्टी कशी",
+      "reference_words": 20,
+      "word_errors": 4,
+      "reference_characters": 122,
+      "character_errors": 8,
+      "inference_seconds": [
+        0.3504895420046523
+      ],
+      "inference_median_seconds": 0.3504895420046523
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 85,
+    "reference_words": 357,
+    "wer": 0.23809523809523808,
+    "character_errors": 157,
+    "reference_characters": 2108,
+    "cer": 0.07447817836812144,
+    "duration_seconds": 164.19897959183675,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.11695366649655625,
+    "latency_p95_seconds": 0.2728702669905034,
+    "inference_seconds": 2.725558001024183,
+    "rtf": 0.016599116558454457
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 85,
+      "reference_words": 357,
+      "wer": 0.23809523809523808,
+      "character_errors": 157,
+      "reference_characters": 2108,
+      "cer": 0.07447817836812144,
+      "duration_seconds": 164.19897959183675,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.11695366649655625,
+      "latency_p95_seconds": 0.2728702669905034,
+      "inference_seconds": 2.725558001024183,
+      "rtf": 0.016599116558454457
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "comparison": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "kok"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "kok": {
+        "passed": true,
+        "wer_regression": 0.0,
+        "cer_regression": -0.00047438330170777865
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.8937501930042657,
+      "peak_rss_bytes_ratio": 1.1503409566480391,
+      "latency_p50_seconds_ratio": 0.7192621052088952,
+      "latency_p95_seconds_ratio": 0.8404065112179068,
+      "rtf_ratio": 0.8346844460753924
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_fp32": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "kok"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "kok": {
+        "passed": true,
+        "wer_regression": 0.0,
+        "cer_regression": -0.00047438330170777865
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.8937501930042657,
+      "peak_rss_bytes_ratio": 1.1503409566480391,
+      "latency_p50_seconds_ratio": 0.7192621052088952,
+      "latency_p95_seconds_ratio": 0.8404065112179068,
+      "rtf_ratio": 0.8346844460753924
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "kok"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "kok": {
+        "passed": true,
+        "wer_regression": -0.0028011204481792895,
+        "cer_regression": -0.001423149905123336
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.2171283198515617,
+      "load_time_seconds_ratio": 0.34554945280412136,
+      "peak_rss_bytes_ratio": 1.04671557372459,
+      "latency_p50_seconds_ratio": 0.2377213843208902,
+      "latency_p95_seconds_ratio": 0.3498037517232757,
+      "rtf_ratio": 0.2752723099122467
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "candidate_variant": "balanced-int8",
+  "status_classification": "candidate_unvalidated",
+  "latency_qualified": false,
+  "timing_note": "Accuracy-only screen; two independent candidate workers may overlap. Use the separate controlled host benchmark for timing; physical phone performance is unqualified.",
+  "selection_note": "Pilot used for candidate screening. Fresh speaker-disjoint confirmation data and mobile measurements are required. No automatic selection."
+}

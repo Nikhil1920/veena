@@ -1,0 +1,858 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/bn/compact-int4/model.onnx",
+  "required_languages": [
+    "bn"
+  ],
+  "evaluated_languages": [
+    "bn"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 102971375,
+  "manifest": "candidates/priority8-robustness/corpus/bn/room_350ms/manifest.jsonl",
+  "corpus_sha256": "7d51928484c99fb681a469abc173c39fc53f94d7873069a283b9bffd4695e32e",
+  "coverage": {
+    "languages": [
+      "bn"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "bn"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": false,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "load_time_seconds": 0.3725944579928182,
+  "peak_rss_bytes": 905396224,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0002:room_350ms",
+      "language": "bn",
+      "reference": "হুম বলছি এটা কি নিউ শ্যু হাউসের দোকান",
+      "duration_seconds": 3.102875,
+      "prediction": "হ্যাঁ বলছি এটা কি নি সু হাউসর দোকান",
+      "reference_words": 8,
+      "word_errors": 4,
+      "reference_characters": 37,
+      "character_errors": 9,
+      "inference_seconds": [
+        0.10173683299217373
+      ],
+      "inference_median_seconds": 0.10173683299217373
+    },
+    {
+      "id": "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0004:room_350ms",
+      "language": "bn",
+      "reference": "হ্যাঁ হ্যাঁ ও তার পায়ে ব্যথা আর কি সেজন্য সে নরম জুতো দরকার",
+      "duration_seconds": 5.405875,
+      "prediction": "হ্যাঁ হ্যাঁ ও তার পায়ের ব্যাথা আর কি সেজ সে নরম জুতো দরকার",
+      "reference_words": 13,
+      "word_errors": 3,
+      "reference_characters": 60,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.13450545800151303
+      ],
+      "inference_median_seconds": 0.13450545800151303
+    },
+    {
+      "id": "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0005:room_350ms",
+      "language": "bn",
+      "reference": "হুম হুম কীরকম কী দাম আছে তাহলে",
+      "duration_seconds": 2.813875,
+      "prediction": "হম কিরকম কি দাম আছে তাহলে",
+      "reference_words": 7,
+      "word_errors": 4,
+      "reference_characters": 30,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.05701429198961705
+      ],
+      "inference_median_seconds": 0.05701429198961705
+    },
+    {
+      "id": "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0007:room_350ms",
+      "language": "bn",
+      "reference": "দু শো টাকা দাদা আমি তো অনেক দাম হয়ে যাচ্ছে দু শো টাকা আমাকে একশো টাকা কমিয়ে দেবেন",
+      "duration_seconds": 6.365875,
+      "prediction": "দুশো টাকা দাদা আমি তো অনেক দাম হয়ে যাচ্ছে দুশো টাকা আমাকে একশো টাকা কমিয়ে দবেন",
+      "reference_words": 18,
+      "word_errors": 5,
+      "reference_characters": 83,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.16459916601888835
+      ],
+      "inference_median_seconds": 0.16459916601888835
+    },
+    {
+      "id": "iv-v1-bn-valid-03a9db7d-a70a-4294-b916-54fd8fcbf1d6_0-0009:room_350ms",
+      "language": "bn",
+      "reference": "পাটা একটু তার আহত হয়ে গেছে তাকে একটু নরম জুতো চাই",
+      "duration_seconds": 3.965875,
+      "prediction": "পা টা একটু তার আহত হয়ে গেছে তাকে একটু নরম জুতো চাই",
+      "reference_words": 11,
+      "word_errors": 2,
+      "reference_characters": 50,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.07465329096885398
+      ],
+      "inference_median_seconds": 0.07465329096885398
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883555314-0000:room_350ms",
+      "language": "bn",
+      "reference": "বাংলা ভাষার ইতিহাস অর্থাৎ পৃথিবীতে প্রায় চার হাজার ভাষা প্রচলিত আছে এই ভাষাগুলিকে তাদের মূলিভূত সাদৃশ্যের ভিত্তিতে তুলনামূলকভাবে ভাষাতত্ত্বের পদ্ধতির সাহায্যে কয়েকটি ভাষায় ভাগ করা হয়",
+      "duration_seconds": 12.509954648526078,
+      "prediction": "বাংলা ভাষার ইতিহাস অর্থাৎ পৃথিবীতে প্রায় চার হাজার ভাষা প্রচলিত আছে এই ভাষাগুলিকে তাদের মূলীভূত সাদৃশ্যের ভিত্তিতে তুলনামূলকভাবে ভাষাতত্ত্বের পদ্ধতির সাহায্যে কয়েকটি ভাষাই ভাগ করা হয়",
+      "reference_words": 26,
+      "word_errors": 2,
+      "reference_characters": 186,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.49901175004197285
+      ],
+      "inference_median_seconds": 0.49901175004197285
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883555314-0002:room_350ms",
+      "language": "bn",
+      "reference": "ফলে ইন্দো ইউরোপীয় ভাষা বংশ থেকে প্রথমে পাঁচটি প্রাচীন ভাষার জন্ম হয় এর মধ্যে একটি হল ইন্দো ইরানীয় ভাষা বংশ",
+      "duration_seconds": 9.150952380952381,
+      "prediction": "ফলে ইন্দো ইউরোপীয় ভাষাবংশ থেকে প্রথমে পাঁচটি প্রাচীন ভাষার জন্ম হয় এর মধ্যে একটি হল ইন্দো ইরানীয় ভাষাবংশ",
+      "reference_words": 20,
+      "word_errors": 4,
+      "reference_characters": 109,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.32403850002447143
+      ],
+      "inference_median_seconds": 0.32403850002447143
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883555314-0003:room_350ms",
+      "language": "bn",
+      "reference": "ইন্দো ইরানীয় ভাষাভাষীর জনগোষ্ঠীর লোকেরা নিজেরা আর্য নামে অভিহিত করতো বলে সংকীর্ণ অর্থে এই ভাষাটিকে আর্য শাখা বলা হয়",
+      "duration_seconds": 9.150952380952381,
+      "prediction": "ইন্দো ইরানীয় ভাষাভাষীর জনগোষ্ঠীর লোকেরা নিজেরা আর্য নামে অভিহিত করতো বলে সংকীর্ণ অর্থে এই ভাষাটিকে আর্য শাখা বলা হয়",
+      "reference_words": 19,
+      "word_errors": 0,
+      "reference_characters": 117,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.1984453329932876
+      ],
+      "inference_median_seconds": 0.1984453329932876
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883555314-0004:room_350ms",
+      "language": "bn",
+      "reference": "এই আর্য ভাষা থেকেই পরবর্তীকালে বাংলা ভাষার উদ্ভব হয় তবে আর্য থেকে বিবর্তনের পরবর্তী ধাপেই বাংলা ভাষার উদ্ভব ঘটেনি বেশ কয়েকটি স্তর অতিক্রম করে তবে যেয়ে বাংলা ভাষার উদ্ভব ঘটেছে",
+      "duration_seconds": 13.66095238095238,
+      "prediction": "এই আর্য ভাষা থেকেই পরবর্তীকালে বাংলা ভাষার উদ্ভব হয় তবে আর্য থেকে বিবর্তনের পরবর্তী ধাপেই বাংলা ভাষার উদ্ভব ঘটেনি বেশ কয়েকটি স্তর অতিক্রম করে তবে যে বাংলা ভাষার উদ্ভব ঘটেছে",
+      "reference_words": 30,
+      "word_errors": 1,
+      "reference_characters": 177,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.3927962920279242
+      ],
+      "inference_median_seconds": 0.3927962920279242
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883555314-0005:room_350ms",
+      "language": "bn",
+      "reference": "আনুমানিক পনেরোশো খ্রীষ্টপূর্বাব্দ থেকে বর্তমান সময় পর্যন্ত ভারতীয় আর্য ভাষাকে আবার তিনটি ভাগে ভাগ করা যায়",
+      "duration_seconds": 7.902947845804989,
+      "prediction": "আনুমানিক পনেরোশো খ্রষ্টপূর্বাব্দ থেকে বর্তমান সময় পর্যন্ত ভারতীয় আর্য ভাষাকে আবার তিনটি ভাগে ভাগ করা যায়",
+      "reference_words": 16,
+      "word_errors": 1,
+      "reference_characters": 108,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.24443633301416412
+      ],
+      "inference_median_seconds": 0.24443633301416412
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883557719-0000:room_350ms",
+      "language": "bn",
+      "reference": "বিষয় বলতে সেক্ষেত্রে অনেক কিছুই তো সন্দেহপ্রবণ হয়ে থাকে তারমধ্যে বর্তমান সময়ে একটা জিনিস উঠে এসছে যে তৃতীয় লিঙ্গের ব্যাপারটা",
+      "duration_seconds": 10.781950113378684,
+      "prediction": "বিষয় বলতে সেক্ষেত্রে অনেক কিছুই তো সন্দেহভ্রবণ হয়ে থাকে তার মধ্যে বর্ধমান সময়ে একটা জিনিস উঠে এসছে যে তৃতীয় লিঙ্গের ব্যাপারটা",
+      "reference_words": 20,
+      "word_errors": 4,
+      "reference_characters": 128,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.28752570803044364
+      ],
+      "inference_median_seconds": 0.28752570803044364
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883557719-0001:room_350ms",
+      "language": "bn",
+      "reference": "তৃতীয় লিঙ্গ বলতে যে সমস্ত যেমন ছেলে বা ছেলে ছেলের সাথে ছেলের সম্পর্ক বা মেয়ের সাথে মেয়ের যে একটা সম্পর্কের বীজ তৈরি হয়েছে বর্তমান সময়ে আবার বলা যেতে পারে যে",
+      "duration_seconds": 13.542947845804989,
+      "prediction": "তৃতীয় লিঙ্গ বলতে যে সমস্ত যেমন ছেলে বা ছেলের সাথে ছেলের সম্পর্ক বা মেয়ের সাথে মেয়ের যে একটা সম্পর্কের বীজ তৈরি হয়েছে বর্তমান সময়ে আবার বলা যেতে পারে যে",
+      "reference_words": 30,
+      "word_errors": 1,
+      "reference_characters": 161,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.4684664169908501
+      ],
+      "inference_median_seconds": 0.4684664169908501
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883557719-0003:room_350ms",
+      "language": "bn",
+      "reference": "সেক্ষেত্রে হয়তো সেই বিষয় নিয়ে লেখাটা একটু সন্দেহজনক বলা যেতেই পারে কারণ এই এই বিষয়টা নিয়ে তো অনেকটাই",
+      "duration_seconds": 8.861950113378684,
+      "prediction": "সেক্ষেত্রে হয়তো সেই বিষয় নিয়ে লেখাটা একটু সন্দেহজনক বলা যেতেই পারে কারণ এই বিষয়টা নিয়ে তো অনেকটাই",
+      "reference_words": 18,
+      "word_errors": 1,
+      "reference_characters": 105,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.37945237499661744
+      ],
+      "inference_median_seconds": 0.37945237499661744
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883557719-0004:room_350ms",
+      "language": "bn",
+      "reference": "সন্দেহের ব্যাপার রয়েছে সেক্ষেত্রে অনেকে এই বিষয় নিয়ে কথা বলতেও চায় না আবার বিষয়টিকে নিয়ে একটু আলোচনাও করতে চায় না সেক্ষেত্রে একটা সমস্যা রয়েই গেছে",
+      "duration_seconds": 12.437959183673469,
+      "prediction": "সন্দেহের ব্যাপার রয়েছে সেক্ষেত্রে অনেকে এই বিষয় নিয়ে কথা বলতেও চায় না আবার বিষয়টিকে নিয়ে একটু আলোচনাও করতে চায় না সেক্ষেত্রে একটা সমস্যা রয়েই আছে",
+      "reference_words": 25,
+      "word_errors": 1,
+      "reference_characters": 154,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.5513395419693552
+      ],
+      "inference_median_seconds": 0.5513395419693552
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883558871-0000:room_350ms",
+      "language": "bn",
+      "reference": "আমি এবং আমার পরিবার মিলে পশুদের যত্ন নেওয়া যত্ন নিই এইসব জিনিস করার জন্য আমার লোক নেই আমার এবং আমার পরিবারের লোকই যথেষ্ট",
+      "duration_seconds": 11.549954648526077,
+      "prediction": "আমি এবং আমার পরিবার মিলে পশুদের যত্ন নেও যত্ন নিই এইসব জিনিস করার জন্য আমার লোক নেই আমার এবং আমার পরিবারের লোকই যথেষ্ট",
+      "reference_words": 23,
+      "word_errors": 1,
+      "reference_characters": 121,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.41842283302685246
+      ],
+      "inference_median_seconds": 0.41842283302685246
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883558871-0001:room_350ms",
+      "language": "bn",
+      "reference": "এইসব পশুদের আমি একটি জায়গাতে রাখি যেখানে ওরা নিরাপদে খুব ভালোভাবে থাকতে পারে",
+      "duration_seconds": 6.558956916099773,
+      "prediction": "এইসব পশুদের আমি একটি জায়গাতে রাখি যেখানে ওরা নিরাপদে খুব ভালোভাবে",
+      "reference_words": 13,
+      "word_errors": 2,
+      "reference_characters": 77,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.23897599999327213
+      ],
+      "inference_median_seconds": 0.23897599999327213
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883558871-0002:room_350ms",
+      "language": "bn",
+      "reference": "এবং পশুদের স্বাস্থ্যবিধি বজায় রাখার জন্য আমি ওদের মাঝে মাঝেই",
+      "duration_seconds": 6.079954648526077,
+      "prediction": "এবং পশুদের স্বাস্থ্যবিধি বজায় রাখার জন্য আমি ওদের মাঝে মাঝেই ব পারি",
+      "reference_words": 10,
+      "word_errors": 2,
+      "reference_characters": 61,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.2530971249798313
+      ],
+      "inference_median_seconds": 0.2530971249798313
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883558871-0003:room_350ms",
+      "language": "bn",
+      "reference": "ডাক্তারের কাছে নিয়ে যাই চিকিৎসা করাতে পশু হাসপাতালে সেখান থেকে যদি তাদের কিছু শরীরে অসুস্থতা বোধ হয় বা কিছু হয় সেখান থেকে ওষুধপত্র",
+      "duration_seconds": 11.259954648526078,
+      "prediction": "ডাক্তারের কাছে নিয়ে যায় চিকিৎসা করাতে পশু হাসপাতালে সেখান থেকে যদি তাদের কিছু শরীরে অসুস্থতা বোধ হয় বা কিছু হয় সেখান থেকে ওষুধপত্র",
+      "reference_words": 23,
+      "word_errors": 1,
+      "reference_characters": 133,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.28180616698227823
+      ],
+      "inference_median_seconds": 0.28180616698227823
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883558871-0004:room_350ms",
+      "language": "bn",
+      "reference": "বা ইঞ্জেকশন দিয়ে সেটিকে সারিয়ে দিই তাতে কী হয় পশুদের কোনো একদম খারাপ অবস্থাতে যেতে হয় না যেখান থেকে",
+      "duration_seconds": 8.767936507936508,
+      "prediction": "বা ইনজেকশন দিয়ে সেটিকে সারিয়ে দিই তাতে কি হয় পশুদের কোনো একদম খারাপ অবস্থাতে যেতে হয় না যেখান থেকে",
+      "reference_words": 19,
+      "word_errors": 2,
+      "reference_characters": 103,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.20446041697869077
+      ],
+      "inference_median_seconds": 0.20446041697869077
+    },
+    {
+      "id": "iv-v1-bn-valid-1407374883560588-0001:room_350ms",
+      "language": "bn",
+      "reference": "কোথাও ঘুরতে গেলে আমরা একসাথেই যাই এক কথায় বলতে গেলে সে আমার খুবই ভালো বন্ধু",
+      "duration_seconds": 5.480952380952381,
+      "prediction": "কোথাও ঘুরতে গেলে আমরা একসাথেই যাই এক কথায় বলতে গেলে সে আমার খুবই ভালো বন্ধু",
+      "reference_words": 15,
+      "word_errors": 0,
+      "reference_characters": 76,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.14952241600258276
+      ],
+      "inference_median_seconds": 0.14952241600258276
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 41,
+    "reference_words": 364,
+    "wer": 0.11263736263736264,
+    "character_errors": 73,
+    "reference_characters": 2076,
+    "cer": 0.03516377649325626,
+    "duration_seconds": 169.3526516439909,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.2487667289969977,
+    "latency_p95_seconds": 0.501628139638342,
+    "inference_seconds": 5.42430624802364,
+    "rtf": 0.03202965052727068
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 41,
+      "reference_words": 364,
+      "wer": 0.11263736263736264,
+      "character_errors": 73,
+      "reference_characters": 2076,
+      "cer": 0.03516377649325626,
+      "duration_seconds": 169.3526516439909,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.2487667289969977,
+      "latency_p95_seconds": 0.501628139638342,
+      "inference_seconds": 5.42430624802364,
+      "rtf": 0.03202965052727068
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "source_artifact": {
+    "path": "candidates/mobile-builds/bn/compact-int4/model.onnx",
+    "sha256": "d326df898f19c7b064b3b84c8929c6f75e65de823174a5ea84302112247389bf",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 102971375,
+        "sha256": "d326df898f19c7b064b3b84c8929c6f75e65de823174a5ea84302112247389bf"
+      }
+    ],
+    "artifact_sha256": "2de2151a1ccce94cfb42c610b77f06a4e3f8d5695c99e28e96b01823475dcab6",
+    "size_bytes": 102971375,
+    "operator_counts": {
+      "Add": 466,
+      "And": 2,
+      "Cast": 112,
+      "Concat": 158,
+      "Constant": 1361,
+      "ConstantOfShape": 37,
+      "Conv": 19,
+      "Div": 104,
+      "Equal": 1,
+      "Expand": 2,
+      "Floor": 2,
+      "Gather": 108,
+      "Less": 1,
+      "LogSoftmax": 1,
+      "MatMul": 51,
+      "MatMulNBits": 189,
+      "Mul": 189,
+      "Not": 2,
+      "Pad": 34,
+      "Pow": 85,
+      "Range": 1,
+      "ReduceMean": 170,
+      "Relu": 2,
+      "Reshape": 189,
+      "Shape": 127,
+      "Sigmoid": 68,
+      "Slice": 88,
+      "Softmax": 17,
+      "Split": 17,
+      "Sqrt": 85,
+      "Squeeze": 17,
+      "Sub": 87,
+      "Tile": 1,
+      "Transpose": 245,
+      "Unsqueeze": 237,
+      "Where": 52
+    }
+  },
+  "condition": "room_350ms",
+  "latency_qualified": false,
+  "synthetic_stress_probe": true,
+  "timing_note": "Synthetic probes only; no physical phone or real far-field recordings. Transformed clips reuse the same speakers and human references. Single-pass timings under concurrent work are unqualified.",
+  "comparison_against_fp32": {
+    "quality_passed": false,
+    "quality_gate_passed": false,
+    "release_ready": false,
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "bn"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "bn": {
+        "passed": false,
+        "wer_regression": 0.010989010989010992,
+        "cer_regression": 0.003371868978805398,
+        "reason": "quality regression exceeds the configured absolute tolerance"
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.3511760683935624,
+      "peak_rss_bytes_ratio": 0.791455415198648,
+      "latency_p50_seconds_ratio": 1.2572175142305169,
+      "latency_p95_seconds_ratio": 1.0534136207558635,
+      "rtf_ratio": 1.1571937992413122
+    },
+    "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "bn"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "bn": {
+        "passed": true,
+        "wer_regression": -0.00824175824175824,
+        "cer_regression": -0.008670520231213869
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.15235849990927933,
+      "load_time_seconds_ratio": 0.2586034405371617,
+      "peak_rss_bytes_ratio": 0.8513086746876589,
+      "latency_p50_seconds_ratio": 0.40125739658263715,
+      "latency_p95_seconds_ratio": 0.44234083950013603,
+      "rtf_ratio": 0.40169753775367906
+    },
+    "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  }
+}

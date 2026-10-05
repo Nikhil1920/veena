@@ -1,0 +1,118 @@
+{
+  "conditions": {
+    "clean": {
+      "quality_passed": true,
+      "quality_gate_passed": true,
+      "release_ready": false,
+      "min_samples_per_language": 20,
+      "required_languages": [
+        "te"
+      ],
+      "max_wer_regression": 0.01,
+      "max_cer_regression": 0.01,
+      "reasons": [],
+      "per_language": {
+        "te": {
+          "passed": true,
+          "wer_regression": 0.0,
+          "cer_regression": -0.0010266940451745393
+        }
+      },
+      "performance_ratios": {
+        "model_size_bytes_ratio": 0.6583692132943333,
+        "load_time_seconds_ratio": 0.4156163742084971,
+        "peak_rss_bytes_ratio": 1.594675280184016,
+        "latency_p50_seconds_ratio": 1.4614615978071646,
+        "latency_p95_seconds_ratio": 1.2300973801508281,
+        "rtf_ratio": 1.3697527782727537
+      },
+      "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+    },
+    "quiet_24db": {
+      "quality_passed": true,
+      "quality_gate_passed": true,
+      "release_ready": false,
+      "min_samples_per_language": 20,
+      "required_languages": [
+        "te"
+      ],
+      "max_wer_regression": 0.01,
+      "max_cer_regression": 0.01,
+      "reasons": [],
+      "per_language": {
+        "te": {
+          "passed": true,
+          "wer_regression": -0.010869565217391297,
+          "cer_regression": -0.003080082135523618
+        }
+      },
+      "performance_ratios": {
+        "model_size_bytes_ratio": 0.6583692132943333,
+        "load_time_seconds_ratio": 0.4107608896516701,
+        "peak_rss_bytes_ratio": 1.5841521394611728,
+        "latency_p50_seconds_ratio": 1.444332598379529,
+        "latency_p95_seconds_ratio": 1.1851096908705916,
+        "rtf_ratio": 1.3033539588005794
+      },
+      "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+    },
+    "noise_10db": {
+      "quality_passed": true,
+      "quality_gate_passed": true,
+      "release_ready": false,
+      "min_samples_per_language": 20,
+      "required_languages": [
+        "te"
+      ],
+      "max_wer_regression": 0.01,
+      "max_cer_regression": 0.01,
+      "reasons": [],
+      "per_language": {
+        "te": {
+          "passed": true,
+          "wer_regression": 0.003623188405797062,
+          "cer_regression": 0.003080082135523618
+        }
+      },
+      "performance_ratios": {
+        "model_size_bytes_ratio": 0.6583692132943333,
+        "load_time_seconds_ratio": 0.44201324055235935,
+        "peak_rss_bytes_ratio": 1.5858612953570035,
+        "latency_p50_seconds_ratio": 1.5333883394325156,
+        "latency_p95_seconds_ratio": 1.207985486384515,
+        "rtf_ratio": 1.3874292167624758
+      },
+      "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+    },
+    "room_350ms": {
+      "quality_passed": true,
+      "quality_gate_passed": true,
+      "release_ready": false,
+      "min_samples_per_language": 20,
+      "required_languages": [
+        "te"
+      ],
+      "max_wer_regression": 0.01,
+      "max_cer_regression": 0.01,
+      "reasons": [],
+      "per_language": {
+        "te": {
+          "passed": true,
+          "wer_regression": -0.014492753623188415,
+          "cer_regression": -0.0035934291581108807
+        }
+      },
+      "performance_ratios": {
+        "model_size_bytes_ratio": 0.6583692132943333,
+        "load_time_seconds_ratio": 0.4295077668315067,
+        "peak_rss_bytes_ratio": 1.5014701951349907,
+        "latency_p50_seconds_ratio": 1.3659210399511394,
+        "latency_p95_seconds_ratio": 1.166645840557607,
+        "rtf_ratio": 1.3135915947513184
+      },
+      "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+    }
+  },
+  "timing_note": "Quality screening only; no qualified device performance comparison.",
+  "release_ready": false
+}

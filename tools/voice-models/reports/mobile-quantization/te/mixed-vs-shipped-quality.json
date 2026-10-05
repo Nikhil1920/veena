@@ -1,0 +1,281 @@
+{
+  "candidate_only": true,
+  "latency_qualified": false,
+  "fresh_confirmation_corpus_required": true,
+  "results": [
+    {
+      "condition": "clean",
+      "variant": "dynamic-pointwise-int8",
+      "current_word_errors": 69,
+      "candidate_word_errors": 66,
+      "comparison": {
+        "quality_passed": true,
+        "quality_gate_passed": true,
+        "release_ready": false,
+        "min_samples_per_language": 20,
+        "required_languages": [
+          "te"
+        ],
+        "max_wer_regression": 0.01,
+        "max_cer_regression": 0.01,
+        "reasons": [],
+        "per_language": {
+          "te": {
+            "passed": true,
+            "wer_regression": -0.010869565217391297,
+            "cer_regression": -0.0020533880903490717
+          }
+        },
+        "performance_ratios": {
+          "model_size_bytes_ratio": 0.9357508640892624,
+          "load_time_seconds_ratio": 0.47275555423888155,
+          "peak_rss_bytes_ratio": 1.6205892428914013,
+          "latency_p50_seconds_ratio": 1.1977661780533846,
+          "latency_p95_seconds_ratio": 0.9962392510902262,
+          "rtf_ratio": 1.1253810821147603
+        },
+        "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+      }
+    },
+    {
+      "condition": "clean",
+      "variant": "dynamic-pointwise-int8-head-fp32",
+      "current_word_errors": 69,
+      "candidate_word_errors": 66,
+      "comparison": {
+        "quality_passed": true,
+        "quality_gate_passed": true,
+        "release_ready": false,
+        "min_samples_per_language": 20,
+        "required_languages": [
+          "te"
+        ],
+        "max_wer_regression": 0.01,
+        "max_cer_regression": 0.01,
+        "reasons": [],
+        "per_language": {
+          "te": {
+            "passed": true,
+            "wer_regression": -0.010869565217391297,
+            "cer_regression": -0.0025667351129363414
+          }
+        },
+        "performance_ratios": {
+          "model_size_bytes_ratio": 0.9382515659429035,
+          "load_time_seconds_ratio": 0.4771322434345131,
+          "peak_rss_bytes_ratio": 1.756570254000881,
+          "latency_p50_seconds_ratio": 1.135427441294761,
+          "latency_p95_seconds_ratio": 0.984754848972686,
+          "rtf_ratio": 1.1115017613502067
+        },
+        "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+      }
+    },
+    {
+      "condition": "quiet_24db",
+      "variant": "dynamic-pointwise-int8",
+      "current_word_errors": 67,
+      "candidate_word_errors": 65,
+      "comparison": {
+        "quality_passed": true,
+        "quality_gate_passed": true,
+        "release_ready": false,
+        "min_samples_per_language": 20,
+        "required_languages": [
+          "te"
+        ],
+        "max_wer_regression": 0.01,
+        "max_cer_regression": 0.01,
+        "reasons": [],
+        "per_language": {
+          "te": {
+            "passed": true,
+            "wer_regression": -0.007246376811594207,
+            "cer_regression": 0.0
+          }
+        },
+        "performance_ratios": {
+          "model_size_bytes_ratio": 0.9357508640892624,
+          "load_time_seconds_ratio": 0.4934393882685082,
+          "peak_rss_bytes_ratio": 1.6221626234304523,
+          "latency_p50_seconds_ratio": 1.315037853699358,
+          "latency_p95_seconds_ratio": 1.1224520469429413,
+          "rtf_ratio": 1.1579291110339032
+        },
+        "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+      }
+    },
+    {
+      "condition": "quiet_24db",
+      "variant": "dynamic-pointwise-int8-head-fp32",
+      "current_word_errors": 67,
+      "candidate_word_errors": 65,
+      "comparison": {
+        "quality_passed": true,
+        "quality_gate_passed": true,
+        "release_ready": false,
+        "min_samples_per_language": 20,
+        "required_languages": [
+          "te"
+        ],
+        "max_wer_regression": 0.01,
+        "max_cer_regression": 0.01,
+        "reasons": [],
+        "per_language": {
+          "te": {
+            "passed": true,
+            "wer_regression": -0.007246376811594207,
+            "cer_regression": 0.0
+          }
+        },
+        "performance_ratios": {
+          "model_size_bytes_ratio": 0.9382515659429035,
+          "load_time_seconds_ratio": 0.4696086184884588,
+          "peak_rss_bytes_ratio": 1.7526758502986712,
+          "latency_p50_seconds_ratio": 1.2063506883586652,
+          "latency_p95_seconds_ratio": 0.9910251309463386,
+          "rtf_ratio": 1.0729495219233154
+        },
+        "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+      }
+    },
+    {
+      "condition": "noise_10db",
+      "variant": "dynamic-pointwise-int8",
+      "current_word_errors": 87,
+      "candidate_word_errors": 91,
+      "comparison": {
+        "quality_passed": false,
+        "quality_gate_passed": false,
+        "release_ready": false,
+        "min_samples_per_language": 20,
+        "required_languages": [
+          "te"
+        ],
+        "max_wer_regression": 0.01,
+        "max_cer_regression": 0.01,
+        "reasons": [],
+        "per_language": {
+          "te": {
+            "passed": false,
+            "wer_regression": 0.014492753623188415,
+            "cer_regression": 0.00462012320328542,
+            "reason": "quality regression exceeds the configured absolute tolerance"
+          }
+        },
+        "performance_ratios": {
+          "model_size_bytes_ratio": 0.9357508640892624,
+          "load_time_seconds_ratio": 0.5203123057726307,
+          "peak_rss_bytes_ratio": 1.6606028092079594,
+          "latency_p50_seconds_ratio": 1.2682647740610693,
+          "latency_p95_seconds_ratio": 0.9805768541547134,
+          "rtf_ratio": 1.1634503658878699
+        },
+        "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+      }
+    },
+    {
+      "condition": "noise_10db",
+      "variant": "dynamic-pointwise-int8-head-fp32",
+      "current_word_errors": 87,
+      "candidate_word_errors": 91,
+      "comparison": {
+        "quality_passed": false,
+        "quality_gate_passed": false,
+        "release_ready": false,
+        "min_samples_per_language": 20,
+        "required_languages": [
+          "te"
+        ],
+        "max_wer_regression": 0.01,
+        "max_cer_regression": 0.01,
+        "reasons": [],
+        "per_language": {
+          "te": {
+            "passed": false,
+            "wer_regression": 0.014492753623188415,
+            "cer_regression": 0.00462012320328542,
+            "reason": "quality regression exceeds the configured absolute tolerance"
+          }
+        },
+        "performance_ratios": {
+          "model_size_bytes_ratio": 0.9382515659429035,
+          "load_time_seconds_ratio": 0.47879171005570476,
+          "peak_rss_bytes_ratio": 1.7527067889192354,
+          "latency_p50_seconds_ratio": 1.190322332554059,
+          "latency_p95_seconds_ratio": 0.9728481056954594,
+          "rtf_ratio": 1.1149912109630182
+        },
+        "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+      }
+    },
+    {
+      "condition": "room_350ms",
+      "variant": "dynamic-pointwise-int8",
+      "current_word_errors": 67,
+      "candidate_word_errors": 62,
+      "comparison": {
+        "quality_passed": true,
+        "quality_gate_passed": true,
+        "release_ready": false,
+        "min_samples_per_language": 20,
+        "required_languages": [
+          "te"
+        ],
+        "max_wer_regression": 0.01,
+        "max_cer_regression": 0.01,
+        "reasons": [],
+        "per_language": {
+          "te": {
+            "passed": true,
+            "wer_regression": -0.018115942028985504,
+            "cer_regression": -0.001540041067761809
+          }
+        },
+        "performance_ratios": {
+          "model_size_bytes_ratio": 0.9357508640892624,
+          "load_time_seconds_ratio": 0.4857631412410432,
+          "peak_rss_bytes_ratio": 1.9584214235377027,
+          "latency_p50_seconds_ratio": 1.1902308669186903,
+          "latency_p95_seconds_ratio": 0.9548806007454086,
+          "rtf_ratio": 1.1032725732427662
+        },
+        "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+      }
+    },
+    {
+      "condition": "room_350ms",
+      "variant": "dynamic-pointwise-int8-head-fp32",
+      "current_word_errors": 67,
+      "candidate_word_errors": 62,
+      "comparison": {
+        "quality_passed": true,
+        "quality_gate_passed": true,
+        "release_ready": false,
+        "min_samples_per_language": 20,
+        "required_languages": [
+          "te"
+        ],
+        "max_wer_regression": 0.01,
+        "max_cer_regression": 0.01,
+        "reasons": [],
+        "per_language": {
+          "te": {
+            "passed": true,
+            "wer_regression": -0.018115942028985504,
+            "cer_regression": -0.001540041067761809
+          }
+        },
+        "performance_ratios": {
+          "model_size_bytes_ratio": 0.9382515659429035,
+          "load_time_seconds_ratio": 0.48726433925206725,
+          "peak_rss_bytes_ratio": 1.6512113921897402,
+          "latency_p50_seconds_ratio": 1.119080002311588,
+          "latency_p95_seconds_ratio": 0.9427689487957938,
+          "rtf_ratio": 1.0850644275239791
+        },
+        "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+      }
+    }
+  ]
+}

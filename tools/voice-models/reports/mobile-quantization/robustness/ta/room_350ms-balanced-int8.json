@@ -1,0 +1,858 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/ta/balanced-int8/model.onnx",
+  "required_languages": [
+    "ta"
+  ],
+  "evaluated_languages": [
+    "ta"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 146746008,
+  "manifest": "candidates/priority8-robustness/corpus/ta/room_350ms/manifest.jsonl",
+  "corpus_sha256": "676e9518febdc6cc1fc958c2bf842656da103ef296606d40dfdd149c8362563e",
+  "coverage": {
+    "languages": [
+      "ta"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "ta"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": false,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "load_time_seconds": 0.4175763750099577,
+  "peak_rss_bytes": 990052352,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-ta-valid-3096224743859743-0000:room_350ms",
+      "language": "ta",
+      "reference": "எனக்கு ட்ரைவிங்னால் எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்து நான் வந்து வண்டி ஓட்டுறதுலலாம் மூணாவது நாலாவதுலேயே கத்துக்கினேன்",
+      "duration_seconds": 8.093945578231292,
+      "prediction": "எனக்கு டிரைவிங்னால்ா எனக்கு ரொம்ப ரொம்ப பிடிக்கும் சின்ன வயசுலேருந்தே நான் வந்து வண்டி ஓட்டுறதெல்லாம் மூணாவது ஆானதுலே கற்றுக்கினே",
+      "reference_words": 15,
+      "word_errors": 5,
+      "reference_characters": 133,
+      "character_errors": 15,
+      "inference_seconds": [
+        0.19607016601366922
+      ],
+      "inference_median_seconds": 0.19607016601366922
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743859743-0001:room_350ms",
+      "language": "ta",
+      "reference": "ஏன்னால் எ என்னோடய ஆசை வந்து தனியாக வெளியூருக்கெலாம் வண்டி எடுத்துக்கின்னு போகணுன்னு சின்ன வயசுலேருந்தே ஒரு ஆசை இருந்தது",
+      "duration_seconds": 5.982947845804989,
+      "prediction": "என்னது என்னோடய ஆசை வந்து தனியாக வெளியூருக்கெலாம் வண்டி எடுத்துன்னு போகணும்னு சின்ன வயசுலேருந்தே ஒரு ஆசை இருந்தது",
+      "reference_words": 15,
+      "word_errors": 4,
+      "reference_characters": 119,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.11343354196287692
+      ],
+      "inference_median_seconds": 0.11343354196287692
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743859743-0003:room_350ms",
+      "language": "ta",
+      "reference": "அப்போ போகிற வழியில் என்ன ஊருக்கு போனோன்னால் கோயம்புத்தூர் ஈரோடு சத்தியமங்கலம் காரு",
+      "duration_seconds": 6.120952380952381,
+      "prediction": "பக் பார்வையில்ையில் அது என்ன ஊர் போணுன்னா கோயம்புத்தூர் ஈரோடு சத்தியமங்கல்கார்",
+      "reference_words": 10,
+      "word_errors": 7,
+      "reference_characters": 82,
+      "character_errors": 29,
+      "inference_seconds": [
+        0.12818020902341232
+      ],
+      "inference_median_seconds": 0.12818020902341232
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743859743-0005:room_350ms",
+      "language": "ta",
+      "reference": "அதுக்கப்றம் நாங்கள் அதை என்ன பண்ணோன்னால் அங்கே இருந்த அங் அங்கே இருந்த ஃபாரஸ்ட் மேன்கிட்ட சொல்லி வெடி வச்சு அந்த யானையெல்லாம்துறத்திட்டு",
+      "duration_seconds": 7.230952380952381,
+      "prediction": "அதுக்கப்புறம் நாங்கள் அது என்ன பண்ணணோன்னா அங்க அங்கேருங்க அங அங்கேருந்த ஃபாரஸ்ட் மேேன்கிட்ட சொல்லி வெள வச்சு அந்த யானையெல்லாம் துவர்த்துட்டு",
+      "reference_words": 17,
+      "word_errors": 12,
+      "reference_characters": 136,
+      "character_errors": 23,
+      "inference_seconds": [
+        0.15786595799727365
+      ],
+      "inference_median_seconds": 0.15786595799727365
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743859743-0006:room_350ms",
+      "language": "ta",
+      "reference": "அதுக்கப்றம் அந்த பஸ்ஸு பஸ்ஸு எடுத்துக்கின்னு அந்த காட்டுலேருந்து வெளியே வந்தோம் அங்கேதான் நா இவர் வீரப்பன்லாம் அங்கேதான் வாழ்ந்தார்",
+      "duration_seconds": 6.7489569160997736,
+      "prediction": "அதுக்கப்புறம் அந்த பஸ்ஸு பஸ் எடுத்துன்னு அந்த காட்டலேருந்து வெளியே வந்தோம் அங்கே தான் ஒரு வீரப்பண்ணம் அங்கே தான் வந்தார்",
+      "reference_words": 15,
+      "word_errors": 11,
+      "reference_characters": 131,
+      "character_errors": 23,
+      "inference_seconds": [
+        0.1394194170134142
+      ],
+      "inference_median_seconds": 0.1394194170134142
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743884491-0001:room_350ms",
+      "language": "ta",
+      "reference": "ஃபிப்ரவரி நான்கு இரண்டாயிரத்தி இருபத்தி ஒன்று",
+      "duration_seconds": 5.76795918367347,
+      "prediction": "பிப்ரவரி நான்கு இரண்டாயிரத்து இருபத்தி ஒன்று",
+      "reference_words": 5,
+      "word_errors": 2,
+      "reference_characters": 45,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.12910870800260454
+      ],
+      "inference_median_seconds": 0.12910870800260454
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743884491-0002:room_350ms",
+      "language": "ta",
+      "reference": "மார்ச் ஒன்பது இரண்டாயிரத்தி இருபத்தி இரண்டு",
+      "duration_seconds": 5.747959183673469,
+      "prediction": "மார்ச் ஒன்பது இரண்டாயிரத்து இருபத்தி இரண்டு",
+      "reference_words": 5,
+      "word_errors": 1,
+      "reference_characters": 43,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.11433462495915592
+      ],
+      "inference_median_seconds": 0.11433462495915592
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743896134-0000:room_350ms",
+      "language": "ta",
+      "reference": "புதுசாக ஒரு குழந்த இருக்குன்னால் அதை நம்ம பாதுகாப்பாகதான் பார்த்துக்குணும் அது வந்து நம்ப வந்து பார்த்துக்குணுனாவே ஒரு சாஃப்ட்டான கிளாத்தில் வச்சுதா அதை பார்த்துக்குணும்",
+      "duration_seconds": 7.389954648526077,
+      "prediction": "புதுசாக ஒரு குழந்தை இருக்குன்னா அதை நம்ம பாதுகாப்பாக தான் பார்த்துக்கணும் அது வந்து நம்ம வந்து பார்த்துக்கணும்னாவே ஒரு சாஃப்ட்டான கிளாத்தில் வச்சு தான் அதை பார்த்துக்கணும்",
+      "reference_words": 19,
+      "word_errors": 10,
+      "reference_characters": 169,
+      "character_errors": 13,
+      "inference_seconds": [
+        0.15270608302671462
+      ],
+      "inference_median_seconds": 0.15270608302671462
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743896134-0001:room_350ms",
+      "language": "ta",
+      "reference": "அதாவது கிள்ளுறது முத்தமிடுறது அந்த வேலைலாம் இருக்கக்கூடாது புதுசாக இருக்கிற குழந்தகிட்ட நம்ம வந்து எட்டேக்கயிருந்து பார்க்றதோட இருக்குணும் அதாவது ஆறு மாதம் வரையும்",
+      "duration_seconds": 9.319954648526076,
+      "prediction": "அதாவது கீழறது முத்தம் பண்ணறது அந்த வேலைலாம் இருக்கக்கூடாது புதுசாக இருக்கிற குழந்தைக்கிட்ட நம்ம வந்து எட்டக்கிறந்து பார்க்குறதோட இருக்கணும் அதாவது ஆறு மாதம் வரையும்",
+      "reference_words": 18,
+      "word_errors": 7,
+      "reference_characters": 163,
+      "character_errors": 21,
+      "inference_seconds": [
+        0.21916512498864904
+      ],
+      "inference_median_seconds": 0.21916512498864904
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743896134-0002:room_350ms",
+      "language": "ta",
+      "reference": "குழந்த வந்து தாய் பால் தவ் தாய் பால் தவிர தண்ணி கூட கொடுக்கக்கூடாதுன்னு சொல்லுவாங்க அது எந்த ஒரு பிரச்சினையும் இல்லை ஆனால் ஆறு மாதத்துக்கு அப்புறந்தா ரொம்ப ரொம்ப பாதுகாப்பாக இருக்கும்",
+      "duration_seconds": 9.17294784580499,
+      "prediction": "குழந்த வந்து தாய்ப்பால் த தாய்ப்பால் தார தண்ணி கூட கொடுக்கக்க கூடாதுன்னு சொல்லுவாங்க அது எந்த ஒரு பிரச்சனையும் இல்லை ஆனால் ஆறு மாதத்துக்கு அப்புறம் தான் ரொம்ப ரொம்ப பாதுகாப்பாக இருக்கும்",
+      "reference_words": 25,
+      "word_errors": 11,
+      "reference_characters": 183,
+      "character_errors": 15,
+      "inference_seconds": [
+        0.19114845898002386
+      ],
+      "inference_median_seconds": 0.19114845898002386
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743896134-0003:room_350ms",
+      "language": "ta",
+      "reference": "நம்ம வந்து அது இதுன்னு கொடுக்கிறது இருக்கக்கூடாது மசித்த உணவு அதாவது உருளைக்கிழங்கு கேரட்",
+      "duration_seconds": 5.961950113378685,
+      "prediction": "நம்ம வந்து அது இதுன்னு கொடுக்கறது இருக்கக்கூடாது மசித்த உணவு அதாவது உஊருளை கிழங்கு கேரட்டு",
+      "reference_words": 11,
+      "word_errors": 4,
+      "reference_characters": 89,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.13228241703473032
+      ],
+      "inference_median_seconds": 0.13228241703473032
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743896134-0004:room_350ms",
+      "language": "ta",
+      "reference": "மற்ற இதெலாம் காய் எதாகயிருந்தாலும் வேக வச்சு மசிச்சு அதை நல்லா மசிச்சு தேன் க தேன் கலக்க வேணாம் நெய் கலந்து",
+      "duration_seconds": 8.718956916099772,
+      "prediction": "மற்ற இெலாம் காய் எதாக இருந்தாலும் வேக வச்சு மசித்து அதை நல்லா மசித்து தேன் க தேன் கடுக்கனா நெய் கலந்து",
+      "reference_words": 17,
+      "word_errors": 7,
+      "reference_characters": 107,
+      "character_errors": 15,
+      "inference_seconds": [
+        0.17351604101713747
+      ],
+      "inference_median_seconds": 0.17351604101713747
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743899019-0000:room_350ms",
+      "language": "ta",
+      "reference": "சென்னை துபாய் லண்டன் ஷாங்காய் நியூயார்க்",
+      "duration_seconds": 5.309954648526077,
+      "prediction": "சென்னை துபாய் லண்டன் ஷாங்காய் நியூயார்க்",
+      "reference_words": 5,
+      "word_errors": 0,
+      "reference_characters": 40,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.11459454201394692
+      ],
+      "inference_median_seconds": 0.11459454201394692
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743901375-0000:room_350ms",
+      "language": "ta",
+      "reference": "ஐந்து மாவட்டங்கள் பேரை சொல்லணும்ன்னு எடுத்துக்கிட்டோம்னால் அங்கே விழுப்புரம் அதுக்கப்புறமா திருச்சிராப்பள்ளி",
+      "duration_seconds": 10.556961451247165,
+      "prediction": "ஐந்து மாவட்டங்கள் பேரை சொல்லணும்னு எடுத்துக்கிட்டோம்னா அங்கே விழுப்புரம் அதுக்கப்புறமா திருச்சிராப்பள்ளி",
+      "reference_words": 9,
+      "word_errors": 2,
+      "reference_characters": 108,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.22221512498799711
+      ],
+      "inference_median_seconds": 0.22221512498799711
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743960885-0000:room_350ms",
+      "language": "ta",
+      "reference": "தற்போது காலகட்டத்தில் பார்த்துட்டோம் அப்படினா விளம்பரம் அப்படிங்கறது நம்ம யாருகிட்டேயும் போய் நம்மளே சொல்லணும் அப்படிங்கிறது கிடையாது",
+      "duration_seconds": 6.077959183673469,
+      "prediction": "தற்போதைய காலகட்டத்தில் பார்த்துட்டோம் அப்படின்னா விளம்பரம் அப்படிங்கிறத நம்ம யார்கிட்டேயும் போய் நம்மளே சொல்லணும் அப்படிங்கிறது கிடையாது",
+      "reference_words": 13,
+      "word_errors": 4,
+      "reference_characters": 133,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.12398008402669802
+      ],
+      "inference_median_seconds": 0.12398008402669802
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743960885-0001:room_350ms",
+      "language": "ta",
+      "reference": "அதுவந்துட்டு இப்போ நம்ம இணையத்தின் மூலிமா நம்ம எல்லாத்துக்கிட்டேயும் சொல்லிடலாம் ஈஸியாக இப்போ நம்ம கைபேசி அப்படிங்கறது நம்ம எல்லாருமே வச்சுட்டுருக்கோம் இப்போது ஃப்ரெண்ட் வந்துட்டு புதுசாக பியூட்டி பார்லர் ஒன்று ஸ்டார்ட் பண்ணிணாங்க",
+      "duration_seconds": 10.014965986394557,
+      "prediction": "அது வந்துட்டு இப்போ நம்ம இணையத்தின் மூலியமா நம்ம எல்லாத்துக்கிட்டேயும் சொல்லிடலாம் ஈஸியாக இப்போ நம்ம கைபேசி அப்படிங்கறத நம்ம எல்லாருமே வச்சிடருக்கோம் இப்போ என் ஃப்ரெண்டு் வந்துட்டு புதுசாக பியூட்டி பாலர் ஒன்று ஸ்டார்ட் பண்ணிணாங்க",
+      "reference_words": 25,
+      "word_errors": 9,
+      "reference_characters": 230,
+      "character_errors": 14,
+      "inference_seconds": [
+        0.2223912500194274
+      ],
+      "inference_median_seconds": 0.2223912500194274
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743960885-0002:room_350ms",
+      "language": "ta",
+      "reference": "இப்போது அவங்களுக்கான விளம்பரத்தை வந்துட்டு நம்ம விஸ்ட்டிங் கார்டு மூலிமா நம்ம பார்க்குறவங்ககிட்யெல்லாம் தெரியப்படுத்தணும் அப்படிங்கிறது கிடையாது",
+      "duration_seconds": 5.980952380952381,
+      "prediction": "இப்போ அவங்களுக்கான விளம்பரத்தை வந்துட்டு நம்ம விசிட்டிங் கார்டு மூலியம நம்ம பார்க்குறவங்க கிட்டலாம் நம்ம தெரியப்படுத்தணும் அப்படிங்கிறது கிடையாது",
+      "reference_words": 13,
+      "word_errors": 6,
+      "reference_characters": 144,
+      "character_errors": 14,
+      "inference_seconds": [
+        0.12805841700173914
+      ],
+      "inference_median_seconds": 0.12805841700173914
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743960885-0004:room_350ms",
+      "language": "ta",
+      "reference": "நம்ம புதுசாக எதாவது ஆஃபர் போட்டோம் அப்படினாவும் தள்ளுபடி நம்ம கொடுக்குற ஐடியாவில் இருக்கோம் அப்படினாவும் அவங்களுக்கான ஒரு நோட்டிபிக்கேஷன் அவங்களுக்கு போயிடும் அப்படி இருக்கும் போது விளம்பரத்தை",
+      "duration_seconds": 8.861950113378684,
+      "prediction": "நம்ம புதுசாக ஏதாவது ஆஃபர் போட்டோம் அப்படின்னாவோ தள்ளுபடி நம்ம கொடுக்குற ஐடியாவில் இருக்கோம் அப்படிின்னாவோ அவங்களுக்கான ஒரு நோட்டிஃபிகேஷன் அவங்களுக்கு போயிடும் அப்படி இருக்கும்போது நம்ம வி விளம்பரத்தை",
+      "reference_words": 21,
+      "word_errors": 7,
+      "reference_characters": 192,
+      "character_errors": 24,
+      "inference_seconds": [
+        0.18682875001104549
+      ],
+      "inference_median_seconds": 0.18682875001104549
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743960885-0005:room_350ms",
+      "language": "ta",
+      "reference": "நம்ம பெருசாக நம்ம பண்ணணும் அப்படிங்கிறத தாண்டி நம்ம கைபேசி மூலிமாவே நம்ம உலகயெங்கும் நம்ம கொண்டு போக முடியும் அப்படிங்கிறது ரொம்ப",
+      "duration_seconds": 6.844943310657596,
+      "prediction": "நம்ம பெருசாக நம்ம பண்ணணும் அப்படிங்கிறத தாண்டி நம்ம கைபேசி மூலியமாவவே நம்ம உலகை எங்கும் நம்ம கொண்டு போக முடியும் அப்படிங்கிறது ரொம்ப",
+      "reference_words": 17,
+      "word_errors": 3,
+      "reference_characters": 129,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.13857741601532325
+      ],
+      "inference_median_seconds": 0.13857741601532325
+    },
+    {
+      "id": "iv-v1-ta-valid-3096224743967037-0000:room_350ms",
+      "language": "ta",
+      "reference": "எனக்கு மதியம் உணவிற்கு உப்பு இல்லாத சாதமும் மிதமான காரத்துடன் சாம்பாரும் பொரியல் கூட்டில் காரம் உப்பு குறைவாகவும் வேண்டும்",
+      "duration_seconds": 10.493968253968253,
+      "prediction": "எனக்கு மதிய உணவிற்கு உப்பு இல்லாத சாதமும் மிதமான காரத்துடன் சாம்பாரும் பொறியியல் கூட்டில் காரம் உப்பு குறைவாகவும் வேண்டும்",
+      "reference_words": 15,
+      "word_errors": 2,
+      "reference_characters": 122,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.2210186249576509
+      ],
+      "inference_median_seconds": 0.2210186249576509
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 114,
+    "reference_words": 290,
+    "wer": 0.3931034482758621,
+    "character_errors": 247,
+    "reference_characters": 2498,
+    "cer": 0.0988791032826261,
+    "duration_seconds": 150.39909297052156,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.1460627500200644,
+    "latency_p95_seconds": 0.22222393123956863,
+    "inference_seconds": 3.2048949590534903,
+    "rtf": 0.0213092705265294
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 114,
+      "reference_words": 290,
+      "wer": 0.3931034482758621,
+      "character_errors": 247,
+      "reference_characters": 2498,
+      "cer": 0.0988791032826261,
+      "duration_seconds": 150.39909297052156,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.1460627500200644,
+      "latency_p95_seconds": 0.22222393123956863,
+      "inference_seconds": 3.2048949590534903,
+      "rtf": 0.0213092705265294
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "source_artifact": {
+    "path": "candidates/mobile-builds/ta/balanced-int8/model.onnx",
+    "sha256": "09e3d60e2200b3d8f4f81feaea9dc746b09658a8112ca8b71d91c5d8a2c31753",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 146746008,
+        "sha256": "09e3d60e2200b3d8f4f81feaea9dc746b09658a8112ca8b71d91c5d8a2c31753"
+      }
+    ],
+    "artifact_sha256": "bf3162899558db3b066af962fd1428cd893ac55042942ff33b5067b11b85b3d7",
+    "size_bytes": 146746008,
+    "operator_counts": {
+      "Add": 465,
+      "And": 2,
+      "Cast": 300,
+      "Concat": 158,
+      "Constant": 1361,
+      "ConstantOfShape": 37,
+      "Conv": 20,
+      "Div": 104,
+      "DynamicQuantizeLinear": 138,
+      "Equal": 1,
+      "Expand": 2,
+      "Floor": 2,
+      "Gather": 108,
+      "Less": 1,
+      "LogSoftmax": 1,
+      "MatMul": 51,
+      "MatMulInteger": 188,
+      "Mul": 565,
+      "Not": 2,
+      "Pad": 34,
+      "Pow": 85,
+      "Range": 1,
+      "ReduceMean": 170,
+      "Relu": 2,
+      "Reshape": 189,
+      "Shape": 127,
+      "Sigmoid": 68,
+      "Slice": 88,
+      "Softmax": 17,
+      "Split": 17,
+      "Sqrt": 85,
+      "Squeeze": 17,
+      "Sub": 87,
+      "Tile": 1,
+      "Transpose": 243,
+      "Unsqueeze": 237,
+      "Where": 52
+    }
+  },
+  "condition": "room_350ms",
+  "latency_qualified": false,
+  "synthetic_stress_probe": true,
+  "timing_note": "Synthetic probes only; no physical phone or real far-field recordings. Transformed clips reuse the same speakers and human references. Single-pass timings under concurrent work are unqualified.",
+  "comparison_against_fp32": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "ta"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "ta": {
+        "passed": true,
+        "wer_regression": 0.0034482758620689724,
+        "cer_regression": 0.002401921537229776
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.43131600009907867,
+      "peak_rss_bytes_ratio": 0.9182051632705779,
+      "latency_p50_seconds_ratio": 1.1715122006326404,
+      "latency_p95_seconds_ratio": 0.7564619388402001,
+      "rtf_ratio": 1.0018452690787163
+    },
+    "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "ta"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "ta": {
+        "passed": true,
+        "wer_regression": -0.027586206896551724,
+        "cer_regression": -0.004803843074459566
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.2171283198515617,
+      "load_time_seconds_ratio": 0.16938003455556064,
+      "peak_rss_bytes_ratio": 0.941319417400109,
+      "latency_p50_seconds_ratio": 0.2573283867928597,
+      "latency_p95_seconds_ratio": 0.28010903881411353,
+      "rtf_ratio": 0.2592076711883426
+    },
+    "note": "Quality gate results apply only to this corpus. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  }
+}

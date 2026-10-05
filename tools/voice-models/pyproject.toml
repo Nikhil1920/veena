@@ -17,3 +17,8 @@ dependencies = [
     "torchaudio>=2.11.0",
     "transformers>=4.52.0",
 ]
+
+[project.optional-dependencies]
+int4 = [
+    "onnx-ir==1.0.0",
+]

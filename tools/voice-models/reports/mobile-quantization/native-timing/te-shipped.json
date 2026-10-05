@@ -1,0 +1,77 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/te/evaluation/audio/iv-v1-te-valid-1b749abf-135f-4752-8618-bc063e811d14_1-0001.wav",
+  "audio_duration_seconds": 5.057,
+  "audio_sample_rate": 8000,
+  "audio_samples": 40456,
+  "backend": "rust_backend::Transcriber::new",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "browser-assets/indicconformer-te/decoder_config.json",
+    "vocab": "browser-assets/indicconformer-te/tokenizer_te.vocab"
+  },
+  "decoder_config": {
+    "blank_idx": 5632,
+    "num_classes": 5633
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "te",
+  "measured_runs": 5,
+  "model": "browser-assets/indicconformer-te/indicconformer_stt_te_ctc_static_qdq_int8.onnx",
+  "model_bytes": 156403691,
+  "model_load_ms": 626.2162089999999,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 69.90362499999999,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    },
+    {
+      "iteration": 1,
+      "preprocess_inference_decode_ms": 69.737916,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    },
+    {
+      "iteration": 2,
+      "preprocess_inference_decode_ms": 69.385625,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    },
+    {
+      "iteration": 3,
+      "preprocess_inference_decode_ms": 71.310875,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    },
+    {
+      "iteration": 4,
+      "preprocess_inference_decode_ms": 71.965375,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    }
+  ],
+  "schema_version": 1,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 2,
+  "variant": "shipped",
+  "source_utterance_id": "iv-v1-te-valid-1b749abf-135f-4752-8618-bc063e811d14_1-0001",
+  "verified_input_sha256": {
+    "browser-assets/indicconformer-te/indicconformer_stt_te_ctc_static_qdq_int8.onnx": "f53fec9e3fdf19f794def6d8967ea5e549bb7168a22c656c21103d5905c9ac8c",
+    "browser-assets/indicconformer-te/decoder_config.json": "a83cfbd0a449a1456fabdf5f257ed7aa517de8c1810461439b2df60980be3985",
+    "browser-assets/indicconformer-te/tokenizer_te.vocab": "0456bfe974b2d95353d0c887133222033f1d40d769efe17528c16326cbb5f4a2",
+    "corpus/indicvoices-v1-pilot/te/evaluation/audio/iv-v1-te-valid-1b749abf-135f-4752-8618-bc063e811d14_1-0001.wav": "70ec36f9ccfa5592b090bd8e05ab4930a4474f9e1a3216fb170fc1807a6f3eed"
+  },
+  "median_total_ms": 69.90362499999999,
+  "peak_rss_bytes": 578486272,
+  "rtf": 0.013823141190429107,
+  "physical_phone_tested": false
+}

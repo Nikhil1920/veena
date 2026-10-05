@@ -1,0 +1,87 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/ne/evaluation/audio/iv-v1-ne-valid-0a1ea24c-c5d2-4a9f-98e7-733037ddb875_1-0001.wav",
+  "audio_duration_seconds": 3.902,
+  "audio_sample_rate": 8000,
+  "audio_samples": 31216,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/ne/balanced-int8/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/ne/balanced-int8/language_masks.json",
+    "vocab": "candidates/mobile-builds/ne/balanced-int8/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "ne",
+  "measured_runs": 1,
+  "model": "candidates/mobile-builds/ne/balanced-int8/model.onnx",
+  "model_bytes": 146746008,
+  "model_load_ms": 324.130292,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 65.002625,
+      "transcript": "ए म चाहिँ यहाँ कुमुदिनी स्कुलबाट बोलेको कि"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 0,
+  "variant": "balanced-int8",
+  "returncode": 0,
+  "model_sha256": "499e6df711a90e23ebb83f500fe3929695b852b689111fc73f86d81853175aa2",
+  "decoder_asset_sha256": {
+    "decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "vocab.json": "f1a86819e05c461946070dd12fae15c8d72d00f9f05471f0020fae45f477f9cf",
+    "language_masks.json": "f571a2714de4f9fc9cdf01e23be55b147108486921204af7ff6c0c381271e52d"
+  },
+  "binary_sha256": "ad5db19691b2c6a631283e2678df10ac01e25fd1eca6f395eced6e3bd4662935",
+  "sample_id": "iv-v1-ne-valid-0a1ea24c-c5d2-4a9f-98e7-733037ddb875_1-0001",
+  "reference": "ए म चाहिँ यहाँ कुमुदिनी स्कुलबाट बोलेको कि",
+  "audio_sha256": "254f020ba481933dfcb4ce6e73ae769ded78c7eb17de7ac9f642682cf1958eba",
+  "sample_source": {
+    "source_dataset": "AI4Bharat/IndicVoices",
+    "source_split": "valid",
+    "source_archive_url": "https://iv-release.objectstore.e2enetworks.net/dmu_release/v1_Nepali_valid.tgz",
+    "source_member": "Nepali/v1/valid/0a1ea24c-c5d2-4a9f-98e7-733037ddb875_1.wav",
+    "license": "CC-BY-4.0"
+  },
+  "command": [
+    "../../target/release/model_smoke",
+    "--model",
+    "candidates/mobile-builds/ne/balanced-int8/model.onnx",
+    "--decoder-config",
+    "candidates/mobile-builds/ne/balanced-int8/decoder_config.json",
+    "--vocab",
+    "candidates/mobile-builds/ne/balanced-int8/vocab.json",
+    "--language-masks",
+    "candidates/mobile-builds/ne/balanced-int8/language_masks.json",
+    "--audio",
+    "corpus/indicvoices-v1-pilot/ne/evaluation/audio/iv-v1-ne-valid-0a1ea24c-c5d2-4a9f-98e7-733037ddb875_1-0001.wav",
+    "--language",
+    "ne",
+    "--warmup",
+    "0",
+    "--runs",
+    "1"
+  ],
+  "python_1_26_prediction": "ए म चाहिँ यहाँ कुमुदिनी स्कुलबाट बोलेको कि",
+  "native_matches_python_1_26": true
+}

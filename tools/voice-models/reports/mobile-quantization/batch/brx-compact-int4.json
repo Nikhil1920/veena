@@ -1,0 +1,883 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/brx/compact-int4/model.onnx",
+  "required_languages": [
+    "brx"
+  ],
+  "evaluated_languages": [
+    "brx"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 102971375,
+  "manifest": "corpus/indicvoices-v1-pilot/brx/evaluation/manifest.jsonl",
+  "corpus_sha256": "bc7691ae819fcbb2b1f1c91fe349fc81ada126f3909802c8a7232ae7fb18bcab",
+  "coverage": {
+    "languages": [
+      "brx"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "brx"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": false,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "model_artifact": {
+    "sha256": "59fdd15b6f1cfc22b83af40afe8a8f0ebb5ee3613d8bfd9dc4f0a93841e2b738",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 102971375,
+        "sha256": "59fdd15b6f1cfc22b83af40afe8a8f0ebb5ee3613d8bfd9dc4f0a93841e2b738"
+      }
+    ],
+    "artifact_sha256": "60efa973ef2ef27c998662d8d6f50f22157985f200101651ae1c9b2c10872be4",
+    "size_bytes": 102971375
+  },
+  "decoder_assets": {
+    "decoder_config.json": {
+      "size_bytes": 45,
+      "sha256": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017"
+    },
+    "language_masks.json": {
+      "size_bytes": 2221,
+      "sha256": "11f03585b24bf6d244912969f9ce3e09894d2d31cba927c385e96e967115ceb0"
+    },
+    "vocab.json": {
+      "size_bytes": 3758,
+      "sha256": "25796b0566b46ce6c637543129275de2e03c111612b9406a43905c0863823d24"
+    }
+  },
+  "artifact_binding": {
+    "status": "verified",
+    "method": "sha256",
+    "checked_before_inference": true,
+    "checked_after_inference": true,
+    "scope": "worker model protobuf, external weights, and decoder assets"
+  },
+  "load_time_seconds": 0.3582262499839999,
+  "peak_rss_bytes": 895926272,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-brx-valid-064bc77a-b5a5-41c7-80c3-fda0b8c53c1b_0-0005",
+      "language": "brx",
+      "reference": "ओ माजबात दङ ओमफ्राय रयेल दङ ओमफ्राय",
+      "duration_seconds": 3.616,
+      "prediction": "मासबाथ दङ ओमफ्राय रयेल दङ ओमफ्राय",
+      "reference_words": 7,
+      "word_errors": 2,
+      "reference_characters": 35,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.11098216602113098
+      ],
+      "inference_median_seconds": 0.11098216602113098
+    },
+    {
+      "id": "iv-v1-brx-valid-064bc77a-b5a5-41c7-80c3-fda0b8c53c1b_0-0006",
+      "language": "brx",
+      "reference": "धेकियाजुलिबो दं खुला आरो होमब्लाबो बिराद मोजां धेकियाजुलियाबो",
+      "duration_seconds": 2.657,
+      "prediction": "दिखिया जुलिबो दं खुला आरोबाव बिराद मोजां बे दिखिया जुलियबो",
+      "reference_words": 8,
+      "word_errors": 7,
+      "reference_characters": 61,
+      "character_errors": 19,
+      "inference_seconds": [
+        0.08470412500901148
+      ],
+      "inference_median_seconds": 0.08470412500901148
+    },
+    {
+      "id": "iv-v1-brx-valid-064bc77a-b5a5-41c7-80c3-fda0b8c53c1b_0-0007",
+      "language": "brx",
+      "reference": "मोजाङानो बे माजबातआ बांसिन आरो",
+      "duration_seconds": 2.463,
+      "prediction": "मोजां नैबे मासफटआ बांसिन आरो",
+      "reference_words": 5,
+      "word_errors": 3,
+      "reference_characters": 30,
+      "character_errors": 8,
+      "inference_seconds": [
+        0.07101512502413243
+      ],
+      "inference_median_seconds": 0.07101512502413243
+    },
+    {
+      "id": "iv-v1-brx-valid-064bc77a-b5a5-41c7-80c3-fda0b8c53c1b_0-0008",
+      "language": "brx",
+      "reference": "माजबातआ ओइ ओ दुइस थाखा केजि गोलैगोन माजबातआ",
+      "duration_seconds": 3.204,
+      "prediction": "मासफारा दुइस थाखा केजि गोलोगोन मास बारा",
+      "reference_words": 8,
+      "word_errors": 6,
+      "reference_characters": 43,
+      "character_errors": 14,
+      "inference_seconds": [
+        0.09045883297221735
+      ],
+      "inference_median_seconds": 0.09045883297221735
+    },
+    {
+      "id": "iv-v1-brx-valid-064bc77a-b5a5-41c7-80c3-fda0b8c53c1b_0-0009",
+      "language": "brx",
+      "reference": "ओमफ्राय धेकियाजुलिखौ ओमफ्राय धेकियाजुलियाबो मोजां बेखौ एकस सल्लिस थाखा केजि हरनो हागोन",
+      "duration_seconds": 5.729,
+      "prediction": "ओमफ्राय दिखिया जुलिखौ ओमफ्राय दिखियाजुलिआबो मोजां बेखौ एकस सल्लिस थाखा केजि आ हरनो हागोन",
+      "reference_words": 12,
+      "word_errors": 4,
+      "reference_characters": 86,
+      "character_errors": 11,
+      "inference_seconds": [
+        0.16407720802817494
+      ],
+      "inference_median_seconds": 0.16407720802817494
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697240430-0000",
+      "language": "brx",
+      "reference": "क काझार जिल्लायाव समाज जौगानायनि हाबाफारि मावो होनोब्ला आं एबसुखौनो गिबियै मख नो सानो",
+      "duration_seconds": 5.246984126984127,
+      "prediction": "क क्राझार जिल्लायाव समाज जौगानायनि हाबाफारि मावो होनोब्ला आं एबसुखौनो गिबियै मावख नो सानो",
+      "reference_words": 14,
+      "word_errors": 2,
+      "reference_characters": 85,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.1438393749995157
+      ],
+      "inference_median_seconds": 0.1438393749995157
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697240430-0001",
+      "language": "brx",
+      "reference": "जेराव एबसुयानो गासिबो समाजनि जौगानायनि खामानिफोरखौ मावो जोंनि फरायसोफोरनि थाखाय जौगा फरायसाफोरनि थाखायबो गोबां एबसुयानो नाजाथाबो जौगानायनि थाखाय सासे फरायसाया",
+      "duration_seconds": 10.239002267573696,
+      "prediction": "जेराव एबसुआनो गासैबो समाजनि जौगानायनि खामानिफोरखौ मावो ज फरायसाफोरनि थाखाय जौ फरायसाफोरनि थाखायबो गोबां एबसुआनो नाजाथाबो जौगानायनि थाखाय सासे फरायसाया",
+      "reference_words": 20,
+      "word_errors": 6,
+      "reference_characters": 158,
+      "character_errors": 12,
+      "inference_seconds": [
+        0.2674577499856241
+      ],
+      "inference_median_seconds": 0.2674577499856241
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697240430-0002",
+      "language": "brx",
+      "reference": "जेब्ला मेट्रिक आनजाद एबा गुबुन हायार सेकेण्डारि आनजाद फोराव मोजाङै उथ्रिसारबाबो एबसुया जोंनो एबा एबसुया फरायसानो",
+      "duration_seconds": 6.6880045351473925,
+      "prediction": "एबा मेट्रिक आनजाद एबा गुबुन हायार सेकेण्डारि आनजादफोराव मोजाङै उनथ्रिसारबाबो एबसुआ जोंनो एबा एबसु आ फरायसानो",
+      "reference_words": 16,
+      "word_errors": 7,
+      "reference_characters": 112,
+      "character_errors": 10,
+      "inference_seconds": [
+        0.180897707992699
+      ],
+      "inference_median_seconds": 0.180897707992699
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697240430-0003",
+      "language": "brx",
+      "reference": "सेथि मासि आवग्रिनो हानायफोरनो एबा रेंकिं लाखिनाय फोरनो गोबां दान बान्था होयो बरायनायजों लोगोसे दान बान्था होयो",
+      "duration_seconds": 7.743015873015873,
+      "prediction": "सेथि मानसि आवग्रिनो हानायफोरनो एबा रिंकिं लाखिनायफोरनो गोबां दान बान्था होयो बरायनायजों लोगोसे दान बान्था होयो",
+      "reference_words": 17,
+      "word_errors": 4,
+      "reference_characters": 110,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.19287974998587742
+      ],
+      "inference_median_seconds": 0.19287974998587742
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697240430-0004",
+      "language": "brx",
+      "reference": "आरो बेबादिनो बबेबा गामि एबा जायगाफोराव माबाफोर दैबाना एबा अलखद माबाफोर दैबानाफोरजों अलखद जायोब्ला एबसुया थांनानै एसे मदद हैयो जाखिनि हायो बेखौ मदद हैयो",
+      "duration_seconds": 10.04700680272109,
+      "prediction": "आरो बेबदिनो बबेबा गामि एबा जायगाफोराव माबाफोर दैबाना एबा अलखद माबा दैबानाफोरजों अलखद जायोब्ला एेबसुआ थांनानै एसे मदद होयो जा थिनो हायो बेखौ मदद होयो",
+      "reference_words": 24,
+      "word_errors": 7,
+      "reference_characters": 151,
+      "character_errors": 12,
+      "inference_seconds": [
+        0.2183370000566356
+      ],
+      "inference_median_seconds": 0.2183370000566356
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697241450-0000",
+      "language": "brx",
+      "reference": "आं जोंनि जायगा एबा आं थानाय जायगाया आरिमु महर एबा सिल्प बिदान्थफोर जेबो गैया आरो आं गुबुन जायगायावबो थांफेरनाय जायाखै",
+      "duration_seconds": 8.32,
+      "prediction": "आं जोंनि जायगा एबा आं थानाय जायगायाव आरिमु महर एबा सििल्प बिदानफोर जेबो गैया आरो आं गुबुन जायगायावबो थांफेरनाय जायाखै",
+      "reference_words": 20,
+      "word_errors": 3,
+      "reference_characters": 117,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.17900075000943616
+      ],
+      "inference_median_seconds": 0.17900075000943616
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697242275-0001",
+      "language": "brx",
+      "reference": "जोंनि समाजनि सुबुंफोराबो मोसानायखौ मोजां मोनो",
+      "duration_seconds": 3.6160090702947847,
+      "prediction": "जोंनि समाजनि सुबुंफोराबो मोसानायखौ मोजां मोनो",
+      "reference_words": 6,
+      "word_errors": 0,
+      "reference_characters": 45,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.1114129580091685
+      ],
+      "inference_median_seconds": 0.1114129580091685
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697242275-0002",
+      "language": "brx",
+      "reference": "दा मोसानाय होनोब्ला बयबो जों जेरैहाय बुंनो थाङोब्ला बैसागु फांक्सनफोराव जेन बा बयबो नायनो मोजां मोनो रायजो राजाफ्रानो थुबुर जाहैयो बेफोरखौ नायोबा मोसानाया समाजाव मोनसे गोनांथार आयदा",
+      "duration_seconds": 13.407006802721089,
+      "prediction": "दा मोसानाय होनोब्ला बयबो ज जेरैहाय बुंनो थाङोब्ला बैसागु फांसनफोराव जेनबा बयबो नायनो मोजां मोनो बयबो रायजो राजाफ्रानो थुबुर जाहैयो बेफोरखौ नायोबा मोसानाया समाजाव मोनसे गोनांथार आयदा",
+      "reference_words": 27,
+      "word_errors": 5,
+      "reference_characters": 181,
+      "character_errors": 10,
+      "inference_seconds": [
+        0.4137962079839781
+      ],
+      "inference_median_seconds": 0.4137962079839781
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697242275-0003",
+      "language": "brx",
+      "reference": "दा मोसानायनि गेजेरजों गोजौबो दावखोलांनो हायो जायफोरा मोसानायाव रोंगौथि दङ बिसोरो गोबां गोजौ गोजौ",
+      "duration_seconds": 8.319002267573696,
+      "prediction": "दा मोसानायनि गेजेरजों गोजौबो दावख लांनो हायो जायफोरा मोसानायाव रोंगौथि दङ बिसोरो गोबां गोजौ गोजौ",
+      "reference_words": 14,
+      "word_errors": 2,
+      "reference_characters": 96,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.22405420802533627
+      ],
+      "inference_median_seconds": 0.22405420802533627
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697242275-0004",
+      "language": "brx",
+      "reference": "थाखोआव मोसाहैनानै जाफुंसार जानायखौबो जों नुनो मोनदों बेफोरखौ नायोब्ला मोसानाया जोंनि थाखाय गोनांथार",
+      "duration_seconds": 6.471995464852608,
+      "prediction": "थाखोआव मोसाहैनानै जाफुंसार जानायखौबो जों नुनो मोनदों बेफोरखौ नायोब्ला मोसानाया जोंनि थाखाय गोनांथार",
+      "reference_words": 13,
+      "word_errors": 0,
+      "reference_characters": 99,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.17700741603039205
+      ],
+      "inference_median_seconds": 0.17700741603039205
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697244350-0000",
+      "language": "brx",
+      "reference": "थांनाय बोसोराव ना आंनि गोसोआव थाथाव थाव मोनसे जाथाय जाननै थांदों थारला जोंनि बाजाराव सासे हिन्जावजों सासे हौवाजों दोखो दोखो बुलाय लाबायब्रा",
+      "duration_seconds": 10.450997732426304,
+      "prediction": "थांनाय बोसोरावना आंनि गोसोआव थाथावथाव मोनसे जाथाय जानानै थांदों थालला जोंनि बाजाराव सासे हिनजावजों सासे हौवाजों दोखो दोखो बुलायलायबायब्रा",
+      "reference_words": 22,
+      "word_errors": 9,
+      "reference_characters": 139,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.29186391696566716
+      ],
+      "inference_median_seconds": 0.29186391696566716
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697244350-0001",
+      "language": "brx",
+      "reference": "खमल मिनि थावलै बेफोर हले आंनि गोसोआव बिराद दंबाय थायो बोरैबा",
+      "duration_seconds": 5.239002267573696,
+      "prediction": "थमल मिनिथावलै बेफोरावलाय आंनि गोसोआव बिराद दंबाय थायो बोरैबा",
+      "reference_words": 11,
+      "word_errors": 5,
+      "reference_characters": 60,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.1477389160427265
+      ],
+      "inference_median_seconds": 0.1477389160427265
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697244350-0002",
+      "language": "brx",
+      "reference": "गोसो खांब्ला बाजाराव थांब्लानो बेखौसो गोसोखांग्रा जाबाय आं दाना मानि बिसिनि नुथाइफोरखौ नुनानै जा होलायबायना बिसोर",
+      "duration_seconds": 8.415011337868481,
+      "prediction": "गोसोखांब्ला बाजाराव थांब्लानो बेखौसो गोसोखांग्रा जाबाय आं दाना मानि बिसिोरनि नुथायफोरखौ नुनानै जाहोलायबायनाा बिसोरो",
+      "reference_words": 16,
+      "word_errors": 7,
+      "reference_characters": 113,
+      "character_errors": 7,
+      "inference_seconds": [
+        0.254195042012725
+      ],
+      "inference_median_seconds": 0.254195042012725
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697244350-0003",
+      "language": "brx",
+      "reference": "आरो बिनि अनगायैबो नै गोदान बोसोराव थांनाय बोसोरनि गोदान बोसोरावहाय",
+      "duration_seconds": 5.633015873015873,
+      "prediction": "आरो बिनि अनगायैबो नै गोदान बोसोराव थांनाय बोसोरनि गोदान बोसोरावहाय",
+      "reference_words": 10,
+      "word_errors": 0,
+      "reference_characters": 66,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.22457041597226635
+      ],
+      "inference_median_seconds": 0.22457041597226635
+    },
+    {
+      "id": "iv-v1-brx-valid-3659174697244350-0004",
+      "language": "brx",
+      "reference": "जा बायदि सासे बोराया जौ लोंनानै थिंसायनानै ओरैबायदि जाबाय बिहामजोया दोखो दोखो बुबायलै बेखौ",
+      "duration_seconds": 11.25,
+      "prediction": "जाबायदि सासे बोराया जौ लोंनानै थेंसायनानै ओरैबायदि जाबाय बिहामजोआ दोखो दोखो बुबाय लोगोखौ",
+      "reference_words": 14,
+      "word_errors": 6,
+      "reference_characters": 90,
+      "character_errors": 9,
+      "inference_seconds": [
+        0.21533466700930148
+      ],
+      "inference_median_seconds": 0.21533466700930148
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 85,
+    "reference_words": 284,
+    "wer": 0.2992957746478873,
+    "character_errors": 141,
+    "reference_characters": 1877,
+    "cer": 0.07511987213638785,
+    "duration_seconds": 138.7550544217687,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.17994922900106758,
+    "latency_p95_seconds": 0.2979605315165828,
+    "inference_seconds": 3.7636235381360166,
+    "rtf": 0.027124226600754066
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 85,
+      "reference_words": 284,
+      "wer": 0.2992957746478873,
+      "character_errors": 141,
+      "reference_characters": 1877,
+      "cer": 0.07511987213638785,
+      "duration_seconds": 138.7550544217687,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.17994922900106758,
+      "latency_p95_seconds": 0.2979605315165828,
+      "inference_seconds": 3.7636235381360166,
+      "rtf": 0.027124226600754066
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "comparison": {
+    "quality_passed": false,
+    "quality_gate_passed": false,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "brx"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "brx": {
+        "passed": false,
+        "wer_regression": 0.014084507042253502,
+        "cer_regression": 0.0015982951518380417,
+        "reason": "quality regression exceeds the configured absolute tolerance"
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.7248344859959629,
+      "peak_rss_bytes_ratio": 0.7898058813334103,
+      "latency_p50_seconds_ratio": 1.4551285400788025,
+      "latency_p95_seconds_ratio": 1.1567070234393027,
+      "rtf_ratio": 1.3595344570691281
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_fp32": {
+    "quality_passed": false,
+    "quality_gate_passed": false,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "brx"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "brx": {
+        "passed": false,
+        "wer_regression": 0.014084507042253502,
+        "cer_regression": 0.0015982951518380417,
+        "reason": "quality regression exceeds the configured absolute tolerance"
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.21360391323615763,
+      "load_time_seconds_ratio": 0.7248344859959629,
+      "peak_rss_bytes_ratio": 0.7898058813334103,
+      "latency_p50_seconds_ratio": 1.4551285400788025,
+      "latency_p95_seconds_ratio": 1.1567070234393027,
+      "rtf_ratio": 1.3595344570691281
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": false,
+    "quality_gate_passed": false,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "brx"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "brx": {
+        "passed": false,
+        "wer_regression": 0.010563380281690127,
+        "cer_regression": -0.0031965903036760834,
+        "reason": "quality regression exceeds the configured absolute tolerance"
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.15235849990927933,
+      "load_time_seconds_ratio": 0.2982309134610831,
+      "peak_rss_bytes_ratio": 0.6356492729026934,
+      "latency_p50_seconds_ratio": 0.4271294734488162,
+      "latency_p95_seconds_ratio": 0.4400717921252172,
+      "rtf_ratio": 0.4364809755735973
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "candidate_variant": "compact-int4",
+  "status_classification": "candidate_unvalidated",
+  "latency_qualified": false,
+  "timing_note": "Accuracy-only screen; two independent candidate workers may overlap. Use the separate controlled host benchmark for timing; physical phone performance is unqualified.",
+  "selection_note": "Pilot used for candidate screening. Fresh speaker-disjoint confirmation data and mobile measurements are required. No automatic selection."
+}

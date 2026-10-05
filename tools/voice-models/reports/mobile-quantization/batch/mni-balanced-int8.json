@@ -1,0 +1,881 @@
+{
+  "report_version": 1,
+  "model": "candidates/mobile-builds/mni/balanced-int8/model.onnx",
+  "required_languages": [
+    "mni"
+  ],
+  "evaluated_languages": [
+    "mni"
+  ],
+  "all_22_covered": false,
+  "model_size_bytes": 146746008,
+  "manifest": "corpus/indicvoices-v1-pilot/mni/evaluation/manifest.jsonl",
+  "corpus_sha256": "d53c2d3d6fc95fd1766381149ca51721f64d358d7a673128ad471ba0ea66ade1",
+  "coverage": {
+    "languages": [
+      "mni"
+    ],
+    "missing_languages": [],
+    "required_languages": [
+      "mni"
+    ],
+    "all_required_languages": true,
+    "all_22_languages": false,
+    "sample_count": 20
+  },
+  "measurement": {
+    "threads": 2,
+    "inter_op_threads": 1,
+    "warmup_per_sample": 0,
+    "repeats_per_sample": 1,
+    "provider": "CPUExecutionProvider",
+    "latency_scope": "session.run only",
+    "load_scope": "ONNX Runtime InferenceSession construction",
+    "memory_scope": "isolated evaluation process peak resident set, including Python and runtime",
+    "text_normalization": "Unicode NFC; collapse whitespace; preserve case and punctuation; CER includes spaces"
+  },
+  "release_ready": false,
+  "quality_gate_passed": true,
+  "limitations": "Human-reference provenance and corpus representativeness are supplied by the caller; this report does not establish general accuracy or statistical confidence.",
+  "model_artifact": {
+    "sha256": "79b25d5df5c01ceb1cac782c9970a2a140eed4f439157dd70990b284955bf283",
+    "files": [
+      {
+        "path": "model.onnx",
+        "size_bytes": 146746008,
+        "sha256": "79b25d5df5c01ceb1cac782c9970a2a140eed4f439157dd70990b284955bf283"
+      }
+    ],
+    "artifact_sha256": "b3d60d9d1d181b35babf251841228e8785ff6e3242e6a9ad5bdb5b543c2bce2a",
+    "size_bytes": 146746008
+  },
+  "decoder_assets": {
+    "decoder_config.json": {
+      "size_bytes": 45,
+      "sha256": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017"
+    },
+    "language_masks.json": {
+      "size_bytes": 2221,
+      "sha256": "ee2800bdf34990ec3055d01bc5d4154609ee32bc213f47089d791296a3eae314"
+    },
+    "vocab.json": {
+      "size_bytes": 4172,
+      "sha256": "5ff1a37aae814df5fe395d8bc314c0a83f9da4878c687c9a94bbe9645d3578ab"
+    }
+  },
+  "artifact_binding": {
+    "status": "verified",
+    "method": "sha256",
+    "checked_before_inference": true,
+    "checked_after_inference": true,
+    "scope": "worker model protobuf, external weights, and decoder assets"
+  },
+  "load_time_seconds": 0.3698536250158213,
+  "peak_rss_bytes": 1424195584,
+  "runtime": {
+    "name": "onnxruntime",
+    "version": "1.26.0",
+    "provider": "CPUExecutionProvider",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "samples": [
+    {
+      "id": "iv-v1-mni-valid-30e04838-102e-4321-a86c-ed274e5dd3f6_1-0000",
+      "language": "mni",
+      "reference": "ꯍꯜꯂꯣ ꯀꯩ ꯀꯩ ꯂꯩꯕꯗꯣꯏꯅꯣ",
+      "duration_seconds": 3.668,
+      "prediction": "ꯍꯂꯣ ꯀꯔꯤ ꯀꯔꯤ ꯂꯩꯕꯤꯗꯣꯏꯅꯣ",
+      "reference_words": 4,
+      "word_errors": 4,
+      "reference_characters": 19,
+      "character_errors": 6,
+      "inference_seconds": [
+        0.07972291699843481
+      ],
+      "inference_median_seconds": 0.07972291699843481
+    },
+    {
+      "id": "iv-v1-mni-valid-30e04838-102e-4321-a86c-ed274e5dd3f6_1-0001",
+      "language": "mni",
+      "reference": "ꯍꯧꯖꯤꯛꯁꯦ ꯌꯣꯡꯆꯥꯛꯁꯦ ꯆꯥꯝꯃꯒꯤ ꯃꯉꯥꯃꯨꯛ ꯇꯧꯋꯦ",
+      "duration_seconds": 3.572,
+      "prediction": "ꯍꯧꯖꯤꯛꯁꯦ ꯌꯣꯡꯆꯥꯛꯁꯦ ꯆꯥꯝꯃꯒꯤ ꯃꯉꯥꯃꯨꯛ ꯇꯧꯋꯦ",
+      "reference_words": 5,
+      "word_errors": 0,
+      "reference_characters": 35,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.04819499998120591
+      ],
+      "inference_median_seconds": 0.04819499998120591
+    },
+    {
+      "id": "iv-v1-mni-valid-30e04838-102e-4321-a86c-ed274e5dd3f6_1-0003",
+      "language": "mni",
+      "reference": "ꯇꯔꯨꯛꯁꯦ ꯈꯤꯇꯪ ꯋꯥꯔꯅꯤ ꯌꯣꯡꯆꯥꯛꯁꯦ ꯍꯧꯖꯤꯛꯁꯦ ꯃꯇꯝꯁꯨ ꯅꯠꯇꯕꯅꯤꯅ",
+      "duration_seconds": 4.636,
+      "prediction": "ꯇꯔꯨꯛꯁꯦ ꯈꯤꯇꯪ ꯋꯥꯔꯅꯤ ꯌꯣꯝ ꯆꯥꯛꯁꯤ ꯍꯧꯖꯤꯛ ꯃꯇꯝꯁꯨ ꯅꯠꯇꯕꯅꯤꯅ",
+      "reference_words": 7,
+      "word_errors": 3,
+      "reference_characters": 48,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.062052750028669834
+      ],
+      "inference_median_seconds": 0.062052750028669834
+    },
+    {
+      "id": "iv-v1-mni-valid-30e04838-102e-4321-a86c-ed274e5dd3f6_1-0004",
+      "language": "mni",
+      "reference": "ꯈꯔ ꯈꯔꯕꯨꯗꯤ ꯇꯥꯕꯤꯔꯒꯦ ꯑꯗꯣ ꯇꯔꯨꯛꯇꯤ ꯌꯥꯗꯦ",
+      "duration_seconds": 3.003,
+      "prediction": "ꯈ ꯈꯔꯕꯨꯗꯤ ꯇꯥꯕꯤꯔꯒꯦ ꯑꯗꯣ ꯇꯔꯨꯛꯁꯨ ꯌꯥꯏ",
+      "reference_words": 6,
+      "word_errors": 3,
+      "reference_characters": 33,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.03576204099226743
+      ],
+      "inference_median_seconds": 0.03576204099226743
+    },
+    {
+      "id": "iv-v1-mni-valid-30e04838-102e-4321-a86c-ed274e5dd3f6_1-0005",
+      "language": "mni",
+      "reference": "ꯌꯥꯡ ꯌꯥꯡꯈꯩꯗꯤ ꯌꯥꯡꯈꯩꯒꯤ ꯑꯍꯨꯝꯗꯤ ꯈꯤꯇꯪ ꯋꯥꯔꯅꯤ ꯏꯕꯨꯡꯉꯣ",
+      "duration_seconds": 4.286,
+      "prediction": "ꯌꯥ ꯌꯥꯡꯈꯩꯗꯤ ꯌꯥꯡꯈꯩꯒꯤ ꯑꯍꯨꯝꯗ ꯈꯤꯇꯪ ꯋꯥꯔꯅꯤꯕꯨꯡꯉꯣ",
+      "reference_words": 7,
+      "word_errors": 4,
+      "reference_characters": 44,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.05144570901757106
+      ],
+      "inference_median_seconds": 0.05144570901757106
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345786-0004",
+      "language": "mni",
+      "reference": "ꯑꯗꯨꯛꯀꯤ ꯃꯇꯤꯛ ꯑꯉꯟꯕ ꯃꯇꯝꯗꯒꯤ ꯍꯧꯅ ꯍꯥꯏꯔꯤꯕ ꯃꯐꯝ ꯑꯁꯤꯗ ꯃꯐꯝ ꯀꯌꯥꯗꯒꯤ",
+      "duration_seconds": 6.591995464852608,
+      "prediction": "ꯑꯗꯨꯛꯀꯤ ꯃꯇꯤꯛ ꯑꯉꯟꯕ ꯃꯇꯝꯗꯒꯤ ꯍꯧꯅ ꯍꯥꯏꯔꯤꯕ ꯃꯐꯝ ꯑꯁꯤꯗ ꯃꯐꯝ ꯀꯌꯥꯗꯒꯤ",
+      "reference_words": 10,
+      "word_errors": 0,
+      "reference_characters": 54,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.09157183399656788
+      ],
+      "inference_median_seconds": 0.09157183399656788
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345786-0005",
+      "language": "mni",
+      "reference": "ꯁꯤꯟꯅꯥꯏꯕ ꯀꯌꯥ ꯑꯃ ꯂꯥꯛꯇꯨꯅ ꯃꯐꯝ ꯃꯐꯝꯁꯤꯗ ꯃꯈꯣꯏꯒꯤ ꯑꯣꯏꯕ ꯁꯤꯟꯁꯤꯡ ꯑꯗꯨ ꯍꯥꯏꯕꯗꯤ ꯁꯝꯅ ꯍꯥꯏꯔꯕꯗ ꯑꯩꯈꯣꯏꯒꯤ ꯐꯤ ꯁꯥꯕꯅ ꯀꯌꯥ ꯑꯃ ꯑꯃꯗꯤ ꯑꯩꯈꯣꯏꯒꯤ",
+      "duration_seconds": 14.063990929705215,
+      "prediction": "ꯁꯤꯟꯅꯥꯏꯕ ꯀꯌꯥ ꯑꯃ ꯂꯥꯛꯇꯨꯅ ꯃꯐꯝ ꯃꯐꯝ ꯑꯁꯤꯗ ꯃꯈꯣꯏꯒꯤ ꯑꯣꯏꯕ ꯁꯤꯟꯁꯤꯡ ꯑꯗꯨ ꯍꯥꯏꯕꯗꯤ ꯁꯝꯅ ꯍꯥꯏꯔꯕꯗ ꯑꯩꯈꯣꯏꯒꯤ ꯐꯤ ꯁꯥꯕꯅ ꯀꯌꯥ ꯑꯃ ꯑꯃꯗꯤ ꯑꯩꯈꯣꯏꯒꯤ",
+      "reference_words": 20,
+      "word_errors": 2,
+      "reference_characters": 109,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.2058741669752635
+      ],
+      "inference_median_seconds": 0.2058741669752635
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345786-0006",
+      "language": "mni",
+      "reference": "ꯆꯐꯨ ꯁꯥꯕꯅ ꯀꯌꯥ ꯑꯃ ꯅꯠꯇ꯭ꯔꯀꯥꯟꯗ ꯈꯨꯠꯅ ꯁꯥꯕ ꯂꯥꯏꯙꯤ ꯀꯧꯅꯥ ꯀꯌꯥ ꯑꯃ ꯌꯣꯜꯂꯤ ꯍꯥꯏꯔꯤꯕ ꯀꯧꯅꯥꯁꯤꯡ ꯁꯥꯔꯤꯕ ꯂꯥꯏꯙꯤ ꯑꯃꯗꯤ ꯁꯥꯔꯤꯕ",
+      "duration_seconds": 11.872993197278912,
+      "prediction": "ꯆꯐꯨ ꯁꯥꯕꯅ ꯀꯌꯥ ꯑꯃ ꯅꯠꯇ꯭ꯔꯀꯥꯟꯗ ꯈꯨꯠꯅ ꯁꯥꯕ ꯂꯥꯏꯙ ꯀꯧꯅꯥ ꯀꯌꯥ ꯑꯃ ꯌꯣꯜꯂꯤ ꯍꯥꯏꯔꯤꯕ ꯀꯧꯅꯥꯁꯤꯡ ꯁꯥꯔꯤꯕ ꯂꯥꯏꯙꯤ ꯑꯃꯗꯤ ꯁꯥꯔꯤꯕ",
+      "reference_words": 18,
+      "word_errors": 1,
+      "reference_characters": 96,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.3801147500053048
+      ],
+      "inference_median_seconds": 0.3801147500053048
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345786-0007",
+      "language": "mni",
+      "reference": "ꯐꯤ ꯀꯌꯥ ꯑꯃꯁꯤ ꯃꯈꯜ ꯃꯈꯜꯅꯤ ꯃꯅꯤꯄꯨꯔ ꯈ꯭ꯋꯥꯏꯔꯝꯕꯟꯁꯤꯗ ꯐꯡꯉꯤꯕ ꯑꯁꯤ ꯃꯅꯤꯄꯨꯔꯁꯤꯗ ꯂꯩꯔꯤꯕ ꯑꯩꯈꯣꯏꯒꯤ ꯆꯤꯡꯁꯤꯅ",
+      "duration_seconds": 7.392993197278911,
+      "prediction": "ꯐꯤ ꯀꯌꯥ ꯑꯁꯤ ꯃꯈꯜ ꯃꯈꯜꯅꯤ ꯃꯅꯤꯄꯨꯔ ꯈ꯭ꯋꯥꯏꯔꯝꯕꯟꯁꯤꯗ ꯐꯪꯂꯤꯤꯕ ꯑꯁꯤ ꯃꯅꯤꯄꯨꯔꯁꯤꯗ ꯂꯩꯔꯤꯕ ꯈꯨꯗꯤꯛ ꯆꯤꯡꯁꯤꯅ",
+      "reference_words": 13,
+      "word_errors": 3,
+      "reference_characters": 82,
+      "character_errors": 10,
+      "inference_seconds": [
+        0.16069233301095665
+      ],
+      "inference_median_seconds": 0.16069233301095665
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345786-0008",
+      "language": "mni",
+      "reference": "ꯆꯤꯡꯅ ꯀꯣꯏꯅ ꯄꯟ ꯁꯥꯔꯤꯕ ꯆꯤꯡꯅ ꯀꯣꯏꯅ ꯄꯟ ꯁꯥꯔꯤꯕ ꯂꯝ ꯑꯁꯤꯗꯒꯤꯁꯨ ꯂꯥꯛꯂꯤꯕ ꯑꯩꯈꯣꯏꯒꯤ ꯆꯤꯡꯃꯤ ꯏꯆꯤꯜ ꯏꯅꯥꯎꯁꯤꯡꯗꯒꯤ",
+      "duration_seconds": 7.6709977324263035,
+      "prediction": "ꯆꯤꯡꯅ ꯀꯣꯏꯅ ꯄꯟꯁꯥꯔꯤꯕ ꯆꯤꯡꯅ ꯀꯣꯏꯅ ꯄꯟꯁꯥꯔꯤꯕ ꯂꯝ ꯑꯁꯤꯗꯒꯤꯁꯨ ꯂꯥꯛꯂꯤꯕ ꯑꯩꯈꯣꯏꯒꯤ ꯆꯤꯡꯃꯤ ꯏꯆꯤꯜ ꯏꯅꯥꯎꯁꯤꯡꯗꯒꯤ",
+      "reference_words": 15,
+      "word_errors": 4,
+      "reference_characters": 86,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.21567012497689575
+      ],
+      "inference_median_seconds": 0.21567012497689575
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345993-0000",
+      "language": "mni",
+      "reference": "ꯃꯅꯤꯄꯨꯔꯤ ꯂꯦꯡꯒ꯭ꯋꯦꯠꯁꯁꯦ ꯍꯧꯖꯤꯛ ꯍꯧꯖꯤꯛ ꯂꯩꯔꯤꯕꯁꯤꯗꯒꯤ ꯍꯦꯟꯅ ꯆꯥꯎꯈꯠꯅꯕ ꯍꯦꯟꯅ ꯁꯤꯖꯤꯟꯅꯅꯕ ꯌꯥꯝꯅ ꯀꯟꯅ ꯍꯣꯠꯅꯔꯤ ꯍꯧꯖꯤꯛꯁꯦ",
+      "duration_seconds": 7.730997732426304,
+      "prediction": "ꯃꯅꯤꯄꯨꯔꯤ ꯂꯦꯡꯒ꯭ꯋꯦꯁꯁꯦ ꯍꯧꯖꯤꯛ ꯍꯧꯖꯤꯛ ꯂꯩꯔꯤꯕꯁꯤꯗꯒꯤ ꯍꯦꯟꯅ ꯆꯥꯎꯈꯠꯅꯕ ꯍꯦꯟꯅ ꯁꯤꯖꯤꯟꯅꯅꯕ ꯌꯥꯝ ꯀꯟꯅ ꯍꯣꯠꯅꯔꯤ ꯍꯧꯖꯤꯛꯁꯦ",
+      "reference_words": 13,
+      "word_errors": 2,
+      "reference_characters": 93,
+      "character_errors": 2,
+      "inference_seconds": [
+        0.16550433303928003
+      ],
+      "inference_median_seconds": 0.16550433303928003
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345993-0001",
+      "language": "mni",
+      "reference": "ꯏꯖꯨꯀꯦꯁꯟ ꯁꯤꯁꯇꯦꯝꯗꯁꯨ ꯍꯧꯖꯤꯛꯇꯤ ꯏꯂꯤꯃꯦꯟꯇ꯭ꯔꯤ ꯐꯥꯎꯕꯗꯗꯤ",
+      "duration_seconds": 6.301995464852608,
+      "prediction": "ꯏꯖꯨꯀꯦꯁꯟ ꯁꯤꯁꯇꯦꯝꯗꯁꯨ ꯍꯧꯖꯤꯛꯇꯤ ꯏꯂꯤꯃꯦꯟꯇ꯭ꯔꯤ ꯐꯥꯎꯗꯗꯤ",
+      "reference_words": 5,
+      "word_errors": 1,
+      "reference_characters": 44,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.089361916994676
+      ],
+      "inference_median_seconds": 0.089361916994676
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345993-0002",
+      "language": "mni",
+      "reference": "ꯃꯅꯤꯄꯨꯔꯤꯁꯦ ꯁꯞꯖꯦꯛ ꯑꯃ ꯑꯣꯏꯅ ꯀꯝꯄꯜꯁꯔꯤ ꯑꯣꯏꯅ ꯂꯩꯔꯦ ꯍꯧꯖꯤꯛꯁꯦ ꯑꯗꯨꯒ ꯀꯦꯅꯣꯗꯁꯨ ꯍꯟꯗꯛ",
+      "duration_seconds": 7.071995464852607,
+      "prediction": "ꯃꯅꯤꯄꯨꯔꯤꯁꯦ ꯁꯞꯖꯦꯛ ꯑꯃ ꯑꯣꯏꯅ ꯀꯝꯄꯜꯁꯔꯤ ꯑꯣꯏꯅ ꯂꯩꯔꯦ ꯍꯧꯖꯤꯛꯁꯦ ꯑꯗꯨꯒ ꯀꯩꯅꯣꯗꯁꯨ ꯍꯟꯗꯛ",
+      "reference_words": 11,
+      "word_errors": 1,
+      "reference_characters": 67,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.09855620900634676
+      ],
+      "inference_median_seconds": 0.09855620900634676
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345993-0003",
+      "language": "mni",
+      "reference": "ꯏꯀꯨꯏ ꯀꯨꯏꯗꯅ ꯀꯣꯕꯤꯠꯀꯤ ꯃꯅꯨꯡꯗꯁꯨ ꯍꯥꯏꯕꯗꯤ ꯁꯥꯇ꯭ꯔꯁꯤꯡꯁꯤꯗ ꯍꯦꯟꯅ ꯂꯥꯏꯅ",
+      "duration_seconds": 6.303990929705216,
+      "prediction": "ꯀꯨꯏ ꯀꯨꯏꯗꯅ ꯀꯣꯕꯤꯠꯀꯤ ꯃꯅꯨꯡꯗꯁꯨ ꯍꯥꯏꯕꯗꯤ ꯁꯥꯇ꯭ꯔꯁꯤꯡꯁꯤꯗ ꯍꯦꯟꯅ ꯂꯥꯏꯅ",
+      "reference_words": 8,
+      "word_errors": 1,
+      "reference_characters": 55,
+      "character_errors": 1,
+      "inference_seconds": [
+        0.0904431669623591
+      ],
+      "inference_median_seconds": 0.0904431669623591
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464345993-0004",
+      "language": "mni",
+      "reference": "ꯒ꯭ꯌꯥꯟ ꯇꯥꯅꯕ ꯍꯥꯏꯗꯤ ꯁꯛꯀ ꯁꯛꯀ ꯎꯟꯅꯔꯒ ꯀ꯭ꯂꯥꯁ ꯇꯧꯕꯒꯨꯝꯕꯁꯦ ꯌꯥꯗꯕꯅꯤꯅ",
+      "duration_seconds": 5.150997732426304,
+      "prediction": "ꯒ꯭ꯌꯥꯟ ꯇꯥꯅꯕ ꯍꯥꯏꯗꯤ ꯁꯛꯀ ꯁꯛꯀ ꯎꯅꯔꯒ ꯒꯂꯥꯁ ꯇꯧꯕꯒꯨꯝꯕꯁꯦ ꯌꯥꯗꯕꯅꯤꯅ",
+      "reference_words": 9,
+      "word_errors": 2,
+      "reference_characters": 54,
+      "character_errors": 3,
+      "inference_seconds": [
+        0.07771387498360127
+      ],
+      "inference_median_seconds": 0.07771387498360127
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464346073-0000",
+      "language": "mni",
+      "reference": "ꯑꯩꯈꯣꯏꯒꯤ ꯖꯒꯥ ꯑꯗꯨꯗ ꯄꯥꯡꯊꯣꯛꯄ ꯂꯥꯏꯅꯤꯡ ꯂꯥꯏꯁꯣꯟꯒꯤ ꯑꯣꯏꯕ",
+      "duration_seconds": 4.122018140589569,
+      "prediction": "ꯑꯩꯈꯣꯏꯒꯤ ꯖꯒꯥ ꯑꯗꯨꯗ ꯄꯥꯡꯊꯣꯛꯄ ꯂꯥꯏꯅꯤꯡ ꯂꯥꯏꯁꯣꯟꯒꯤ ꯑꯣꯏꯕ",
+      "reference_words": 7,
+      "word_errors": 0,
+      "reference_characters": 45,
+      "character_errors": 0,
+      "inference_seconds": [
+        0.05814858397934586
+      ],
+      "inference_median_seconds": 0.05814858397934586
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464346073-0003",
+      "language": "mni",
+      "reference": "ꯊꯥꯗꯨꯅ ꯃꯥꯡꯍꯜꯂꯦ ꯑꯗꯨꯒꯤ ꯃꯇꯨꯡꯗ ꯑꯩꯈꯣꯏ ꯑꯉꯥꯡꯁꯤꯡꯁꯤꯅ ꯅꯥꯈꯊꯦꯡꯕ ꯆꯠꯂꯤ ꯑꯗꯨꯒ ꯅꯨꯡꯗꯥꯡꯗ ꯄꯥꯈꯪ ꯂꯩꯁꯥꯕꯤꯁꯤꯡꯅ ꯊꯥꯕꯜ ꯆꯣꯡꯗꯨꯅ ꯅꯨꯡꯉꯥꯏꯅ ꯑꯩꯈꯣꯏ ꯑꯗꯨꯝ ꯄ ꯄꯥꯡꯊꯣꯛꯏ",
+      "duration_seconds": 13.240997732426305,
+      "prediction": "ꯊꯥ ꯇꯨꯅ ꯃꯥꯡꯍꯜꯂꯦ ꯑꯗꯨꯏ ꯃꯇꯨꯡꯗ ꯑꯩꯈꯣꯏ ꯑꯉꯥꯡꯁꯤꯡꯁꯤ ꯅꯥꯀ ꯊꯦꯡꯕ ꯆꯠꯂꯤ ꯑꯗꯨꯒ ꯅꯨꯡꯗꯥꯡꯗ ꯄꯥꯈꯛꯅꯁꯥꯕꯤꯁꯤꯡꯅ ꯊꯥꯕꯟ ꯆꯣꯡꯗꯨꯅ ꯅꯨꯡꯉꯥꯏꯅ ꯑꯩꯈꯣꯏ ꯑꯗꯨꯝ ꯄꯥꯡꯊꯣꯛꯈꯤ",
+      "reference_words": 19,
+      "word_errors": 11,
+      "reference_characters": 125,
+      "character_errors": 16,
+      "inference_seconds": [
+        0.33719758299412206
+      ],
+      "inference_median_seconds": 0.33719758299412206
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464346121-0000",
+      "language": "mni",
+      "reference": "ꯑꯩ ꯏꯁꯥ ꯑꯁꯤ ꯑꯩꯒꯤ ꯏꯆꯤꯟꯅꯥꯎ ꯑꯃꯁꯨꯡ ꯏꯆꯦ ꯏꯆꯟ ꯌꯥꯎꯗꯕ ꯏꯊꯟꯗ ꯄꯣꯛꯏ ꯑꯩ ꯁꯤꯡꯒꯟ ꯕꯣꯔꯟ ꯍꯥꯏꯕꯗꯨꯅꯤ ꯍꯥꯏꯕꯕꯨ ꯑꯩꯒꯤ ꯀꯖꯤꯟ ꯕꯔꯗꯔ ꯁꯤꯁꯇꯔꯁꯤꯡꯗꯤ ꯂꯩ ꯑꯗꯣ ꯑꯩꯈꯣꯏ ꯑꯁꯦ ꯍꯧꯖꯤꯛ",
+      "duration_seconds": 14.75,
+      "prediction": "ꯑꯩ ꯏꯁꯥ ꯑꯁꯤ ꯑꯩꯒꯤ ꯏꯆꯤ ꯏꯅꯥꯎ ꯑꯃꯁꯨꯡ ꯏꯆꯦ ꯏꯆꯟ ꯌꯥꯎꯗꯕ ꯏꯊꯟꯗ ꯄꯣꯛꯏ ꯑꯩ ꯁꯤꯡꯒꯜ ꯕꯣꯔꯟ ꯍꯥꯏꯕꯗꯨꯅꯤ ꯑꯩꯛꯕꯨ ꯑꯩꯒꯤ ꯀꯖꯤꯟ ꯕ꯭ꯔꯗꯔ ꯁꯤꯁꯇꯔꯁꯤꯡꯗꯤ ꯂꯩ ꯑꯗꯣ ꯑꯩꯈꯣꯏ ꯑꯁꯦ ꯍꯧꯖꯤꯛ",
+      "reference_words": 25,
+      "word_errors": 5,
+      "reference_characters": 132,
+      "character_errors": 8,
+      "inference_seconds": [
+        0.3064006249769591
+      ],
+      "inference_median_seconds": 0.3064006249769591
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464346121-0001",
+      "language": "mni",
+      "reference": "ꯃꯤꯅ ꯄꯣꯛꯃꯤꯟꯅꯗꯕꯅꯤ ꯍꯥꯏꯕ ꯐꯥꯎꯕ ꯈꯪꯕ ꯉꯝꯗꯦ ꯀꯩꯔꯣꯜ ꯂꯩꯀꯥꯏꯒꯤ ꯃꯤꯁꯤꯡꯅ ꯑꯩꯈꯣꯏꯒꯤ ꯑꯗꯨꯛꯀꯤ ꯃꯇꯤꯛ ꯅꯨꯡꯁꯤꯅꯅ ꯑꯩꯈꯣꯏꯁꯦ ꯇꯤꯟꯅꯩ",
+      "duration_seconds": 7.743990929705215,
+      "prediction": "ꯃꯤꯅ ꯄꯨꯣꯛꯃꯤꯟꯅꯗꯕꯅꯤ ꯍꯥꯏꯕ ꯐꯥꯎꯕ ꯈꯪꯕ ꯉꯝꯗꯦ ꯀꯩꯅꯣ ꯂꯩꯀꯥꯏꯒꯤ ꯃꯤꯁꯤꯡꯅ ꯑꯩꯈꯣꯏꯒꯤ ꯑꯗꯨꯛꯀꯤ ꯃꯇꯤꯛ ꯅꯨꯡꯁꯤꯅꯅ ꯑꯩꯈꯣꯏꯁꯤ ꯇꯤꯟꯅꯩ",
+      "reference_words": 15,
+      "word_errors": 3,
+      "reference_characters": 97,
+      "character_errors": 4,
+      "inference_seconds": [
+        0.17581470898585394
+      ],
+      "inference_median_seconds": 0.17581470898585394
+    },
+    {
+      "id": "iv-v1-mni-valid-6473924464346121-0002",
+      "language": "mni",
+      "reference": "ꯂꯩꯃꯤꯟꯅꯩ ꯆꯥꯃꯤꯟ ꯊꯛꯃꯤꯟꯅꯩ ꯑꯗꯨꯕꯨ ꯂꯤꯕꯤꯡ ꯑꯣꯞ ꯑꯁꯇꯦꯟꯗꯔꯗꯤ ꯃꯇꯝꯒꯤ ꯃꯇꯨꯡ ꯏꯟꯅ ꯌꯨꯝ ꯀꯩ ꯄꯥꯟꯅꯔꯛꯂꯕꯅꯤꯅ ꯃꯥꯒꯤ ꯃꯥꯒꯤ",
+      "duration_seconds": 7.17,
+      "prediction": "ꯂꯩꯃꯤꯟꯅꯩ ꯆꯥꯃꯤꯟ ꯊꯛꯃꯤꯟꯅꯩ ꯑꯗꯨꯕꯨ ꯂꯤꯕꯤꯡ ꯑꯣꯝ ꯄꯦꯁꯦꯟꯗꯔꯗꯤ ꯃꯇꯝꯒꯤ ꯃꯇꯨꯡ ꯏꯟꯅ ꯌꯨꯝ ꯀꯩ ꯄꯥꯟꯅꯔꯛꯑꯕꯅꯤꯅ ꯃꯥꯒꯤ ꯃꯥꯒꯤ",
+      "reference_words": 15,
+      "word_errors": 3,
+      "reference_characters": 91,
+      "character_errors": 5,
+      "inference_seconds": [
+        0.15635891602141783
+      ],
+      "inference_median_seconds": 0.15635891602141783
+    }
+  ],
+  "aggregate": {
+    "attempted_samples": 20,
+    "sample_count": 20,
+    "error_count": 0,
+    "word_errors": 53,
+    "reference_words": 232,
+    "wer": 0.22844827586206898,
+    "character_errors": 76,
+    "reference_characters": 1409,
+    "cer": 0.0539389638041164,
+    "duration_seconds": 146.34495464852606,
+    "inference_measurements": 20,
+    "latency_p50_seconds": 0.09506402150145732,
+    "latency_p95_seconds": 0.33934344134468125,
+    "inference_seconds": 2.8866015439270996,
+    "rtf": 0.019724639984069123
+  },
+  "per_language": {
+    "as": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "bn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "brx": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "doi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "gu": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "hi": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kn": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "kok": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ks": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mai": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ml": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "mni": {
+      "attempted_samples": 20,
+      "sample_count": 20,
+      "error_count": 0,
+      "word_errors": 53,
+      "reference_words": 232,
+      "wer": 0.22844827586206898,
+      "character_errors": 76,
+      "reference_characters": 1409,
+      "cer": 0.0539389638041164,
+      "duration_seconds": 146.34495464852606,
+      "inference_measurements": 20,
+      "latency_p50_seconds": 0.09506402150145732,
+      "latency_p95_seconds": 0.33934344134468125,
+      "inference_seconds": 2.8866015439270996,
+      "rtf": 0.019724639984069123
+    },
+    "mr": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ne": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "or": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "pa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sa": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sat": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "sd": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ta": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "te": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    },
+    "ur": {
+      "attempted_samples": 0,
+      "sample_count": 0,
+      "error_count": 0,
+      "word_errors": 0,
+      "reference_words": 0,
+      "wer": null,
+      "character_errors": 0,
+      "reference_characters": 0,
+      "cer": null,
+      "duration_seconds": 0,
+      "inference_measurements": 0,
+      "latency_p50_seconds": null,
+      "latency_p95_seconds": null,
+      "inference_seconds": 0,
+      "rtf": null
+    }
+  },
+  "status": "ok",
+  "comparison": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "mni"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "mni": {
+        "passed": true,
+        "wer_regression": 0.008620689655172431,
+        "cer_regression": 0.0028388928317956003
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.8258828994434453,
+      "peak_rss_bytes_ratio": 1.2150854778512419,
+      "latency_p50_seconds_ratio": 0.6840206492133287,
+      "latency_p95_seconds_ratio": 1.1772957390087684,
+      "rtf_ratio": 1.0054763568401486
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_fp32": {
+    "quality_passed": true,
+    "quality_gate_passed": true,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "mni"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "mni": {
+        "passed": true,
+        "wer_regression": 0.008620689655172431,
+        "cer_regression": 0.0028388928317956003
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.30441005143987343,
+      "load_time_seconds_ratio": 0.8258828994434453,
+      "peak_rss_bytes_ratio": 1.2150854778512419,
+      "latency_p50_seconds_ratio": 0.6840206492133287,
+      "latency_p95_seconds_ratio": 1.1772957390087684,
+      "rtf_ratio": 1.0054763568401486
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "comparison_against_shipped": {
+    "quality_passed": false,
+    "quality_gate_passed": false,
+    "release_ready": false,
+    "artifact_binding": {
+      "baseline": "unbound",
+      "candidate": "verified"
+    },
+    "min_samples_per_language": 20,
+    "required_languages": [
+      "mni"
+    ],
+    "max_wer_regression": 0.01,
+    "max_cer_regression": 0.01,
+    "reasons": [],
+    "per_language": {
+      "mni": {
+        "passed": false,
+        "wer_regression": 0.030172413793103453,
+        "cer_regression": -0.0014194464158977932,
+        "reason": "quality regression exceeds the configured absolute tolerance"
+      }
+    },
+    "performance_ratios": {
+      "model_size_bytes_ratio": 0.2171283198515617,
+      "load_time_seconds_ratio": 0.3132844409307552,
+      "peak_rss_bytes_ratio": 0.9421034378115923,
+      "latency_p50_seconds_ratio": 0.2261036602514789,
+      "latency_p95_seconds_ratio": 0.37593612119220876,
+      "rtf_ratio": 0.30386379989140394
+    },
+    "note": "Quality gate results apply only to this corpus. Historical reports without worker artifact verification remain unbound even if the numerical comparison passes. Release requires representative human-reference review and target-device performance acceptance; neither is asserted here."
+  },
+  "candidate_variant": "balanced-int8",
+  "status_classification": "candidate_unvalidated",
+  "latency_qualified": false,
+  "timing_note": "Accuracy-only screen; two independent candidate workers may overlap. Use the separate controlled host benchmark for timing; physical phone performance is unqualified.",
+  "selection_note": "Pilot used for candidate screening. Fresh speaker-disjoint confirmation data and mobile measurements are required. No automatic selection."
+}

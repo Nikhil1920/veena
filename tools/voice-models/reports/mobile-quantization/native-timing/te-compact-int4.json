@@ -1,0 +1,80 @@
+{
+  "audio": "corpus/indicvoices-v1-pilot/te/evaluation/audio/iv-v1-te-valid-1b749abf-135f-4752-8618-bc063e811d14_1-0001.wav",
+  "audio_duration_seconds": 5.057,
+  "audio_sample_rate": 8000,
+  "audio_samples": 40456,
+  "backend": "rust_backend::Transcriber::new_multilingual",
+  "build_profile": "release",
+  "decoder_assets": {
+    "config": "candidates/mobile-builds/te/compact-int4/decoder_config.json",
+    "language_masks": "candidates/mobile-builds/te/compact-int4/language_masks.json",
+    "vocab": "candidates/mobile-builds/te/compact-int4/vocab.json"
+  },
+  "decoder_config": {
+    "blank_idx": 256,
+    "num_classes": 257
+  },
+  "execution_provider": "native default CPU provider",
+  "frontend": "rust_backend::preprocess::compute_features",
+  "host": {
+    "arch": "aarch64",
+    "os": "macos"
+  },
+  "language": "te",
+  "measured_runs": 5,
+  "model": "candidates/mobile-builds/te/compact-int4/model.onnx",
+  "model_bytes": 102971375,
+  "model_load_ms": 272.281458,
+  "model_loaded": true,
+  "onnxruntime_build": "ORT Build Info: git-branch=rel-1.24.2, git-commit-id=058787c, build type=Release",
+  "onnxruntime_version": "1.24.2",
+  "ort_rust_api_version": 24,
+  "release_ready": false,
+  "runs": [
+    {
+      "iteration": 0,
+      "preprocess_inference_decode_ms": 79.376625,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    },
+    {
+      "iteration": 1,
+      "preprocess_inference_decode_ms": 79.023334,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    },
+    {
+      "iteration": 2,
+      "preprocess_inference_decode_ms": 79.60000000000001,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    },
+    {
+      "iteration": 3,
+      "preprocess_inference_decode_ms": 80.07983300000001,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    },
+    {
+      "iteration": 4,
+      "preprocess_inference_decode_ms": 80.515833,
+      "transcript": "అది మనప్పుడు ప్రస్తుతానికి మన యూనివర్సిటీ చాలా తక్కువలో ఉంది"
+    }
+  ],
+  "schema_version": 1,
+  "selected_language_tokens": 257,
+  "session_threads": "production constructor defaults",
+  "status": "native_compatibility_passed",
+  "timing_note": "Host native only; no physical phone or browser tested. A compatibility smoke under concurrent workloads is not a qualified latency comparison.",
+  "transcript_stable": true,
+  "warmup_runs": 2,
+  "variant": "compact-int4",
+  "source_utterance_id": "iv-v1-te-valid-1b749abf-135f-4752-8618-bc063e811d14_1-0001",
+  "verified_input_sha256": {
+    "candidates/mobile-builds/te/compact-int4/model.onnx": "20285714da34e4c606515494d68516ecf0755406e8809747328bd285168eede6",
+    "candidates/mobile-builds/te/compact-int4/decoder_config.json": "442d11d9738f061a0626233180288d911462232fb8ecdfee1e07021aa200f017",
+    "candidates/mobile-builds/te/compact-int4/vocab.json": "628eea78914616665b7fd6000601dd82bbee42c0f8d3f70957bfe3bc47a37142",
+    "corpus/indicvoices-v1-pilot/te/evaluation/audio/iv-v1-te-valid-1b749abf-135f-4752-8618-bc063e811d14_1-0001.wav": "70ec36f9ccfa5592b090bd8e05ab4930a4474f9e1a3216fb170fc1807a6f3eed",
+    "candidates/mobile-builds/te/compact-int4/language_masks.json": "ff042fcf3ff2482d58669c6003781efd347d0fdf0e3b3a833ce60e8cb8362c77"
+  },
+  "median_total_ms": 79.60000000000001,
+  "peak_rss_bytes": 399212544,
+  "rtf": 0.01574055764287127,
+  "physical_phone_tested": false
+}
