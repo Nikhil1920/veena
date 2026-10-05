@@ -16,7 +16,9 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"type-check": "astro check",
-		"check": "npm run type-check && npm run lint && npm run format:check"
+		"check": "npm run type-check && npm run lint && npm run format:check",
+		"deploy": "pnpm build && wrangler pages deploy dist --project-name veena --branch main",
+		"preview:cloudflare": "wrangler pages dev dist"
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^7.0.5",
@@ -52,6 +54,7 @@
 		"prettier": "^3.8.1",
 		"prettier-plugin-astro": "^0.14.1",
 		"terser": "^5.46.0",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"wrangler": "4.122.0"
 	}
 }

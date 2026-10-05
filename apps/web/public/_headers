@@ -1,14 +1,6 @@
-/speech-to-text*
+/*
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
-/transcribe*
-  Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Embedder-Policy: require-corp
-/runtime/*
-  Cross-Origin-Resource-Policy: same-origin
-/_assets/*
-  Cross-Origin-Resource-Policy: same-origin
-/audio/*
   Cross-Origin-Resource-Policy: same-origin
 /transcription-sw.js
   Cache-Control: no-cache

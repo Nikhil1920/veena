@@ -105,3 +105,9 @@ pnpm check      # type-check + lint + format check
 - Internal linking is deliberate: the homepage and language hub link to all
   22 language pages, each language page links to sibling languages plus a
   store-button CTA, and header/footer carry Download on every page.
+
+## Production deployment
+
+The website is deployed at https://veena.byanr.com through the Cloudflare Pages project `veena`, configured in `wrangler.jsonc`. Use `pnpm deploy` to build and update the Pages deployment. The ChatGPT Sites deployment is retired.
+
+Speech models stay on dl.byanr.com, using the exact native-app archive URLs. Only the website, ONNX Runtime execution engine, and sample audio are deployed as web assets. See BROWSER_TRANSCRIPTION.md for the streaming model-delivery route and download verification.

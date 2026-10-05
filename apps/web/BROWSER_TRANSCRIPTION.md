@@ -27,7 +27,18 @@ pnpm preview
 
 Open `http://127.0.0.1:4321/speech-to-text/telugu/`. The legacy `/transcribe/` route remains available with a canonical URL pointing to the Telugu page. Preview uses the existing sibling model archives when available and otherwise streams from the production model CDN. A normal deployment streams from the CDN. The downloads stay out of the site bundle.
 
-`dist/server/index.js`, `dist/client/` and `dist/.openai/hosting.json` form the Sites Worker deployment. Other hosting must implement the same-origin `/models/` delivery route and serve the static pages/runtime over HTTPS. The Worker and local preview add COOP/COEP headers for up to four WASM threads; without isolation the runtime falls back to one thread. Model delivery is required because the existing CDN does not send browser CORS headers.
+Production is `https://veena.byanr.com` on the Cloudflare Pages project `veena` (`https://veena-1dl.pages.dev`). Run `pnpm deploy` to build and deploy; `pnpm preview:cloudflare` runs the same Pages build locally. Astro produces one `dist/` asset directory, with a Pages `_worker.js` that handles only `/models/*`, and no Sites manifest or duplicate asset directories.
+
+The Worker streams only the two allowlisted native download URLs:
+
+- `https://dl.byanr.com/veena-byanr/indicconformer_stt_te_ctc_static_qdq_int8.tar.gz`
+- `https://dl.byanr.com/veena-byanr/indicconformer_multi_ctc_int8.tar.gz`
+
+The browser requests these through `/models/{archive}` because dl.byanr.com currently does not send browser CORS headers. GET, HEAD and single byte-range requests are forwarded without buffering the whole archive. The web assets contain ONNX Runtime WASM (the execution engine) and a sample recording, but no speech-model weights or archives. Models are downloaded only after consent and retained in the visitor's browser storage.
+
+The static `_headers` file provides COOP/COEP/CORP headers on documents and worker/runtime assets for up to four WASM threads. Header changes also invalidate the offline cache. The model route never accepts audio uploads. Cloudflare serves all other paths from static assets, including the generated 404 page.
+
+On 22 September 2026, the Pages deployment was verified with successful static and runtime responses, Telugu and multilingual archive HEAD responses, and resumable byte-range downloads. The previous ChatGPT Site was deleted. The old Cloudflare Worker remains available on its workers.dev address, with its custom-domain binding removed.
 
 ## Verified on 10 September 2026
 

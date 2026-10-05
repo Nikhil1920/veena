@@ -72,8 +72,12 @@ wheels/
 .venv/
 venv/
 
-# === Astro (apps/web) ===
+# === Astro / Cloudflare Pages (apps/web) ===
 .astro/
+.wrangler/
+# ONNX Runtime WASM files are copied in from node_modules at build time:
+apps/web/public/runtime/*
+apps/web/tests/browser/results/
 
 # === Xcode (apps/ios) ===
 apps/ios/Veena.xcodeproj/

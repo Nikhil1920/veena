@@ -1,6 +1,5 @@
-import { readFile, writeFile, mkdir, cp, readdir } from "node:fs/promises";
+import { readFile, writeFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { resolve } from "node:path";
 
 async function files(dir) {
 	const entries = await readdir(dir, { withFileTypes: true });
@@ -27,6 +26,8 @@ const paths = (await files("dist")).filter(
 		path === "dist/favicon.svg"
 );
 const hash = createHash("sha256");
+// Cached worker responses must receive updated isolation headers after a deploy.
+hash.update(await readFile("dist/_headers"));
 for (const path of paths.sort()) {
 	hash.update(path);
 	hash.update(await readFile(path));
@@ -41,22 +42,15 @@ await writeFile(
 		.replace("__PRECACHE__", JSON.stringify(precache))
 );
 
-// The normal Astro static output remains directly deployable. Sites additionally
-// uses this small Worker for same-origin streaming of the existing model CDN.
-await mkdir("dist/server", { recursive: true });
+console.log(`Prepared offline app cache ${version}.`);
+
+// Pages advanced mode serves the site and streams the existing native CDN archives.
 const proxy = await readFile("scripts/model-proxy.mjs", "utf8");
-const worker = (await readFile("scripts/site-worker.mjs", "utf8")).replace(
-	/^import .*;\n/,
-	""
+const worker = (
+	await readFile("scripts/cloudflare-worker.mjs", "utf8")
+).replace(/^import .*;\n/, "");
+await writeFile("dist/_worker.js", `${proxy}\n${worker}`);
+await writeFile(
+	"dist/_routes.json",
+	JSON.stringify({ version: 1, include: ["/models/*"], exclude: [] })
 );
-await writeFile("dist/server/index.js", `${proxy}\n${worker}`);
-await mkdir("dist/.openai", { recursive: true });
-await cp(".openai/hosting.json", "dist/.openai/hosting.json");
-await mkdir("dist/client", { recursive: true });
-for (const entry of await readdir("dist", { withFileTypes: true })) {
-	if (["client", "server", ".openai"].includes(entry.name)) continue;
-	await cp(resolve("dist", entry.name), resolve("dist/client", entry.name), {
-		recursive: true,
-	});
-}
-console.log(`Prepared offline app cache ${version} and model-delivery Worker.`);

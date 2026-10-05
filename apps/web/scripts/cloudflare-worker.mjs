@@ -7,7 +7,8 @@ export default {
 			if (url.pathname.startsWith("/models/")) return await proxyModel(request);
 			const response = await env.ASSETS.fetch(request);
 			return isolationHeaders(response);
-		} catch {
+		} catch (error) {
+			console.error("Model delivery failed:", error);
 			return new Response(
 				"The download service is temporarily unavailable. Please retry.",
 				{ status: 502 }

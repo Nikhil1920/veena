@@ -24,8 +24,12 @@ export async function proxyModel(request) {
 		method: request.method,
 		headers,
 		signal: request.signal,
-		redirect: "error",
+		redirect: "manual",
 	});
+	if (response.status >= 300 && response.status < 400) {
+		await response.body?.cancel();
+		throw new Error("The model CDN returned an unexpected redirect.");
+	}
 	const outgoing = new Headers();
 	for (const key of [
 		"Content-Length",
