@@ -47,6 +47,9 @@ Model weights are **not** in this repository. Apps download quantized
 IndicConformer archives (Telugu single-language and 22-language multilingual)
 at runtime; `tools/voice-models` documents how those archives are produced
 from AI4Bharat's [IndicConformer](https://ai4bharat.iitm.ac.in) models.
+The smaller language-specific models and their eval bench are on Hugging Face:
+[`nikhil1920/veena-indicconformer-onnx`](https://huggingface.co/nikhil1920/veena-indicconformer-onnx)
+and [`nikhil1920/veena-indicvoices-eval`](https://huggingface.co/datasets/nikhil1920/veena-indicvoices-eval).
 
 ## Contributing
 

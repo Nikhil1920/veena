@@ -82,6 +82,13 @@ The completed delivery has **44 local bundles for all 22 languages**: compact do
 
 ### Hosted downloads
 
+All 44 variants (both sizes, every language, gate status labelled) are on
+Hugging Face at [`nikhil1920/veena-indicconformer-onnx`](https://huggingface.co/nikhil1920/veena-indicconformer-onnx),
+laid out as `<lang>/<variant>/`. The evaluation corpus and FP32/shipped
+baseline reports are at
+[`nikhil1920/veena-indicvoices-eval`](https://huggingface.co/datasets/nikhil1920/veena-indicvoices-eval);
+its card explains how to run the evaluator and add clips.
+
 One model per language is hosted under `veena-byanr/models/`: the
 **balanced INT8** variant, for 21 of the 22 languages. **No app catalog
 points at them yet.**
@@ -208,7 +215,7 @@ This measures model load, process peak RSS, and preprocessing/inference/decoding
 - [sulabhkatiyar FP32 exports](https://huggingface.co/sulabhkatiyar/indicconformer-120m-onnx), repository CC BY4.0, and [parismitaglobalsolutions INT8 baselines](https://huggingface.co/parismitaglobalsolutions/indicconformer-sherpa-onnx). Exact revisions, hashes, formats and license metadata are in `model_sources.json`.
 - [ONNX Runtime quantization](https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html).
 
-Generated weights and licensed audio are ignored by Git. Do not publish failed candidates or replace production catalogue entries based only on this pilot. The exporter reads Hugging Face credentials from `HF_TOKEN` or `hf auth login`; no access token is embedded in source.
+Generated weights and licensed audio are ignored by Git. All 44 candidates are published on Hugging Face with their gate results labelled, but failed candidates must never be served as app defaults, and production catalogue entries must not be replaced based only on this pilot. The exporter reads Hugging Face credentials from `HF_TOKEN` or `hf auth login`; no access token is embedded in source.
 
 ### Original Telugu smoke-test transcript
 
