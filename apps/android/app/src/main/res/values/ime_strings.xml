@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ime_name">Veena Voice Keyboard</string>
+    <string name="ime_mic">Microphone</string>
+    <string name="ime_backspace">Backspace</string>
+    <string name="ime_switch_keyboard">Switch to next keyboard</string>
+    <string name="ime_open_settings">Veena settings</string>
+    <string name="ime_open_veena">Open Veena</string>
+    <string name="ime_change_language">Change language</string>
+    <string name="ime_no_models_downloaded">No voice models downloaded yet</string>
+    <string name="ime_mic_permission_needed">Microphone permission needed</string>
+    <string name="ime_download_model_in_veena">Download the %1$s model in Veena</string>
+    <string name="ime_password_fields_off">Voice typing is off for password fields</string>
+    <string name="ime_hold_hint">Hold the mic, speak, release to insert</string>
+    <string name="ime_tap_hint">Tap the mic, speak, tap again to insert</string>
+    <string name="ime_preparing_model">Preparing model…</string>
+    <string name="ime_transcribing">Transcribing…</string>
+</resources>

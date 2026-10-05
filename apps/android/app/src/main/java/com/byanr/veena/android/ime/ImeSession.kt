@@ -1,0 +1,206 @@
+package com.byanr.veena.android.ime
+
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import com.byanr.veena.android.audio.MicRecorder
+import com.byanr.veena.android.data.LANGUAGES
+import com.byanr.veena.android.data.MicMode
+import com.byanr.veena.android.data.ModelCatalog
+import com.byanr.veena.android.data.ModelRepository
+import com.byanr.veena.android.data.Prefs
+import com.byanr.veena.android.engine.EngineManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+
+/** Why [ImeSession.startDictation] did or did not begin recording. */
+sealed interface StartOutcome {
+    data object Started : StartOutcome
+    data class ModelNotInstalled(val languageCode: String) : StartOutcome
+    data class MicUnavailable(val reason: String) : StartOutcome
+    data class Failed(val reason: String) : StartOutcome
+}
+
+/** What the keyboard UI should render for the current dictation. */
+sealed interface ImeDictationState {
+    data object Idle : ImeDictationState
+    data object PreparingModel : ImeDictationState
+    data class Recording(val elapsedMs: Long, val level: Float) : ImeDictationState
+    data object Transcribing : ImeDictationState
+    data class Error(val message: String) : ImeDictationState
+}
+
+/**
+ * Dictation session behind the voice keyboard. Mirrors the in-app dictate
+ * flow (prepare model → record → transcribe) but owns its own [MicRecorder]
+ * and never writes audio to disk or history. Start failures are reported via
+ * [StartOutcome] and leave [state] untouched; only stop failures surface as
+ * [ImeDictationState.Error].
+ */
+class ImeSession(
+    context: Context,
+    private val engine: EngineManager,
+    private val models: ModelRepository,
+    private val prefs: Prefs,
+) {
+
+    private val appContext = context.applicationContext
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val mutex = Mutex()
+    private val recorder = MicRecorder()
+
+    private val _state = MutableStateFlow<ImeDictationState>(ImeDictationState.Idle)
+    val state: StateFlow<ImeDictationState> = _state
+
+    private val _languageCode = MutableStateFlow(DEFAULT_LANGUAGE)
+    val languageCode: StateFlow<String> = _languageCode
+
+    private val _micMode = MutableStateFlow(MicMode.HOLD)
+    val micMode: StateFlow<MicMode> = _micMode
+
+    private var tickerJob: Job? = null
+    private var idleUnloadJob: Job? = null
+
+    init {
+        scope.launch {
+            prefs.settings.collect { settings ->
+                _languageCode.value = settings.imeLanguageCode
+                    ?: settings.languageCode
+                    ?: DEFAULT_LANGUAGE
+                _micMode.value = settings.imeMicMode
+            }
+        }
+    }
+
+    /** Downloaded language codes, ordered like [LANGUAGES]. */
+    fun downloadedLanguages(): List<String> =
+        LANGUAGES.map { it.code }.filter { models.isDownloaded(ModelCatalog.modelForLanguage(it)) }
+
+    suspend fun setLanguage(code: String) {
+        prefs.setImeLanguage(code)
+    }
+
+    suspend fun startDictation(): StartOutcome = mutex.withLock {
+        idleUnloadJob?.cancel()
+        idleUnloadJob = null
+
+        if (recorder.isRecording) return@withLock StartOutcome.Started
+
+        if (ContextCompat.checkSelfPermission(appContext, Manifest.permission.RECORD_AUDIO) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            return@withLock StartOutcome.MicUnavailable("Microphone permission not granted")
+        }
+
+        val code = _languageCode.value
+        if (!models.isDownloaded(ModelCatalog.modelForLanguage(code))) {
+            return@withLock StartOutcome.ModelNotInstalled(code)
+        }
+
+        _state.value = ImeDictationState.PreparingModel
+        try {
+            engine.ensureLanguage(code)
+        } catch (t: Throwable) {
+            _state.value = ImeDictationState.Idle
+            return@withLock StartOutcome.Failed(t.message ?: "Failed to load model")
+        }
+
+        try {
+            recorder.start(null) // Keyboard dictations stay out of disk and history.
+        } catch (t: Throwable) {
+            _state.value = ImeDictationState.Idle
+            return@withLock StartOutcome.Failed(t.message ?: "Microphone unavailable")
+        }
+
+        val startedAt = System.currentTimeMillis()
+        _state.value = ImeDictationState.Recording(0L, 0f)
+        tickerJob?.cancel()
+        tickerJob = scope.launch {
+            while (_state.value is ImeDictationState.Recording) {
+                delay(TICK_MS)
+                if (!recorder.isRecording) break // Stop/cancel won the race; keep its state.
+                _state.value = ImeDictationState.Recording(
+                    elapsedMs = System.currentTimeMillis() - startedAt,
+                    level = recorder.liveRms,
+                )
+            }
+        }
+        StartOutcome.Started
+    }
+
+    suspend fun stopDictation(): String? = mutex.withLock {
+        if (!recorder.isRecording) return@withLock null
+
+        tickerJob?.cancelAndJoin()
+        tickerJob = null
+
+        val recording = try {
+            recorder.stop()
+        } catch (t: Throwable) {
+            _state.value = ImeDictationState.Error(t.message ?: "Failed to stop recording")
+            return@withLock null
+        }
+
+        _state.value = ImeDictationState.Transcribing
+        try {
+            val audio = FloatArray(recording.samples.size) { recording.samples[it] / 32768f }
+            val text = engine.transcribe(audio, recording.sampleRate)
+            _state.value = ImeDictationState.Idle
+            text
+        } catch (t: Throwable) {
+            _state.value = ImeDictationState.Error(t.message ?: "Transcription failed")
+            null
+        }
+    }
+
+    fun cancelDictation() {
+        // Deliberately no early recorder check: a cancel arriving while the
+        // model is still preparing must wait out the mutex and stop the
+        // recording that starts afterwards; the in-lock check no-ops safely.
+        scope.launch {
+            mutex.withLock {
+                if (!recorder.isRecording) return@withLock
+                tickerJob?.cancel()
+                tickerJob = null
+                try {
+                    recorder.stop() // Samples are discarded.
+                } catch (_: Throwable) {
+                    // Recorder already stopped; there is nothing to salvage.
+                }
+                _state.value = ImeDictationState.Idle
+            }
+        }
+    }
+
+    /** Unloads the engine after [delayMs] without dictation; the next start cancels this. */
+    fun scheduleIdleUnload(delayMs: Long = IDLE_UNLOAD_MS) {
+        idleUnloadJob?.cancel()
+        idleUnloadJob = scope.launch {
+            delay(delayMs)
+            mutex.withLock { engine.shutdown() }
+        }
+    }
+
+    fun shutdown() {
+        cancelDictation()
+        scope.launch {
+            mutex.withLock { engine.shutdown() }
+        }
+    }
+
+    companion object {
+        private const val DEFAULT_LANGUAGE = "te"
+        private const val TICK_MS = 100L
+        private const val IDLE_UNLOAD_MS = 600_000L
+    }
+}

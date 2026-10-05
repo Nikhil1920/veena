@@ -31,10 +31,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.byanr.veena.android.AppViewModel
+import com.byanr.veena.android.R
 import com.byanr.veena.android.data.LANGUAGES
 import com.byanr.veena.android.data.MicMode
 import com.byanr.veena.android.data.ModelCatalog
@@ -46,6 +48,7 @@ import com.byanr.veena.android.ui.theme.veenaColors
 fun SettingsScreen(
     appViewModel: AppViewModel,
     onChangeLanguage: () -> Unit,
+    onOpenVoiceKeyboard: () -> Unit,
 ) {
     val settings by appViewModel.settings.collectAsState()
     val colors = veenaColors
@@ -111,6 +114,39 @@ fun SettingsScreen(
                     }
                 }
                 Text("Change", fontSize = 14.sp, color = AccentBlue, fontWeight = FontWeight.SemiBold)
+            }
+        }
+
+        Spacer(Modifier.height(28.dp))
+        SectionLabel(stringResource(R.string.vk_settings_section))
+        Surface(
+            color = colors.backgroundElement,
+            shape = MaterialTheme.shapes.medium,
+            onClick = onOpenVoiceKeyboard,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(16.dp),
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        stringResource(R.string.vk_settings_row_title),
+                        fontSize = 16.sp,
+                        color = colors.text,
+                    )
+                    Text(
+                        stringResource(R.string.vk_settings_row_subtitle),
+                        fontSize = 13.sp,
+                        color = colors.textSecondary,
+                    )
+                }
+                Text(
+                    stringResource(R.string.vk_settings_row_action),
+                    fontSize = 14.sp,
+                    color = AccentBlue,
+                    fontWeight = FontWeight.SemiBold,
+                )
             }
         }
 

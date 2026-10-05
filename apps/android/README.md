@@ -8,6 +8,10 @@ and review past transcriptions in a local history.
 - Kotlin + Jetpack Compose, minSdk 26, `arm64-v8a` only.
 - The engine is linked as a prebuilt `librust_backend.so`; the thin JNI
   wrapper lives in `app/src/main/cpp/` (`rust_backend_jni.cpp`).
+- A voice-first keyboard (`ime/`, `VeenaImeService`) brings the same on-device
+  dictation to any app's text field; enable it from Settings → Voice keyboard.
+  See [`docs/android-voice-keyboard-feasibility.md`](../../docs/android-voice-keyboard-feasibility.md)
+  for the design.
 - Model archives download on first launch from Veena's model CDN
   (see `data/ModelCatalog.kt`) — nothing model-related is bundled.
 

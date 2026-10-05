@@ -9,6 +9,7 @@ import com.byanr.veena.android.data.ModelCatalog
 import com.byanr.veena.android.data.ModelDef
 import com.byanr.veena.android.engine.EngineState
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -31,6 +32,21 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     val engineState: StateFlow<EngineState> = engine.state
+
+    /**
+     * One-shot request to land on the voice-keyboard screen, set when the app is
+     * launched from the IME (see MainActivity.EXTRA_OPEN_VOICE_KEYBOARD) and
+     * consumed by the nav graph once the navigation has happened.
+     */
+    val voiceKeyboardRequested = MutableStateFlow(false)
+
+    fun requestVoiceKeyboard() {
+        voiceKeyboardRequested.value = true
+    }
+
+    fun consumeVoiceKeyboardRequest() {
+        voiceKeyboardRequested.value = false
+    }
 
     private var downloadJob: Job? = null
 
@@ -58,6 +74,16 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setLanguage(code: String) {
         viewModelScope.launch { prefs.setLanguage(code) }
+    }
+
+    /** The keyboard's dictation language is independent of the app's. */
+    fun setImeLanguage(code: String) {
+        viewModelScope.launch { prefs.setImeLanguage(code) }
+    }
+
+    /** The keyboard's mic-button mode is independent of the app's. */
+    fun setImeMicMode(mode: com.byanr.veena.android.data.MicMode) {
+        viewModelScope.launch { prefs.setImeMicMode(mode) }
     }
 
     fun setMicMode(mode: com.byanr.veena.android.data.MicMode) {

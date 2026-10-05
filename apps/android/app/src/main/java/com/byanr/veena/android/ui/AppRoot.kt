@@ -27,6 +27,7 @@ import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -37,6 +38,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.byanr.veena.android.AppViewModel
+import com.byanr.veena.android.R
 import com.byanr.veena.android.data.ModelCatalog
 import com.byanr.veena.android.ui.dictate.DictateScreen
 import com.byanr.veena.android.ui.history.HistoryDetailScreen
@@ -44,6 +46,7 @@ import com.byanr.veena.android.ui.history.HistoryScreen
 import com.byanr.veena.android.ui.onboarding.LanguagePickerScreen
 import com.byanr.veena.android.ui.onboarding.ModelDownloadScreen
 import com.byanr.veena.android.ui.settings.SettingsScreen
+import com.byanr.veena.android.ui.settings.VoiceKeyboardScreen
 import com.byanr.veena.android.ui.theme.veenaColors
 
 private data class TabSpec(
@@ -87,6 +90,16 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
         val currentRoute = backStackEntry?.destination?.route
         val showBottomBar =
             !onboarding && currentRoute in TABS.map { it.route }
+
+        // The IME deep-links into setup when a gate is missing (MainActivity
+        // surfaces the launch flag here); navigate exactly once per request.
+        val voiceKeyboardRequested by appViewModel.voiceKeyboardRequested.collectAsState()
+        LaunchedEffect(voiceKeyboardRequested) {
+            if (voiceKeyboardRequested) {
+                navController.navigate("voiceKeyboard") { launchSingleTop = true }
+                appViewModel.consumeVoiceKeyboardRequest()
+            }
+        }
 
         Scaffold(
             containerColor = colors.background,
@@ -149,6 +162,18 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                         onChangeLanguage = {
                             navController.navigate("picker/settings")
                         },
+                        onOpenVoiceKeyboard = {
+                            navController.navigate("voiceKeyboard")
+                        },
+                    )
+                }
+                composable("voiceKeyboard") {
+                    VoiceKeyboardScreen(
+                        appViewModel = appViewModel,
+                        onBack = { navController.popBackStack() },
+                        onAddLanguage = {
+                            navController.navigate("picker/ime")
+                        },
                     )
                 }
                 composable("detail/{id}") { entry ->
@@ -161,33 +186,45 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                 composable("picker/{mode}") { entry ->
                     val mode = entry.arguments?.getString("mode") ?: "onboarding"
                     LanguagePickerScreen(
-                        title = if (mode == "onboarding") {
-                            "Welcome to Veena"
-                        } else {
-                            "Choose your language"
+                        title = when (mode) {
+                            "onboarding" -> "Welcome to Veena"
+                            // Opened from the voice-keyboard setup screen.
+                            "ime" -> stringResource(R.string.vk_picker_title)
+                            else -> "Choose your language"
                         },
-                        subtitle = if (mode == "onboarding") {
-                            "Pick the language you'll dictate in. Its voice model downloads next, and you can switch languages anytime in Settings."
-                        } else {
-                            "A new language downloads its voice model the first time you pick it."
+                        subtitle = when (mode) {
+                            "onboarding" -> "Pick the language you'll dictate in. Its voice model downloads next, and you can switch languages anytime in Settings."
+                            "ime" -> stringResource(R.string.vk_picker_subtitle)
+                            else -> "A new language downloads its voice model the first time you pick it."
                         },
-                        selectedCode = current.languageCode,
+                        // Ime mode highlights the keyboard's language, not the app's;
+                        // picking there must never change the app dictation language.
+                        selectedCode = if (mode == "ime") {
+                            current.imeLanguageCode ?: current.languageCode
+                        } else {
+                            current.languageCode
+                        },
                         onPick = { language ->
                             val def = ModelCatalog.modelForLanguage(language.code)
                             if (appViewModel.models.isDownloaded(def)) {
-                                appViewModel.setLanguage(language.code)
-                                if (mode == "onboarding") {
-                                    navController.navigate("dictate") {
-                                        popUpTo(0) { inclusive = true }
-                                    }
-                                } else {
+                                if (mode == "ime") {
+                                    appViewModel.setImeLanguage(language.code)
                                     navController.popBackStack()
+                                } else {
+                                    appViewModel.setLanguage(language.code)
+                                    if (mode == "onboarding") {
+                                        navController.navigate("dictate") {
+                                            popUpTo(0) { inclusive = true }
+                                        }
+                                    } else {
+                                        navController.popBackStack()
+                                    }
                                 }
                             } else {
                                 navController.navigate("download/$mode/${language.code}")
                             }
                         },
-                        onBack = if (mode == "settings" || mode == "dictate") {
+                        onBack = if (mode == "settings" || mode == "dictate" || mode == "ime") {
                             { navController.popBackStack() }
                         } else null,
                     )
@@ -211,7 +248,11 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                             "Downloading language model"
                         },
                         onSuccess = {
-                            appViewModel.setLanguage(lang)
+                            if (mode == "ime") {
+                                appViewModel.setImeLanguage(lang)
+                            } else {
+                                appViewModel.setLanguage(lang)
+                            }
                             when (mode) {
                                 "onboarding" -> {
                                     navController.navigate("dictate") {
@@ -221,6 +262,9 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                                 // Opened from the home-page language chip: pop the
                                 // download screen and the picker, back to Dictate.
                                 "dictate" -> navController.popBackStack("dictate", inclusive = false)
+                                // Opened from the voice-keyboard setup screen: pop
+                                // back there, leaving the app language untouched.
+                                "ime" -> navController.popBackStack("voiceKeyboard", inclusive = false)
                                 else -> navController.popBackStack("settings", inclusive = false)
                             }
                         },
