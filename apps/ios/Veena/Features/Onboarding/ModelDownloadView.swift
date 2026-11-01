@@ -82,7 +82,11 @@ struct ModelDownloadView: View {
         Logger(subsystem: "com.byanr.veena", category: "ui").log("ModelDownloadView.startDownload(\(self.languageCode, privacy: .public))")
         do {
             try await environment.models.download(def)
-            environment.languageCode = languageCode
+            if mode == .keyboard {
+                KeyboardSharedSettings.keyboardLanguageCode = languageCode
+            } else {
+                environment.languageCode = languageCode
+            }
             finish()
         } catch is CancellationError {
             // stay; user can retry or back out
@@ -101,7 +105,7 @@ struct ModelDownloadView: View {
         case .onboarding:
             // RootView swaps to MainTabs as soon as languageCode is set; nothing to pop.
             break
-        case .settings, .dictate:
+        case .settings, .dictate, .keyboard:
             // Pop the download screen back to its parent list.
             // In a NavigationStack this is `dismiss()` when pushed; the
             // SettingsView's path handles it via `path.removeLast()`, but
@@ -119,7 +123,7 @@ struct ModelDownloadView: View {
         case .onboarding:
             // Nothing to pop when download failed before language was set.
             break
-        case .settings, .dictate:
+        case .settings, .dictate, .keyboard:
             dismiss()
         }
     }

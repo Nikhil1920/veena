@@ -84,4 +84,14 @@ class FieldPolicyTest {
     fun phoneFieldIsNotSensitive() {
         assertFalse(isSensitiveField(InputType.TYPE_CLASS_PHONE))
     }
+
+    @Test
+    fun urlFieldIsNotSensitive() {
+        // TYPE_TEXT_VARIATION_URI shares its bits with TYPE_NUMBER_VARIATION_PASSWORD.
+        assertFalse(
+            isSensitiveField(
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
+            )
+        )
+    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The voice input other keyboards' mic keys switch to: keyboards ask the
+     system for an enabled input method with a "voice" subtype. Auxiliary, so
+     it stays out of the globe-key rotation; overriding, so it is enabled
+     without the user picking subtypes. -->
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsActivity="com.byanr.veena/com.byanr.veena.android.MainActivity"
+    android:supportsSwitchingToNextInputMethod="true">
+    <subtype
+        android:label="@string/ime_voice_input_name"
+        android:imeSubtypeLocale=""
+        android:imeSubtypeMode="voice"
+        android:isAuxiliary="true"
+        android:overridesImplicitlyEnabledSubtype="true" />
+</input-method>

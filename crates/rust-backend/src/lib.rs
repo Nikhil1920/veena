@@ -1,3 +1,4 @@
+mod chunk;
 mod decode;
 pub mod preprocess;
 
@@ -34,6 +35,23 @@ enum Backend {
     },
 }
 
+type Decoder<'a> = dyn Fn(&Array2<f32>) -> Result<String, Box<dyn Error>> + 'a;
+
+/// A progress callback asked to stop the transcription.
+#[derive(Debug)]
+pub struct Cancelled;
+
+impl std::fmt::Display for Cancelled {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("transcription cancelled")
+    }
+}
+
+impl Error for Cancelled {}
+
+/// Safe to share between threads: concurrent transcriptions take turns on
+/// the session one window at a time, so a short clip waits for at most one
+/// window of a long one.
 pub struct Transcriber {
     session: Mutex<Session>,
     backend: Backend,
@@ -122,19 +140,65 @@ impl Transcriber {
         })
     }
 
+    /// Transcribes audio of any length: long input runs through the encoder
+    /// in bounded, silence-aligned windows whose transcripts are stitched.
     pub fn transcribe(
         &self,
         audio: &[f32],
         sample_rate: u32,
         language: Option<&str>,
     ) -> Result<String, Box<dyn Error>> {
-        let logits = self.infer_logits(audio, sample_rate)?;
+        self.transcribe_with_progress(audio, sample_rate, language, |_, _| true)
+    }
 
+    /// [`Self::transcribe`], reporting `(completed, total)` windows: once
+    /// with nothing completed before inference starts, then after each window.
+    /// Returning `false` from `progress` stops before the next window and
+    /// fails with [`Cancelled`].
+    pub fn transcribe_with_progress(
+        &self,
+        audio: &[f32],
+        sample_rate: u32,
+        language: Option<&str>,
+        mut progress: impl FnMut(usize, usize) -> bool,
+    ) -> Result<String, Box<dyn Error>> {
+        // Resample once up front so window boundaries are in 16 kHz samples.
+        let resampled;
+        let audio = if sample_rate == preprocess::TARGET_SR {
+            audio
+        } else {
+            resampled = preprocess::resample(audio, sample_rate, preprocess::TARGET_SR);
+            &resampled
+        };
+
+        let decode = self.decoder(language)?;
+        let windows = chunk::split_audio(audio, chunk::WINDOW_SECONDS);
+        if !progress(0, windows.len()) {
+            return Err(Cancelled.into());
+        }
+        let mut text = String::new();
+        for (index, window) in windows.iter().enumerate() {
+            if !chunk::is_silent(window) {
+                let logits = self.infer_logits(window, preprocess::TARGET_SR)?;
+                text = chunk::join_transcripts(&text, &decode(&logits)?);
+            }
+            if !progress(index + 1, windows.len()) {
+                return Err(Cancelled.into());
+            }
+        }
+        Ok(text)
+    }
+
+    /// Resolves the CTC decoder for `language` before any inference runs, so
+    /// an unsupported language fails even when every window is silent.
+    fn decoder(&self, language: Option<&str>) -> Result<Box<Decoder<'_>>, Box<dyn Error>> {
         match &self.backend {
             Backend::Single {
                 blank_id,
                 label_map,
-            } => decode::ctc_greedy_decode(&logits, *blank_id, label_map),
+            } => Ok(Box::new(move |logits| {
+                decode::ctc_greedy_decode(logits, *blank_id, label_map)
+            })),
             Backend::Multilingual {
                 blank_id,
                 vocab,
@@ -148,7 +212,9 @@ impl Transcriber {
                 let tokens = vocab
                     .get(lang)
                     .ok_or_else(|| format!("no vocabulary for language '{}'", lang))?;
-                decode::ctc_greedy_decode_masked(&logits, mask, *blank_id, tokens)
+                Ok(Box::new(move |logits| {
+                    decode::ctc_greedy_decode_masked(logits, mask, *blank_id, tokens)
+                }))
             }
         }
     }
@@ -158,8 +224,18 @@ impl Transcriber {
         audio_path: &str,
         language: Option<&str>,
     ) -> Result<String, Box<dyn Error>> {
+        self.transcribe_file_with_progress(audio_path, language, |_, _| true)
+    }
+
+    /// [`Self::transcribe_file`] with [`Self::transcribe_with_progress`] reporting.
+    pub fn transcribe_file_with_progress(
+        &self,
+        audio_path: &str,
+        language: Option<&str>,
+        progress: impl FnMut(usize, usize) -> bool,
+    ) -> Result<String, Box<dyn Error>> {
         let (audio, sample_rate) = preprocess::read_wav(audio_path)?;
-        self.transcribe(&audio, sample_rate, language)
+        self.transcribe_with_progress(&audio, sample_rate, language, progress)
     }
 
     fn infer_logits(&self, audio: &[f32], sample_rate: u32) -> Result<Array2<f32>, Box<dyn Error>> {
@@ -190,6 +266,12 @@ impl Transcriber {
         Ok(logits_3d.index_axis(Axis(0), 0).to_owned())
     }
 }
+
+/// Called synchronously on the transcribing thread with `(completed, total)`
+/// windows: once with nothing completed, then after each window. Return
+/// `false` to cancel; the transcribe call then returns NULL.
+pub type TranscriberProgressFn =
+    extern "C" fn(user_data: *mut libc::c_void, completed: usize, total: usize) -> bool;
 
 unsafe fn optional_str<'a>(ptr: *const libc::c_char) -> Option<&'a str> {
     if ptr.is_null() {
@@ -267,6 +349,17 @@ pub extern "C" fn transcriber_transcribe_file_lang(
     audio_path: *const libc::c_char,
     language: *const libc::c_char,
 ) -> *mut libc::c_char {
+    transcriber_transcribe_file_progress(handle, audio_path, language, None, std::ptr::null_mut())
+}
+
+#[no_mangle]
+pub extern "C" fn transcriber_transcribe_file_progress(
+    handle: *mut Transcriber,
+    audio_path: *const libc::c_char,
+    language: *const libc::c_char,
+    progress: Option<TranscriberProgressFn>,
+    user_data: *mut libc::c_void,
+) -> *mut libc::c_char {
     if handle.is_null() {
         return std::ptr::null_mut();
     }
@@ -275,8 +368,12 @@ pub extern "C" fn transcriber_transcribe_file_lang(
         .to_str()
         .unwrap();
     let language = unsafe { optional_str(language) };
+    let report = |completed, total| match progress {
+        Some(progress) => progress(user_data, completed, total),
+        None => true,
+    };
 
-    match transcriber.transcribe_file(audio_path, language) {
+    match transcriber.transcribe_file_with_progress(audio_path, language, report) {
         Ok(text) => {
             let c_str = std::ffi::CString::new(text).unwrap();
             c_str.into_raw()
@@ -306,14 +403,39 @@ pub extern "C" fn transcriber_transcribe_audio_lang(
     sample_rate: u32,
     language: *const libc::c_char,
 ) -> *mut libc::c_char {
+    transcriber_transcribe_audio_progress(
+        handle,
+        audio,
+        len,
+        sample_rate,
+        language,
+        None,
+        std::ptr::null_mut(),
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn transcriber_transcribe_audio_progress(
+    handle: *mut Transcriber,
+    audio: *const f32,
+    len: usize,
+    sample_rate: u32,
+    language: *const libc::c_char,
+    progress: Option<TranscriberProgressFn>,
+    user_data: *mut libc::c_void,
+) -> *mut libc::c_char {
     if handle.is_null() || audio.is_null() {
         return std::ptr::null_mut();
     }
     let transcriber = unsafe { &*handle };
     let audio_slice = unsafe { std::slice::from_raw_parts(audio, len) };
     let language = unsafe { optional_str(language) };
+    let report = |completed, total| match progress {
+        Some(progress) => progress(user_data, completed, total),
+        None => true,
+    };
 
-    match transcriber.transcribe(audio_slice, sample_rate, language) {
+    match transcriber.transcribe_with_progress(audio_slice, sample_rate, language, report) {
         Ok(text) => {
             let c_str = std::ffi::CString::new(text).unwrap();
             c_str.into_raw()
@@ -325,6 +447,7 @@ pub extern "C" fn transcriber_transcribe_audio_lang(
     }
 }
 
+/// Frees `handle`. No transcription may still be running on it.
 #[no_mangle]
 pub extern "C" fn transcriber_destroy(handle: *mut Transcriber) {
     if !handle.is_null() {
@@ -342,6 +465,13 @@ pub extern "C" fn transcriber_free_string(s: *mut libc::c_char) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn transcriber_is_shareable_across_threads() {
+        // The apps run concurrent transcriptions on one handle.
+        fn assert_send_sync<T: Send + Sync>() {}
+        assert_send_sync::<Transcriber>();
+    }
 
     #[test]
     fn test_preprocess_features() {

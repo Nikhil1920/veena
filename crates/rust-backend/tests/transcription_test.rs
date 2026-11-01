@@ -144,3 +144,57 @@ fn test_multilingual_rejects_unknown_language() {
         .expect_err("unknown language should fail");
     assert!(err.to_string().contains("unsupported language"));
 }
+
+#[test]
+fn test_multilingual_long_audio_is_windowed_with_progress_and_cancel() {
+    let Some((model_path, config_path, vocab_path, masks_path)) = multi_model_paths() else {
+        println!("Skipping: multilingual model artifacts not present");
+        return;
+    };
+    let audio_path = project_root().join("telugu_test_audio.wav");
+    let (clip, sample_rate) =
+        rust_backend::preprocess::read_wav(audio_path.to_str().unwrap()).unwrap();
+
+    // Three takes separated by 1 s pauses: ~72 s, longer than one window.
+    let pause = vec![0.0f32; sample_rate as usize];
+    let audio: Vec<f32> = [&clip[..], &pause, &clip, &pause, &clip].concat();
+
+    let transcriber = rust_backend::Transcriber::new_multilingual(
+        model_path.to_str().unwrap(),
+        config_path.to_str().unwrap(),
+        vocab_path.to_str().unwrap(),
+        masks_path.to_str().unwrap(),
+    )
+    .expect("Failed to create multilingual transcriber");
+
+    let mut reports = Vec::new();
+    let result = transcriber
+        .transcribe_with_progress(&audio, sample_rate, Some("te"), |done, total| {
+            reports.push((done, total));
+            true
+        })
+        .expect("Multilingual transcription failed");
+
+    println!("Progress: {:?}\nResult: {}", reports, result);
+    let total = reports[0].1;
+    assert!(total >= 3, "expected several windows, got {total}");
+    let expected: Vec<_> = (0..=total).map(|done| (done, total)).collect();
+    assert_eq!(reports, expected);
+    // Each take is transcribed once: nothing lost or doubled at the seams.
+    assert_eq!(result.matches("దుకాణానికి").count(), 3);
+    assert_eq!(result.matches("తెలుగు").count(), 3);
+
+    // Returning false stops before the next window.
+    let mut reports = Vec::new();
+    let error = transcriber
+        .transcribe_with_progress(&audio, sample_rate, Some("te"), |done, total| {
+            reports.push((done, total));
+            done < 1
+        })
+        .expect_err("cancelled transcription should fail");
+    assert!(
+        error.is::<rust_backend::Cancelled>(),
+        "unexpected error: {error}"
+    );
+    assert_eq!(reports, vec![(0, total), (1, total)]);
+}

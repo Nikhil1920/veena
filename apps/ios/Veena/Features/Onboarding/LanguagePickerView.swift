@@ -8,12 +8,16 @@ struct LanguagePickerView: View {
         case onboarding
         case settings
         case dictate
+        /// The keyboard's language, which never changes the app's.
+        case keyboard
     }
 
     @Environment(AppEnvironment.self) private var environment
     let mode: Mode
     /// Called when a language whose model is not yet on disk is chosen.
     let needsDownload: (String) -> Void
+    /// Keyboard mode: called after a downloaded language became the keyboard's.
+    var onKeyboardPick: ((String) -> Void)? = nil
 
     var body: some View {
         List {
@@ -28,6 +32,12 @@ struct LanguagePickerView: View {
                     EmptyView()
                 } footer: {
                     Text("A new language downloads its voice model the first time you pick it.")
+                }
+            } else if mode == .keyboard {
+                Section {
+                    EmptyView()
+                } footer: {
+                    Text("The keyboard can use a different language than the app. Its model downloads once, and dictation runs fully offline.")
                 }
             }
             Section {
@@ -45,7 +55,7 @@ struct LanguagePickerView: View {
                                     .foregroundStyle(.secondary)
                             }
                             Spacer()
-                            if language.code == environment.languageCode {
+                            if language.code == selectedCode {
                                 Image(systemName: "checkmark.circle.fill")
                                     .foregroundStyle(Color.accentColor)
                             } else {
@@ -68,13 +78,23 @@ struct LanguagePickerView: View {
         case .onboarding: return "Welcome to Veena"
         case .settings: return "Language"
         case .dictate: return "Choose your language"
+        case .keyboard: return "Keyboard language"
         }
+    }
+
+    private var selectedCode: String? {
+        mode == .keyboard ? KeyboardSharedSettings.effectiveKeyboardLanguage : environment.languageCode
     }
 
     private func pick(_ language: Language) {
         let def = ModelCatalog.model(forLanguage: language.code)
         if environment.models.isDownloaded(def) {
-            environment.languageCode = language.code
+            if mode == .keyboard {
+                KeyboardSharedSettings.keyboardLanguageCode = language.code
+                onKeyboardPick?(language.code)
+            } else {
+                environment.languageCode = language.code
+            }
         } else {
             needsDownload(language.code)
         }

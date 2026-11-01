@@ -11,9 +11,17 @@ import com.byanr.veena.android.audio.Recording
 import com.byanr.veena.android.data.HistoryEntry
 import com.byanr.veena.android.data.Prefs
 import com.byanr.veena.android.engine.EngineState
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -27,11 +35,27 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
     private val recordingsDir = container.recordingsDir
     private val prefs = container.prefs
 
-    val engineState: StateFlow<EngineState> = engine.state
+    private val currentLanguageCode = MutableStateFlow("te")
+
+    // The keyboard shares the engine: its loads and failures in another
+    // model don't block the app, which loads its own model on demand.
+    val engineState: StateFlow<EngineState> =
+        combine(engine.state, currentLanguageCode) { state, code -> engine.stateFor(code, state) }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.Eagerly,
+                engine.stateFor(currentLanguageCode.value),
+            )
     val player = AudioPlayer()
 
     val isRecording = MutableStateFlow(false)
     val isTranscribing = MutableStateFlow(false)
+    // Fraction of a long transcription done; null while unknown, and for clips
+    // short enough to run in a single window.
+    val transcribeProgress = MutableStateFlow<Float?>(null)
+    // Cancel was requested; the engine stops at the end of its current window.
+    val isCancelling = MutableStateFlow(false)
+    private var transcription: Job? = null
     val text = MutableStateFlow("")
     // Increments whenever text is appended by the app (dictation/import) — lets
     // the UI auto-scroll to the newest output without reacting to manual edits.
@@ -83,13 +107,15 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
             error.value = "Model not ready yet"
             return
         }
-        viewModelScope.launch {
+        transcription = viewModelScope.launch {
             isTranscribing.value = true
+            var imported: File? = null
             try {
                 val (file, displayName) = withContext(Dispatchers.IO) {
                     copyToCache(uri)
                 }
-                val transcript = engine.transcribeFile(file.absolutePath) { path ->
+                imported = file
+                val transcript = engine.transcribeFile(file.absolutePath, currentLanguage(), ::reportProgress) { path ->
                     AudioFileDecoder.decodeToMono16k(path)
                 }
                 if (transcript.isNotBlank()) {
@@ -108,12 +134,22 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
                     error.value = "No speech recognized in $displayName"
                     withContext(Dispatchers.IO) { file.delete() }
                 }
+            } catch (e: CancellationException) {
+                withContext(NonCancellable + Dispatchers.IO) { imported?.delete() }
+                throw e
             } catch (t: Throwable) {
                 error.value = t.message ?: "Failed to transcribe file"
             } finally {
-                isTranscribing.value = false
+                finishTranscription()
             }
         }
+    }
+
+    /** Stops the running transcription; nothing is kept from a cancelled run. */
+    fun cancelTranscription() {
+        val job = transcription ?: return
+        isCancelling.value = true
+        job.cancel()
     }
 
     fun setText(value: String) {
@@ -140,20 +176,34 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         entryFor: suspend (String) -> HistoryEntry,
     ) {
         isTranscribing.value = true
+        transcription = currentCoroutineContext().job
         try {
             val audio = FloatArray(samples.size) { samples[it] / 32768f }
-            val transcript = engine.transcribe(audio, sampleRate)
+            val transcript = engine.transcribe(audio, sampleRate, currentLanguage(), ::reportProgress)
             if (transcript.isNotBlank()) {
                 appendText(transcript)
                 historyDao.insert(entryFor(transcript))
             } else {
                 error.value = "No speech recognized"
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (t: Throwable) {
             error.value = t.message ?: "Transcription failed"
         } finally {
-            isTranscribing.value = false
+            finishTranscription()
         }
+    }
+
+    private fun reportProgress(completed: Int, total: Int) {
+        if (total > 1) transcribeProgress.value = completed.toFloat() / total
+    }
+
+    private fun finishTranscription() {
+        isTranscribing.value = false
+        isCancelling.value = false
+        transcribeProgress.value = null
+        transcription = null
     }
 
     private suspend fun copyToCache(uri: Uri): Pair<File, String> {
@@ -177,8 +227,6 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         }
         return null
     }
-
-    private val currentLanguageCode = MutableStateFlow("te")
 
     init {
         viewModelScope.launch {

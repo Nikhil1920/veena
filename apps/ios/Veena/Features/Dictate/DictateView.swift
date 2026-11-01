@@ -14,6 +14,13 @@ struct DictateView: View {
     @State private var textRevision = 0
     @State private var isRecording = false
     @State private var isTranscribing = false
+    /// Fraction of a long transcription done; nil while unknown, and for
+    /// clips short enough to run in a single window.
+    @State private var transcribeProgress: Double?
+    /// The running transcription, kept so it can be cancelled.
+    @State private var transcription: Task<Void, Never>?
+    /// Cancel was requested; the engine stops at the end of its current window.
+    @State private var isCancelling = false
     @State private var lastRecording: Recording?
     @State private var errorMessage: String?
     @State private var showImporter = false
@@ -21,10 +28,16 @@ struct DictateView: View {
     @State private var elapsedMs: Int64 = 0
     @State private var startedAt = Date()
     @State private var pulsePhase = false
+    @State private var keyboardReady = true
+    @AppStorage("keyboardBannerDismissed") private var keyboardBannerDismissed = false
 
     var body: some View {
         VStack(spacing: 16) {
             header
+
+            if !keyboardReady && !keyboardBannerDismissed {
+                keyboardBanner
+            }
 
             statusPill
 
@@ -75,6 +88,10 @@ struct DictateView: View {
         }
         // Pulse animation driver
         .onAppear { withAnimation(.easeInOut(duration: 0.65).repeatForever(autoreverses: true)) { pulsePhase = true } }
+        .onAppear { keyboardReady = KeyboardSetupStatus.read(models: environment.models).isComplete }
+        .onChange(of: environment.showKeyboardSetup) { _, showing in
+            if !showing { keyboardReady = KeyboardSetupStatus.read(models: environment.models).isComplete }
+        }
         .onChange(of: isRecording) { _, recording in
             if recording {
                 pulsePhase = false
@@ -89,10 +106,10 @@ struct DictateView: View {
                   args.indices.contains(flag + 1) else { return }
             let name = args[flag + 1]
             for _ in 0..<60 {
-                if environment.engine.state.isReady { break }
+                if engineState.isReady { break }
                 try? await Task.sleep(nanoseconds: 500_000_000)
             }
-            guard environment.engine.state.isReady else { return }
+            guard engineState.isReady else { return }
             let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let url = docs.appendingPathComponent(name)
             guard FileManager.default.fileExists(atPath: url.path) else { return }
@@ -127,9 +144,45 @@ struct DictateView: View {
         .padding(.top, 24)
     }
 
+    // MARK: Keyboard setup banner — until the keyboard is set up or dismissed
+
+    private var keyboardBanner: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "keyboard")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(VeenaColors.accent)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Dictate in any app")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(VeenaColors.textPrimary)
+                Text("Add the Veena keyboard")
+                    .font(.footnote)
+                    .foregroundStyle(VeenaColors.textSecondary)
+            }
+            Spacer()
+            Button("Set up") { environment.showKeyboardSetup = true }
+                .font(.subheadline.weight(.semibold))
+            Button {
+                keyboardBannerDismissed = true
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(VeenaColors.textSecondary)
+            }
+            .accessibilityLabel("Dismiss")
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(RoundedRectangle(cornerRadius: 12).fill(VeenaColors.backgroundElement))
+    }
+
     // MARK: Status pill (with pulsing dot, elapsed timer — mirrors Android)
 
-    private var engineState: RustEngine.State { environment.engine.state }
+    /// The keyboard shares the engine: its loads and failures in another
+    /// model don't block the app, which loads its own model on demand.
+    private var engineState: RustEngine.State {
+        environment.engine.state(forLanguage: environment.languageCode ?? "", models: environment.models)
+    }
 
     private var statusPill: some View {
         HStack(spacing: 8) {
@@ -156,7 +209,10 @@ struct DictateView: View {
 
     private var statusText: String {
         if isRecording { return "Recording · \(formatDuration(elapsedMs))" }
-        if isTranscribing { return "Transcribing..." }
+        if isCancelling { return "Cancelling..." }
+        if isTranscribing {
+            return transcribeProgress.map { "Transcribing... \(Int($0 * 100))%" } ?? "Transcribing..."
+        }
         if case .ready = engineState { return "Ready" }
         if case .failed = engineState { return "Model failed to load" }
         return "Loading model..."
@@ -247,15 +303,22 @@ struct DictateView: View {
 
     private var controls: some View {
         HStack(spacing: 28) {
+            // Doubles as the cancel button while a transcription runs.
             Button {
-                showImporter = true
+                if isTranscribing {
+                    cancelTranscription()
+                } else {
+                    showImporter = true
+                }
             } label: {
-                Image(systemName: "folder")
+                Image(systemName: isTranscribing ? "xmark" : "folder")
                     .font(.title3)
                     .foregroundStyle(VeenaColors.textSecondary)
                     .frame(width: 56, height: 56)
                     .background(Circle().fill(VeenaColors.backgroundElement))
             }
+            .disabled(isCancelling)
+            .accessibilityLabel(isTranscribing ? "Cancel transcription" : "Import recording")
 
             micButton
         }
@@ -284,7 +347,17 @@ struct DictateView: View {
                 .fill(micFill(ready: ready))
                 .frame(width: 72, height: 72)
                 .overlay {
-                    if isTranscribing {
+                    if isTranscribing, let fraction = transcribeProgress {
+                        ZStack {
+                            Circle().stroke(.white.opacity(0.3), lineWidth: 3)
+                            Circle()
+                                .trim(from: 0, to: fraction)
+                                .stroke(.white, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                                .rotationEffect(.degrees(-90))
+                                .animation(.easeOut, value: fraction)
+                        }
+                        .frame(width: 28, height: 28)
+                    } else if isTranscribing {
                         ProgressView().tint(.white)
                     } else {
                         Image(systemName: "mic.fill")
@@ -339,6 +412,8 @@ struct DictateView: View {
     }
 
     private var hintText: String {
+        if isCancelling { return "Stopping..." }
+        if isTranscribing { return "Tap × to cancel" }
         switch environment.micMode {
         case .hold:
             return isRecording ? "Release to transcribe" : "Hold to record, release to transcribe"
@@ -351,7 +426,7 @@ struct DictateView: View {
 
     private func beginRecording() {
         // Pre-check: engine must be ready (hold gesture already checks, but TAP path also needs it)
-        guard case .ready = environment.engine.state else {
+        guard case .ready = engineState else {
             errorMessage = "Model not ready yet"
             return
         }
@@ -390,6 +465,8 @@ struct DictateView: View {
     }
 
     private func startEngineRecording() {
+        // The keyboard session holds the microphone through its own engine.
+        environment.keyboardSession.endSession()
         do {
             try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.defaultToSpeaker, .allowBluetooth])
             try AVAudioSession.sharedInstance().setActive(true)
@@ -418,11 +495,16 @@ struct DictateView: View {
         }
 
         isTranscribing = true
+        transcribeProgress = nil
 
-        Task.detached(priority: .userInitiated) { [weak environment] in
+        let code = environment.languageCode ?? ""
+        transcription = Task.detached(priority: .userInitiated) { [weak environment] in
             guard let environment else { return }
             do {
-                let transcript = try environment.engine.transcribe(recording.samples)
+                let transcript = try environment.engine.transcribe(
+                    recording.samples, languageCode: code, models: environment.models,
+                    progress: reportProgress
+                )
                 if !transcript.isBlank {
                     await MainActor.run { [weak environment] in
                         guard let environment else { return }
@@ -434,14 +516,14 @@ struct DictateView: View {
                         errorMessage = "No speech recognized"
                     }
                 }
+            } catch is CancellationError {
+                // Cancelled from the UI; the recording stays playable.
             } catch {
                 await MainActor.run {
                     errorMessage = error.localizedDescription
                 }
             }
-            await MainActor.run {
-                isTranscribing = false
-            }
+            await MainActor.run { finishTranscription() }
         }
     }
 
@@ -467,11 +549,16 @@ struct DictateView: View {
         }
 
         isTranscribing = true
+        transcribeProgress = nil
         let fileURL = dest
-        Task.detached(priority: .userInitiated) { [weak environment] in
+        let code = environment.languageCode ?? ""
+        transcription = Task.detached(priority: .userInitiated) { [weak environment] in
             guard let environment else { return }
             do {
-                let transcript = try environment.engine.transcribeFile(at: fileURL) { u in
+                let transcript = try environment.engine.transcribeFile(
+                    at: fileURL, languageCode: code, models: environment.models,
+                    progress: reportProgress
+                ) { u in
                     try AudioFileDecoder.decodeToMono16k(url: u)
                 }
                 await MainActor.run { [weak environment] in
@@ -484,20 +571,41 @@ struct DictateView: View {
                         try? FileManager.default.removeItem(at: fileURL)
                     }
                 }
+            } catch is CancellationError {
+                try? FileManager.default.removeItem(at: fileURL)
             } catch {
                 await MainActor.run {
                     errorMessage = error.localizedDescription
                 }
             }
-            await MainActor.run {
-                isTranscribing = false
-            }
+            await MainActor.run { finishTranscription() }
         }
+    }
+
+    /// Stops the running transcription; nothing is kept from a cancelled run.
+    private func cancelTranscription() {
+        guard let transcription else { return }
+        isCancelling = true
+        transcription.cancel()
+    }
+
+    private func finishTranscription() {
+        isTranscribing = false
+        isCancelling = false
+        transcribeProgress = nil
+        transcription = nil
     }
 
     private func append(_ value: String) {
         text = text.isBlank ? value : "\(text) \(value)"
         textRevision += 1
+    }
+
+    /// Engine progress arrives on the transcribing thread.
+    nonisolated private func reportProgress(completed: Int, total: Int) {
+        guard total > 1 else { return }
+        let fraction = Double(completed) / Double(total)
+        Task { @MainActor in transcribeProgress = fraction }
     }
 
     private func saveHistory(

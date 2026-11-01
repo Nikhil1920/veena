@@ -46,6 +46,20 @@
                 android:name="android.view.im"
                 android:resource="@xml/method" />
         </service>
+        <!-- "Veena voice input": what other keyboards' mic keys switch to
+             (they look for an enabled IME with a voice subtype). -->
+        <service
+            android:name=".ime.VeenaVoiceInputService"
+            android:exported="true"
+            android:label="@string/ime_voice_input_name"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method_voice" />
+        </service>
     </application>
 
 </manifest>

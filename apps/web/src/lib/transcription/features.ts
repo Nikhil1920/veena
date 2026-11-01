@@ -115,7 +115,10 @@ export function decodeCTC(
 	return text.join("").replaceAll("▁", " ").trim();
 }
 
-/** Silence-aware windows bound attention memory. Short clips stay unchanged. */
+/**
+ * Silence-aware windows bound attention memory. Short clips stay unchanged.
+ * Mirrored by the native engine (crates/rust-backend/src/chunk.rs); keep both in sync.
+ */
 export function splitAudio(audio: Float32Array, seconds = 25): Float32Array[] {
 	const max = seconds * 16000;
 	if (audio.length <= max) return [audio];
@@ -147,12 +150,17 @@ export function splitAudio(audio: Float32Array, seconds = 25): Float32Array[] {
 	return parts;
 }
 
+/**
+ * Drops the words the 500 ms overlap produced twice. Compares at most the 3
+ * words the overlap can hold (fast speech stays under 6 words a second), so a
+ * phrase the speaker really repeated survives. Mirrored by chunk.rs.
+ */
 export function joinTranscripts(previous: string, next: string) {
 	if (!previous) return next;
 	const left = previous.split(/\s+/u);
 	const right = next.split(/\s+/u);
 	for (
-		let overlap = Math.min(12, left.length, right.length);
+		let overlap = Math.min(3, left.length, right.length);
 		overlap > 0;
 		overlap--
 	) {

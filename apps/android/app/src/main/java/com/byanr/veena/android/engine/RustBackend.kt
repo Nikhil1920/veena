@@ -27,6 +27,7 @@ object RustBackend {
         handlePtr: Long,
         audioPath: String,
         language: String?,
+        progress: TranscriptionProgress?,
     ): String?
 
     external fun transcribeAudio(
@@ -34,7 +35,18 @@ object RustBackend {
         audioData: FloatArray,
         sampleRate: Int,
         language: String?,
+        progress: TranscriptionProgress?,
     ): String?
 
     external fun transcriberDestroy(handlePtr: Long)
+}
+
+/**
+ * Long audio is transcribed in windows of up to 25 s. Called on the
+ * transcribing thread with (completed, total) windows: once with none
+ * completed, then after each window. Returning false cancels: the engine
+ * stops before the next window and the native call returns null.
+ */
+fun interface TranscriptionProgress {
+    fun onProgress(completed: Int, total: Int): Boolean
 }

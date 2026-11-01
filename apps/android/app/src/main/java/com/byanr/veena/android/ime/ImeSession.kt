@@ -2,8 +2,11 @@ package com.byanr.veena.android.ime
 
 import android.Manifest
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
+import com.byanr.veena.android.MainActivity
+import com.byanr.veena.android.audio.AudioFileDecoder
 import com.byanr.veena.android.audio.MicRecorder
 import com.byanr.veena.android.data.LANGUAGES
 import com.byanr.veena.android.data.MicMode
@@ -15,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.io.File
 
 /** Why [ImeSession.startDictation] did or did not begin recording. */
 sealed interface StartOutcome {
@@ -69,7 +74,8 @@ class ImeSession(
     val micMode: StateFlow<MicMode> = _micMode
 
     private var tickerJob: Job? = null
-    private var idleUnloadJob: Job? = null
+    /** The language the current recording was started in. */
+    private var recordingLanguage = DEFAULT_LANGUAGE
 
     init {
         scope.launch {
@@ -77,7 +83,7 @@ class ImeSession(
                 _languageCode.value = settings.imeLanguageCode
                     ?: settings.languageCode
                     ?: DEFAULT_LANGUAGE
-                _micMode.value = settings.imeMicMode
+                _micMode.value = settings.micMode
             }
         }
     }
@@ -91,8 +97,7 @@ class ImeSession(
     }
 
     suspend fun startDictation(): StartOutcome = mutex.withLock {
-        idleUnloadJob?.cancel()
-        idleUnloadJob = null
+        engine.cancelScheduledUnload()
 
         if (recorder.isRecording) return@withLock StartOutcome.Started
 
@@ -108,6 +113,7 @@ class ImeSession(
         }
 
         _state.value = ImeDictationState.PreparingModel
+        recordingLanguage = code
         try {
             engine.ensureLanguage(code)
         } catch (t: Throwable) {
@@ -153,9 +159,11 @@ class ImeSession(
 
         _state.value = ImeDictationState.Transcribing
         try {
-            val audio = FloatArray(recording.samples.size) { recording.samples[it] / 32768f }
-            val text = engine.transcribe(audio, recording.sampleRate)
+            val audio = debugTestAudio()
+                ?: FloatArray(recording.samples.size) { recording.samples[it] / 32768f }
+            val text = engine.transcribe(audio, recording.sampleRate, recordingLanguage)
             _state.value = ImeDictationState.Idle
+            if (text.isNotBlank()) _completedDictations.value += 1
             text
         } catch (t: Throwable) {
             _state.value = ImeDictationState.Error(t.message ?: "Transcription failed")
@@ -182,23 +190,53 @@ class ImeSession(
         }
     }
 
-    /** Unloads the engine after [delayMs] without dictation; the next start cancels this. */
-    fun scheduleIdleUnload(delayMs: Long = IDLE_UNLOAD_MS) {
-        idleUnloadJob?.cancel()
-        idleUnloadJob = scope.launch {
-            delay(delayMs)
-            mutex.withLock { engine.shutdown() }
-        }
+    /**
+     * Test hook for debuggable builds only: a `files/keyboard-test-audio.wav`
+     * (pushed with `adb shell run-as`) stands in for the microphone, since
+     * emulators have no voice to dictate with.
+     */
+    private fun debugTestAudio(): FloatArray? {
+        if (appContext.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 0) return null
+        val file = File(appContext.filesDir, "keyboard-test-audio.wav")
+        if (!file.exists()) return null
+        return runCatching { AudioFileDecoder.decodeToMono16k(file.absolutePath).first }.getOrNull()
     }
 
+    /**
+     * Unloads the engine after [delayMs] without dictation; the next start
+     * cancels this. The app shares the engine, so it stays loaded while the
+     * app is on screen.
+     */
+    fun scheduleIdleUnload(delayMs: Long = IDLE_UNLOAD_MS) {
+        engine.scheduleUnload(delayMs) { MainActivity.isInForeground }
+    }
+
+    /**
+     * Ends this session for good (the service is going away). The engine is
+     * left for the idle unload: switching keyboards destroys the service, and
+     * the next mic tap — another keyboard's, for the voice input — should find
+     * the model still loaded.
+     */
     fun shutdown() {
-        cancelDictation()
         scope.launch {
-            mutex.withLock { engine.shutdown() }
+            mutex.withLock {
+                tickerJob?.cancel()
+                if (recorder.isRecording) {
+                    runCatching { recorder.stop() } // Samples are discarded.
+                }
+            }
+            recorder.shutdown()
+            scheduleIdleUnload()
+            scope.cancel()
         }
     }
 
     companion object {
+        private val _completedDictations = MutableStateFlow(0)
+
+        /** Dictations that produced text, for the setup tour's test step. */
+        val completedDictations: StateFlow<Int> = _completedDictations
+
         private const val DEFAULT_LANGUAGE = "te"
         private const val TICK_MS = 100L
         private const val IDLE_UNLOAD_MS = 600_000L

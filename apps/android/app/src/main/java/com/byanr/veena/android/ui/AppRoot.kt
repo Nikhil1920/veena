@@ -147,6 +147,9 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                         onOpenLanguagePicker = {
                             navController.navigate("picker/dictate")
                         },
+                        onOpenVoiceKeyboard = {
+                            navController.navigate("voiceKeyboard")
+                        },
                     )
                 }
                 composable("history") {

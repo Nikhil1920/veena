@@ -14,12 +14,12 @@ tooling that keep them in sync.
 | --- | --- | --- |
 | [`crates/rust-backend`](crates/rust-backend) | Shared speech engine: mel features, ONNX inference, CTC decoding, C ABI. Consumed by desktop, iOS, and Android. | Rust (`ort`) |
 | [`apps/desktop`](apps/desktop) | Global push-to-talk dictation app: press a shortcut, speak, text is typed into any app. | Tauri 2 · React · TypeScript |
-| [`apps/ios`](apps/ios) | iPhone dictation app with on-device models and local history. | SwiftUI · XcodeGen |
-| [`apps/android`](apps/android) | Android dictation app; engine linked as a prebuilt `.so` through JNI. | Kotlin · Jetpack Compose |
+| [`apps/ios`](apps/ios) | iPhone dictation app with on-device models, local history, and a voice keyboard for any app. | SwiftUI · XcodeGen |
+| [`apps/android`](apps/android) | Android dictation app and voice keyboard; engine linked as a prebuilt `.so` through JNI. | Kotlin · Jetpack Compose |
 | [`apps/web`](apps/web) | Marketing site and browser transcription workspace (`/transcribe/`) — the same models running as WebAssembly/WASM runtime in the browser. | Astro · React · TypeScript |
 | [`tools/voice-models`](tools/voice-models) | Model pipeline: export, quantize, and validate the IndicConformer ONNX artifacts the apps download. | Python (uv) |
 | [`tools/browser-reference`](tools/browser-reference) | Rust reference implementation used to validate browser inference parity. | Rust |
-| [`docs/`](docs) | Cross-cutting technical notes (e.g. the browser-transcription feasibility assessment). | — |
+| [`docs/`](docs) | Cross-cutting technical notes (e.g. the browser-transcription feasibility assessment, the voice keyboards). | — |
 
 ## Quick starts
 

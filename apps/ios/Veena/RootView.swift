@@ -8,6 +8,21 @@ struct RootView: View {
     @State private var onboardingPath = NavigationPath()
 
     var body: some View {
+        @Bindable var environment = environment
+        content
+            // The keyboard opens veena://keyboard/session to turn the mic on,
+            // and veena://keyboard/setup from its "Open Veena" buttons.
+            .onOpenURL { environment.handle($0) }
+            .fullScreenCover(isPresented: $environment.showKeyboardSession) {
+                KeyboardSessionView()
+            }
+            .sheet(isPresented: $environment.showKeyboardSetup) {
+                KeyboardSetupView()
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
         if let code = environment.languageCode {
             MainTabs(languageCode: code)
                 .task(id: code) { await environment.warmEngine() }

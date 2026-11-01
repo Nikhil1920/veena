@@ -29,6 +29,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Pause
@@ -36,9 +37,11 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.FolderOpen
+import androidx.compose.material.icons.outlined.Keyboard
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -46,9 +49,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -63,14 +68,19 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.byanr.veena.android.AppViewModel
+import com.byanr.veena.android.R
 import com.byanr.veena.android.data.MicMode
 import com.byanr.veena.android.data.languageByCode
 import com.byanr.veena.android.engine.EngineState
@@ -78,6 +88,7 @@ import com.byanr.veena.android.ui.theme.AccentBlue
 import com.byanr.veena.android.ui.theme.StatusInitializing
 import com.byanr.veena.android.ui.theme.StatusReady
 import com.byanr.veena.android.ui.theme.StatusRecording
+import com.byanr.veena.android.ui.settings.isVoiceKeyboardReady
 import com.byanr.veena.android.ui.theme.veenaColors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -86,6 +97,7 @@ import kotlinx.coroutines.launch
 fun DictateScreen(
     appViewModel: AppViewModel,
     onOpenLanguagePicker: () -> Unit,
+    onOpenVoiceKeyboard: () -> Unit,
     viewModel: DictateViewModel = viewModel(),
 ) {
     val context = LocalContext.current
@@ -96,6 +108,8 @@ fun DictateScreen(
     val engineState by viewModel.engineState.collectAsState()
     val isRecording by viewModel.isRecording.collectAsState()
     val isTranscribing by viewModel.isTranscribing.collectAsState()
+    val transcribeProgress by viewModel.transcribeProgress.collectAsState()
+    val isCancelling by viewModel.isCancelling.collectAsState()
     val text by viewModel.text.collectAsState()
     val textRevision by viewModel.textRevision.collectAsState()
     val lastRecording by viewModel.lastRecording.collectAsState()
@@ -108,6 +122,18 @@ fun DictateScreen(
     val currentMicMode by rememberUpdatedState(micMode)
 
     val snackbar = remember { SnackbarHostState() }
+
+    // Bumped on every resume so the keyboard banner notices the keyboard
+    // being enabled or the mic granted in system settings.
+    var resumeTick by remember { mutableIntStateOf(0) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) resumeTick++
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     // Elapsed recording time, shown in the status badge while recording.
     var elapsedMs by remember { mutableLongStateOf(0L) }
@@ -242,9 +268,26 @@ fun DictateScreen(
             }
             Spacer(Modifier.height(12.dp))
 
+            // Until the voice keyboard is set up (or the card is dismissed),
+            // point people at the tour.
+            val keyboardReady = remember(settings, resumeTick) {
+                isVoiceKeyboardReady(context, appViewModel)
+            }
+            if (settings?.keyboardBannerDismissed == false && !keyboardReady) {
+                VoiceKeyboardBanner(
+                    onSetUp = onOpenVoiceKeyboard,
+                    onDismiss = appViewModel::dismissKeyboardBanner,
+                )
+                Spacer(Modifier.height(12.dp))
+            }
+
             val (dotColor, statusLabel) = when {
                 isRecording -> StatusRecording to "Recording · ${formatDuration(elapsedMs)}"
-                isTranscribing -> StatusInitializing to "Transcribing..."
+                isCancelling -> StatusInitializing to "Cancelling..."
+                isTranscribing -> StatusInitializing to (
+                    transcribeProgress?.let { "Transcribing... ${(it * 100).toInt()}%" }
+                        ?: "Transcribing..."
+                )
                 engineState is EngineState.Ready -> StatusReady to "Ready"
                 engineState is EngineState.Error -> StatusRecording to "Model failed to load"
                 else -> StatusInitializing to "Loading model..."
@@ -389,16 +432,30 @@ fun DictateScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(28.dp),
                 ) {
+                    // Doubles as the cancel button while a transcription runs.
                     Surface(
-                        onClick = { importLauncher.launch(arrayOf("audio/*")) },
+                        onClick = {
+                            if (isTranscribing) {
+                                viewModel.cancelTranscription()
+                            } else {
+                                importLauncher.launch(arrayOf("audio/*"))
+                            }
+                        },
+                        enabled = !isCancelling,
                         shape = CircleShape,
                         color = colors.backgroundElement,
-                        modifier = Modifier.size(56.dp),
+                        modifier = Modifier
+                            .size(56.dp)
+                            .alpha(if (isCancelling) 0.5f else 1f),
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
-                                Icons.Outlined.FolderOpen,
-                                contentDescription = "Import recording",
+                                if (isTranscribing) Icons.Filled.Close else Icons.Outlined.FolderOpen,
+                                contentDescription = if (isTranscribing) {
+                                    "Cancel transcription"
+                                } else {
+                                    "Import recording"
+                                },
                                 tint = colors.textSecondary,
                             )
                         }
@@ -464,7 +521,16 @@ fun DictateScreen(
                                 .alpha(if (micEnabled || isRecording) 1f else 0.5f),
                         ) {
                             Box(contentAlignment = Alignment.Center) {
-                                if (isTranscribing) {
+                                val fraction = transcribeProgress
+                                if (isTranscribing && fraction != null) {
+                                    CircularProgressIndicator(
+                                        progress = { fraction },
+                                        color = Color.White,
+                                        trackColor = Color.White.copy(alpha = 0.3f),
+                                        strokeWidth = 3.dp,
+                                        modifier = Modifier.size(28.dp),
+                                    )
+                                } else if (isTranscribing) {
                                     CircularProgressIndicator(
                                         color = Color.White,
                                         strokeWidth = 3.dp,
@@ -486,6 +552,8 @@ fun DictateScreen(
                 Spacer(Modifier.height(10.dp))
                 Text(
                     text = when {
+                        isCancelling -> "Stopping..."
+                        isTranscribing -> "Tap × to cancel"
                         micMode == MicMode.HOLD && isRecording -> "Release to transcribe"
                         micMode == MicMode.HOLD -> "Hold to record, release to transcribe"
                         isRecording -> "Tap again to stop"
@@ -508,4 +576,57 @@ fun DictateScreen(
 private fun formatDuration(ms: Long): String {
     val totalSeconds = ms / 1000
     return "%d:%02d".format(totalSeconds / 60, totalSeconds % 60)
+}
+
+/** "Dictate in any app": the way into the voice-keyboard tour from the home screen. */
+@Composable
+private fun VoiceKeyboardBanner(onSetUp: () -> Unit, onDismiss: () -> Unit) {
+    val colors = veenaColors
+    Surface(
+        color = colors.backgroundElement,
+        shape = MaterialTheme.shapes.medium,
+        onClick = onSetUp,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp, end = 4.dp),
+        ) {
+            Icon(
+                Icons.Outlined.Keyboard,
+                contentDescription = null,
+                tint = AccentBlue,
+                modifier = Modifier.size(22.dp),
+            )
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    stringResource(R.string.vk_banner_title),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = colors.text,
+                )
+                Text(
+                    stringResource(R.string.vk_banner_subtitle),
+                    fontSize = 13.sp,
+                    color = colors.textSecondary,
+                )
+            }
+            TextButton(onClick = onSetUp) {
+                Text(
+                    stringResource(R.string.vk_banner_action),
+                    color = AccentBlue,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
+            IconButton(onClick = onDismiss) {
+                Icon(
+                    Icons.Filled.Close,
+                    contentDescription = stringResource(R.string.vk_banner_dismiss),
+                    tint = colors.textSecondary,
+                    modifier = Modifier.size(18.dp),
+                )
+            }
+        }
+    }
 }

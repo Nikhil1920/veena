@@ -9,6 +9,15 @@ models (Telugu single-language and the 22-language multilingual model) through
 - **apps/ios** — statically linked via `RustBackend.xcframework` (built below).
 - **apps/android** — `librust_backend.so` loaded through a JNI wrapper.
 
+Audio of any length can be passed in: input longer than 25 s is transcribed
+in silence-aligned windows and the transcripts are stitched (`src/chunk.rs`,
+the same scheme as the web worker). A single encoder pass over minutes of
+audio needs gigabytes of attention memory, and the exported positional
+encoding stops at ~6 min 40 s. `Transcriber::transcribe_with_progress` and the
+C ABI's `transcriber_transcribe_*_progress` report `(completed, total)`
+windows so apps can show progress on long files; returning `false` from the
+callback cancels before the next window.
+
 Model archives are **not** part of this repository; apps download them at
 runtime, and the export pipeline lives in `tools/voice-models`.
 

@@ -1,6 +1,7 @@
 #ifndef RUST_BACKEND_BRIDGE_H
 #define RUST_BACKEND_BRIDGE_H
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <zlib.h>
@@ -39,6 +40,30 @@ char *transcriber_transcribe_audio_lang(Transcriber *handle,
                                         size_t len,
                                         uint32_t sample_rate,
                                         const char *language);
+
+/*
+ * Long audio is transcribed in windows of up to 25 s. The _progress variants
+ * call `progress` synchronously on the calling thread with (completed, total)
+ * windows: once with none completed, then after each window. Returning false
+ * cancels: the call stops before the next window and returns NULL.
+ */
+typedef bool (*TranscriberProgressFn)(void *user_data,
+                                      size_t completed,
+                                      size_t total);
+
+char *transcriber_transcribe_file_progress(Transcriber *handle,
+                                           const char *audio_path,
+                                           const char *language,
+                                           TranscriberProgressFn progress,
+                                           void *user_data);
+
+char *transcriber_transcribe_audio_progress(Transcriber *handle,
+                                            const float *audio,
+                                            size_t len,
+                                            uint32_t sample_rate,
+                                            const char *language,
+                                            TranscriberProgressFn progress,
+                                            void *user_data);
 
 void transcriber_destroy(Transcriber *handle);
 

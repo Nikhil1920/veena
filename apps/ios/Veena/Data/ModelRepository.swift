@@ -59,6 +59,9 @@ final class ModelRepository {
 
     private(set) var states: [String: DownloadState] = [:]
 
+    /// Called after a model is installed or deleted.
+    @ObservationIgnored var onInstalledModelsChanged: (() -> Void)?
+
     private let modelsDir: URL
     private static let completeMarker = ".complete"
 
@@ -116,7 +119,7 @@ final class ModelRepository {
     func download(_ def: ModelDef) async throws {
         guard !isDownloaded(def) else {
             Self.logger.log("download(\(def.id, privacy: .public)) skipped: already installed")
-            setState(.idle)
+            await setState(.idle)
             return
         }
 
@@ -125,22 +128,28 @@ final class ModelRepository {
         let gunzipped = modelsDir.appendingPathComponent("\(def.id).tar")
         let extracting = modelsDir.appendingPathComponent("\(def.id).extracting", isDirectory: true)
 
-        func setState(_ s: DownloadState) {
-            states[def.id] = s
+        // SwiftUI reads `states` on the main thread while this runs on the
+        // cooperative pool; writing it here directly races and crashes.
+        func setState(_ s: DownloadState) async {
+            await MainActor.run { self.states[def.id] = s }
         }
 
         Self.logger.log("download(\(def.id, privacy: .public)) starting")
 
         do {
             let already = (try? partial.resourceValues(forKeys: [.fileSizeKey]))?.fileSize ?? 0
-            setState(.downloading(downloaded: Int64(already), total: def.sizeBytes))
+            await setState(.downloading(downloaded: Int64(already), total: def.sizeBytes))
 
             var request = URLRequest(url: def.url)
             if already > 0 {
                 request.setValue("bytes=\(already)-", forHTTPHeaderField: "Range")
             }
 
-            FileManager.default.createFile(atPath: partial.path, contents: nil)
+            // createFile truncates an existing file, which would drop the
+            // bytes the Range request above resumes after.
+            if already == 0 {
+                FileManager.default.createFile(atPath: partial.path, contents: nil)
+            }
             var out = try FileHandle(forWritingTo: partial)
             defer { try? out.close() }
 
@@ -167,12 +176,12 @@ final class ModelRepository {
                     downloaded += Int64(data.count)
                     if downloaded - lastReport > 512 * 1024 {
                         lastReport = downloaded
-                        setState(.downloading(downloaded: downloaded, total: def.sizeBytes))
+                        await setState(.downloading(downloaded: downloaded, total: def.sizeBytes))
                     }
                 }
             }
 
-            setState(.verifying)
+            await setState(.verifying)
             if let expected = def.sha256 {
                 let actual = try Self.sha256(of: partial)
                 if actual.caseInsensitiveCompare(expected) != .orderedSame {
@@ -222,14 +231,15 @@ final class ModelRepository {
             FileManager.default.createFile(
                 atPath: dest.appendingPathComponent(Self.completeMarker).path, contents: Data(def.url.absoluteString.utf8))
             try? FileManager.default.removeItem(at: partial)
-            setState(.idle)
+            await setState(.idle)
+            onInstalledModelsChanged?()
             Self.logger.log("download(\(def.id, privacy: .public)) finished")
         } catch let error as CancellationError {
-            setState(.cancelled)
+            await setState(.cancelled)
             throw error
         } catch {
             Self.logger.error("download(\(def.id, privacy: .public)) failed: \(error.localizedDescription, privacy: .public)")
-            setState(.failed(error.localizedDescription))
+            await setState(.failed(error.localizedDescription))
             throw error
         }
     }
@@ -238,6 +248,7 @@ final class ModelRepository {
         try? FileManager.default.removeItem(at: modelDir(def))
         try? FileManager.default.removeItem(at: modelsDir.appendingPathComponent("\(def.id).tar.gz.partial"))
         states[def.id] = .idle
+        onInstalledModelsChanged?()
     }
 
     func downloadState(_ def: ModelDef) -> DownloadState {

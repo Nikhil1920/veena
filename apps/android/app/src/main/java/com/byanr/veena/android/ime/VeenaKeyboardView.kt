@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Backspace
+import androidx.compose.material.icons.filled.Keyboard
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
@@ -30,6 +32,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -62,6 +65,11 @@ import kotlinx.coroutines.launch
  * globe (next keyboard) and backspace, with a language chip and a settings
  * gear on top. No letter keys in v1 — dictation is the whole keyboard.
  *
+ * As [voiceInput] (another keyboard's mic key opened Veena) the panel starts
+ * listening on its own while [autoStart] is set (and reports it through
+ * [onAutoStarted], so the request is used once), the mic is always
+ * tap-to-finish, and the globe becomes "back to your keyboard".
+ *
  * The service supplies the side-effect callbacks ([onBackspace],
  * [onSwitchKeyboard], [onOpenVeena], [onCommit]) so this composable stays a
  * pure function of the [ImeSession] state.
@@ -74,13 +82,18 @@ fun VeenaKeyboardView(
     onSwitchKeyboard: () -> Unit,
     onOpenVeena: () -> Unit,
     onCommit: (String) -> Unit,
+    voiceInput: Boolean = false,
+    autoStart: Boolean = false,
+    onAutoStarted: () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
     val colors = veenaColors
 
     val state by imeSession.state.collectAsState()
     val languageCode by imeSession.languageCode.collectAsState()
-    val micMode by imeSession.micMode.collectAsState()
+    val preferredMicMode by imeSession.micMode.collectAsState()
+    // Nobody is holding the key when another keyboard hands over: tap to finish.
+    val micMode = if (voiceInput) MicMode.TAP else preferredMicMode
 
     // Gate card from the last failed startDictation; cleared on success.
     var gate by remember { mutableStateOf<StartOutcome?>(null) }
@@ -123,6 +136,13 @@ fun VeenaKeyboardView(
         }
     }
 
+    LaunchedEffect(autoStart) {
+        if (voiceInput && autoStart) {
+            onAutoStarted()
+            startDictation()
+        }
+    }
+
     val micColor = when {
         recording -> StatusRecording
         micEnabled || state is ImeDictationState.Error -> AccentBlue
@@ -162,8 +182,11 @@ fun VeenaKeyboardView(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(PANEL_HEIGHT)
             .background(colors.background)
+            // Edge-to-edge IME windows (Android 15+) extend under the
+            // navigation bar; keep the keys above its handle and buttons.
+            .navigationBarsPadding()
+            .height(PANEL_HEIGHT)
             .padding(horizontal = 8.dp, vertical = 8.dp),
     ) {
         Row(
@@ -216,12 +239,14 @@ fun VeenaKeyboardView(
             modifier = Modifier.fillMaxWidth(),
         ) {
             RoundKey(
-                icon = Icons.Filled.Language,
-                contentDescription = stringResource(R.string.ime_switch_keyboard),
+                icon = if (voiceInput) Icons.Filled.Keyboard else Icons.Filled.Language,
+                contentDescription = stringResource(
+                    if (voiceInput) R.string.ime_back_to_keyboard else R.string.ime_switch_keyboard
+                ),
                 onClick = onSwitchKeyboard,
             )
             Spacer(Modifier.weight(1f))
-            Box {
+            Box(contentAlignment = Alignment.Center) {
                 if (recording) {
                     Box(
                         Modifier
