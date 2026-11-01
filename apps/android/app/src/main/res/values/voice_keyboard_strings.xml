@@ -12,9 +12,11 @@
     <string name="vk_try_label">Try it</string>
 
     <string name="vk_mic_mode_title">Mic button</string>
-    <string name="vk_mic_mode_description">How the keyboard starts and stops dictation</string>
-    <string name="vk_mic_mode_hold">Hold to talk</string>
-    <string name="vk_mic_mode_tap">Tap to speak</string>
+    <string name="vk_mic_mode_description">Used by both the app and the keyboard. Also in Settings → Microphone Behavior.</string>
+    <string name="vk_mic_mode_hold">Hold to Record</string>
+    <string name="vk_mic_mode_hold_detail">Press and hold the mic, release to transcribe</string>
+    <string name="vk_mic_mode_tap">Tap to Record</string>
+    <string name="vk_mic_mode_tap_detail">Tap to start, tap again to transcribe</string>
 
     <!-- Settings row -->
     <string name="vk_settings_section">Voice Keyboard</string>

@@ -35,8 +35,10 @@ import androidx.compose.material.icons.filled.KeyboardVoice
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material.icons.filled.WifiOff
+import androidx.compose.material.icons.outlined.KeyboardVoice
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -384,9 +386,9 @@ fun VoiceKeyboardScreen(
                     Spacer(Modifier.height(8.dp))
                     StatusLine(stringResource(R.string.vk_tour_mickey_status), gates.voiceInputEnabled)
                     Spacer(Modifier.height(20.dp))
-                    MicModeRow(
-                        micMode = settings?.imeMicMode ?: MicMode.HOLD,
-                        onModeChange = { appViewModel.setImeMicMode(it) },
+                    MicModeChoice(
+                        micMode = settings?.micMode ?: MicMode.HOLD,
+                        onModeChange = { appViewModel.setMicMode(it) },
                     )
                 }
             }
@@ -586,60 +588,47 @@ private fun PrimaryButton(label: String, onClick: () -> Unit) {
     }
 }
 
-/** Hold-to-talk vs tap-to-speak for the keyboard's mic button; the button names the mode it switches to. */
+/**
+ * Hold vs tap for the mic button. It is the app's Microphone Behavior
+ * setting, shown here with the same cards because the keyboard follows it.
+ */
 @Composable
-private fun MicModeRow(
+private fun MicModeChoice(
     micMode: MicMode,
     onModeChange: (MicMode) -> Unit,
 ) {
     val colors = veenaColors
-    Surface(
-        color = colors.backgroundElement,
-        shape = MaterialTheme.shapes.medium,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 10.dp),
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(16.dp),
-        ) {
-            Column(Modifier.weight(1f)) {
-                Text(
-                    stringResource(R.string.vk_mic_mode_title),
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = colors.text,
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    stringResource(
-                        if (micMode == MicMode.HOLD) {
-                            R.string.vk_mic_mode_hold
-                        } else {
-                            R.string.vk_mic_mode_tap
-                        }
-                    ) + " · " + stringResource(R.string.vk_mic_mode_description),
-                    fontSize = 13.sp,
-                    color = colors.textSecondary,
-                )
-            }
-            TextButton(onClick = {
-                onModeChange(if (micMode == MicMode.HOLD) MicMode.TAP else MicMode.HOLD)
-            }) {
-                Text(
-                    stringResource(
-                        if (micMode == MicMode.HOLD) {
-                            R.string.vk_mic_mode_tap
-                        } else {
-                            R.string.vk_mic_mode_hold
-                        }
-                    ),
-                    fontSize = 14.sp,
-                    color = AccentBlue,
-                    fontWeight = FontWeight.SemiBold,
-                )
-            }
+    Column(Modifier.fillMaxWidth()) {
+        Text(
+            stringResource(R.string.vk_mic_mode_title),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = colors.text,
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            stringResource(R.string.vk_mic_mode_description),
+            fontSize = 13.sp,
+            color = colors.textSecondary,
+        )
+        Spacer(Modifier.height(12.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            ModeCard(
+                icon = Icons.Outlined.KeyboardVoice,
+                title = stringResource(R.string.vk_mic_mode_hold),
+                subtitle = stringResource(R.string.vk_mic_mode_hold_detail),
+                selected = micMode == MicMode.HOLD,
+                modifier = Modifier.weight(1f),
+                onClick = { onModeChange(MicMode.HOLD) },
+            )
+            ModeCard(
+                icon = Icons.Filled.TouchApp,
+                title = stringResource(R.string.vk_mic_mode_tap),
+                subtitle = stringResource(R.string.vk_mic_mode_tap_detail),
+                selected = micMode == MicMode.TAP,
+                modifier = Modifier.weight(1f),
+                onClick = { onModeChange(MicMode.TAP) },
+            )
         }
     }
 }

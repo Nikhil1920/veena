@@ -29,9 +29,10 @@ struct SettingsView: View {
                     .pickerStyle(.inline)
                     .labelsHidden()
 
-                    Text(environment.micMode == .hold
-                         ? "Press and hold the mic, release to transcribe"
-                         : "Tap to start, tap again to transcribe")
+                    Text((environment.micMode == .hold
+                          ? "Press and hold the mic, release to transcribe."
+                          : "Tap to start, tap again to transcribe.")
+                         + " The Veena keyboard's mic works the same way.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -157,11 +158,6 @@ struct SettingsView: View {
                     Text(keyboardStatus?.languageCode.flatMap { language(byCode: $0)?.name } ?? "Not set")
                         .foregroundStyle(.secondary)
                 }
-            }
-
-            Picker("Keyboard mic", selection: $preferences.micMode) {
-                Text("Tap to start").tag(MicMode.tap)
-                Text("Hold to talk").tag(MicMode.hold)
             }
 
             Picker("Keep mic ready for", selection: $preferences.sessionMinutes) {

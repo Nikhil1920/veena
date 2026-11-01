@@ -14,10 +14,10 @@ enum class MicMode { HOLD, TAP }
 
 data class AppSettings(
     val languageCode: String?,
+    /** The mic button's mode, shared by the app and the voice keyboard. */
     val micMode: MicMode,
     /** Null means the keyboard falls back to [AppSettings.languageCode]. */
     val imeLanguageCode: String?,
-    val imeMicMode: MicMode,
     /** The Dictate screen's "set up the voice keyboard" card was dismissed. */
     val keyboardBannerDismissed: Boolean,
 )
@@ -27,7 +27,6 @@ class Prefs(private val context: Context) {
     private val languageKey = stringPreferencesKey("language_code")
     private val micModeKey = stringPreferencesKey("mic_mode")
     private val imeLanguageKey = stringPreferencesKey("ime_language_code")
-    private val imeMicModeKey = stringPreferencesKey("ime_mic_mode")
     private val keyboardBannerDismissedKey = booleanPreferencesKey("keyboard_banner_dismissed")
 
     val settings: Flow<AppSettings> = context.dataStore.data.map { prefs ->
@@ -37,9 +36,6 @@ class Prefs(private val context: Context) {
                 MicMode.entries.firstOrNull { it.name == stored }
             } ?: MicMode.HOLD,
             imeLanguageCode = prefs[imeLanguageKey],
-            imeMicMode = prefs[imeMicModeKey]?.let { stored ->
-                MicMode.entries.firstOrNull { it.name == stored }
-            } ?: MicMode.HOLD,
             keyboardBannerDismissed = prefs[keyboardBannerDismissedKey] ?: false,
         )
     }
@@ -54,10 +50,6 @@ class Prefs(private val context: Context) {
 
     suspend fun setImeLanguage(code: String) {
         context.dataStore.edit { it[imeLanguageKey] = code }
-    }
-
-    suspend fun setImeMicMode(mode: MicMode) {
-        context.dataStore.edit { it[imeMicModeKey] = mode.name }
     }
 
     suspend fun dismissKeyboardBanner() {

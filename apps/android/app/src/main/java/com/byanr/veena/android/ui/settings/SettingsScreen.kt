@@ -90,6 +90,12 @@ fun SettingsScreen(
                 onClick = { appViewModel.setMicMode(MicMode.TAP) },
             )
         }
+        Spacer(Modifier.height(8.dp))
+        Text(
+            "The voice keyboard's mic button works the same way.",
+            fontSize = 12.sp,
+            color = colors.textSecondary,
+        )
 
         Spacer(Modifier.height(28.dp))
         SectionLabel("Language")
@@ -237,7 +243,7 @@ private fun SectionLabel(text: String) {
 }
 
 @Composable
-private fun ModeCard(
+internal fun ModeCard(
     icon: ImageVector,
     title: String,
     subtitle: String,

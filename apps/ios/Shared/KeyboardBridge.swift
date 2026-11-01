@@ -232,9 +232,10 @@ enum KeyboardSharedSettings {
         return keyboardLanguageCode ?? appLanguageCode ?? installed.first
     }
 
-    /// "tap" (default) or "hold".
+    /// "hold" (default) or "tap": the app's Microphone Behavior, which the
+    /// app publishes here for the keyboard.
     static var micMode: String {
-        get { defaults?.string(forKey: Key.micMode) ?? "tap" }
+        get { defaults?.string(forKey: Key.micMode) ?? "hold" }
         set { defaults?.set(newValue, forKey: Key.micMode) }
     }
 

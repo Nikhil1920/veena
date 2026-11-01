@@ -13,13 +13,7 @@ final class KeyboardPreferences {
         didSet { KeyboardSharedSettings.sessionMinutes = sessionMinutes }
     }
 
-    /// The keyboard mic: tap to start/stop, or hold to talk.
-    var micMode: MicMode {
-        didSet { KeyboardSharedSettings.micMode = micMode.rawValue }
-    }
-
     private init() {
         sessionMinutes = KeyboardSharedSettings.sessionMinutes
-        micMode = MicMode(rawValue: KeyboardSharedSettings.micMode) ?? .tap
     }
 }

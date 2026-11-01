@@ -83,7 +83,7 @@ class ImeSession(
                 _languageCode.value = settings.imeLanguageCode
                     ?: settings.languageCode
                     ?: DEFAULT_LANGUAGE
-                _micMode.value = settings.imeMicMode
+                _micMode.value = settings.micMode
             }
         }
     }

@@ -28,8 +28,12 @@ final class AppEnvironment {
         }
     }
 
+    /// The mic button's mode, shared with the keyboard through the App Group.
     var micMode: MicMode {
-        didSet { UserDefaults.standard.set(micMode.rawValue, forKey: "micMode") }
+        didSet {
+            UserDefaults.standard.set(micMode.rawValue, forKey: "micMode")
+            KeyboardSharedSettings.micMode = micMode.rawValue
+        }
     }
 
     /// The keyboard opened the app to start a session (veena://keyboard/session).
@@ -41,6 +45,7 @@ final class AppEnvironment {
         keyboardSession = KeyboardSessionController(engine: engine, models: models)
         languageCode = UserDefaults.standard.string(forKey: "languageCode")
         micMode = MicMode(rawValue: UserDefaults.standard.string(forKey: "micMode") ?? "") ?? .hold
+        KeyboardSharedSettings.micMode = micMode.rawValue
 
         keyboardSession.isAppRecording = { [recorder] in recorder.isRecording }
         models.onInstalledModelsChanged = { [weak self] in self?.publishKeyboardLanguages() }

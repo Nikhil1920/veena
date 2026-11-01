@@ -81,11 +81,6 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch { prefs.setImeLanguage(code) }
     }
 
-    /** The keyboard's mic-button mode is independent of the app's. */
-    fun setImeMicMode(mode: com.byanr.veena.android.data.MicMode) {
-        viewModelScope.launch { prefs.setImeMicMode(mode) }
-    }
-
     fun setMicMode(mode: com.byanr.veena.android.data.MicMode) {
         viewModelScope.launch { prefs.setMicMode(mode) }
     }
