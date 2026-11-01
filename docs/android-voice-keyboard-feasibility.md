@@ -1,6 +1,8 @@
 # Veena Android voice keyboard feasibility
 
-Assessment date: 20 September 2026.
+Assessment date: 20 September 2026. For what shipped since — the iOS keyboard,
+"Veena voice input" for other keyboards' mic keys, and the setup tours — see
+[`voice-keyboard.md`](voice-keyboard.md).
 
 **Recommendation: proceed with a dedicated voice-first input method (IME) inside the existing `veena-android` APK, reusing the current Rust/ONNX engine, mic capture and model downloads unchanged.** "STT wherever the user wants to type" on Android means an `InputMethodService`: it is the only mechanism that can insert text into arbitrary apps' text fields without overlay or accessibility permissions, and it is a proven shipping pattern for on-device dictation keyboards (Gboard voice typing; FUTO Voice Input ships a mic-first IME with downloadable local models on Play today). All the hard parts Veena already owns — an on-device IndicConformer engine with a JNI wrapper, 16 kHz mic capture, resumable verified model downloads — were deliberately built UI-agnostic and are reusable from an IME service without modification.
 

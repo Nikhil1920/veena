@@ -1,10 +1,16 @@
 package com.byanr.veena.android.engine
 
+import com.byanr.veena.android.data.ModelCatalog
 import com.byanr.veena.android.data.ModelRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -20,6 +26,10 @@ sealed class EngineState {
  * Owns the native transcriber for the currently selected language. The
  * Telugu model is a single-language graph; every other language loads the
  * multilingual graph and passes the language code per utterance.
+ *
+ * The app and the voice keyboard share this engine, each with its own
+ * language, so transcription always names its language and loads it first
+ * if the other side switched the engine away.
  */
 class EngineManager(private val models: ModelRepository) {
 
@@ -28,13 +38,31 @@ class EngineManager(private val models: ModelRepository) {
 
     private var handle: Long = 0L
     private var loadedLanguage: String? = null
+    private var loadedModelId: String? = null
     private val mutex = Mutex()
 
+    // Outlives any one keyboard service: switching keyboards destroys the
+    // service, and the next mic tap shouldn't pay for a model reload.
+    private val unloadScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private var unloadJob: Job? = null
+
     suspend fun ensureLanguage(languageCode: String) = mutex.withLock {
-        if (handle != 0L && loadedLanguage == languageCode &&
-            _state.value is EngineState.Ready
-        ) {
-            return@withLock
+        loadLocked(languageCode)
+    }
+
+    /**
+     * Makes [languageCode] the active language. Languages sharing a model
+     * (every non-Telugu language uses the multilingual graph) switch without
+     * a reload, since the language is passed per utterance.
+     */
+    private suspend fun loadLocked(languageCode: String) {
+        val modelId = ModelCatalog.modelForLanguage(languageCode).id
+        if (handle != 0L && loadedModelId == modelId) {
+            if (loadedLanguage != languageCode || _state.value !is EngineState.Ready) {
+                loadedLanguage = languageCode
+                _state.value = EngineState.Ready(languageCode)
+            }
+            return
         }
 
         _state.value = EngineState.Loading
@@ -70,6 +98,7 @@ class EngineManager(private val models: ModelRepository) {
             }
             handle = created
             loadedLanguage = languageCode
+            loadedModelId = modelId
             _state.value = EngineState.Ready(languageCode)
         } catch (t: Throwable) {
             destroyLocked()
@@ -78,54 +107,76 @@ class EngineManager(private val models: ModelRepository) {
         }
     }
 
-    /** Transcribes 16 kHz mono samples; returns the recognized text. */
-    suspend fun transcribe(audio: FloatArray, sampleRate: Int = 16_000): String =
-        withHandle { lang ->
-            RustBackend.transcribeAudio(handle, audio, sampleRate, lang)
+    /** Transcribes 16 kHz mono samples in [languageCode]; returns the recognized text. */
+    suspend fun transcribe(audio: FloatArray, sampleRate: Int = 16_000, languageCode: String): String =
+        withLanguage(languageCode) {
+            RustBackend.transcribeAudio(handle, audio, sampleRate, languageCode)
                 ?: throw IllegalStateException("Transcription failed (see logcat)")
         }
 
     /**
-     * Transcribes an audio file. WAV files go straight to the engine; other
-     * containers are decoded via MediaCodec first.
+     * Transcribes an audio file in [languageCode]. WAV files go straight to
+     * the engine; other containers are decoded via MediaCodec first.
      */
-    suspend fun transcribeFile(path: String, decoder: (String) -> Pair<FloatArray, Int>): String =
-        withHandle { lang ->
+    suspend fun transcribeFile(
+        path: String,
+        languageCode: String,
+        decoder: (String) -> Pair<FloatArray, Int>,
+    ): String =
+        withLanguage(languageCode) {
             val file = File(path)
             val result = if (file.extension.equals("wav", ignoreCase = true)) {
-                RustBackend.transcribeFile(handle, file.absolutePath, lang)
+                RustBackend.transcribeFile(handle, file.absolutePath, languageCode)
             } else {
                 val (samples, sampleRate) = decoder(file.absolutePath)
-                RustBackend.transcribeAudio(handle, samples, sampleRate, lang)
+                RustBackend.transcribeAudio(handle, samples, sampleRate, languageCode)
             }
             result ?: throw IllegalStateException("Transcription failed (see logcat)")
         }
 
-    private suspend fun <T> withHandle(block: (String?) -> T): T {
-        val lang = loadedLanguage
-        val current = handle
-        if (current == 0L || _state.value !is EngineState.Ready || lang == null) {
-            throw IllegalStateException("Engine not ready")
+    /** Runs [block] with [languageCode] loaded, holding the lock so nobody switches in between. */
+    private suspend fun <T> withLanguage(languageCode: String, block: () -> T): T =
+        mutex.withLock {
+            if (!models.isDownloaded(ModelCatalog.modelForLanguage(languageCode))) {
+                throw IllegalStateException("Engine not ready")
+            }
+            loadLocked(languageCode)
+            withContext(Dispatchers.Default) { block() }
         }
-        return mutex.withLock {
-            withContext(Dispatchers.Default) { block(lang) }
-        }
-    }
 
     private fun destroyLocked() {
         if (handle != 0L) {
             RustBackend.transcriberDestroy(handle)
             handle = 0L
             loadedLanguage = null
+            loadedModelId = null
         }
     }
 
-    fun shutdown() {
-        if (handle != 0L) {
-            RustBackend.transcriberDestroy(handle)
-            handle = 0L
-            loadedLanguage = null
+    /** Frees the native model; the next load or transcription brings it back. */
+    suspend fun shutdown() = mutex.withLock {
+        destroyLocked()
+        _state.value = EngineState.NotLoaded
+    }
+
+    /**
+     * Frees the model after [delayMs] unless [cancelScheduledUnload] comes
+     * first. While [keepLoaded] holds when the delay ends, it waits another
+     * round.
+     */
+    fun scheduleUnload(delayMs: Long, keepLoaded: () -> Boolean = { false }) {
+        unloadJob?.cancel()
+        unloadJob = unloadScope.launch {
+            do {
+                delay(delayMs)
+            } while (keepLoaded())
+            shutdown()
         }
+    }
+
+    fun cancelScheduledUnload() {
+        unloadJob?.cancel()
+        unloadJob = null
     }
 
     companion object {

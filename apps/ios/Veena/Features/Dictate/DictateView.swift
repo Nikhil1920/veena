@@ -21,10 +21,16 @@ struct DictateView: View {
     @State private var elapsedMs: Int64 = 0
     @State private var startedAt = Date()
     @State private var pulsePhase = false
+    @State private var keyboardReady = true
+    @AppStorage("keyboardBannerDismissed") private var keyboardBannerDismissed = false
 
     var body: some View {
         VStack(spacing: 16) {
             header
+
+            if !keyboardReady && !keyboardBannerDismissed {
+                keyboardBanner
+            }
 
             statusPill
 
@@ -75,6 +81,10 @@ struct DictateView: View {
         }
         // Pulse animation driver
         .onAppear { withAnimation(.easeInOut(duration: 0.65).repeatForever(autoreverses: true)) { pulsePhase = true } }
+        .onAppear { keyboardReady = KeyboardSetupStatus.read(models: environment.models).isComplete }
+        .onChange(of: environment.showKeyboardSetup) { _, showing in
+            if !showing { keyboardReady = KeyboardSetupStatus.read(models: environment.models).isComplete }
+        }
         .onChange(of: isRecording) { _, recording in
             if recording {
                 pulsePhase = false
@@ -125,6 +135,38 @@ struct DictateView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 24)
+    }
+
+    // MARK: Keyboard setup banner — until the keyboard is set up or dismissed
+
+    private var keyboardBanner: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "keyboard")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(VeenaColors.accent)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Dictate in any app")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(VeenaColors.textPrimary)
+                Text("Add the Veena keyboard")
+                    .font(.footnote)
+                    .foregroundStyle(VeenaColors.textSecondary)
+            }
+            Spacer()
+            Button("Set up") { environment.showKeyboardSetup = true }
+                .font(.subheadline.weight(.semibold))
+            Button {
+                keyboardBannerDismissed = true
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(VeenaColors.textSecondary)
+            }
+            .accessibilityLabel("Dismiss")
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(RoundedRectangle(cornerRadius: 12).fill(VeenaColors.backgroundElement))
     }
 
     // MARK: Status pill (with pulsing dot, elapsed timer — mirrors Android)
@@ -390,6 +432,8 @@ struct DictateView: View {
     }
 
     private func startEngineRecording() {
+        // The keyboard session holds the microphone through its own engine.
+        environment.keyboardSession.endSession()
         do {
             try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.defaultToSpeaker, .allowBluetooth])
             try AVAudioSession.sharedInstance().setActive(true)
@@ -419,10 +463,13 @@ struct DictateView: View {
 
         isTranscribing = true
 
+        let code = environment.languageCode ?? ""
         Task.detached(priority: .userInitiated) { [weak environment] in
             guard let environment else { return }
             do {
-                let transcript = try environment.engine.transcribe(recording.samples)
+                let transcript = try environment.engine.transcribe(
+                    recording.samples, languageCode: code, models: environment.models
+                )
                 if !transcript.isBlank {
                     await MainActor.run { [weak environment] in
                         guard let environment else { return }
@@ -468,10 +515,13 @@ struct DictateView: View {
 
         isTranscribing = true
         let fileURL = dest
+        let code = environment.languageCode ?? ""
         Task.detached(priority: .userInitiated) { [weak environment] in
             guard let environment else { return }
             do {
-                let transcript = try environment.engine.transcribeFile(at: fileURL) { u in
+                let transcript = try environment.engine.transcribeFile(
+                    at: fileURL, languageCode: code, models: environment.models
+                ) { u in
                     try AudioFileDecoder.decodeToMono16k(url: u)
                 }
                 await MainActor.run { [weak environment] in

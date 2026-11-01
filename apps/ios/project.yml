@@ -9,21 +9,32 @@ settings:
     SWIFT_VERSION: "5.10"
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: ""
+    # Shared by the app and the keyboard extension: iOS requires an embedded
+    # extension's versions to match its app's.
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
 targets:
   Veena:
     type: application
     platform: iOS
     sources:
       - path: Veena
+      - path: Shared
     dependencies:
       - framework: frameworks/RustBackend.xcframework
         embed: false
+      - target: VeenaKeyboard
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.byanr.veena
         PRODUCT_NAME: Veena
         SWIFT_OBJC_BRIDGING_HEADER: Veena/Bridging/rust_backend.h
         TARGETED_DEVICE_FAMILY: "1"
+        # Merged into the generated Info.plist: the veena:// URL scheme the
+        # keyboard opens, and background audio for keyboard dictation sessions.
+        INFOPLIST_FILE: Veena/Info.plist
+        # App Group shared with the keyboard (KeyboardBridge.appGroupID).
+        CODE_SIGN_ENTITLEMENTS: Veena/Veena.entitlements
         INFOPLIST_KEY_NSMicrophoneUsageDescription: "Veena needs access to your microphone to transcribe speech to text."
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
         INFOPLIST_KEY_UISupportedInterfaceOrientations: ["UIInterfaceOrientationPortrait"]
@@ -34,3 +45,24 @@ targets:
         # The Rust staticlib embeds ONNX Runtime C++; its C++ runtime deps
         # are not auto-linked by the Swift-only app target.
         OTHER_LDFLAGS: "$(inherited) -lc++"
+  # The voice keyboard. Keyboards can't record, so it hands dictation to the
+  # app through the App Group (Shared/KeyboardBridge.swift).
+  VeenaKeyboard:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: VeenaKeyboard
+      - path: Shared
+      - path: Veena/Data/Languages.swift
+      - path: Veena/Theme.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.byanr.veena.keyboard
+        PRODUCT_NAME: VeenaKeyboard
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_FILE: VeenaKeyboard/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: Veena
+        CODE_SIGN_ENTITLEMENTS: VeenaKeyboard/VeenaKeyboard.entitlements
+        APPLICATION_EXTENSION_API_ONLY: true
+        ENABLE_USER_SCRIPT_SANDBOXING: false

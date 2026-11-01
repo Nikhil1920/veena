@@ -18,6 +18,8 @@ data class AppSettings(
     /** Null means the keyboard falls back to [AppSettings.languageCode]. */
     val imeLanguageCode: String?,
     val imeMicMode: MicMode,
+    /** The Dictate screen's "set up the voice keyboard" card was dismissed. */
+    val keyboardBannerDismissed: Boolean,
 )
 
 class Prefs(private val context: Context) {
@@ -26,6 +28,7 @@ class Prefs(private val context: Context) {
     private val micModeKey = stringPreferencesKey("mic_mode")
     private val imeLanguageKey = stringPreferencesKey("ime_language_code")
     private val imeMicModeKey = stringPreferencesKey("ime_mic_mode")
+    private val keyboardBannerDismissedKey = booleanPreferencesKey("keyboard_banner_dismissed")
 
     val settings: Flow<AppSettings> = context.dataStore.data.map { prefs ->
         AppSettings(
@@ -37,6 +40,7 @@ class Prefs(private val context: Context) {
             imeMicMode = prefs[imeMicModeKey]?.let { stored ->
                 MicMode.entries.firstOrNull { it.name == stored }
             } ?: MicMode.HOLD,
+            keyboardBannerDismissed = prefs[keyboardBannerDismissedKey] ?: false,
         )
     }
 
@@ -54,5 +58,9 @@ class Prefs(private val context: Context) {
 
     suspend fun setImeMicMode(mode: MicMode) {
         context.dataStore.edit { it[imeMicModeKey] = mode.name }
+    }
+
+    suspend fun dismissKeyboardBanner() {
+        context.dataStore.edit { it[keyboardBannerDismissedKey] = true }
     }
 }

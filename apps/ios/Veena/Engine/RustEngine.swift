@@ -22,6 +22,7 @@ final class RustEngine {
 
     private var handle: OpaquePointer?
     private var loadedLanguage: String?
+    private var loadedModelID: String?
     private let lock = NSRecursiveLock()
 
     /// Loads (or reloads) the engine for a language; no-op when current.
@@ -33,22 +34,33 @@ final class RustEngine {
             guard let self else { return }
             self.lock.lock()
             defer { self.lock.unlock() }
-
-            if let loaded = self.loadedLanguage, loaded == code, self.handle != nil,
-               case .ready = self.state {
-                return
-            }
-
-            self.state = .loading
-            do {
-                try self.createHandle(modelDir: dir, languageCode: code)
-                self.state = .ready(languageCode: code)
-            } catch {
-                self.destroyLocked()
-                self.state = .failed(error.localizedDescription)
-                throw error
-            }
+            try self.loadLocked(languageCode: code, modelDir: dir)
         }.value
+    }
+
+    /// Makes `code` the active language. Languages sharing a model (every
+    /// non-Telugu language uses the multilingual graph) switch without a
+    /// reload: the language is passed per utterance.
+    private func loadLocked(languageCode code: String, modelDir: URL) throws {
+        let modelID = ModelCatalog.model(forLanguage: code).id
+        if handle != nil, loadedModelID == modelID {
+            if loadedLanguage != code || !state.isReady {
+                loadedLanguage = code
+                state = .ready(languageCode: code)
+            }
+            return
+        }
+
+        state = .loading
+        do {
+            try createHandle(modelDir: modelDir, languageCode: code)
+            loadedModelID = modelID
+            state = .ready(languageCode: code)
+        } catch {
+            destroyLocked()
+            state = .failed(error.localizedDescription)
+            throw error
+        }
     }
 
     private func createHandle(modelDir: URL, languageCode: String) throws {
@@ -86,18 +98,31 @@ final class RustEngine {
         loadedLanguage = languageCode
     }
 
-    /// Transcribes 16 kHz mono samples.
-    func transcribe(_ samples: [Float], sampleRate: UInt32 = 16_000) throws -> String {
-        try withHandle { lang, handle in
+    /// Transcribes 16 kHz mono samples in `languageCode`, loading its model
+    /// first if another language is active (the app and the keyboard share
+    /// this engine). The model must already be downloaded. Blocks: call it
+    /// off the main thread.
+    func transcribe(
+        _ samples: [Float],
+        languageCode: String,
+        models: ModelRepository,
+        sampleRate: UInt32 = 16_000
+    ) throws -> String {
+        try withHandle(languageCode: languageCode, models: models) { lang, handle in
             let result = transcriber_transcribe_audio_lang(handle, samples, samples.count, sampleRate, lang)
             return try Self.string(from: result)
         }
     }
 
-    /// Transcribes an audio file. WAV goes straight to the engine; other
-    /// containers are decoded to 16 kHz mono floats first.
-    func transcribeFile(at url: URL, decoder: (URL) throws -> ([Float], UInt32)) throws -> String {
-        try withHandle { lang, handle in
+    /// Transcribes an audio file in `languageCode`. WAV goes straight to the
+    /// engine; other containers are decoded to 16 kHz mono floats first.
+    func transcribeFile(
+        at url: URL,
+        languageCode: String,
+        models: ModelRepository,
+        decoder: (URL) throws -> ([Float], UInt32)
+    ) throws -> String {
+        try withHandle(languageCode: languageCode, models: models) { lang, handle in
             let isWav = url.pathExtension.lowercased() == "wav"
             let result: UnsafeMutablePointer<CChar>?
             if isWav {
@@ -110,9 +135,20 @@ final class RustEngine {
         }
     }
 
-    private func withHandle<T>(_ body: (String?, OpaquePointer) throws -> T) throws -> T {
+    /// Runs `body` with the engine switched to `languageCode`, holding the
+    /// lock throughout so no other caller can switch languages in between.
+    private func withHandle<T>(
+        languageCode: String,
+        models: ModelRepository,
+        _ body: (String?, OpaquePointer) throws -> T
+    ) throws -> T {
         lock.lock()
         defer { lock.unlock() }
+        let def = ModelCatalog.model(forLanguage: languageCode)
+        guard models.isDownloaded(def) else {
+            throw EngineError.notReady
+        }
+        try loadLocked(languageCode: languageCode, modelDir: models.contentDir(def))
         guard let handle, let lang = loadedLanguage, case .ready = state else {
             throw EngineError.notReady
         }
@@ -124,6 +160,7 @@ final class RustEngine {
             transcriber_destroy(handle)
             self.handle = nil
             loadedLanguage = nil
+            loadedModelID = nil
         }
     }
 

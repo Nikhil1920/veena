@@ -34,8 +34,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
  *
  * One [ImeSession] is built for the service lifetime; the engine is loaded
  * lazily on the first mic press and unloaded again after an idle timeout.
+ * [VeenaVoiceInputService] reuses all of it as the voice input other
+ * keyboards' mic keys switch to.
  */
-class VeenaImeService :
+open class VeenaImeService :
     InputMethodService(),
     LifecycleOwner,
     ViewModelStoreOwner,
@@ -49,6 +51,16 @@ class VeenaImeService :
 
     /** True while the focused field is password-style; the mic must stay off. */
     private val sensitiveField = MutableStateFlow(false)
+
+    /**
+     * True for the voice input other keyboards switch to from their mic key:
+     * it listens as soon as it opens and hands back to that keyboard after
+     * inserting the text.
+     */
+    protected open val isVoiceInput: Boolean = false
+
+    /** Bumped each time the voice input opens on a field; the panel starts listening. */
+    private val autoStartRequests = MutableStateFlow(0)
 
     override val lifecycle: Lifecycle get() = lifecycleRegistry
 
@@ -89,13 +101,16 @@ class VeenaImeService :
         view.setContent {
             VeenaTheme {
                 val sensitive by sensitiveField.collectAsState()
+                val autoStartToken by autoStartRequests.collectAsState()
                 VeenaKeyboardView(
                     imeSession = imeSession,
                     sensitiveField = sensitive,
                     onBackspace = ::deleteBackward,
-                    onSwitchKeyboard = ::switchToNextKeyboard,
+                    onSwitchKeyboard = if (isVoiceInput) ::returnToPreviousKeyboard else ::switchToNextKeyboard,
                     onOpenVeena = ::openVeena,
                     onCommit = ::commitDictation,
+                    voiceInput = isVoiceInput,
+                    autoStartToken = autoStartToken,
                 )
             }
         }
@@ -107,6 +122,7 @@ class VeenaImeService :
     override fun onStartInputView(editorInfo: EditorInfo, restarting: Boolean) {
         super.onStartInputView(editorInfo, restarting)
         sensitiveField.value = isSensitiveField(editorInfo.inputType)
+        if (isVoiceInput && !restarting) autoStartRequests.value++
     }
 
     override fun onWindowShown() {
@@ -131,6 +147,21 @@ class VeenaImeService :
         val connection = currentInputConnection ?: return
         connection.commitText(text.trimEnd() + " ", 1)
         connection.finishComposingText()
+        if (isVoiceInput) returnToPreviousKeyboard()
+    }
+
+    /** Hands the field back to the keyboard whose mic key opened the voice input. */
+    private fun returnToPreviousKeyboard() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (switchToPreviousInputMethod()) return
+            if (switchToNextInputMethod(false)) return
+        } else {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val token = window?.window?.attributes?.token
+            @Suppress("DEPRECATION")
+            if (token != null && imm.switchToLastInputMethod(token)) return
+        }
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showInputMethodPicker()
     }
 
     private fun switchToNextKeyboard() {
@@ -149,7 +180,12 @@ class VeenaImeService :
     private fun openVeena() {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(EXTRA_OPEN_VOICE_KEYBOARD, true)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            // Reuse a running app (it gets the link in onNewIntent).
+            addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP
+            )
         }
         startActivity(intent)
     }

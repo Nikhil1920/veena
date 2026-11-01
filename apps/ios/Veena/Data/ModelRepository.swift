@@ -59,6 +59,9 @@ final class ModelRepository {
 
     private(set) var states: [String: DownloadState] = [:]
 
+    /// Called after a model is installed or deleted.
+    @ObservationIgnored var onInstalledModelsChanged: (() -> Void)?
+
     private let modelsDir: URL
     private static let completeMarker = ".complete"
 
@@ -223,6 +226,7 @@ final class ModelRepository {
                 atPath: dest.appendingPathComponent(Self.completeMarker).path, contents: Data(def.url.absoluteString.utf8))
             try? FileManager.default.removeItem(at: partial)
             setState(.idle)
+            onInstalledModelsChanged?()
             Self.logger.log("download(\(def.id, privacy: .public)) finished")
         } catch let error as CancellationError {
             setState(.cancelled)
@@ -238,6 +242,7 @@ final class ModelRepository {
         try? FileManager.default.removeItem(at: modelDir(def))
         try? FileManager.default.removeItem(at: modelsDir.appendingPathComponent("\(def.id).tar.gz.partial"))
         states[def.id] = .idle
+        onInstalledModelsChanged?()
     }
 
     func downloadState(_ def: ModelDef) -> DownloadState {

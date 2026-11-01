@@ -1,13 +1,18 @@
 import SwiftUI
 
-/// Mic behavior, language switching with model management, and about info.
+/// Mic behavior, language switching with model management, the keyboard,
+/// and about info.
 struct SettingsView: View {
     @Environment(AppEnvironment.self) private var environment
+    @Environment(\.scenePhase) private var scenePhase
     @State private var path = NavigationPath()
+    @State private var keyboardStatus: KeyboardSetupStatus?
 
     enum Route: Hashable {
         case picker
         case download(String)
+        case keyboardPicker
+        case keyboardDownload(String)
     }
 
     var body: some View {
@@ -46,6 +51,8 @@ struct SettingsView: View {
                         }
                     }
                 }
+
+                keyboardSection
 
                 Section("Downloaded Models") {
                     ForEach(ModelCatalog.all) { def in
@@ -86,9 +93,109 @@ struct SettingsView: View {
                             if !path.isEmpty { path.removeLast() }
                         }
                     )
+                case .keyboardPicker:
+                    LanguagePickerView(mode: .keyboard, needsDownload: { code in
+                        path.append(Route.keyboardDownload(code))
+                    }, onKeyboardPick: { _ in
+                        path = NavigationPath()
+                        refreshKeyboardStatus()
+                    })
+                case .keyboardDownload(let code):
+                    ModelDownloadView(
+                        languageCode: code,
+                        mode: .keyboard,
+                        onSuccess: {
+                            path = NavigationPath()
+                            refreshKeyboardStatus()
+                        },
+                        onDismiss: {
+                            if !path.isEmpty { path.removeLast() }
+                        }
+                    )
                 }
             }
         }
+        .onAppear(perform: refreshKeyboardStatus)
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { refreshKeyboardStatus() }
+        }
+    }
+
+    private func refreshKeyboardStatus() {
+        keyboardStatus = KeyboardSetupStatus.read(models: environment.models)
+    }
+
+    // MARK: Keyboard
+
+    @ViewBuilder
+    private var keyboardSection: some View {
+        @Bindable var preferences = KeyboardPreferences.shared
+        let session = environment.keyboardSession
+        let ready = keyboardStatus?.isComplete == true
+        Section {
+            Button {
+                environment.showKeyboardSetup = true
+            } label: {
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Veena keyboard")
+                            .foregroundStyle(Color.primary)
+                        Text(ready ? "Ready in every app" : "Dictate in any app with your voice")
+                            .font(.footnote)
+                            .foregroundStyle(Color.secondary)
+                    }
+                    Spacer()
+                    Text(ready ? "Guide" : "Set up")
+                        .font(.subheadline.weight(.semibold))
+                }
+            }
+
+            NavigationLink(value: Route.keyboardPicker) {
+                HStack {
+                    Text("Keyboard language")
+                    Spacer()
+                    Text(keyboardStatus?.languageCode.flatMap { language(byCode: $0)?.name } ?? "Not set")
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            Picker("Keyboard mic", selection: $preferences.micMode) {
+                Text("Tap to start").tag(MicMode.tap)
+                Text("Hold to talk").tag(MicMode.hold)
+            }
+
+            Picker("Keep mic ready for", selection: $preferences.sessionMinutes) {
+                ForEach(KeyboardBridge.sessionLengthChoices, id: \.self) { minutes in
+                    Text(minutes >= 60 ? "1 hour" : "\(minutes) minutes").tag(minutes)
+                }
+            }
+
+            if session.isLive {
+                HStack {
+                    Label {
+                        TimelineView(.periodic(from: .now, by: 1)) { context in
+                            Text(sessionLabel(endsAt: session.endsAt, now: context.date))
+                                .monospacedDigit()
+                        }
+                    } icon: {
+                        Image(systemName: "mic.fill").foregroundStyle(VeenaColors.ready)
+                    }
+                    Spacer()
+                    Button("Turn off", role: .destructive) { session.endSession() }
+                        .font(.subheadline)
+                }
+            }
+        } header: {
+            Text("Keyboard")
+        } footer: {
+            Text("The keyboard hands your voice to this app, which transcribes it on your iPhone. After you dictate, the mic stays ready for the time above.")
+        }
+    }
+
+    private func sessionLabel(endsAt: Date?, now: Date) -> String {
+        guard let endsAt else { return "Keyboard mic on" }
+        let remaining = max(0, Int(endsAt.timeIntervalSince(now)))
+        return String(format: "Keyboard mic on · %d:%02d", remaining / 60, remaining % 60)
     }
 
     @ViewBuilder

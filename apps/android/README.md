@@ -9,9 +9,15 @@ and review past transcriptions in a local history.
 - The engine is linked as a prebuilt `librust_backend.so`; the thin JNI
   wrapper lives in `app/src/main/cpp/` (`rust_backend_jni.cpp`).
 - A voice-first keyboard (`ime/`, `VeenaImeService`) brings the same on-device
-  dictation to any app's text field; enable it from Settings → Voice keyboard.
-  See [`docs/android-voice-keyboard-feasibility.md`](../../docs/android-voice-keyboard-feasibility.md)
-  for the design.
+  dictation to any app's text field, and **Veena voice input**
+  (`VeenaVoiceInputService`) is what other keyboards' mic keys open (SwiftKey,
+  HeliBoard, FUTO Keyboard…; not Gboard or Samsung Keyboard). A guided tour
+  under Settings → Voice keyboard sets both up. See
+  [`docs/voice-keyboard.md`](../../docs/voice-keyboard.md) and the earlier
+  [`docs/android-voice-keyboard-feasibility.md`](../../docs/android-voice-keyboard-feasibility.md).
+- Emulators have no voice: in debuggable builds the keyboards transcribe
+  `files/keyboard-test-audio.wav` instead of the microphone when it exists
+  (`adb push` it, then `adb shell run-as com.byanr.veena cp …`).
 - Model archives download on first launch from Veena's model CDN
   (see `data/ModelCatalog.kt`) — nothing model-related is bundled.
 

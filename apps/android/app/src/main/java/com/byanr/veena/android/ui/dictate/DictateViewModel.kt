@@ -89,7 +89,7 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
                 val (file, displayName) = withContext(Dispatchers.IO) {
                     copyToCache(uri)
                 }
-                val transcript = engine.transcribeFile(file.absolutePath) { path ->
+                val transcript = engine.transcribeFile(file.absolutePath, currentLanguage()) { path ->
                     AudioFileDecoder.decodeToMono16k(path)
                 }
                 if (transcript.isNotBlank()) {
@@ -142,7 +142,7 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         isTranscribing.value = true
         try {
             val audio = FloatArray(samples.size) { samples[it] / 32768f }
-            val transcript = engine.transcribe(audio, sampleRate)
+            val transcript = engine.transcribe(audio, sampleRate, currentLanguage())
             if (transcript.isNotBlank()) {
                 appendText(transcript)
                 historyDao.insert(entryFor(transcript))

@@ -90,6 +90,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch { prefs.setMicMode(mode) }
     }
 
+    fun dismissKeyboardBanner() {
+        viewModelScope.launch { prefs.dismissKeyboardBanner() }
+    }
+
     /** Loads (or reloads) the engine for the selected language; no-op when current. */
     fun warmEngine() {
         val code = settings.value?.languageCode ?: return

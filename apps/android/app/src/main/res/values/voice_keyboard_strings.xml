@@ -3,29 +3,13 @@
     <!-- Voice keyboard setup screen -->
     <string name="vk_title">Voice keyboard</string>
     <string name="vk_back">Back</string>
-    <string name="vk_ready">Ready to dictate</string>
-    <string name="vk_setup_incomplete">Finish these steps to dictate in any app</string>
-
-    <string name="vk_step_enable_title">Enable the keyboard</string>
-    <string name="vk_step_enable_description">Turn on Veena in the Android keyboard settings</string>
     <string name="vk_step_enable_button">Open settings</string>
-
-    <string name="vk_step_select_title">Select the keyboard</string>
-    <string name="vk_step_select_description">Make Veena your active keyboard</string>
-    <string name="vk_step_select_button">Choose keyboard</string>
-
-    <string name="vk_step_mic_title">Microphone access</string>
-    <string name="vk_step_mic_description">Veena listens only while you dictate; audio never leaves your device</string>
     <string name="vk_step_mic_button">Allow microphone</string>
-
-    <string name="vk_step_language_title">Dictation language</string>
     <string name="vk_step_language_ready">The %1$s model is on your device</string>
     <string name="vk_step_language_missing">Download the %1$s model to dictate</string>
     <string name="vk_step_language_button">Add / change language</string>
     <string name="vk_no_language">No language chosen</string>
-
     <string name="vk_try_label">Try it</string>
-    <string name="vk_try_helper">Focus this field and switch to the Veena keyboard to dictate</string>
 
     <string name="vk_mic_mode_title">Mic button</string>
     <string name="vk_mic_mode_description">How the keyboard starts and stops dictation</string>
@@ -37,6 +21,53 @@
     <string name="vk_settings_row_title">Voice keyboard</string>
     <string name="vk_settings_row_subtitle">Dictate into any app with your voice</string>
     <string name="vk_settings_row_action">Set up</string>
+
+    <!-- Guided tour -->
+    <string name="vk_tour_step">Step %1$d of %2$d</string>
+    <string name="vk_tour_next">Next</string>
+    <string name="vk_tour_skip">Skip</string>
+    <string name="vk_tour_done">Done</string>
+    <string name="vk_tour_start">Set up the keyboard</string>
+
+    <string name="vk_tour_welcome_title">Speak instead of typing, in any app</string>
+    <string name="vk_tour_welcome_body">The Veena keyboard puts a mic in WhatsApp, Messages, Gmail — anywhere you type. What you say is transcribed on this phone by the same offline models as the Veena app.</string>
+    <string name="vk_tour_welcome_offline">Works offline, after the one-time model download</string>
+    <string name="vk_tour_welcome_languages">All 22 languages Veena speaks</string>
+    <string name="vk_tour_welcome_private">Private: audio and text never leave your phone</string>
+
+    <string name="vk_tour_enable_title">Turn on the Veena keyboard</string>
+    <string name="vk_tour_enable_body">Open your keyboard settings and switch on Veena Voice Keyboard. Android warns that any keyboard can see what you type; Veena only listens while you dictate and keeps nothing.</string>
+    <string name="vk_tour_enable_status">Veena Voice Keyboard turned on</string>
+
+    <string name="vk_tour_mic_title">Allow the microphone</string>
+    <string name="vk_tour_mic_body">The keyboard listens only between tapping the mic and inserting the text. Audio never leaves your phone.</string>
+    <string name="vk_tour_mic_status">Microphone allowed</string>
+    <string name="vk_tour_mic_denied">Turn on Microphone in Veena\'s app settings</string>
+    <string name="vk_tour_mic_open_settings">Open app settings</string>
+
+    <string name="vk_tour_language_title">Choose the keyboard\'s language</string>
+    <string name="vk_tour_language_body">The keyboard can dictate in a different language than the app. You can switch any time from the language button on the keyboard.</string>
+
+    <string name="vk_tour_try_title">Switch to Veena and try it</string>
+    <string name="vk_tour_try_body">On any keyboard, tap the globe key — or the keyboard button at the bottom of the screen — to switch to Veena. On Veena, the globe takes you back.</string>
+    <string name="vk_tour_try_choose">Switch keyboard now</string>
+    <string name="vk_tour_try_selected">Veena is the active keyboard</string>
+    <string name="vk_tour_try_works">Dictation works</string>
+    <string name="vk_tour_try_field">Tap here, then tap the mic and speak</string>
+
+    <string name="vk_tour_mickey_title">Use your keyboard\'s mic key (optional)</string>
+    <string name="vk_tour_mickey_body">Keyboards that work with other voice input apps — SwiftKey, FUTO Keyboard, HeliBoard, AnySoftKeyboard and more — can open Veena from their own mic key. Turn on Veena voice input in your keyboard settings: tap the mic, speak, and Veena puts the text in and hands you straight back.</string>
+    <string name="vk_tour_mickey_note">Gboard and Samsung Keyboard only use their own voice typing; with those, switch to Veena with the globe key. If the mic key still opens Google voice typing, turn that off in the same list.</string>
+    <string name="vk_tour_mickey_status">Veena voice input turned on</string>
+
+    <string name="vk_tour_done_title">You\'re all set</string>
+    <string name="vk_tour_done_body">Switch to Veena whenever you\'d rather talk than type. The first dictation loads the voice model, so give it a second.</string>
+
+    <!-- Dictate screen banner -->
+    <string name="vk_banner_title">Dictate in any app</string>
+    <string name="vk_banner_subtitle">Set up the Veena keyboard</string>
+    <string name="vk_banner_action">Set up</string>
+    <string name="vk_banner_dismiss">Dismiss</string>
 
     <!-- Language picker, opened from the setup screen -->
     <string name="vk_picker_title">Choose a dictation language</string>
