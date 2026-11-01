@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
+import com.byanr.veena.android.data.Language
+import com.byanr.veena.android.data.shareMessage
 
 /** Where Veena lives outside the app: source, issues, store listing, contact. */
 object VeenaLinks {
@@ -57,13 +59,11 @@ fun Context.emailFeedback() {
     startOrToast(intent, "No email app found. Write to ${VeenaLinks.EMAIL}")
 }
 
-fun Context.shareVeena() {
+/** Shares Veena with a pitch in [language], the one the sharer dictates in. */
+fun Context.shareVeena(language: Language?) {
     val send = Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"
-        putExtra(
-            Intent.EXTRA_TEXT,
-            "Veena: offline speech to text for 22 Indian languages. ${VeenaLinks.WEBSITE}",
-        )
+        putExtra(Intent.EXTRA_TEXT, shareMessage(language, VeenaLinks.WEBSITE))
     }
     startOrToast(Intent.createChooser(send, "Share Veena"), "No app can share this")
 }

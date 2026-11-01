@@ -278,7 +278,7 @@ fun SettingsScreen(
             }
             LinkDivider()
             LinkRow(Icons.Outlined.Share, "Share Veena", "Tell a friend") {
-                context.shareVeena()
+                context.shareVeena(language)
             }
             LinkDivider()
             LinkRow(Icons.Outlined.Language, "Website", "veena.byanr.com") {
