@@ -7,8 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.job
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.withLock
@@ -108,10 +110,14 @@ class EngineManager(private val models: ModelRepository) {
     }
 
     /** Transcribes 16 kHz mono samples in [languageCode]; returns the recognized text. */
-    suspend fun transcribe(audio: FloatArray, sampleRate: Int = 16_000, languageCode: String): String =
-        withLanguage(languageCode) {
-            RustBackend.transcribeAudio(handle, audio, sampleRate, languageCode)
-                ?: throw IllegalStateException("Transcription failed (see logcat)")
+    suspend fun transcribe(
+        audio: FloatArray,
+        sampleRate: Int = 16_000,
+        languageCode: String,
+        onProgress: ((completed: Int, total: Int) -> Unit)? = null,
+    ): String =
+        withLanguage(languageCode, onProgress) { progress ->
+            RustBackend.transcribeAudio(handle, audio, sampleRate, languageCode, progress)
         }
 
     /**
@@ -121,27 +127,44 @@ class EngineManager(private val models: ModelRepository) {
     suspend fun transcribeFile(
         path: String,
         languageCode: String,
+        onProgress: ((completed: Int, total: Int) -> Unit)? = null,
         decoder: (String) -> Pair<FloatArray, Int>,
     ): String =
-        withLanguage(languageCode) {
+        withLanguage(languageCode, onProgress) { progress ->
             val file = File(path)
-            val result = if (file.extension.equals("wav", ignoreCase = true)) {
-                RustBackend.transcribeFile(handle, file.absolutePath, languageCode)
+            if (file.extension.equals("wav", ignoreCase = true)) {
+                RustBackend.transcribeFile(handle, file.absolutePath, languageCode, progress)
             } else {
                 val (samples, sampleRate) = decoder(file.absolutePath)
-                RustBackend.transcribeAudio(handle, samples, sampleRate, languageCode)
+                RustBackend.transcribeAudio(handle, samples, sampleRate, languageCode, progress)
             }
-            result ?: throw IllegalStateException("Transcription failed (see logcat)")
         }
 
-    /** Runs [block] with [languageCode] loaded, holding the lock so nobody switches in between. */
-    private suspend fun <T> withLanguage(languageCode: String, block: () -> T): T =
+    /**
+     * Runs one native transcription with [languageCode] loaded, holding the
+     * lock so nobody switches in between. Cancelling the calling coroutine
+     * stops the engine before its next 25 s window.
+     */
+    private suspend fun withLanguage(
+        languageCode: String,
+        onProgress: ((completed: Int, total: Int) -> Unit)?,
+        block: (TranscriptionProgress) -> String?,
+    ): String =
         mutex.withLock {
             if (!models.isDownloaded(ModelCatalog.modelForLanguage(languageCode))) {
                 throw IllegalStateException("Engine not ready")
             }
             loadLocked(languageCode)
-            withContext(Dispatchers.Default) { block() }
+            withContext(Dispatchers.Default) {
+                val job = coroutineContext.job
+                val progress = TranscriptionProgress { completed, total ->
+                    onProgress?.invoke(completed, total)
+                    job.isActive
+                }
+                val text = block(progress)
+                ensureActive()
+                text ?: throw IllegalStateException("Transcription failed (see logcat)")
+            }
         }
 
     private fun destroyLocked() {

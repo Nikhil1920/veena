@@ -103,6 +103,8 @@ fun DictateScreen(
     val engineState by viewModel.engineState.collectAsState()
     val isRecording by viewModel.isRecording.collectAsState()
     val isTranscribing by viewModel.isTranscribing.collectAsState()
+    val transcribeProgress by viewModel.transcribeProgress.collectAsState()
+    val isCancelling by viewModel.isCancelling.collectAsState()
     val text by viewModel.text.collectAsState()
     val textRevision by viewModel.textRevision.collectAsState()
     val lastRecording by viewModel.lastRecording.collectAsState()
@@ -262,7 +264,11 @@ fun DictateScreen(
 
             val (dotColor, statusLabel) = when {
                 isRecording -> StatusRecording to "Recording · ${formatDuration(elapsedMs)}"
-                isTranscribing -> StatusInitializing to "Transcribing..."
+                isCancelling -> StatusInitializing to "Cancelling..."
+                isTranscribing -> StatusInitializing to (
+                    transcribeProgress?.let { "Transcribing... ${(it * 100).toInt()}%" }
+                        ?: "Transcribing..."
+                )
                 engineState is EngineState.Ready -> StatusReady to "Ready"
                 engineState is EngineState.Error -> StatusRecording to "Model failed to load"
                 else -> StatusInitializing to "Loading model..."
@@ -407,16 +413,30 @@ fun DictateScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(28.dp),
                 ) {
+                    // Doubles as the cancel button while a transcription runs.
                     Surface(
-                        onClick = { importLauncher.launch(arrayOf("audio/*")) },
+                        onClick = {
+                            if (isTranscribing) {
+                                viewModel.cancelTranscription()
+                            } else {
+                                importLauncher.launch(arrayOf("audio/*"))
+                            }
+                        },
+                        enabled = !isCancelling,
                         shape = CircleShape,
                         color = colors.backgroundElement,
-                        modifier = Modifier.size(56.dp),
+                        modifier = Modifier
+                            .size(56.dp)
+                            .alpha(if (isCancelling) 0.5f else 1f),
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
-                                Icons.Outlined.FolderOpen,
-                                contentDescription = "Import recording",
+                                if (isTranscribing) Icons.Filled.Close else Icons.Outlined.FolderOpen,
+                                contentDescription = if (isTranscribing) {
+                                    "Cancel transcription"
+                                } else {
+                                    "Import recording"
+                                },
                                 tint = colors.textSecondary,
                             )
                         }
@@ -482,7 +502,16 @@ fun DictateScreen(
                                 .alpha(if (micEnabled || isRecording) 1f else 0.5f),
                         ) {
                             Box(contentAlignment = Alignment.Center) {
-                                if (isTranscribing) {
+                                val fraction = transcribeProgress
+                                if (isTranscribing && fraction != null) {
+                                    CircularProgressIndicator(
+                                        progress = { fraction },
+                                        color = Color.White,
+                                        trackColor = Color.White.copy(alpha = 0.3f),
+                                        strokeWidth = 3.dp,
+                                        modifier = Modifier.size(28.dp),
+                                    )
+                                } else if (isTranscribing) {
                                     CircularProgressIndicator(
                                         color = Color.White,
                                         strokeWidth = 3.dp,
@@ -504,6 +533,8 @@ fun DictateScreen(
                 Spacer(Modifier.height(10.dp))
                 Text(
                     text = when {
+                        isCancelling -> "Stopping..."
+                        isTranscribing -> "Tap × to cancel"
                         micMode == MicMode.HOLD && isRecording -> "Release to transcribe"
                         micMode == MicMode.HOLD -> "Hold to record, release to transcribe"
                         isRecording -> "Tap again to stop"

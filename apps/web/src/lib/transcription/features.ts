@@ -115,7 +115,10 @@ export function decodeCTC(
 	return text.join("").replaceAll("▁", " ").trim();
 }
 
-/** Silence-aware windows bound attention memory. Short clips stay unchanged. */
+/**
+ * Silence-aware windows bound attention memory. Short clips stay unchanged.
+ * Mirrored by the native engine (crates/rust-backend/src/chunk.rs); keep both in sync.
+ */
 export function splitAudio(audio: Float32Array, seconds = 25): Float32Array[] {
 	const max = seconds * 16000;
 	if (audio.length <= max) return [audio];

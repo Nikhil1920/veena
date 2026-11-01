@@ -98,41 +98,84 @@ final class RustEngine {
         loadedLanguage = languageCode
     }
 
+    /// Long audio is transcribed in windows of up to 25 s. Called on the
+    /// transcribing thread with (completed, total) windows: once with none
+    /// completed, then after each window.
+    typealias ProgressHandler = (_ completed: Int, _ total: Int) -> Void
+
     /// Transcribes 16 kHz mono samples in `languageCode`, loading its model
     /// first if another language is active (the app and the keyboard share
     /// this engine). The model must already be downloaded. Blocks: call it
-    /// off the main thread.
+    /// off the main thread. Cancelling the calling task stops the engine
+    /// before its next window and throws `CancellationError`.
     func transcribe(
         _ samples: [Float],
         languageCode: String,
         models: ModelRepository,
-        sampleRate: UInt32 = 16_000
+        sampleRate: UInt32 = 16_000,
+        progress: ProgressHandler? = nil
     ) throws -> String {
         try withHandle(languageCode: languageCode, models: models) { lang, handle in
-            let result = transcriber_transcribe_audio_lang(handle, samples, samples.count, sampleRate, lang)
-            return try Self.string(from: result)
+            try Self.run(progress) { callback, context in
+                transcriber_transcribe_audio_progress(
+                    handle, samples, samples.count, sampleRate, lang, callback, context
+                )
+            }
         }
     }
 
     /// Transcribes an audio file in `languageCode`. WAV goes straight to the
     /// engine; other containers are decoded to 16 kHz mono floats first.
+    /// Cancellable like `transcribe`.
     func transcribeFile(
         at url: URL,
         languageCode: String,
         models: ModelRepository,
+        progress: ProgressHandler? = nil,
         decoder: (URL) throws -> ([Float], UInt32)
     ) throws -> String {
         try withHandle(languageCode: languageCode, models: models) { lang, handle in
-            let isWav = url.pathExtension.lowercased() == "wav"
-            let result: UnsafeMutablePointer<CChar>?
-            if isWav {
-                result = transcriber_transcribe_file_lang(handle, url.path, lang)
-            } else {
-                let (samples, rate) = try decoder(url)
-                result = transcriber_transcribe_audio_lang(handle, samples, samples.count, rate, lang)
+            if url.pathExtension.lowercased() == "wav" {
+                return try Self.run(progress) { callback, context in
+                    transcriber_transcribe_file_progress(handle, url.path, lang, callback, context)
+                }
             }
-            return try Self.string(from: result)
+            let (samples, rate) = try decoder(url)
+            return try Self.run(progress) { callback, context in
+                transcriber_transcribe_audio_progress(
+                    handle, samples, samples.count, rate, lang, callback, context
+                )
+            }
         }
+    }
+
+    /// Runs one synchronous engine call with a C callback that forwards
+    /// progress and asks the engine to stop once the calling task is cancelled.
+    private static func run(
+        _ progress: ProgressHandler?,
+        _ body: (TranscriberProgressFn, UnsafeMutableRawPointer) -> UnsafeMutablePointer<CChar>?
+    ) throws -> String {
+        let box = ProgressBox(progress)
+        let result = withExtendedLifetime(box) {
+            body(forwardProgress, Unmanaged.passUnretained(box).toOpaque())
+        }
+        if Task.isCancelled {
+            if let result { transcriber_free_string(result) }
+            throw CancellationError()
+        }
+        return try string(from: result)
+    }
+
+    private final class ProgressBox {
+        let handler: ProgressHandler?
+        init(_ handler: ProgressHandler?) { self.handler = handler }
+    }
+
+    /// Runs on the calling task's thread, so `Task.isCancelled` sees that task.
+    private static let forwardProgress: TranscriberProgressFn = { context, completed, total in
+        guard let context else { return true }
+        Unmanaged<ProgressBox>.fromOpaque(context).takeUnretainedValue().handler?(completed, total)
+        return !Task.isCancelled
     }
 
     /// Runs `body` with the engine switched to `languageCode`, holding the

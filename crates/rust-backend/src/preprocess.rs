@@ -6,7 +6,7 @@ use rubato::{
 };
 use rustfft::{num_complex::Complex, FftPlanner};
 
-const TARGET_SR: u32 = 16000;
+pub(crate) const TARGET_SR: u32 = 16000;
 const NUM_MEL_BINS: usize = 80;
 const WINDOW_LENGTH: usize = 320;
 const HOP_LENGTH: usize = 160;
@@ -44,7 +44,7 @@ pub fn read_wav(path: &str) -> Result<(Vec<f32>, u32), Box<dyn Error>> {
     Ok((audio, sample_rate))
 }
 
-fn resample(input: &[f32], orig_sr: u32, target_sr: u32) -> Vec<f32> {
+pub(crate) fn resample(input: &[f32], orig_sr: u32, target_sr: u32) -> Vec<f32> {
     if orig_sr == target_sr {
         return input.to_vec();
     }

@@ -3,15 +3,21 @@ package com.byanr.veena.android.audio
 import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
-import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.nio.ShortBuffer
 
 /**
  * Decodes any platform-supported audio container (m4a, mp3, ogg, …) into
  * 16 kHz mono floats for the engine. Ported from the previous Expo module.
+ *
+ * Each decoded block is downmixed and resampled as it arrives, so only the
+ * 16 kHz output is held in memory. Buffering the full decoded PCM first
+ * needed ~230 MB of heap for an 8-minute stereo 48 kHz MP3, which is about
+ * the per-app limit on 4 GB phones.
  */
 object AudioFileDecoder {
+
+    private const val TARGET_RATE = 16_000
 
     fun decodeToMono16k(path: String): Pair<FloatArray, Int> {
         val extractor = MediaExtractor()
@@ -43,11 +49,19 @@ object AudioFileDecoder {
 
             extractor.selectTrack(audioTrackIndex)
 
+            val durationUs = if (trackFormat.containsKey(MediaFormat.KEY_DURATION)) {
+                trackFormat.getLong(MediaFormat.KEY_DURATION)
+            } else {
+                0L
+            }
+            val output = MonoResampler(
+                outputRate = TARGET_RATE,
+                expectedSamples = (durationUs * TARGET_RATE / 1_000_000L).toInt() + TARGET_RATE,
+            )
+
             val info = MediaCodec.BufferInfo()
-            val pcm = ByteArrayOutputStream()
             var sawInputEos = false
             var sawOutputEos = false
-            var outputFormat: MediaFormat? = null
 
             try {
                 while (!sawOutputEos) {
@@ -70,17 +84,23 @@ object AudioFileDecoder {
 
                     val outIndex = codec.dequeueOutputBuffer(info, 10_000)
                     if (outIndex >= 0) {
-                        val outBuffer = codec.getOutputBuffer(outIndex)!!
-                        val chunk = ByteArray(info.size)
-                        outBuffer.get(chunk)
-                        outBuffer.clear()
-                        pcm.write(chunk)
+                        if (info.size > 0) {
+                            // Per-buffer format: sample rate and channel count can
+                            // differ from the container's (e.g. HE-AAC).
+                            val bufferFormat = codec.getOutputFormat(outIndex)
+                            val pcm = codec.getOutputBuffer(outIndex)!!
+                                .order(ByteOrder.LITTLE_ENDIAN)
+                                .asShortBuffer()
+                            output.append(
+                                pcm,
+                                channels = bufferFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT),
+                                rate = bufferFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE),
+                            )
+                        }
                         codec.releaseOutputBuffer(outIndex, false)
                         if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
                             sawOutputEos = true
                         }
-                    } else if (outIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                        outputFormat = codec.outputFormat
                     }
                 }
             } finally {
@@ -88,50 +108,67 @@ object AudioFileDecoder {
                 codec.release()
             }
 
-            val pcmBytes = pcm.toByteArray()
-            if (pcmBytes.isEmpty()) {
+            val samples = output.finish()
+            if (samples.isEmpty()) {
                 throw IllegalArgumentException("Decoded audio is empty")
             }
-
-            val decodedRate = outputFormat?.getInteger(MediaFormat.KEY_SAMPLE_RATE)
-                ?: trackFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE)
-            val channelCount = outputFormat?.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
-                ?: trackFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
-
-            val shorts = ByteBuffer.wrap(pcmBytes)
-                .order(ByteOrder.LITTLE_ENDIAN)
-                .asShortBuffer()
-                .let { buf -> ShortArray(buf.remaining()).also(buf::get) }
-
-            val mono = if (channelCount > 1) {
-                FloatArray(shorts.size / channelCount) { i ->
-                    var sum = 0f
-                    for (ch in 0 until channelCount) {
-                        sum += shorts[i * channelCount + ch] / 32768f
-                    }
-                    sum / channelCount
-                }
-            } else {
-                FloatArray(shorts.size) { shorts[it] / 32768f }
-            }
-
-            val at16k = if (decodedRate != 16_000) resample(mono, decodedRate, 16_000) else mono
-            return Pair(at16k, 16_000)
+            return Pair(samples, TARGET_RATE)
         } finally {
             extractor.release()
         }
     }
+}
 
-    private fun resample(input: FloatArray, inputRate: Int, outputRate: Int): FloatArray {
-        val ratio = outputRate.toDouble() / inputRate.toDouble()
-        val outLength = (input.size * ratio).toInt()
-        return FloatArray(outLength) { i ->
-            val src = i / ratio
-            val i0 = src.toInt()
-            val frac = (src - i0).toFloat()
-            val s0 = if (i0 < input.size) input[i0] else 0f
-            val s1 = if (i0 + 1 < input.size) input[i0 + 1] else 0f
-            s0 + frac * (s1 - s0)
+/**
+ * Incremental downmix plus linear-interpolation resampling: output sample
+ * `i` sits at input position `i * inputRate / outputRate`, and is emitted
+ * as soon as the input sample after that position arrives.
+ */
+internal class MonoResampler(private val outputRate: Int, expectedSamples: Int) {
+    private var out = FloatArray(expectedSamples.coerceAtLeast(outputRate))
+    private var outSize = 0
+    private var inputRate = 0
+    private var inputCount = 0L
+    private var previous = 0f
+
+    fun append(pcm: ShortBuffer, channels: Int, rate: Int) {
+        if (inputRate == 0) inputRate = rate
+        repeat(pcm.remaining() / channels) {
+            var sum = 0f
+            repeat(channels) { sum += pcm.get() / 32768f }
+            push(sum / channels)
         }
+    }
+
+    /**
+     * Returns `inputs * outputRate / inputRate` samples (rounded down), draining
+     * the tail by interpolating towards silence past the last input sample.
+     */
+    fun finish(): FloatArray {
+        if (inputCount == 0L) return FloatArray(0)
+        val total = (inputCount * outputRate / inputRate).toInt()
+        while (outSize < total) {
+            val frac = (sourcePosition() - (inputCount - 1)).toFloat()
+            emit(previous - frac * previous)
+        }
+        return out.copyOf(total)
+    }
+
+    private fun push(sample: Float) {
+        // Output positions in [inputCount - 1, inputCount) interpolate
+        // between the previous sample and this one.
+        while (inputCount > 0 && sourcePosition() < inputCount) {
+            val frac = (sourcePosition() - (inputCount - 1)).toFloat()
+            emit(previous + frac * (sample - previous))
+        }
+        previous = sample
+        inputCount++
+    }
+
+    private fun sourcePosition(): Double = outSize.toDouble() * inputRate / outputRate
+
+    private fun emit(value: Float) {
+        if (outSize == out.size) out = out.copyOf(out.size + out.size / 2)
+        out[outSize++] = value
     }
 }

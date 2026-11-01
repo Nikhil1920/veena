@@ -29,6 +29,22 @@ char *transcriber_transcribe_audio_lang(Transcriber *handle, const float *audio,
                                         size_t len, uint32_t sample_rate,
                                         const char *language);
 
+typedef bool (*TranscriberProgressFn)(void *user_data, size_t completed,
+                                      size_t total);
+
+char *transcriber_transcribe_file_progress(Transcriber *handle,
+                                           const char *audio_path,
+                                           const char *language,
+                                           TranscriberProgressFn progress,
+                                           void *user_data);
+
+char *transcriber_transcribe_audio_progress(Transcriber *handle,
+                                            const float *audio, size_t len,
+                                            uint32_t sample_rate,
+                                            const char *language,
+                                            TranscriberProgressFn progress,
+                                            void *user_data);
+
 void transcriber_destroy(Transcriber *handle);
 
 void transcriber_free_string(char *s);
@@ -43,6 +59,38 @@ jstring toJString(JNIEnv *env, char *result) {
     jstring j_result = env->NewStringUTF(result);
     transcriber_free_string(result);
     return j_result;
+}
+
+// Forwards engine progress to a Kotlin TranscriptionProgress, whose return
+// value decides whether the engine continues. The engine calls back
+// synchronously on the JNI thread, so the env stays valid.
+struct ProgressListener {
+    JNIEnv *env;
+    jobject listener;
+    jmethodID onProgress;
+};
+
+bool forwardProgress(void *user_data, size_t completed, size_t total) {
+    auto *target = static_cast<ProgressListener *>(user_data);
+    jboolean keepGoing = target->env->CallBooleanMethod(
+        target->listener, target->onProgress, static_cast<jint>(completed),
+        static_cast<jint>(total));
+    if (target->env->ExceptionCheck()) {
+        // A throwing UI callback is a bug, not a cancel request.
+        target->env->ExceptionDescribe();
+        target->env->ExceptionClear();
+        return true;
+    }
+    return keepGoing == JNI_TRUE;
+}
+
+ProgressListener progressListener(JNIEnv *env, jobject listener) {
+    if (listener == nullptr) return {env, nullptr, nullptr};
+    jclass type = env->GetObjectClass(listener);
+    jmethodID method = env->GetMethodID(type, "onProgress", "(II)Z");
+    env->DeleteLocalRef(type);
+    if (method == nullptr) env->ExceptionClear();
+    return {env, listener, method};
 }
 
 } // namespace
@@ -86,7 +134,7 @@ Java_com_byanr_veena_android_engine_RustBackend_transcriberCreateMultilingual(
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_byanr_veena_android_engine_RustBackend_transcribeFile(
     JNIEnv *env, jobject, jlong handle_ptr, jstring audio_path,
-    jstring language) {
+    jstring language, jobject progress) {
     if (handle_ptr == 0) return nullptr;
     auto *handle = reinterpret_cast<Transcriber *>(handle_ptr);
 
@@ -94,7 +142,10 @@ Java_com_byanr_veena_android_engine_RustBackend_transcribeFile(
     const char *c_lang =
         language != nullptr ? env->GetStringUTFChars(language, nullptr) : nullptr;
 
-    char *result = transcriber_transcribe_file_lang(handle, c_path, c_lang);
+    ProgressListener listener = progressListener(env, progress);
+    char *result = transcriber_transcribe_file_progress(
+        handle, c_path, c_lang,
+        listener.onProgress != nullptr ? forwardProgress : nullptr, &listener);
 
     env->ReleaseStringUTFChars(audio_path, c_path);
     if (c_lang != nullptr) {
@@ -106,7 +157,7 @@ Java_com_byanr_veena_android_engine_RustBackend_transcribeFile(
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_byanr_veena_android_engine_RustBackend_transcribeAudio(
     JNIEnv *env, jobject, jlong handle_ptr, jfloatArray audio_data,
-    jint sample_rate, jstring language) {
+    jint sample_rate, jstring language, jobject progress) {
     if (handle_ptr == 0 || audio_data == nullptr) return nullptr;
     auto *handle = reinterpret_cast<Transcriber *>(handle_ptr);
 
@@ -115,9 +166,11 @@ Java_com_byanr_veena_android_engine_RustBackend_transcribeAudio(
     const char *c_lang =
         language != nullptr ? env->GetStringUTFChars(language, nullptr) : nullptr;
 
-    char *result = transcriber_transcribe_audio_lang(
+    ProgressListener listener = progressListener(env, progress);
+    char *result = transcriber_transcribe_audio_progress(
         handle, c_audio, static_cast<size_t>(len),
-        static_cast<uint32_t>(sample_rate), c_lang);
+        static_cast<uint32_t>(sample_rate), c_lang,
+        listener.onProgress != nullptr ? forwardProgress : nullptr, &listener);
 
     env->ReleaseFloatArrayElements(audio_data, c_audio, JNI_ABORT);
     if (c_lang != nullptr) {

@@ -14,6 +14,13 @@ struct DictateView: View {
     @State private var textRevision = 0
     @State private var isRecording = false
     @State private var isTranscribing = false
+    /// Fraction of a long transcription done; nil while unknown, and for
+    /// clips short enough to run in a single window.
+    @State private var transcribeProgress: Double?
+    /// The running transcription, kept so it can be cancelled.
+    @State private var transcription: Task<Void, Never>?
+    /// Cancel was requested; the engine stops at the end of its current window.
+    @State private var isCancelling = false
     @State private var lastRecording: Recording?
     @State private var errorMessage: String?
     @State private var showImporter = false
@@ -198,7 +205,10 @@ struct DictateView: View {
 
     private var statusText: String {
         if isRecording { return "Recording · \(formatDuration(elapsedMs))" }
-        if isTranscribing { return "Transcribing..." }
+        if isCancelling { return "Cancelling..." }
+        if isTranscribing {
+            return transcribeProgress.map { "Transcribing... \(Int($0 * 100))%" } ?? "Transcribing..."
+        }
         if case .ready = engineState { return "Ready" }
         if case .failed = engineState { return "Model failed to load" }
         return "Loading model..."
@@ -289,15 +299,22 @@ struct DictateView: View {
 
     private var controls: some View {
         HStack(spacing: 28) {
+            // Doubles as the cancel button while a transcription runs.
             Button {
-                showImporter = true
+                if isTranscribing {
+                    cancelTranscription()
+                } else {
+                    showImporter = true
+                }
             } label: {
-                Image(systemName: "folder")
+                Image(systemName: isTranscribing ? "xmark" : "folder")
                     .font(.title3)
                     .foregroundStyle(VeenaColors.textSecondary)
                     .frame(width: 56, height: 56)
                     .background(Circle().fill(VeenaColors.backgroundElement))
             }
+            .disabled(isCancelling)
+            .accessibilityLabel(isTranscribing ? "Cancel transcription" : "Import recording")
 
             micButton
         }
@@ -326,7 +343,17 @@ struct DictateView: View {
                 .fill(micFill(ready: ready))
                 .frame(width: 72, height: 72)
                 .overlay {
-                    if isTranscribing {
+                    if isTranscribing, let fraction = transcribeProgress {
+                        ZStack {
+                            Circle().stroke(.white.opacity(0.3), lineWidth: 3)
+                            Circle()
+                                .trim(from: 0, to: fraction)
+                                .stroke(.white, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                                .rotationEffect(.degrees(-90))
+                                .animation(.easeOut, value: fraction)
+                        }
+                        .frame(width: 28, height: 28)
+                    } else if isTranscribing {
                         ProgressView().tint(.white)
                     } else {
                         Image(systemName: "mic.fill")
@@ -381,6 +408,8 @@ struct DictateView: View {
     }
 
     private var hintText: String {
+        if isCancelling { return "Stopping..." }
+        if isTranscribing { return "Tap × to cancel" }
         switch environment.micMode {
         case .hold:
             return isRecording ? "Release to transcribe" : "Hold to record, release to transcribe"
@@ -462,13 +491,15 @@ struct DictateView: View {
         }
 
         isTranscribing = true
+        transcribeProgress = nil
 
         let code = environment.languageCode ?? ""
-        Task.detached(priority: .userInitiated) { [weak environment] in
+        transcription = Task.detached(priority: .userInitiated) { [weak environment] in
             guard let environment else { return }
             do {
                 let transcript = try environment.engine.transcribe(
-                    recording.samples, languageCode: code, models: environment.models
+                    recording.samples, languageCode: code, models: environment.models,
+                    progress: reportProgress
                 )
                 if !transcript.isBlank {
                     await MainActor.run { [weak environment] in
@@ -481,14 +512,14 @@ struct DictateView: View {
                         errorMessage = "No speech recognized"
                     }
                 }
+            } catch is CancellationError {
+                // Cancelled from the UI; the recording stays playable.
             } catch {
                 await MainActor.run {
                     errorMessage = error.localizedDescription
                 }
             }
-            await MainActor.run {
-                isTranscribing = false
-            }
+            await MainActor.run { finishTranscription() }
         }
     }
 
@@ -514,13 +545,15 @@ struct DictateView: View {
         }
 
         isTranscribing = true
+        transcribeProgress = nil
         let fileURL = dest
         let code = environment.languageCode ?? ""
-        Task.detached(priority: .userInitiated) { [weak environment] in
+        transcription = Task.detached(priority: .userInitiated) { [weak environment] in
             guard let environment else { return }
             do {
                 let transcript = try environment.engine.transcribeFile(
-                    at: fileURL, languageCode: code, models: environment.models
+                    at: fileURL, languageCode: code, models: environment.models,
+                    progress: reportProgress
                 ) { u in
                     try AudioFileDecoder.decodeToMono16k(url: u)
                 }
@@ -534,20 +567,41 @@ struct DictateView: View {
                         try? FileManager.default.removeItem(at: fileURL)
                     }
                 }
+            } catch is CancellationError {
+                try? FileManager.default.removeItem(at: fileURL)
             } catch {
                 await MainActor.run {
                     errorMessage = error.localizedDescription
                 }
             }
-            await MainActor.run {
-                isTranscribing = false
-            }
+            await MainActor.run { finishTranscription() }
         }
+    }
+
+    /// Stops the running transcription; nothing is kept from a cancelled run.
+    private func cancelTranscription() {
+        guard let transcription else { return }
+        isCancelling = true
+        transcription.cancel()
+    }
+
+    private func finishTranscription() {
+        isTranscribing = false
+        isCancelling = false
+        transcribeProgress = nil
+        transcription = nil
     }
 
     private func append(_ value: String) {
         text = text.isBlank ? value : "\(text) \(value)"
         textRevision += 1
+    }
+
+    /// Engine progress arrives on the transcribing thread.
+    nonisolated private func reportProgress(completed: Int, total: Int) {
+        guard total > 1 else { return }
+        let fraction = Double(completed) / Double(total)
+        Task { @MainActor in transcribeProgress = fraction }
     }
 
     private func saveHistory(
