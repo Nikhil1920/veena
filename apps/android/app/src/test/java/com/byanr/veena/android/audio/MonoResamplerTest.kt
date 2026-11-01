@@ -1,6 +1,8 @@
 package com.byanr.veena.android.audio
 
 import java.nio.ShortBuffer
+import kotlin.math.PI
+import kotlin.math.sin
 import kotlin.random.Random
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -60,6 +62,27 @@ class MonoResamplerTest {
                 assertEquals("length at $rate Hz x$channels", expected.size, actual.size)
                 assertArrayEquals("samples at $rate Hz x$channels", expected, actual, 1e-6f)
             }
+        }
+    }
+
+    @Test
+    fun followsARateChangeMidStream() {
+        // HE-AAC style: 1 s at the 22.05 kHz core rate, then 2 s at 44.1 kHz.
+        val hz = 440.0
+        fun tone(rate: Int, seconds: Int, startTime: Double) =
+            ShortArray(rate * seconds) { i ->
+                (sin(2 * PI * hz * (startTime + i.toDouble() / rate)) * 16_000).toInt().toShort()
+            }
+        val resampler = MonoResampler(outputRate = 16_000, expectedSamples = 0)
+        resampler.append(ShortBuffer.wrap(tone(22_050, 1, 0.0)), channels = 1, rate = 22_050)
+        resampler.append(ShortBuffer.wrap(tone(44_100, 2, 1.0)), channels = 1, rate = 44_100)
+        val out = resampler.finish()
+
+        assertEquals(48_000.0, out.size.toDouble(), 2.0)
+        // Every output lands on the tone at its own time, before and after the switch.
+        for (i in 0 until out.size - 2) {
+            val expected = sin(2 * PI * hz * i / 16_000) * 16_000 / 32_768
+            assertEquals("sample $i", expected, out[i].toDouble(), 0.01)
         }
     }
 

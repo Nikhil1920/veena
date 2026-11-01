@@ -223,13 +223,14 @@ enum KeyboardSharedSettings {
     }
 
     /// The language keyboard dictation uses: the keyboard's own choice if its
-    /// model is installed, else the app's, else any installed language.
+    /// model is installed, else the app's, else any installed language. With
+    /// nothing installed it names the chosen language, whose model is missing.
     static var effectiveKeyboardLanguage: String? {
         let installed = installedLanguageCodes
         for candidate in [keyboardLanguageCode, appLanguageCode] {
             if let code = candidate, installed.contains(code) { return code }
         }
-        return keyboardLanguageCode ?? appLanguageCode ?? installed.first
+        return installed.first ?? keyboardLanguageCode ?? appLanguageCode
     }
 
     /// "hold" (default) or "tap": the app's Microphone Behavior, which the

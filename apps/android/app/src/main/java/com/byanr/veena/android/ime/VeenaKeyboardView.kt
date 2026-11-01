@@ -66,7 +66,8 @@ import kotlinx.coroutines.launch
  * gear on top. No letter keys in v1 — dictation is the whole keyboard.
  *
  * As [voiceInput] (another keyboard's mic key opened Veena) the panel starts
- * listening on its own whenever [autoStartToken] changes, the mic is always
+ * listening on its own while [autoStart] is set (and reports it through
+ * [onAutoStarted], so the request is used once), the mic is always
  * tap-to-finish, and the globe becomes "back to your keyboard".
  *
  * The service supplies the side-effect callbacks ([onBackspace],
@@ -82,7 +83,8 @@ fun VeenaKeyboardView(
     onOpenVeena: () -> Unit,
     onCommit: (String) -> Unit,
     voiceInput: Boolean = false,
-    autoStartToken: Int = 0,
+    autoStart: Boolean = false,
+    onAutoStarted: () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
     val colors = veenaColors
@@ -134,8 +136,11 @@ fun VeenaKeyboardView(
         }
     }
 
-    LaunchedEffect(autoStartToken) {
-        if (voiceInput && autoStartToken > 0) startDictation()
+    LaunchedEffect(autoStart) {
+        if (voiceInput && autoStart) {
+            onAutoStarted()
+            startDictation()
+        }
     }
 
     val micColor = when {

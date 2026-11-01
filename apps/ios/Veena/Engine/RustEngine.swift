@@ -3,26 +3,52 @@ import Foundation
 /// Owns the native transcriber for the currently selected language. The
 /// Telugu model is a single-language graph; every other language loads the
 /// multilingual graph and passes the language code per utterance.
+///
+/// The app and the keyboard share this engine. The lock covers loading
+/// only: transcriptions run concurrently (the native engine takes turns per
+/// window), so a keyboard dictation never waits out a long import. A model
+/// replaced mid-transcription is freed when its last transcription ends.
 @Observable
 final class RustEngine {
 
     enum State: Equatable {
         case notLoaded
-        case loading
+        case loading(languageCode: String)
         case ready(languageCode: String)
-        case failed(String)
+        case failed(languageCode: String, String)
 
         var isReady: Bool {
             if case .ready = self { return true }
             return false
         }
+
+        var languageCode: String? {
+            switch self {
+            case .notLoaded: return nil
+            case .loading(let code), .ready(let code), .failed(let code, _): return code
+            }
+        }
     }
 
+    /// Written on the main thread only, where SwiftUI reads it.
     private(set) var state: State = .notLoaded
 
-    private var handle: OpaquePointer?
+    /// A native transcriber and the transcriptions running on it.
+    private final class LoadedModel {
+        let handle: OpaquePointer
+        let modelID: String
+        var users = 0
+        var retired = false
+
+        init(handle: OpaquePointer, modelID: String) {
+            self.handle = handle
+            self.modelID = modelID
+        }
+    }
+
+    // Guarded by `lock`.
+    private var current: LoadedModel?
     private var loadedLanguage: String?
-    private var loadedModelID: String?
     private let lock = NSRecursiveLock()
 
     /// Loads (or reloads) the engine for a language; no-op when current.
@@ -43,29 +69,43 @@ final class RustEngine {
     /// reload: the language is passed per utterance.
     private func loadLocked(languageCode code: String, modelDir: URL) throws {
         let modelID = ModelCatalog.model(forLanguage: code).id
-        if handle != nil, loadedModelID == modelID {
-            if loadedLanguage != code || !state.isReady {
+        if let current, current.modelID == modelID {
+            if loadedLanguage != code {
                 loadedLanguage = code
-                state = .ready(languageCode: code)
+                publish(.ready(languageCode: code))
             }
             return
         }
 
-        state = .loading
+        publish(.loading(languageCode: code))
         do {
-            try createHandle(modelDir: modelDir, languageCode: code)
-            loadedModelID = modelID
-            state = .ready(languageCode: code)
+            retireLocked()
+            current = LoadedModel(handle: try createHandle(modelDir: modelDir), modelID: modelID)
+            loadedLanguage = code
+            publish(.ready(languageCode: code))
         } catch {
-            destroyLocked()
-            state = .failed(error.localizedDescription)
+            retireLocked()
+            publish(.failed(languageCode: code, error.localizedDescription))
             throw error
         }
     }
 
-    private func createHandle(modelDir: URL, languageCode: String) throws {
-        destroyLocked()
+    /// Main-queue writes keep their order, so the last state published wins.
+    private func publish(_ new: State) {
+        DispatchQueue.main.async { self.state = new }
+    }
 
+    /// The engine as a caller working in `code` sees it: another model's
+    /// load, failure or readiness doesn't concern it, since transcription
+    /// loads its model on demand.
+    func state(forLanguage code: String, models: ModelRepository) -> State {
+        let ours = ModelCatalog.model(forLanguage: code)
+        guard let shown = state.languageCode else { return state }
+        if ModelCatalog.model(forLanguage: shown).id == ours.id { return state }
+        return models.isDownloaded(ours) ? .ready(languageCode: code) : .notLoaded
+    }
+
+    private func createHandle(modelDir: URL) throws -> OpaquePointer {
         let masksURL = modelDir.appendingPathComponent("language_masks.json")
         let configURL = modelDir.appendingPathComponent("decoder_config.json")
 
@@ -94,8 +134,7 @@ final class RustEngine {
         guard let newHandle else {
             throw EngineError.creationFailed
         }
-        handle = newHandle
-        loadedLanguage = languageCode
+        return newHandle
     }
 
     /// Long audio is transcribed in windows of up to 25 s. Called on the
@@ -178,13 +217,28 @@ final class RustEngine {
         return !Task.isCancelled
     }
 
-    /// Runs `body` with the engine switched to `languageCode`, holding the
-    /// lock throughout so no other caller can switch languages in between.
+    /// Runs `body` on the model for `languageCode`, loading it first if
+    /// needed. The lock is held only while loading; the model stays alive
+    /// until `body` returns even if another caller switches models meanwhile.
     private func withHandle<T>(
         languageCode: String,
         models: ModelRepository,
-        _ body: (String?, OpaquePointer) throws -> T
+        _ body: (String, OpaquePointer) throws -> T
     ) throws -> T {
+        let model = try acquire(languageCode: languageCode, models: models)
+        defer {
+            lock.lock()
+            model.users -= 1
+            if model.retired && model.users == 0 {
+                transcriber_destroy(model.handle)
+            }
+            lock.unlock()
+        }
+        return try body(languageCode, model.handle)
+    }
+
+    /// Loads the model for `languageCode` and counts the caller as its user.
+    private func acquire(languageCode: String, models: ModelRepository) throws -> LoadedModel {
         lock.lock()
         defer { lock.unlock() }
         let def = ModelCatalog.model(forLanguage: languageCode)
@@ -192,18 +246,23 @@ final class RustEngine {
             throw EngineError.notReady
         }
         try loadLocked(languageCode: languageCode, modelDir: models.contentDir(def))
-        guard let handle, let lang = loadedLanguage, case .ready = state else {
+        guard let current else {
             throw EngineError.notReady
         }
-        return try body(lang, handle)
+        current.users += 1
+        return current
     }
 
-    private func destroyLocked() {
-        if let handle {
-            transcriber_destroy(handle)
-            self.handle = nil
-            loadedLanguage = nil
-            loadedModelID = nil
+    /// Drops the current model: freed now if idle, else by the last
+    /// transcription still running on it.
+    private func retireLocked() {
+        guard let model = current else { return }
+        current = nil
+        loadedLanguage = nil
+        if model.users == 0 {
+            transcriber_destroy(model.handle)
+        } else {
+            model.retired = true
         }
     }
 

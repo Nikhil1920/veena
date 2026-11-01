@@ -18,8 +18,12 @@ const SEARCH_SAMPLES: usize = 3 * SAMPLE_RATE;
 const BLOCK_SAMPLES: usize = SAMPLE_RATE / 10;
 /// Neighbouring windows share 500 ms so a word cut at the boundary is heard whole.
 const OVERLAP_SAMPLES: usize = SAMPLE_RATE / 2;
-/// Words compared when de-duplicating text the overlap produced twice.
-const MAX_JOIN_WORDS: usize = 12;
+/// Fast speech stays under 6 words a second.
+const MAX_WORDS_PER_SECOND: usize = 6;
+/// Words compared when de-duplicating text the overlap produced twice: no more
+/// than the overlap can hold, so a phrase the speaker really repeated just
+/// after the overlap survives.
+const MAX_JOIN_WORDS: usize = OVERLAP_SAMPLES * MAX_WORDS_PER_SECOND / SAMPLE_RATE;
 
 /// Splits 16 kHz audio into windows of at most `seconds`, cutting at the
 /// quietest 100 ms block of each window's last 3 s. Short clips stay whole.
@@ -147,5 +151,14 @@ mod tests {
         assert_eq!(join_transcripts("a b c", "b c d"), "a b c d");
         assert_eq!(join_transcripts("a b c", "c d"), "a b c d");
         assert_eq!(join_transcripts("a b", "c d"), "a b c d");
+    }
+
+    #[test]
+    fn joins_keep_phrases_repeated_past_the_overlap() {
+        assert_eq!(MAX_JOIN_WORDS, 3);
+        assert_eq!(
+            join_transcripts("so thank you very much", "thank you very much again"),
+            "so thank you very much thank you very much again"
+        );
     }
 }

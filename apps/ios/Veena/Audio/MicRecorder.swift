@@ -24,55 +24,24 @@ final class MicRecorder {
     func start(outputURL: URL) throws {
         guard !isRecording else { return }
 
-        let input = engine.inputNode
-        let inputFormat = input.outputFormat(forBus: 0)
-        guard inputFormat.sampleRate > 0, inputFormat.channelCount > 0 else {
-            throw RecorderError.inputUnavailable
-        }
-        guard let target = AVAudioFormat(
-            commonFormat: .pcmFormatFloat32,
-            sampleRate: 16_000,
-            channels: 1,
-            interleaved: false
-        ) else {
-            throw RecorderError.inputUnavailable
-        }
-        guard let converter = AVAudioConverter(from: inputFormat, to: target) else {
-            throw RecorderError.conversionUnavailable
-        }
-
         samples.removeAll(keepingCapacity: true)
         startedAt = Date()
         self.outputURL = outputURL
         try? FileManager.default.removeItem(at: outputURL)
         wavFile = try AVAudioFile(
             forWriting: outputURL,
-            settings: target.settings,
+            settings: MicTap.format.settings,
             commonFormat: .pcmFormatFloat32,
             interleaved: false
         )
 
-        let captureFormat = inputFormat
-        input.installTap(onBus: 0, bufferSize: 4096, format: captureFormat) { [weak self] buffer, _ in
-            guard let self else { return }
-            let ratio = 16_000 / captureFormat.sampleRate
-            let capacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 64
-            guard let out = AVAudioPCMBuffer(pcmFormat: target, frameCapacity: capacity) else { return }
-
-            var fedInput = false
-            var conversionError: NSError?
-            let status = converter.convert(to: out, error: &conversionError) { _, outStatus in
-                if fedInput {
-                    outStatus.pointee = .noDataNow
-                    return nil
-                }
-                fedInput = true
-                outStatus.pointee = .haveData
-                return buffer
+        do {
+            try MicTap.install(on: engine.inputNode) { [weak self] buffer in
+                self?.append(buffer)
             }
-            if status == .haveData {
-                self.append(out)
-            }
+        } catch {
+            wavFile = nil
+            throw error
         }
 
         engine.prepare()

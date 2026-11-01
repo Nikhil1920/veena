@@ -5,6 +5,7 @@ import android.media.MediaExtractor
 import android.media.MediaFormat
 import java.nio.ByteOrder
 import java.nio.ShortBuffer
+import kotlin.math.floor
 
 /**
  * Decodes any platform-supported audio container (m4a, mp3, ogg, …) into
@@ -123,21 +124,43 @@ object AudioFileDecoder {
  * Incremental downmix plus linear-interpolation resampling: output sample
  * `i` sits at input position `i * inputRate / outputRate`, and is emitted
  * as soon as the input sample after that position arrives.
+ *
+ * The input rate may change between buffers (HE-AAC can switch from its
+ * 22.05 kHz core to 44.1 kHz once SBR kicks in). The first sample at the new
+ * rate comes one old period after the last, so it is reached at the old
+ * rate; it then starts a new run counted from 0 in the new rate's samples.
  */
 internal class MonoResampler(private val outputRate: Int, expectedSamples: Int) {
     private var out = FloatArray(expectedSamples.coerceAtLeast(outputRate))
     private var outSize = 0
     private var inputRate = 0
+    /** Samples in the current run of [inputRate]. */
     private var inputCount = 0L
+    /** Position of the run's first output, [runStart], in the run's samples. */
+    private var phase = 0.0
+    private var runStart = 0
     private var previous = 0f
 
     fun append(pcm: ShortBuffer, channels: Int, rate: Int) {
-        if (inputRate == 0) inputRate = rate
-        repeat(pcm.remaining() / channels) {
-            var sum = 0f
-            repeat(channels) { sum += pcm.get() / 32768f }
-            push(sum / channels)
+        var frames = pcm.remaining() / channels
+        if (frames == 0) return
+        if (inputCount == 0L) {
+            inputRate = rate
+        } else if (rate != inputRate) {
+            push(downmix(pcm, channels))
+            frames--
+            phase = (sourcePosition() - (inputCount - 1)) * rate / inputRate
+            runStart = outSize
+            inputCount = 1
+            inputRate = rate
         }
+        repeat(frames) { push(downmix(pcm, channels)) }
+    }
+
+    private fun downmix(pcm: ShortBuffer, channels: Int): Float {
+        var sum = 0f
+        repeat(channels) { sum += pcm.get() / 32768f }
+        return sum / channels
     }
 
     /**
@@ -146,7 +169,7 @@ internal class MonoResampler(private val outputRate: Int, expectedSamples: Int) 
      */
     fun finish(): FloatArray {
         if (inputCount == 0L) return FloatArray(0)
-        val total = (inputCount * outputRate / inputRate).toInt()
+        val total = runStart + floor((inputCount - phase) * outputRate / inputRate).toInt()
         while (outSize < total) {
             val frac = (sourcePosition() - (inputCount - 1)).toFloat()
             emit(previous - frac * previous)
@@ -157,7 +180,7 @@ internal class MonoResampler(private val outputRate: Int, expectedSamples: Int) 
     private fun push(sample: Float) {
         // Output positions in [inputCount - 1, inputCount) interpolate
         // between the previous sample and this one.
-        while (inputCount > 0 && sourcePosition() < inputCount) {
+        while (sourcePosition() < inputCount) {
             val frac = (sourcePosition() - (inputCount - 1)).toFloat()
             emit(previous + frac * (sample - previous))
         }
@@ -165,7 +188,8 @@ internal class MonoResampler(private val outputRate: Int, expectedSamples: Int) 
         inputCount++
     }
 
-    private fun sourcePosition(): Double = outSize.toDouble() * inputRate / outputRate
+    private fun sourcePosition(): Double =
+        phase + (outSize - runStart).toDouble() * inputRate / outputRate
 
     private fun emit(value: Float) {
         if (outSize == out.size) out = out.copyOf(out.size + out.size / 2)

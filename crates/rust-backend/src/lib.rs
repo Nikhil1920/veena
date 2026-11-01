@@ -49,6 +49,9 @@ impl std::fmt::Display for Cancelled {
 
 impl Error for Cancelled {}
 
+/// Safe to share between threads: concurrent transcriptions take turns on
+/// the session one window at a time, so a short clip waits for at most one
+/// window of a long one.
 pub struct Transcriber {
     session: Mutex<Session>,
     backend: Backend,
@@ -444,6 +447,7 @@ pub extern "C" fn transcriber_transcribe_audio_progress(
     }
 }
 
+/// Frees `handle`. No transcription may still be running on it.
 #[no_mangle]
 pub extern "C" fn transcriber_destroy(handle: *mut Transcriber) {
     if !handle.is_null() {
@@ -461,6 +465,13 @@ pub extern "C" fn transcriber_free_string(s: *mut libc::c_char) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn transcriber_is_shareable_across_threads() {
+        // The apps run concurrent transcriptions on one handle.
+        fn assert_send_sync<T: Send + Sync>() {}
+        assert_send_sync::<Transcriber>();
+    }
 
     #[test]
     fn test_preprocess_features() {

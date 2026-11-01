@@ -59,8 +59,11 @@ open class VeenaImeService :
      */
     protected open val isVoiceInput: Boolean = false
 
-    /** Bumped each time the voice input opens on a field; the panel starts listening. */
-    private val autoStartRequests = MutableStateFlow(0)
+    /**
+     * Set each time the voice input opens on a field; the panel starts
+     * listening and clears it, so a rebuilt panel doesn't start again.
+     */
+    private val autoStartPending = MutableStateFlow(false)
 
     override val lifecycle: Lifecycle get() = lifecycleRegistry
 
@@ -101,7 +104,7 @@ open class VeenaImeService :
         view.setContent {
             VeenaTheme {
                 val sensitive by sensitiveField.collectAsState()
-                val autoStartToken by autoStartRequests.collectAsState()
+                val autoStart by autoStartPending.collectAsState()
                 VeenaKeyboardView(
                     imeSession = imeSession,
                     sensitiveField = sensitive,
@@ -110,7 +113,8 @@ open class VeenaImeService :
                     onOpenVeena = ::openVeena,
                     onCommit = ::commitDictation,
                     voiceInput = isVoiceInput,
-                    autoStartToken = autoStartToken,
+                    autoStart = autoStart,
+                    onAutoStarted = { autoStartPending.value = false },
                 )
             }
         }
@@ -122,7 +126,7 @@ open class VeenaImeService :
     override fun onStartInputView(editorInfo: EditorInfo, restarting: Boolean) {
         super.onStartInputView(editorInfo, restarting)
         sensitiveField.value = isSensitiveField(editorInfo.inputType)
-        if (isVoiceInput && !restarting) autoStartRequests.value++
+        if (isVoiceInput && !restarting) autoStartPending.value = true
     }
 
     override fun onWindowShown() {
@@ -135,6 +139,7 @@ open class VeenaImeService :
         super.onWindowHidden()
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+        autoStartPending.value = false
         imeSession.cancelDictation() // A hidden keyboard must never orphan the mic.
         imeSession.scheduleIdleUnload()
     }

@@ -93,44 +93,11 @@ final class KeyboardAudioCapture {
     }
 
     private func installTap() throws {
-        let input = engine.inputNode
-        let inputFormat = input.outputFormat(forBus: 0)
-        guard inputFormat.sampleRate > 0, inputFormat.channelCount > 0 else {
-            throw RecorderError.inputUnavailable
-        }
-        guard let target = AVAudioFormat(
-            commonFormat: .pcmFormatFloat32,
-            sampleRate: 16_000,
-            channels: 1,
-            interleaved: false
-        ) else {
-            throw RecorderError.inputUnavailable
-        }
-        guard let converter = AVAudioConverter(from: inputFormat, to: target) else {
-            throw RecorderError.conversionUnavailable
-        }
-
-        input.installTap(onBus: 0, bufferSize: 4096, format: inputFormat) { [weak self] buffer, _ in
-            guard let self, self.isCapturing else { return }
-            let ratio = 16_000 / inputFormat.sampleRate
-            let capacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 64
-            guard let out = AVAudioPCMBuffer(pcmFormat: target, frameCapacity: capacity) else { return }
-
-            var fedInput = false
-            var conversionError: NSError?
-            let status = converter.convert(to: out, error: &conversionError) { _, outStatus in
-                if fedInput {
-                    outStatus.pointee = .noDataNow
-                    return nil
-                }
-                fedInput = true
-                outStatus.pointee = .haveData
-                return buffer
-            }
-            if status == .haveData {
-                self.append(out)
-            }
-        }
+        try MicTap.install(
+            on: engine.inputNode,
+            isActive: { [weak self] in self?.isCapturing ?? false },
+            onAudio: { [weak self] buffer in self?.append(buffer) }
+        )
     }
 
     private var isCapturing: Bool {

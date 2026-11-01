@@ -106,10 +106,10 @@ struct DictateView: View {
                   args.indices.contains(flag + 1) else { return }
             let name = args[flag + 1]
             for _ in 0..<60 {
-                if environment.engine.state.isReady { break }
+                if engineState.isReady { break }
                 try? await Task.sleep(nanoseconds: 500_000_000)
             }
-            guard environment.engine.state.isReady else { return }
+            guard engineState.isReady else { return }
             let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let url = docs.appendingPathComponent(name)
             guard FileManager.default.fileExists(atPath: url.path) else { return }
@@ -178,7 +178,11 @@ struct DictateView: View {
 
     // MARK: Status pill (with pulsing dot, elapsed timer — mirrors Android)
 
-    private var engineState: RustEngine.State { environment.engine.state }
+    /// The keyboard shares the engine: its loads and failures in another
+    /// model don't block the app, which loads its own model on demand.
+    private var engineState: RustEngine.State {
+        environment.engine.state(forLanguage: environment.languageCode ?? "", models: environment.models)
+    }
 
     private var statusPill: some View {
         HStack(spacing: 8) {
@@ -422,7 +426,7 @@ struct DictateView: View {
 
     private func beginRecording() {
         // Pre-check: engine must be ready (hold gesture already checks, but TAP path also needs it)
-        guard case .ready = environment.engine.state else {
+        guard case .ready = engineState else {
             errorMessage = "Model not ready yet"
             return
         }

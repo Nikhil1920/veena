@@ -49,9 +49,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -73,6 +75,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.byanr.veena.android.AppViewModel
 import com.byanr.veena.android.R
@@ -117,6 +122,18 @@ fun DictateScreen(
     val currentMicMode by rememberUpdatedState(micMode)
 
     val snackbar = remember { SnackbarHostState() }
+
+    // Bumped on every resume so the keyboard banner notices the keyboard
+    // being enabled or the mic granted in system settings.
+    var resumeTick by remember { mutableIntStateOf(0) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) resumeTick++
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     // Elapsed recording time, shown in the status badge while recording.
     var elapsedMs by remember { mutableLongStateOf(0L) }
@@ -253,7 +270,9 @@ fun DictateScreen(
 
             // Until the voice keyboard is set up (or the card is dismissed),
             // point people at the tour.
-            val keyboardReady = remember(settings) { isVoiceKeyboardReady(context, appViewModel) }
+            val keyboardReady = remember(settings, resumeTick) {
+                isVoiceKeyboardReady(context, appViewModel)
+            }
             if (settings?.keyboardBannerDismissed == false && !keyboardReady) {
                 VoiceKeyboardBanner(
                     onSetUp = onOpenVoiceKeyboard,

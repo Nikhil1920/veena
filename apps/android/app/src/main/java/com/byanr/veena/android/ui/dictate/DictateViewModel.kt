@@ -17,7 +17,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +35,17 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
     private val recordingsDir = container.recordingsDir
     private val prefs = container.prefs
 
-    val engineState: StateFlow<EngineState> = engine.state
+    private val currentLanguageCode = MutableStateFlow("te")
+
+    // The keyboard shares the engine: its loads and failures in another
+    // model don't block the app, which loads its own model on demand.
+    val engineState: StateFlow<EngineState> =
+        combine(engine.state, currentLanguageCode) { state, code -> engine.stateFor(code, state) }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.Eagerly,
+                engine.stateFor(currentLanguageCode.value),
+            )
     val player = AudioPlayer()
 
     val isRecording = MutableStateFlow(false)
@@ -214,8 +227,6 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         }
         return null
     }
-
-    private val currentLanguageCode = MutableStateFlow("te")
 
     init {
         viewModelScope.launch {
