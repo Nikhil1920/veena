@@ -14,3 +14,6 @@
 [target.aarch64-linux-android]
 linker = "aarch64-linux-android21-clang"
 ar = "llvm-ar"
+# Align LOAD segments to 16 KB for devices with 16 KB pages (required by Play
+# for Android 15+). NDK r27 and older link with 4 KB pages by default.
+rustflags = ["-C", "link-arg=-Wl,-z,max-page-size=16384"]
