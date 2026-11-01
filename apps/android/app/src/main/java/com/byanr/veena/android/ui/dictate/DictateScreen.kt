@@ -30,7 +30,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
@@ -89,6 +88,7 @@ import com.byanr.veena.android.ui.theme.StatusInitializing
 import com.byanr.veena.android.ui.theme.StatusReady
 import com.byanr.veena.android.ui.theme.StatusRecording
 import com.byanr.veena.android.ui.settings.isVoiceKeyboardReady
+import com.byanr.veena.android.ui.shareVeena
 import com.byanr.veena.android.ui.theme.veenaColors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -232,42 +232,31 @@ fun DictateScreen(
                 .background(colors.background)
                 .padding(horizontal = 24.dp),
         ) {
-            Spacer(Modifier.height(24.dp))
-            Text(
-                text = "Veena",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = colors.text,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-            settings?.languageCode?.let(::languageByCode)?.let { language ->
-                Spacer(Modifier.height(6.dp))
-                Surface(
-                    onClick = onOpenLanguagePicker,
-                    shape = CircleShape,
-                    color = colors.backgroundElement,
-                    contentColor = colors.textSecondary,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(start = 14.dp, end = 10.dp, top = 6.dp, bottom = 6.dp),
-                    ) {
-                        Text(
-                            text = "${language.nativeName} · ${language.name}",
-                            fontSize = 13.sp,
-                        )
-                        Spacer(Modifier.width(2.dp))
-                        Icon(
-                            Icons.Filled.KeyboardArrowDown,
-                            contentDescription = "Change language",
-                            modifier = Modifier.size(18.dp),
-                        )
-                    }
-                }
+            val (dotColor, statusLabel) = when {
+                isRecording -> StatusRecording to "Recording · ${formatDuration(elapsedMs)}"
+                isCancelling -> StatusInitializing to "Cancelling..."
+                isTranscribing -> StatusInitializing to (
+                    transcribeProgress?.let { "Transcribing... ${(it * 100).toInt()}%" }
+                        ?: "Transcribing..."
+                )
+                engineState is EngineState.Ready -> StatusReady to "Ready"
+                engineState is EngineState.Error -> StatusRecording to "Model failed to load"
+                else -> StatusInitializing to "Loading model..."
             }
-            Spacer(Modifier.height(12.dp))
+            val language = settings?.languageCode?.let(::languageByCode)
+            HomeHeader(
+                language = language,
+                status = HeaderStatus(
+                    dotColor = dotColor,
+                    label = statusLabel,
+                    pulsing = isRecording,
+                    progress = transcribeProgress,
+                    transcribing = isTranscribing,
+                ),
+                pulseAlpha = pulseAlpha,
+                onOpenLanguagePicker = onOpenLanguagePicker,
+                onShare = { context.shareVeena(language) },
+            )
 
             // Until the voice keyboard is set up (or the card is dismissed),
             // point people at the tour.
@@ -288,38 +277,6 @@ fun DictateScreen(
                 )
                 Spacer(Modifier.height(12.dp))
             }
-
-            val (dotColor, statusLabel) = when {
-                isRecording -> StatusRecording to "Recording · ${formatDuration(elapsedMs)}"
-                isCancelling -> StatusInitializing to "Cancelling..."
-                isTranscribing -> StatusInitializing to (
-                    transcribeProgress?.let { "Transcribing... ${(it * 100).toInt()}%" }
-                        ?: "Transcribing..."
-                )
-                engineState is EngineState.Ready -> StatusReady to "Ready"
-                engineState is EngineState.Error -> StatusRecording to "Model failed to load"
-                else -> StatusInitializing to "Loading model..."
-            }
-            Surface(
-                shape = CircleShape,
-                color = colors.backgroundElement,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 7.dp),
-                ) {
-                    Box(
-                        Modifier
-                            .size(8.dp)
-                            .alpha(if (isRecording) pulseAlpha else 1f)
-                            .background(dotColor, CircleShape)
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Text(statusLabel, fontSize = 13.sp, color = colors.textSecondary)
-                }
-            }
-            Spacer(Modifier.height(16.dp))
 
             Surface(
                 color = colors.backgroundElement,

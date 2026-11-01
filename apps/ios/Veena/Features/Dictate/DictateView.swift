@@ -41,8 +41,6 @@ struct DictateView: View {
                 ReviewPromptCard()
             }
 
-            statusPill
-
             transcriptBox
 
             if let lastRecording, FileManager.default.fileExists(atPath: lastRecording.fileURL.path) {
@@ -119,31 +117,28 @@ struct DictateView: View {
         }
     }
 
-    // MARK: Header — title + language chip (mirrors Android languageByCode chip)
+    // MARK: Header — title + share, then a card with status and language
+    // (mirrors Android HomeHeader.kt)
 
     private var header: some View {
-        VStack(spacing: 6) {
-            Text("Veena")
-                .font(.system(size: 32, weight: .bold))
-                .foregroundStyle(VeenaColors.textPrimary)
-            if let lang = environment.selectedLanguage {
-                Button { showLanguagePicker = true } label: {
-                    HStack(spacing: 2) {
-                        Text("\(lang.nativeName) · \(lang.name)")
-                            .font(.system(size: 13))
-                        Image(systemName: "chevron.down")
-                            .font(.system(size: 11, weight: .semibold))
-                    }
-                    .foregroundStyle(VeenaColors.textSecondary)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 6)
-                    .background(Capsule().fill(VeenaColors.backgroundElement))
+        VStack(spacing: 10) {
+            HStack {
+                Text("Veena")
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundStyle(VeenaColors.textPrimary)
+                Spacer()
+                ShareLink(item: ShareMessage.text(for: environment.selectedLanguage)) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(VeenaColors.textPrimary)
+                        .frame(width: 40, height: 40)
+                        .background(Circle().fill(VeenaColors.backgroundElement))
                 }
-                .buttonStyle(.plain)
+                .accessibilityLabel("Share Veena")
             }
+            statusCard
         }
-        .frame(maxWidth: .infinity)
-        .padding(.top, 24)
+        .padding(.top, 12)
     }
 
     // MARK: Keyboard setup banner — until the keyboard is set up or dismissed
@@ -186,19 +181,47 @@ struct DictateView: View {
         environment.engine.state(forLanguage: environment.languageCode ?? "", models: environment.models)
     }
 
-    private var statusPill: some View {
+    private var statusCard: some View {
         HStack(spacing: 8) {
             Circle()
                 .fill(statusColor)
                 .frame(width: 8, height: 8)
                 .opacity(isRecording ? (pulsePhase ? 0.9 : 0.35) : 1)
             Text(statusText)
-                .font(.system(size: 13))
+                .font(.system(size: 14))
                 .foregroundStyle(VeenaColors.textSecondary)
+                .lineLimit(1)
+            Spacer(minLength: 8)
+            if let lang = environment.selectedLanguage {
+                Button { showLanguagePicker = true } label: {
+                    HStack(spacing: 2) {
+                        Text("\(lang.nativeName) · \(lang.name)")
+                            .font(.system(size: 13, weight: .medium))
+                            .lineLimit(1)
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 11, weight: .semibold))
+                    }
+                    .foregroundStyle(VeenaColors.textPrimary)
+                    .padding(.leading, 14)
+                    .padding(.trailing, 10)
+                    .padding(.vertical, 8)
+                    .background(Capsule().fill(VeenaColors.background))
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint("Change language")
+            }
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 7)
-        .background(Capsule().fill(VeenaColors.backgroundElement))
+        .padding(.leading, 16)
+        .padding(.trailing, 6)
+        .padding(.vertical, 6)
+        .background(VeenaColors.backgroundElement)
+        // A thin bar along the bottom edge tracks a running transcription.
+        .overlay(alignment: .bottom) {
+            if isTranscribing {
+                TranscribeProgressBar(fraction: transcribeProgress)
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     private var statusColor: Color {
@@ -681,4 +704,34 @@ private struct DictateLanguagePickerSheet: View {
 
 extension String {
     var isBlank: Bool { trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+}
+
+/// 3 pt bar: fills to [fraction], or slides a segment back and forth while
+/// the fraction is unknown.
+private struct TranscribeProgressBar: View {
+    let fraction: Double?
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Rectangle().fill(VeenaColors.backgroundSelected)
+                if let fraction {
+                    Rectangle()
+                        .fill(VeenaColors.accent)
+                        .frame(width: geo.size.width * min(max(fraction, 0), 1))
+                        .animation(.easeOut(duration: 0.2), value: fraction)
+                } else {
+                    TimelineView(.animation) { context in
+                        let t = context.date.timeIntervalSinceReferenceDate
+                        let phase = (sin(t * 2.5) + 1) / 2
+                        Rectangle()
+                            .fill(VeenaColors.accent)
+                            .frame(width: geo.size.width * 0.3)
+                            .offset(x: geo.size.width * 0.7 * phase)
+                    }
+                }
+            }
+        }
+        .frame(height: 3)
+    }
 }

@@ -225,10 +225,7 @@ struct SettingsView: View {
                         UIPasteboard.general.string = VeenaLinks.email
                     }
                 }
-            ShareLink(
-                item: VeenaLinks.website,
-                message: Text("Veena: offline speech to text for 22 Indian languages.")
-            ) {
+            ShareLink(item: ShareMessage.text(for: environment.selectedLanguage)) {
                 linkLabel("Share Veena", "Tell a friend", icon: "square.and.arrow.up")
             }
             linkRow("Website", "veena.byanr.com", icon: "globe", url: VeenaLinks.website)
