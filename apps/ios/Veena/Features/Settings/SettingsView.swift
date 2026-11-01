@@ -1,10 +1,11 @@
 import SwiftUI
 
 /// Mic behavior, language switching with model management, the keyboard,
-/// and about info.
+/// about info, and open-source and feedback links.
 struct SettingsView: View {
     @Environment(AppEnvironment.self) private var environment
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.openURL) private var openURL
     @State private var path = NavigationPath()
     @State private var keyboardStatus: KeyboardSetupStatus?
 
@@ -62,11 +63,15 @@ struct SettingsView: View {
                 }
 
                 Section("About") {
+                    aboutRow("Version", VeenaLinks.appVersion)
                     aboutRow("Model", "IndicConformer (AI4Bharat), int8")
                     aboutRow("Sample Rate", "16,000 Hz")
                     aboutRow("Engine", "Rust · ONNX Runtime")
-                    aboutRow("Version", "1.0.0")
                 }
+
+                openSourceSection
+
+                supportSection
 
                 Section {
                     Text("Veena supports \(languages.count) scheduled languages of India.")
@@ -185,6 +190,70 @@ struct SettingsView: View {
             Text("Keyboard")
         } footer: {
             Text("The keyboard hands your voice to this app, which transcribes it on your iPhone. After you dictate, the mic stays ready for the time above.")
+        }
+    }
+
+    // MARK: Open source and support
+
+    private var openSourceSection: some View {
+        Section {
+            linkRow("Source code", "github.com/Nikhil1920/veena",
+                    icon: "chevron.left.forwardslash.chevron.right", url: VeenaLinks.source)
+            linkRow("Report a bug or request a feature", "Open an issue on GitHub",
+                    icon: "ladybug", url: VeenaLinks.newIssue)
+            linkRow("License", "MIT License", icon: "doc.text", url: VeenaLinks.license)
+            linkRow("Speech models", "IndicConformer by AI4Bharat",
+                    icon: "sparkles", url: VeenaLinks.indicConformer)
+        } header: {
+            Text("Open Source")
+        } footer: {
+            Text("Veena is free and open source under the MIT License. No ads, no account, and your voice never leaves your iPhone. Anyone can read the code, report problems, or contribute.")
+        }
+    }
+
+    private var supportSection: some View {
+        Section("Support Veena") {
+            Button {
+                openURL(VeenaLinks.appStoreReview)
+                environment.markRated()
+            } label: {
+                linkLabel("Rate Veena", "Leave a review on the App Store", icon: "star")
+            }
+            linkRow("Send feedback", VeenaLinks.email, icon: "envelope", url: VeenaLinks.feedbackEmail)
+                .contextMenu {
+                    Button("Copy Email Address", systemImage: "doc.on.doc") {
+                        UIPasteboard.general.string = VeenaLinks.email
+                    }
+                }
+            ShareLink(
+                item: VeenaLinks.website,
+                message: Text("Veena: offline speech to text for 22 Indian languages.")
+            ) {
+                linkLabel("Share Veena", "Tell a friend", icon: "square.and.arrow.up")
+            }
+            linkRow("Website", "veena.byanr.com", icon: "globe", url: VeenaLinks.website)
+            linkRow("Privacy policy", nil, icon: "hand.raised", url: VeenaLinks.privacy)
+        }
+    }
+
+    private func linkRow(_ title: String, _ subtitle: String?, icon: String, url: URL) -> some View {
+        Link(destination: url) {
+            linkLabel(title, subtitle, icon: icon)
+        }
+    }
+
+    private func linkLabel(_ title: String, _ subtitle: String?, icon: String) -> some View {
+        Label {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).foregroundStyle(Color.primary)
+                if let subtitle {
+                    Text(subtitle)
+                        .font(.footnote)
+                        .foregroundStyle(Color.secondary)
+                }
+            }
+        } icon: {
+            Image(systemName: icon)
         }
     }
 

@@ -311,7 +311,10 @@ final class KeyboardSessionController {
             state.result = KeyboardResult(requestID: requestID, text: trimmed)
             resultPostedAt = Date()
             state.failure = nil
-            if !trimmed.isEmpty { completedDictations += 1 }
+            if !trimmed.isEmpty {
+                completedDictations += 1
+                ReviewPrompt.recordDictation()
+            }
         case .failure(let error):
             Self.logger.error("transcription failed: \(error.localizedDescription, privacy: .public)")
             state.result = nil

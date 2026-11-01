@@ -463,10 +463,34 @@
         "title": "App Data Directory",
         "description": "Location where Veena stores its data"
       },
-      "sourceCode": {
-        "title": "Source Code",
-        "description": "View source code and contribute",
-        "button": "View on GitHub"
+      "openSource": {
+        "title": "Open Source",
+        "description": "Veena is free and open source under the MIT License. No ads, no account, and your voice never leaves your computer.",
+        "sourceCode": {
+          "title": "Source Code",
+          "description": "Read the code and contribute on GitHub",
+          "button": "View on GitHub"
+        },
+        "reportIssue": {
+          "title": "Report a Bug or Request a Feature",
+          "description": "Open an issue on GitHub",
+          "button": "Open Issue"
+        },
+        "license": {
+          "title": "License",
+          "description": "MIT License",
+          "button": "View License"
+        },
+        "feedback": {
+          "title": "Send Feedback",
+          "description": "Email anr.appcontact@gmail.com",
+          "button": "Email"
+        },
+        "website": {
+          "title": "Website",
+          "description": "veena.byanr.com",
+          "button": "Visit"
+        }
       },
       "acknowledgments": {
         "title": "Acknowledgments",

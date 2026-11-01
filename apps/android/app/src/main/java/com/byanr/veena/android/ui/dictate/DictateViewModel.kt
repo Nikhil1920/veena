@@ -10,6 +10,7 @@ import com.byanr.veena.android.audio.AudioPlayer
 import com.byanr.veena.android.audio.Recording
 import com.byanr.veena.android.data.HistoryEntry
 import com.byanr.veena.android.data.Prefs
+import com.byanr.veena.android.data.ReviewPromptState
 import com.byanr.veena.android.engine.EngineState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -120,6 +121,7 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
                 }
                 if (transcript.isNotBlank()) {
                     appendText(transcript)
+                    recordDictation()
                     historyDao.insert(
                         HistoryEntry(
                             createdAt = System.currentTimeMillis(),
@@ -182,6 +184,7 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
             val transcript = engine.transcribe(audio, sampleRate, currentLanguage(), ::reportProgress)
             if (transcript.isNotBlank()) {
                 appendText(transcript)
+                recordDictation()
                 historyDao.insert(entryFor(transcript))
             } else {
                 error.value = "No speech recognized"
@@ -193,6 +196,11 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         } finally {
             finishTranscription()
         }
+    }
+
+    /** Counts toward the "Enjoying Veena?" prompt; never holds up the transcript. */
+    private fun recordDictation() {
+        viewModelScope.launch { prefs.recordDictation(ReviewPromptState.today()) }
     }
 
     private fun reportProgress(completed: Int, total: Int) {
