@@ -37,6 +37,8 @@ struct DictateView: View {
 
             if !keyboardReady && !keyboardBannerDismissed {
                 keyboardBanner
+            } else if environment.reviewPromptDue {
+                ReviewPromptCard()
             }
 
             statusPill
@@ -625,6 +627,7 @@ struct DictateView: View {
         )
         modelContext.insert(entry)
         try? modelContext.save()
+        ReviewPrompt.recordDictation()
     }
 
     private var recordingsDirectory: URL {

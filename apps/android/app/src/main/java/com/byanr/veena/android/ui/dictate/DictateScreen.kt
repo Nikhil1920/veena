@@ -116,6 +116,7 @@ fun DictateScreen(
     val error by viewModel.error.collectAsState()
     val playingPath by viewModel.player.playingPath.collectAsState()
     val settings by appViewModel.settings.collectAsState()
+    val reviewPromptDue by appViewModel.reviewPromptDue.collectAsState()
     val micMode = settings?.micMode ?: MicMode.HOLD
     // Read inside gesture callbacks so they always see the latest value without
     // restarting the pointerInput handler mid-press.
@@ -277,6 +278,13 @@ fun DictateScreen(
                 VoiceKeyboardBanner(
                     onSetUp = onOpenVoiceKeyboard,
                     onDismiss = appViewModel::dismissKeyboardBanner,
+                )
+                Spacer(Modifier.height(12.dp))
+            } else if (reviewPromptDue) {
+                ReviewPromptCard(
+                    onShown = appViewModel::onReviewPromptShown,
+                    onRated = appViewModel::markRated,
+                    onDismiss = appViewModel::dismissReviewPrompt,
                 )
                 Spacer(Modifier.height(12.dp))
             }

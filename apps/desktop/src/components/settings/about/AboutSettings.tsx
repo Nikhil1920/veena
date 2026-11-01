@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getVersion } from "@tauri-apps/api/app";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { SettingsGroup } from "../../ui/SettingsGroup";
 import { SettingContainer } from "../../ui/SettingContainer";
+import { Button } from "../../ui/Button";
 import { AppDataDirectory } from "../AppDataDirectory";
 import { AppLanguageSelector } from "../AppLanguageSelector";
 import { LogDirectory } from "../debug";
+
+const REPO_URL = "https://github.com/Nikhil1920/veena";
+
+const OPEN_SOURCE_LINKS = [
+  { key: "sourceCode", url: REPO_URL },
+  { key: "reportIssue", url: `${REPO_URL}/issues/new` },
+  { key: "license", url: `${REPO_URL}/blob/main/LICENSE` },
+  {
+    key: "feedback",
+    url: "mailto:anr.appcontact@gmail.com?subject=Veena%20feedback",
+  },
+  { key: "website", url: "https://veena.byanr.com" },
+] as const;
 
 export const AboutSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -40,6 +55,33 @@ export const AboutSettings: React.FC = () => {
 
         <AppDataDirectory descriptionMode="tooltip" grouped={true} />
         <LogDirectory grouped={true} />
+      </SettingsGroup>
+
+      <SettingsGroup
+        title={t("settings.about.openSource.title")}
+        description={t("settings.about.openSource.description")}
+      >
+        {OPEN_SOURCE_LINKS.map(({ key, url }) => (
+          <SettingContainer
+            key={key}
+            title={t(`settings.about.openSource.${key}.title`)}
+            description={t(`settings.about.openSource.${key}.description`)}
+            descriptionMode="inline"
+            grouped={true}
+          >
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() =>
+                openUrl(url).catch((error) =>
+                  console.error("Failed to open link:", error),
+                )
+              }
+            >
+              {t(`settings.about.openSource.${key}.button`)}
+            </Button>
+          </SettingContainer>
+        ))}
       </SettingsGroup>
 
       <SettingsGroup title={t("settings.about.acknowledgments.title")}>

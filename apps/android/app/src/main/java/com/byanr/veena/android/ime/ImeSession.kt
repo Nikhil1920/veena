@@ -13,6 +13,7 @@ import com.byanr.veena.android.data.MicMode
 import com.byanr.veena.android.data.ModelCatalog
 import com.byanr.veena.android.data.ModelRepository
 import com.byanr.veena.android.data.Prefs
+import com.byanr.veena.android.data.ReviewPromptState
 import com.byanr.veena.android.engine.EngineManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -163,7 +164,10 @@ class ImeSession(
                 ?: FloatArray(recording.samples.size) { recording.samples[it] / 32768f }
             val text = engine.transcribe(audio, recording.sampleRate, recordingLanguage)
             _state.value = ImeDictationState.Idle
-            if (text.isNotBlank()) _completedDictations.value += 1
+            if (text.isNotBlank()) {
+                _completedDictations.value += 1
+                scope.launch { prefs.recordDictation(ReviewPromptState.today()) }
+            }
             text
         } catch (t: Throwable) {
             _state.value = ImeDictationState.Error(t.message ?: "Transcription failed")
