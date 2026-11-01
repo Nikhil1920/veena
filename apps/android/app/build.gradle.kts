@@ -15,8 +15,8 @@ android {
         applicationId = "com.byanr.veena"
         minSdk = 26
         targetSdk = 36
-        versionCode = 8
-        versionName = "1.0.2"
+        versionCode = 10
+        versionName = "1.1.0"
 
         ndk {
             abiFilters += "arm64-v8a"
