@@ -15,10 +15,13 @@ export default defineConfig({
 		icon(),
 		mdx(),
 		sitemap({
-			filter: (page) => !new URL(page).pathname.startsWith("/transcribe"),
+			// /transcribe is an app shell; /1/ to /5/ are noindexed design iterations.
+			filter: (page) => {
+				const path = new URL(page).pathname;
+				return !path.startsWith("/transcribe") && !/^\/\d+\/$/.test(path);
+			},
 			changefreq: "weekly",
 			priority: 0.7,
-			lastmod: new Date(),
 		}),
 	],
 	vite: {

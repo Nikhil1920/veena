@@ -22,8 +22,12 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const lang = LANGUAGE_BY_SLUG[entry.id];
 const canonical = `${SITE.url}/speech-to-text/${lang.slug}/`;
-const title = `${lang.name} speech to text online — Free voice typing | Veena`;
-const description = `Convert ${lang.name} speech to text in your browser. Download the model once, then record or open audio and edit your transcript privately on your device.`;
+// Native name first (Kashmiri, Sindhi and others list two scripts).
+const nativeName = lang.nativeName.split(" / ")[0];
+const title = `${lang.name} Speech to Text & Voice Typing — Free, Offline | Veena`;
+const description = `Speak ${nativeName}, get ${lang.name} text. Free voice typing on Android, iPhone and desktop browsers, with a keyboard that types in any app. Works offline, no sign-up.`;
+// The structured data describes the in-page browser tool only.
+const webAppDescription = `Convert ${lang.name} speech to text in your browser. Download the model once, then record or open audio and edit your transcript privately on your device.`;
 const otherLanguages = LANGUAGES.filter((l) => l.slug !== lang.slug);
 const faq = [
 	{
@@ -33,6 +37,14 @@ const faq = [
 	{
 		q: "Will the model download every time I visit?",
 		a: "No. The model downloads only when you click Download model and is saved in this browser for future visits. You may need to download it again if you clear browser data or your browser removes its saved files. Changing to a language that needs another model will show its download size before you begin.",
+	},
+	{
+		q: `Can I voice type in ${lang.name} in WhatsApp?`,
+		a: `Yes. Install Veena on Android or iPhone and turn on the Veena keyboard. In WhatsApp, or any app with a text field, switch to the Veena keyboard, tap the mic, and speak ${lang.name}; the text is typed into the message box. Transcription runs on your phone.`,
+	},
+	{
+		q: `Can I convert a ${lang.name} audio file to text?`,
+		a: `Yes. Open an audio file on this page in a desktop browser, or import it in the Veena app on Android or iPhone, and Veena transcribes it on your device. Long recordings work too: Veena transcribes them in sections and shows its progress.`,
 	},
 	...(entry.data.faq || []),
 ];
@@ -82,7 +94,7 @@ const appJsonLd = {
 	"@context": "https://schema.org",
 	"@type": "WebApplication",
 	name: `Veena ${lang.name} speech to text`,
-	description,
+	description: webAppDescription,
 	url: canonical,
 	applicationCategory: "ProductivityApplication",
 	operatingSystem: "Web browser",
@@ -193,10 +205,30 @@ const appJsonLd = {
 				aria-labelledby="try-heading"
 			>
 				<h2 id="try-heading" class="text-2xl font-bold text-gray-900 mb-3">
-					Prefer the Veena app?
+					{lang.name} voice typing in WhatsApp and any app
 				</h2>
+				<p class="text-gray-600 mb-4 max-w-2xl">
+					The Veena app adds a voice keyboard to your phone. Switch to it in
+					WhatsApp, Gmail, Notes, or any text field, tap the mic, and speak
+					{lang.name}: the words are typed where your cursor is, transcribed on
+					your phone without uploading your voice.
+				</p>
+				<ul class="text-gray-600 mb-4 max-w-2xl list-disc pl-5 space-y-2">
+					<li>
+						<strong class="text-gray-900">Android:</strong> switch to the Veena Voice
+						Keyboard with the globe key. Keyboards such as SwiftKey and HeliBoard
+						can also open Veena from their own mic key.
+					</li>
+					<li>
+						<strong class="text-gray-900">iPhone:</strong> add the Veena keyboard
+						in Settings. Its mic hands your voice to the Veena app, which transcribes
+						it on your iPhone and sends the text back.
+					</li>
+				</ul>
 				<p class="text-gray-600 mb-6 max-w-2xl">
-					Use {lang.name} voice typing on your phone or computer. Veena is free, works
+					The keyboard can use a different language from the app. Gboard's and
+					Samsung Keyboard's own mic keys always use Google's or Samsung's voice
+					typing, so switch to the Veena keyboard there. Veena is free, works
 					offline after setup, and needs no account.
 				</p>
 				<StoreButtons variant="links" />
