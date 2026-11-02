@@ -4,7 +4,7 @@ import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import CTA from "../components/CTA.astro";
 import Footer from "../components/Footer.astro";
-import { SITE } from "../config/site.mjs";
+import { SITE, DOWNLOADS } from "../config/site.mjs";
 
 const appJsonLd = {
 	"@context": "https://schema.org",
@@ -17,10 +17,23 @@ const appJsonLd = {
 	inLanguage: "en",
 	author: { "@type": "Person", name: SITE.author },
 	offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+	sameAs: [DOWNLOADS.playStore, DOWNLOADS.appStore, SITE.github],
+};
+
+const sourceJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "SoftwareSourceCode",
+	name: "Veena",
+	description:
+		"Source code for the Veena apps, speech engine, and model pipeline.",
+	codeRepository: SITE.github,
+	license: "https://opensource.org/licenses/MIT",
+	programmingLanguage: ["Rust", "Kotlin", "Swift", "TypeScript"],
+	author: { "@type": "Person", name: SITE.author },
 };
 ---
 
-<Layout canonicalURL={`${SITE.url}/`} jsonLd={appJsonLd}>
+<Layout canonicalURL={`${SITE.url}/`} jsonLd={[appJsonLd, sourceJsonLd]}>
 	<Header />
 	<main id="main-content" role="main">
 		<Hero />

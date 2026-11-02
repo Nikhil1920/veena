@@ -12,6 +12,8 @@ export const SITE = {
 	ogImageAlt:
 		"Veena — offline speech to text for all 22 scheduled languages of India",
 	email: "anr.appcontact@gmail.com",
+	/** Public source repository (MIT). */
+	github: "https://github.com/Nikhil1920/veena",
 };
 
 /**
