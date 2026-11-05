@@ -18,18 +18,32 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxDefaults
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,10 +52,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.byanr.veena.android.data.HistoryEntry
 import com.byanr.veena.android.data.languageByCode
+import com.byanr.veena.android.ui.theme.StatusRecording
 import com.byanr.veena.android.ui.theme.veenaColors
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlinx.coroutines.launch
 
 @Composable
 fun HistoryScreen(
@@ -51,64 +67,125 @@ fun HistoryScreen(
     val entries by viewModel.entries.collectAsState()
     val clipboard = LocalClipboardManager.current
     val colors = veenaColors
+    val snackbar = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colors.background)
-            .padding(horizontal = 16.dp),
-    ) {
-        Spacer(Modifier.height(24.dp))
-        Text(
-            "History",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            color = colors.text,
-        )
-        Spacer(Modifier.height(12.dp))
-
-        if (entries.isEmpty()) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-            ) {
-                Icon(
-                    Icons.Outlined.History,
-                    contentDescription = null,
-                    tint = colors.textSecondary,
-                    modifier = Modifier.size(48.dp),
-                )
-                Spacer(Modifier.height(12.dp))
-                Text(
-                    "No recordings yet",
-                    color = colors.textSecondary,
-                    fontSize = 16.sp,
-                )
-                Text(
-                    "Dictations and imported files will appear here",
-                    color = colors.textSecondary,
-                    fontSize = 13.sp,
-                )
+    fun deleteWithUndo(entry: HistoryEntry) {
+        viewModel.deleteRow(entry)
+        scope.launch {
+            // A newer delete replaces the pending Undo; dismissing it commits the older one.
+            snackbar.currentSnackbarData?.dismiss()
+            var undone = false
+            try {
+                undone = snackbar.showSnackbar(
+                    message = "Recording deleted",
+                    actionLabel = "Undo",
+                    duration = SnackbarDuration.Long,
+                ) == SnackbarResult.ActionPerformed
+            } finally {
+                // Also runs if the screen leaves mid-snackbar, so audio is never orphaned.
+                if (undone) viewModel.restore(entry) else viewModel.deleteAudio(entry)
             }
-        } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.weight(1f),
-            ) {
-                items(entries, key = { it.id }) { entry ->
-                    HistoryRow(
-                        entry = entry,
-                        onClick = { onOpenEntry(entry.id) },
-                        onCopy = {
-                            clipboard.setText(AnnotatedString(entry.transcript))
-                        },
+        }
+    }
+
+    Box(Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+                .padding(horizontal = 16.dp),
+        ) {
+            Spacer(Modifier.height(24.dp))
+            Text(
+                "History",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = colors.text,
+            )
+            Spacer(Modifier.height(12.dp))
+
+            if (entries.isEmpty()) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                ) {
+                    Icon(
+                        Icons.Outlined.History,
+                        contentDescription = null,
+                        tint = colors.textSecondary,
+                        modifier = Modifier.size(48.dp),
                     )
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        "No recordings yet",
+                        color = colors.textSecondary,
+                        fontSize = 16.sp,
+                    )
+                    Text(
+                        "Dictations and imported files will appear here",
+                        color = colors.textSecondary,
+                        fontSize = 13.sp,
+                    )
+                }
+            } else {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier = Modifier.weight(1f),
+                ) {
+                    items(entries, key = { it.id }) { entry ->
+                        SwipeToDelete(onDelete = { deleteWithUndo(entry) }) {
+                            HistoryRow(
+                                entry = entry,
+                                onClick = { onOpenEntry(entry.id) },
+                                onCopy = {
+                                    clipboard.setText(AnnotatedString(entry.transcript))
+                                },
+                            )
+                        }
+                    }
                 }
             }
         }
+        SnackbarHost(
+            hostState = snackbar,
+            modifier = Modifier.align(Alignment.BottomCenter),
+        )
+    }
+}
+
+/** Swipe a row right-to-left to delete it, revealing a red trash background. */
+@Composable
+private fun SwipeToDelete(onDelete: () -> Unit, content: @Composable () -> Unit) {
+    val density = LocalDensity.current
+    val threshold = SwipeToDismissBoxDefaults.positionalThreshold
+    // Plain remember rather than rememberSwipeToDismissBoxState (rememberSaveable):
+    // a row brought back by Undo must not come back in its swiped-away state.
+    val state = remember {
+        SwipeToDismissBoxState(SwipeToDismissBoxValue.Settled, density, positionalThreshold = threshold)
+    }
+    LaunchedEffect(state.currentValue) {
+        if (state.currentValue == SwipeToDismissBoxValue.EndToStart) onDelete()
+    }
+    SwipeToDismissBox(
+        state = state,
+        enableDismissFromStartToEnd = false,
+        backgroundContent = {
+            Box(
+                contentAlignment = Alignment.CenterEnd,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(StatusRecording, MaterialTheme.shapes.medium)
+                    .padding(horizontal = 20.dp),
+            ) {
+                Icon(Icons.Outlined.Delete, contentDescription = "Delete", tint = Color.White)
+            }
+        },
+    ) {
+        content()
     }
 }
 

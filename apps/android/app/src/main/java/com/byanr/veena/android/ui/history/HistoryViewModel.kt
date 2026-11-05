@@ -35,6 +35,24 @@ class HistoryViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    /**
+     * Swipe-to-delete, step 1: drop the row but keep its audio so Undo can
+     * bring it back. Finish with [restore] or [deleteAudio].
+     */
+    fun deleteRow(entry: HistoryEntry) {
+        viewModelScope.launch { dao.delete(entry) }
+    }
+
+    /** Undo for [deleteRow]: re-inserts the row with its original id. */
+    fun restore(entry: HistoryEntry) {
+        viewModelScope.launch { dao.insert(entry) }
+    }
+
+    /** Commits a [deleteRow] once Undo is no longer offered. */
+    fun deleteAudio(entry: HistoryEntry) {
+        if (entry.audioPath.isNotBlank()) File(entry.audioPath).delete()
+    }
+
     override fun onCleared() {
         player.release()
         super.onCleared()
