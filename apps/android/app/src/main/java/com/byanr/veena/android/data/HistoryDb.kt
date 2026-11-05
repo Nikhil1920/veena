@@ -32,6 +32,9 @@ interface HistoryDao {
     @Query("SELECT * FROM history WHERE id = :id")
     suspend fun byId(id: Long): HistoryEntry?
 
+    @Query("SELECT * FROM history WHERE id = :id")
+    fun observeById(id: Long): Flow<HistoryEntry?>
+
     @Insert
     suspend fun insert(entry: HistoryEntry): Long
 

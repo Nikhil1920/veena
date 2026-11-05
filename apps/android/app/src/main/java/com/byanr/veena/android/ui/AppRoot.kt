@@ -179,7 +179,10 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                         },
                     )
                 }
-                composable("detail/{id}") { entry ->
+                composable(
+                    "detail/{id}",
+                    arguments = listOf(navArgument("id") { type = NavType.LongType }),
+                ) { entry ->
                     val id = entry.arguments?.getLong("id") ?: return@composable
                     HistoryDetailScreen(
                         entryId = id,

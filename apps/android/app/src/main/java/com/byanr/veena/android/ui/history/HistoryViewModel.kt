@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.byanr.veena.android.VeenaApplication
 import com.byanr.veena.android.audio.AudioPlayer
 import com.byanr.veena.android.data.HistoryEntry
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -21,6 +22,9 @@ class HistoryViewModel(app: Application) : AndroidViewModel(app) {
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     val player = AudioPlayer()
+
+    /** Emits null once the row is confirmed missing (e.g. after delete). */
+    fun observeEntry(id: Long): Flow<HistoryEntry?> = dao.observeById(id)
 
     fun delete(entry: HistoryEntry) {
         viewModelScope.launch {
