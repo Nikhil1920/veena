@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,12 +35,15 @@ import androidx.compose.material3.SwipeToDismissBoxDefaults
 import androidx.compose.material3.SwipeToDismissBoxState
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,6 +74,7 @@ fun HistoryScreen(
     val colors = veenaColors
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    var confirmDeleteAll by remember { mutableStateOf(false) }
 
     fun deleteWithUndo(entry: HistoryEntry) {
         viewModel.deleteRow(entry)
@@ -97,12 +103,24 @@ fun HistoryScreen(
                 .padding(horizontal = 16.dp),
         ) {
             Spacer(Modifier.height(24.dp))
-            Text(
-                "History",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = colors.text,
-            )
+            // Min height matches the Delete all button so the title doesn't jump when it hides.
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.heightIn(min = 48.dp),
+            ) {
+                Text(
+                    "History",
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                if (entries.isNotEmpty()) {
+                    TextButton(onClick = { confirmDeleteAll = true }) {
+                        Text("Delete all", color = colors.textSecondary)
+                    }
+                }
+            }
             Spacer(Modifier.height(12.dp))
 
             if (entries.isEmpty()) {
@@ -153,6 +171,38 @@ fun HistoryScreen(
         SnackbarHost(
             hostState = snackbar,
             modifier = Modifier.align(Alignment.BottomCenter),
+        )
+    }
+
+    if (confirmDeleteAll) {
+        val count = entries.size
+        AlertDialog(
+            onDismissRequest = { confirmDeleteAll = false },
+            containerColor = colors.backgroundElement,
+            titleContentColor = colors.text,
+            textContentColor = colors.textSecondary,
+            title = { Text("Delete all recordings?") },
+            text = {
+                Text(
+                    "This removes ${if (count == 1) "1 recording" else "all $count recordings"} " +
+                        "and their audio from this phone. This can't be undone.",
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmDeleteAll = false
+                    // Commit any pending swipe so its Undo can't bring one row back.
+                    snackbar.currentSnackbarData?.dismiss()
+                    viewModel.deleteAll()
+                }) {
+                    Text("Delete all", color = StatusRecording)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmDeleteAll = false }) {
+                    Text("Cancel", color = colors.text)
+                }
+            },
         )
     }
 }

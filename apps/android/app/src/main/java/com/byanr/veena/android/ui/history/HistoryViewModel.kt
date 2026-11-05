@@ -35,6 +35,15 @@ class HistoryViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    /** Removes every row and its audio file. */
+    fun deleteAll() {
+        viewModelScope.launch {
+            val all = dao.all()
+            dao.deleteAll()
+            all.forEach(::deleteAudio)
+        }
+    }
+
     /**
      * Swipe-to-delete, step 1: drop the row but keep its audio so Undo can
      * bring it back. Finish with [restore] or [deleteAudio].

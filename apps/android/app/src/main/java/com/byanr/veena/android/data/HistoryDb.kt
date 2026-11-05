@@ -40,6 +40,12 @@ interface HistoryDao {
 
     @Delete
     suspend fun delete(entry: HistoryEntry)
+
+    @Query("SELECT * FROM history")
+    suspend fun all(): List<HistoryEntry>
+
+    @Query("DELETE FROM history")
+    suspend fun deleteAll()
 }
 
 @Database(entities = [HistoryEntry::class], version = 1, exportSchema = false)
