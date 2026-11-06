@@ -51,6 +51,9 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlinx.coroutines.flow.map
+
+private class Loaded(val entry: HistoryEntry?)
 
 @Composable
 fun HistoryDetailScreen(
@@ -58,15 +61,19 @@ fun HistoryDetailScreen(
     onBack: () -> Unit,
     viewModel: HistoryViewModel = viewModel(),
 ) {
-    val entries by viewModel.entries.collectAsState()
-    val entry = entries.firstOrNull { it.id == entryId }
+    // Wrapped so "still loading" (null wrapper) differs from "row missing" (null entry).
+    val loaded by remember(entryId) {
+        viewModel.observeEntry(entryId).map { Loaded(it) }
+    }.collectAsState(initial = null)
+    val entry = loaded?.entry
     val playingPath by viewModel.player.playingPath.collectAsState()
     val clipboard = LocalClipboardManager.current
     val colors = veenaColors
 
     if (entry == null) {
-        // Deleted (or not yet loaded) — pop back.
-        LaunchedEffect(entryId) { onBack() }
+        // Only leave once the database says the row is gone (deleted or bad id),
+        // not on the first frame before it has loaded.
+        if (loaded != null) LaunchedEffect(entryId) { onBack() }
         return
     }
 

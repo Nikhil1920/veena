@@ -32,11 +32,20 @@ interface HistoryDao {
     @Query("SELECT * FROM history WHERE id = :id")
     suspend fun byId(id: Long): HistoryEntry?
 
+    @Query("SELECT * FROM history WHERE id = :id")
+    fun observeById(id: Long): Flow<HistoryEntry?>
+
     @Insert
     suspend fun insert(entry: HistoryEntry): Long
 
     @Delete
     suspend fun delete(entry: HistoryEntry)
+
+    @Query("SELECT * FROM history")
+    suspend fun all(): List<HistoryEntry>
+
+    @Query("DELETE FROM history")
+    suspend fun deleteAll()
 }
 
 @Database(entities = [HistoryEntry::class], version = 1, exportSchema = false)
