@@ -2,11 +2,10 @@ package com.byanr.veena.android.ime
 
 import android.Manifest
 import android.content.Context
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.byanr.veena.android.MainActivity
-import com.byanr.veena.android.audio.AudioFileDecoder
+import com.byanr.veena.android.audio.DebugMicAudio
 import com.byanr.veena.android.audio.MicRecorder
 import com.byanr.veena.android.data.LANGUAGES
 import com.byanr.veena.android.data.MicMode
@@ -15,6 +14,7 @@ import com.byanr.veena.android.data.ModelRepository
 import com.byanr.veena.android.data.Prefs
 import com.byanr.veena.android.data.ReviewPromptState
 import com.byanr.veena.android.engine.EngineManager
+import com.byanr.veena.android.engine.LiveDictation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.io.File
+import kotlinx.coroutines.withContext
 
 /** Why [ImeSession.startDictation] did or did not begin recording. */
 sealed interface StartOutcome {
@@ -51,7 +51,8 @@ sealed interface ImeDictationState {
  * flow (prepare model → record → transcribe) but owns its own [MicRecorder]
  * and never writes audio to disk or history. Start failures are reported via
  * [StartOutcome] and leave [state] untouched; only stop failures surface as
- * [ImeDictationState.Error].
+ * [ImeDictationState.Error]. While recording, [liveText] carries the text so
+ * far.
  */
 class ImeSession(
     context: Context,
@@ -74,6 +75,19 @@ class ImeSession(
     private val _micMode = MutableStateFlow(MicMode.HOLD)
     val micMode: StateFlow<MicMode> = _micMode
 
+    private val _liveText = MutableStateFlow("")
+
+    /**
+     * Text of the dictation being recorded, for the field to show until the
+     * transcript replaces it; its last words can still change. Empty when no
+     * dictation is under way.
+     */
+    val liveText: StateFlow<String> = _liveText
+
+    private var liveTranscription = true
+    private var live: LiveDictation? = null
+    private var testAudio: DebugMicAudio? = null
+
     private var tickerJob: Job? = null
     /** The language the current recording was started in. */
     private var recordingLanguage = DEFAULT_LANGUAGE
@@ -85,6 +99,7 @@ class ImeSession(
                     ?: settings.languageCode
                     ?: DEFAULT_LANGUAGE
                 _micMode.value = settings.micMode
+                liveTranscription = settings.liveTranscription
             }
         }
     }
@@ -122,11 +137,17 @@ class ImeSession(
             return@withLock StartOutcome.Failed(t.message ?: "Failed to load model")
         }
 
+        testAudio = withContext(Dispatchers.IO) { DebugMicAudio.load(appContext) }
         try {
             recorder.start(null) // Keyboard dictations stay out of disk and history.
         } catch (t: Throwable) {
             _state.value = ImeDictationState.Idle
             return@withLock StartOutcome.Failed(t.message ?: "Microphone unavailable")
+        }
+        _liveText.value = ""
+        if (liveTranscription) {
+            val audioFrom = testAudio?.let { it::samplesFrom } ?: recorder::samplesFrom
+            live = LiveDictation(scope, engine, code, audioFrom) { _liveText.value = it }
         }
 
         val startedAt = System.currentTimeMillis()
@@ -150,19 +171,24 @@ class ImeSession(
 
         tickerJob?.cancelAndJoin()
         tickerJob = null
+        val live = live.also { live = null }
 
         val recording = try {
             recorder.stop()
         } catch (t: Throwable) {
+            dropLiveText(live)
             _state.value = ImeDictationState.Error(t.message ?: "Failed to stop recording")
             return@withLock null
         }
 
         _state.value = ImeDictationState.Transcribing
         try {
-            val audio = debugTestAudio()
+            val audio = testAudio?.samples
                 ?: FloatArray(recording.samples.size) { recording.samples[it] / 32768f }
-            val text = engine.transcribe(audio, recording.sampleRate, recordingLanguage)
+            // The live session has most of the recording transcribed already;
+            // without it, or if it failed, the whole recording is done now.
+            val text = live?.finish(audio)
+                ?: engine.transcribe(audio, recording.sampleRate, recordingLanguage)
             _state.value = ImeDictationState.Idle
             if (text.isNotBlank()) {
                 _completedDictations.value += 1
@@ -172,7 +198,14 @@ class ImeSession(
         } catch (t: Throwable) {
             _state.value = ImeDictationState.Error(t.message ?: "Transcription failed")
             null
+        } finally {
+            _liveText.value = ""
         }
+    }
+
+    private suspend fun dropLiveText(live: LiveDictation?) {
+        live?.cancel()
+        _liveText.value = ""
     }
 
     fun cancelDictation() {
@@ -190,20 +223,11 @@ class ImeSession(
                     // Recorder already stopped; there is nothing to salvage.
                 }
                 _state.value = ImeDictationState.Idle
+                // Last: this waits out a preview in flight, and the
+                // microphone should not stay on for it.
+                dropLiveText(live.also { live = null })
             }
         }
-    }
-
-    /**
-     * Test hook for debuggable builds only: a `files/keyboard-test-audio.wav`
-     * (pushed with `adb shell run-as`) stands in for the microphone, since
-     * emulators have no voice to dictate with.
-     */
-    private fun debugTestAudio(): FloatArray? {
-        if (appContext.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 0) return null
-        val file = File(appContext.filesDir, "keyboard-test-audio.wav")
-        if (!file.exists()) return null
-        return runCatching { AudioFileDecoder.decodeToMono16k(file.absolutePath).first }.getOrNull()
     }
 
     /**
@@ -225,6 +249,7 @@ class ImeSession(
         scope.launch {
             mutex.withLock {
                 tickerJob?.cancel()
+                live.also { live = null }?.cancel()
                 if (recorder.isRecording) {
                     runCatching { recorder.stop() } // Samples are discarded.
                 }

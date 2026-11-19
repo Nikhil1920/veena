@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.byanr.veena.android.VeenaApplication
 import com.byanr.veena.android.audio.AudioFileDecoder
 import com.byanr.veena.android.audio.AudioPlayer
+import com.byanr.veena.android.audio.DebugMicAudio
 import com.byanr.veena.android.audio.Recording
 import com.byanr.veena.android.data.HistoryEntry
 import com.byanr.veena.android.data.Prefs
 import com.byanr.veena.android.data.ReviewPromptState
 import com.byanr.veena.android.engine.EngineState
+import com.byanr.veena.android.engine.LiveDictation
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -37,6 +39,7 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
     private val prefs = container.prefs
 
     private val currentLanguageCode = MutableStateFlow("te")
+    private var liveTranscription = true
 
     // The keyboard shares the engine: its loads and failures in another
     // model don't block the app, which loads its own model on demand.
@@ -61,6 +64,11 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
     // Increments whenever text is appended by the app (dictation/import) — lets
     // the UI auto-scroll to the newest output without reacting to manual edits.
     val textRevision = MutableStateFlow(0)
+    // Text of the recording in progress, shown until its transcript replaces
+    // it; empty when there is none. Its last words can still change.
+    val liveText = MutableStateFlow("")
+    private var live: LiveDictation? = null
+    private var testAudio: DebugMicAudio? = null
     val lastRecording = MutableStateFlow<Recording?>(null)
     val error = MutableStateFlow<String?>(null)
 
@@ -71,27 +79,39 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         if (isRecording.value) return
         if (!isEngineReady) throw IllegalStateException("Model not ready yet")
         val file = File(recordingsDir, "rec_${System.currentTimeMillis()}.wav")
+        testAudio = withContext(Dispatchers.IO) { DebugMicAudio.load(getApplication()) }
         recorder.start(file)
         isRecording.value = true
+        // No suspension between the flag and the session: a stop that sees
+        // the recording also sees its live text.
+        if (liveTranscription) {
+            val audioFrom = testAudio?.let { it::samplesFrom } ?: recorder::samplesFrom
+            live = LiveDictation(viewModelScope, engine, currentLanguage(), audioFrom) {
+                liveText.value = it
+            }
+        }
     }
 
     suspend fun stopRecordingAndTranscribe() {
         if (!isRecording.value) return
         isRecording.value = false
+        val live = live.also { live = null }
 
         val recording = try {
             recorder.stop()
         } catch (t: Throwable) {
+            dropLiveText(live)
             error.value = t.message ?: "Failed to stop recording"
             return
         }
         lastRecording.value = recording
         if (recording.durationMs < MIN_RECORDING_MS) {
             // Too short to contain speech — skip the inference pass.
+            dropLiveText(live)
             return
         }
 
-        transcribeSamples(recording.samples, recording.sampleRate) { transcript ->
+        transcribeSamples(recording.samples, recording.sampleRate, live) { transcript ->
             HistoryEntry(
                 createdAt = System.currentTimeMillis(),
                 languageCode = currentLanguage(),
@@ -172,16 +192,23 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         error.value = null
     }
 
+    /**
+     * Transcribes a finished recording. [live] has already transcribed most
+     * of it while it was being made; without it, or if it failed, the whole
+     * recording is transcribed now.
+     */
     private suspend fun transcribeSamples(
         samples: ShortArray,
         sampleRate: Int,
+        live: LiveDictation?,
         entryFor: suspend (String) -> HistoryEntry,
     ) {
         isTranscribing.value = true
         transcription = currentCoroutineContext().job
         try {
-            val audio = FloatArray(samples.size) { samples[it] / 32768f }
-            val transcript = engine.transcribe(audio, sampleRate, currentLanguage(), ::reportProgress)
+            val audio = testAudio?.samples ?: FloatArray(samples.size) { samples[it] / 32768f }
+            val transcript = live?.finish(audio)
+                ?: engine.transcribe(audio, sampleRate, currentLanguage(), ::reportProgress)
             if (transcript.isNotBlank()) {
                 appendText(transcript)
                 recordDictation()
@@ -207,7 +234,13 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         if (total > 1) transcribeProgress.value = completed.toFloat() / total
     }
 
+    private suspend fun dropLiveText(live: LiveDictation?) {
+        live?.cancel()
+        liveText.value = ""
+    }
+
     private fun finishTranscription() {
+        liveText.value = ""
         isTranscribing.value = false
         isCancelling.value = false
         transcribeProgress.value = null
@@ -238,7 +271,10 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
 
     init {
         viewModelScope.launch {
-            prefs.settings.collect { currentLanguageCode.value = it.languageCode ?: "te" }
+            prefs.settings.collect {
+                currentLanguageCode.value = it.languageCode ?: "te"
+                liveTranscription = it.liveTranscription
+            }
         }
     }
 

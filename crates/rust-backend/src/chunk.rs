@@ -7,7 +7,7 @@
 //! model), and the exported relative positional encoding stops at 5000
 //! encoder frames (~6 min 40 s). Bounded windows keep both in check.
 
-const SAMPLE_RATE: usize = 16_000;
+pub(crate) const SAMPLE_RATE: usize = 16_000;
 
 /// Longest window passed to the encoder in one run.
 pub(crate) const WINDOW_SECONDS: usize = 25;
@@ -17,7 +17,7 @@ const SEARCH_SAMPLES: usize = 3 * SAMPLE_RATE;
 /// Energy is compared over 100 ms blocks.
 const BLOCK_SAMPLES: usize = SAMPLE_RATE / 10;
 /// Neighbouring windows share 500 ms so a word cut at the boundary is heard whole.
-const OVERLAP_SAMPLES: usize = SAMPLE_RATE / 2;
+pub(crate) const OVERLAP_SAMPLES: usize = SAMPLE_RATE / 2;
 /// Fast speech stays under 6 words a second.
 const MAX_WORDS_PER_SECOND: usize = 6;
 /// Words compared when de-duplicating text the overlap produced twice: no more
@@ -29,33 +29,38 @@ const MAX_JOIN_WORDS: usize = OVERLAP_SAMPLES * MAX_WORDS_PER_SECOND / SAMPLE_RA
 /// quietest 100 ms block of each window's last 3 s. Short clips stay whole.
 pub(crate) fn split_audio(audio: &[f32], seconds: usize) -> Vec<&[f32]> {
     let max = seconds * SAMPLE_RATE;
-    if audio.len() <= max {
-        return vec![audio];
-    }
     let mut parts = Vec::new();
     let mut start = 0;
-    loop {
-        let mut end = (start + max).min(audio.len());
-        if end < audio.len() {
-            let mut lowest = f32::INFINITY;
-            let target = end;
-            for candidate in (target - SEARCH_SAMPLES..target).step_by(BLOCK_SAMPLES) {
-                let energy: f32 = audio[candidate..candidate + BLOCK_SAMPLES]
-                    .iter()
-                    .map(|s| s * s)
-                    .sum();
-                if energy < lowest {
-                    lowest = energy;
-                    end = candidate + BLOCK_SAMPLES / 2;
-                }
-            }
-        }
-        parts.push(&audio[start..end]);
-        if end == audio.len() {
-            return parts;
-        }
-        start = end - OVERLAP_SAMPLES;
+    while let Some(end) = full_window(&audio[start..], max) {
+        parts.push(&audio[start..start + end]);
+        start += end - OVERLAP_SAMPLES;
     }
+    parts.push(&audio[start..]);
+    parts
+}
+
+/// Length of the window at the front of `audio` once the audio runs past
+/// `max` samples: `max`, pulled back to the quietest 100 ms block of the
+/// window's last 3 s. `None` while everything still fits in one window. Only
+/// the first `max` samples are read, so audio that is still growing gets the
+/// same cut it would get once complete.
+pub(crate) fn full_window(audio: &[f32], max: usize) -> Option<usize> {
+    if audio.len() <= max {
+        return None;
+    }
+    let mut end = max;
+    let mut lowest = f32::INFINITY;
+    for candidate in (max - SEARCH_SAMPLES..max).step_by(BLOCK_SAMPLES) {
+        let energy: f32 = audio[candidate..candidate + BLOCK_SAMPLES]
+            .iter()
+            .map(|s| s * s)
+            .sum();
+        if energy < lowest {
+            lowest = energy;
+            end = candidate + BLOCK_SAMPLES / 2;
+        }
+    }
+    Some(end)
 }
 
 /// Digital silence: normalizing its features would only amplify noise.

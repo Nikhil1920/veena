@@ -21,3 +21,10 @@ fun isSensitiveField(inputType: Int): Boolean {
         else -> false
     }
 }
+
+/**
+ * False for a field that takes key events only (`TYPE_NULL`: terminals,
+ * games). It has no composing text to revise, so live text stays out of it
+ * and only the finished transcript is typed.
+ */
+fun showsLiveText(inputType: Int): Boolean = inputType != InputType.TYPE_NULL

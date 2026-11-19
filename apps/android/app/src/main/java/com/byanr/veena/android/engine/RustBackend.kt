@@ -39,6 +39,22 @@ object RustBackend {
     ): String?
 
     external fun transcriberDestroy(handlePtr: Long)
+
+    // Live transcription of a recording in progress: see [LiveTranscriber].
+    // A session takes one call at a time and is destroyed before its
+    // transcriber.
+
+    /** Returns 0 when the model does not support [language]. */
+    external fun liveCreate(handlePtr: Long, language: String?): Long
+
+    /** Adds 16 kHz mono samples to the end of the recording. */
+    external fun livePush(sessionPtr: Long, audioData: FloatArray)
+
+    external fun livePreview(sessionPtr: Long): String?
+
+    external fun liveFinish(sessionPtr: Long): String?
+
+    external fun liveDestroy(sessionPtr: Long)
 }
 
 /**

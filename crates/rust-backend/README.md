@@ -18,6 +18,16 @@ C ABI's `transcriber_transcribe_*_progress` report `(completed, total)`
 windows so apps can show progress on long files; returning `false` from the
 callback cancels before the next window.
 
+Text can also be had while a recording is still being made
+(`src/live.rs`, `Transcriber::live`, the C ABI's `live_session_*`). The
+models are full-context, not streaming, so a live session decodes the audio
+so far again as it grows; an encoder pass costs a few percent of the audio's
+duration (the 23 s test clip decodes in about 0.35 s on an Apple M4 with the
+Telugu model, 0.85 s with the multilingual one). `preview` returns the
+recording so far as text, whose last words can still change, and `finish`
+returns exactly what transcribing the whole recording would, with all but
+its last 25 s window already done.
+
 Model archives are **not** part of this repository; apps download them at
 runtime, and the export pipeline lives in `tools/voice-models`.
 
