@@ -1,0 +1,7 @@
+# Text files are LF in the repository and in every checkout, on Windows too, whatever
+# core.autocrlf says there. Git decides which files are text.
+* text=auto eol=lf
+
+# cmd.exe needs CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
