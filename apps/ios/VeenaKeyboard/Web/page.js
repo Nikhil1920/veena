@@ -108,18 +108,17 @@ async function veenaStart(config) {
 			autoGainControl: false,
 		};
 		opened = await navigator.mediaDevices.getUserMedia({ audio });
-		if (mine === generation) {
-			opening = new AudioContext();
-			await opening.resume();
-		}
 		if (mine !== generation) {
-			// Cancelled while the microphone was opening: a later start owns the shared state.
+			// Cancelled while the microphone was opening.
 			opened.getTracks().forEach((track) => track.stop());
-			if (opening) opening.close().catch(() => {});
 			return;
 		}
+		// Shared from here on, so a cancel turns the microphone off at once.
 		stream = opened;
-		context = opening;
+		context = opening = new AudioContext();
+		await opening.resume();
+		// Cancelled meanwhile: the cancel closed both, and a later start may own the shared state.
+		if (mine !== generation) return;
 		source = context.createMediaStreamSource(stream);
 		node = context.createScriptProcessor(4096, 1, 1);
 		let lastLevel = 0;
