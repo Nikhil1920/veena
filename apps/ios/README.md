@@ -11,6 +11,10 @@ a local history.
   ([XcodeGen](https://github.com/yonaskolb/XcodeGen) definition).
 - `Veena/` — application sources. `Veena/Bridging/rust_backend.h` is the
   app-side copy of the engine's C ABI header.
+- `Veena/Engine/` — the engine wrapper, and `LiveDictation`, which shows a
+  dictation's text in the Dictate box while it is still being recorded
+  (Settings → Live Transcription turns it off). Keyboard dictations show
+  their text only once finished.
 - `VeenaKeyboard/` — the voice keyboard extension. Keyboards can't record, so
   its mic hands dictation to the app (`Veena/Keyboard/`), which records in the
   background and sends the text back through the App Group.
@@ -55,6 +59,17 @@ relaunches Settings changes cause (`-keyboardTestAudio none` clears it):
 
 ```bash
 xcrun simctl launch <udid> com.byanr.veena -keyboardTestAudio sample.wav
+```
+
+### Testing dictation in the Simulator
+
+The same goes for the app's own mic button: in Debug builds,
+`-micTestAudio <name>` makes dictations hear `Documents/<name>` instead of
+the microphone, played at the pace a microphone would deliver it, so the live
+text (`Veena/Engine/LiveDictation.swift`) can be watched as it grows:
+
+```bash
+xcrun simctl launch <udid> com.byanr.veena -micTestAudio sample.wav
 ```
 
 Model archives are downloaded on first launch from Veena's model CDN; nothing

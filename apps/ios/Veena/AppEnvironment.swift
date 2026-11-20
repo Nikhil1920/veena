@@ -36,6 +36,11 @@ final class AppEnvironment {
         }
     }
 
+    /// Show text while a dictation in the app is still being recorded.
+    var liveTranscription: Bool {
+        didSet { UserDefaults.standard.set(liveTranscription, forKey: "liveTranscription") }
+    }
+
     /// The keyboard opened the app to start a session (veena://keyboard/session).
     var showKeyboardSession = false
     /// Keyboard setup was asked for from outside the Settings tab.
@@ -49,6 +54,7 @@ final class AppEnvironment {
         keyboardSession = KeyboardSessionController(engine: engine, models: models)
         languageCode = UserDefaults.standard.string(forKey: "languageCode")
         micMode = MicMode(rawValue: UserDefaults.standard.string(forKey: "micMode") ?? "") ?? .hold
+        liveTranscription = UserDefaults.standard.object(forKey: "liveTranscription") as? Bool ?? true
         KeyboardSharedSettings.micMode = micMode.rawValue
 
         keyboardSession.isAppRecording = { [recorder] in recorder.isRecording }

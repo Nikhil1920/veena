@@ -143,6 +143,14 @@ class MicRecorder {
         liveRms = sqrt(sum / n).toFloat()
     }
 
+    /**
+     * The samples recorded so far from index [from] on, as floats. Still
+     * answers after [stop], until the next [start].
+     */
+    fun samplesFrom(from: Int): FloatArray = synchronized(samples) {
+        FloatArray(maxOf(samples.size - from, 0)) { samples[from + it] / 32768f }
+    }
+
     suspend fun stop(): Recording = withContext(Dispatchers.IO) {
         val audioRecord =
             record ?: error("Recording not started")

@@ -86,6 +86,13 @@ class FieldPolicyTest {
     }
 
     @Test
+    fun keyEventOnlyFieldsShowNoLiveText() {
+        assertFalse(showsLiveText(InputType.TYPE_NULL))
+        assertTrue(showsLiveText(InputType.TYPE_CLASS_TEXT))
+        assertTrue(showsLiveText(InputType.TYPE_CLASS_NUMBER))
+    }
+
+    @Test
     fun urlFieldIsNotSensitive() {
         // TYPE_TEXT_VARIATION_URI shares its bits with TYPE_NUMBER_VARIATION_PASSWORD.
         assertFalse(

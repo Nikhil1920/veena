@@ -198,3 +198,61 @@ fn test_multilingual_long_audio_is_windowed_with_progress_and_cancel() {
     );
     assert_eq!(reports, vec![(0, total), (1, total)]);
 }
+
+#[test]
+fn test_multilingual_live_session_previews_then_matches_transcribe() {
+    let Some((model_path, config_path, vocab_path, masks_path)) = multi_model_paths() else {
+        println!("Skipping: multilingual model artifacts not present");
+        return;
+    };
+    let audio_path = project_root().join("telugu_test_audio.wav");
+    let (clip, sample_rate) =
+        rust_backend::preprocess::read_wav(audio_path.to_str().unwrap()).unwrap();
+    // A live session takes 16 kHz audio, as the recorders deliver it.
+    assert_eq!(sample_rate, 48_000);
+    let clip: Vec<f32> = clip
+        .chunks(3)
+        .map(|c| c.iter().sum::<f32>() / c.len() as f32)
+        .collect();
+
+    // Three takes separated by 1 s pauses: ~72 s, so windows settle mid-recording.
+    let pause = vec![0.0f32; 16_000];
+    let audio: Vec<f32> = [&clip[..], &pause, &clip, &pause, &clip].concat();
+
+    let transcriber = rust_backend::Transcriber::new_multilingual(
+        model_path.to_str().unwrap(),
+        config_path.to_str().unwrap(),
+        vocab_path.to_str().unwrap(),
+        masks_path.to_str().unwrap(),
+    )
+    .expect("Failed to create multilingual transcriber");
+
+    assert!(transcriber.live(Some("xx")).is_err());
+
+    let mut live = transcriber.live(Some("te")).unwrap();
+    let mut previews = Vec::new();
+    for part in audio.chunks(8_000) {
+        live.push(part);
+        previews.push(live.preview().expect("Live preview failed"));
+    }
+    let result = live.finish().expect("Live transcription failed");
+    println!(
+        "Last preview: {}\nResult: {}",
+        previews.last().unwrap(),
+        result
+    );
+
+    // Text arrives while the recording is still short...
+    let early = &previews[12 * 2];
+    assert_eq!(early.matches("దుకాణానికి").count(), 1, "at 12 s: {early}");
+    assert_eq!(early.matches("తెలుగు").count(), 1, "at 12 s: {early}");
+    // ...keeps up with it to the end...
+    let last = previews.last().unwrap();
+    assert_eq!(last.matches("దుకాణానికి").count(), 3);
+    assert_eq!(last.matches("తెలుగు").count(), 3);
+    // ...and the transcript is the one the whole recording gets.
+    assert_eq!(
+        result,
+        transcriber.transcribe(&audio, 16_000, Some("te")).unwrap()
+    );
+}

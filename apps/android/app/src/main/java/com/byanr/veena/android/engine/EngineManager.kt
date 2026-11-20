@@ -35,7 +35,8 @@ sealed class EngineState {
  * if the other side switched the engine away. The lock covers loading only:
  * transcriptions run concurrently (the native engine takes turns per
  * window), so a keyboard dictation never waits out a long import. A model
- * replaced mid-transcription is freed when its last transcription ends.
+ * replaced mid-transcription is freed when its last transcription, live
+ * ones included, ends.
  */
 class EngineManager(private val models: ModelRepository) {
 
@@ -173,6 +174,22 @@ class EngineManager(private val models: ModelRepository) {
         }
 
     /**
+     * Starts live transcription of a recording in [languageCode], loading
+     * its model first if needed. The model stays alive until the returned
+     * transcriber is closed, even if another caller switches models
+     * meanwhile.
+     */
+    suspend fun openLive(languageCode: String): LiveTranscriber {
+        val model = acquire(languageCode)
+        val session = RustBackend.liveCreate(model.handle, languageCode)
+        if (session == 0L) {
+            release(model)
+            throw IllegalStateException("Live transcription failed to start (see logcat)")
+        }
+        return LiveTranscriber(session) { release(model) }
+    }
+
+    /**
      * Runs one native transcription on the model for [languageCode], loading
      * it first if needed. The lock is held only while loading; the model
      * stays alive until the transcription ends even if another caller
@@ -184,13 +201,7 @@ class EngineManager(private val models: ModelRepository) {
         onProgress: ((completed: Int, total: Int) -> Unit)?,
         block: (handle: Long, TranscriptionProgress) -> String?,
     ): String {
-        val model = mutex.withLock {
-            if (!models.isDownloaded(ModelCatalog.modelForLanguage(languageCode))) {
-                throw IllegalStateException("Engine not ready")
-            }
-            loadLocked(languageCode)
-            checkNotNull(current).also { it.users++ }
-        }
+        val model = acquire(languageCode)
         try {
             return withContext(Dispatchers.Default) {
                 val job = coroutineContext.job
@@ -203,12 +214,24 @@ class EngineManager(private val models: ModelRepository) {
                 text ?: throw IllegalStateException("Transcription failed (see logcat)")
             }
         } finally {
-            withContext(NonCancellable) {
-                mutex.withLock {
-                    model.users--
-                    if (model.retired && model.users == 0) RustBackend.transcriberDestroy(model.handle)
-                }
-            }
+            release(model)
+        }
+    }
+
+    /** Loads the model for [languageCode] and counts the caller as its user. */
+    private suspend fun acquire(languageCode: String): LoadedModel = mutex.withLock {
+        if (!models.isDownloaded(ModelCatalog.modelForLanguage(languageCode))) {
+            throw IllegalStateException("Engine not ready")
+        }
+        loadLocked(languageCode)
+        checkNotNull(current).also { it.users++ }
+    }
+
+    /** Ends one use of [model], freeing it if it was replaced meanwhile. */
+    private suspend fun release(model: LoadedModel) = withContext(NonCancellable) {
+        mutex.withLock {
+            model.users--
+            if (model.retired && model.users == 0) RustBackend.transcriberDestroy(model.handle)
         }
     }
 
