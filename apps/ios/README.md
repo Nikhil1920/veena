@@ -12,10 +12,12 @@ a local history.
 - `Veena/` — application sources. `Veena/Bridging/rust_backend.h` is the
   app-side copy of the engine's C ABI header.
 - `VeenaKeyboard/` — the voice keyboard extension. Its mic takes one of two
-  routes. On iOS 26 and later, in Telugu, the keyboard records and
-  transcribes by itself (`KeyboardLocalDictation`): a hidden web view runs the
-  page in `VeenaKeyboard/Web/`, which records the microphone and runs Veena's
-  model on ONNX Runtime Web. Otherwise it hands dictation to the app
+  routes. On iOS 26 and later the keyboard records and transcribes by itself
+  (`KeyboardLocalDictation`) when its language has a small model on the
+  device: Telugu's own, or a language-specific one downloaded from Settings →
+  Keyboard (`ModelCatalog.keyboardModel`). A hidden web view runs the page in
+  `VeenaKeyboard/Web/`, which records the microphone and runs the model on
+  ONNX Runtime Web. Otherwise it hands dictation to the app
   (`Veena/Keyboard/`), which records in the background and sends the text back
   through the App Group.
 - `Shared/` — what the app and the keyboard have in common, compiled into

@@ -13,7 +13,7 @@ dictates into any app with Veena's on-device models.
 | Platform | Feasible? | What ships |
 |---|---|---|
 | Android | Yes | **Veena Voice Keyboard**, a voice-first input method you switch to with 🌐; and **Veena voice input**, which other keyboards' mic keys open directly. |
-| iOS | Yes | **Veena keyboard extension**. On iOS 26 and later, in Telugu, it records and transcribes by itself (added 21 November 2026). Otherwise its mic hands recording to the Veena app; the app transcribes on device and the text comes back to the keyboard. |
+| iOS | Yes | **Veena keyboard extension**. On iOS 26 and later it records and transcribes by itself (added 21 November 2026) in Telugu and, with a 130 MB language model downloaded, in 20 more languages. Otherwise its mic hands recording to the Veena app; the app transcribes on device and the text comes back to the keyboard. |
 
 What is *not* possible on either platform: making **Gboard's** or **iOS's own**
 mic key use Veena. Gboard and Samsung Keyboard always use Google/Samsung voice
@@ -118,7 +118,7 @@ automatically.
   touches disk and keyboard dictations stay out of history; the transcript
   passes through the shared container and is cleared ten seconds later.
 
-### Dictating without the app (iOS 26 and later, Telugu)
+### Dictating without the app (iOS 26 and later)
 
 Added 21 November 2026, after [Hex](https://github.com/anomalyco/hex) showed
 the way round the microphone rule: iOS refuses a keyboard extension the
@@ -143,12 +143,19 @@ well: its content process is a separate one, with room.
   used and watches over each dictation.
 - **Models** moved from the app's Application Support to `models/` in the App
   Group container so the keyboard can read them (`Shared/SharedModelStore.swift`).
+- **Which model** — one small enough for a web view's process, at most
+  250 MB (`ModelCatalog.keyboardModel`). Telugu's dedicated model (156 MB) is
+  one. The multilingual model the app uses for every other language (676 MB)
+  is not, so those languages use their language-specific builds from
+  `tools/voice-models` (balanced INT8, 147 MB, 130 MB to download), which
+  Settings → Keyboard offers for the keyboard's language. The app goes on
+  transcribing with the multilingual model. Manipuri has no model of its own
+  and always hands off.
 - **Route order** — a live session in the app first (native speed), then the
   keyboard itself, then opening Veena. The keyboard takes a dictation only
-  with Full Access, the microphone allowed in Veena, a model of at most 250 MB
-  (the multilingual one is 676 MB: every other language still hands off),
-  32 MB of memory to spare, and Settings → Keyboard → *Dictate without
-  opening Veena* on.
+  with Full Access, the microphone allowed in Veena, such a model on the
+  device, 24 MB of memory to spare, and Settings → Keyboard → *Dictate
+  without opening Veena* on.
 - **When it fails** — a dictation that never started recording goes to the
   app as before. Any failure sends that keyboard's later dictations through
   the app, and two in a row stop the route on that iPhone until the setting

@@ -93,8 +93,9 @@ function* fields(bytes, start, end) {
 test("externalize points large weights back into the model file", () => {
 	const large = Array.from({ length: 5000 }, (_, i) => i % 251);
 	const small = [1, 2, 3, 4];
+	// data_location = DEFAULT written out after the data, as some exporters do.
 	const tensor = (name, raw) =>
-		field(5, [8, 2, 16, 3, ...field(8, [...encoder.encode(name)]), ...field(9, raw)]);
+		field(5, [8, 2, 16, 3, ...field(8, [...encoder.encode(name)]), ...field(9, raw), 112, 0]);
 	const graph = [
 		...field(1, field(1, [...encoder.encode("node")])),
 		...tensor("large", large),
@@ -135,7 +136,7 @@ test("externalize points large weights back into the model file", () => {
 	}
 
 	assert.deepEqual(tensors.small.raw, small);
-	assert.equal(tensors.small.location, undefined);
+	assert.equal(tensors.small.location, 0);
 	assert.equal(tensors.large.raw, undefined);
 	assert.equal(tensors.large.location, 1);
 	assert.equal(tensors.large.external.location, "model.onnx");

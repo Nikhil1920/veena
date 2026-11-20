@@ -8,9 +8,9 @@ enum SharedModelStore {
     static let completeMarker = ".complete"
 
     /// The largest model the keyboard dictates with by itself. It runs in a
-    /// web view's process, which takes about three times the file while
-    /// loading: the Telugu model (156 MB) fits, the multilingual one (676 MB)
-    /// would not.
+    /// web view's process, which takes about four times the file while
+    /// loading: Telugu's model (156 MB) and each language's own (147 MB) fit,
+    /// the multilingual one (676 MB) would not.
     static let largestKeyboardModelBytes = 250 * 1024 * 1024
 
     /// nil when the App Group container is unreachable (in the keyboard:

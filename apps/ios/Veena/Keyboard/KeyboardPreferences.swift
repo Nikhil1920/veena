@@ -31,7 +31,8 @@ final class KeyboardPreferences {
     /// Whether the keyboard, set to `code`, dictates without the app.
     func dictatesInPlace(languageCode code: String?) -> Bool {
         guard Self.offersInPlaceDictation, inPlaceDictation, let code else { return false }
-        return SharedModelStore.files(modelID: ModelCatalog.model(forLanguage: code).id)?.fitsInKeyboard == true
+        guard let def = ModelCatalog.keyboardModel(forLanguage: code) else { return false }
+        return SharedModelStore.files(modelID: def.id)?.fitsInKeyboard == true
     }
 
     private init() {

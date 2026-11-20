@@ -109,7 +109,7 @@ final class ModelRepository {
     }
 
     func installedModels() -> [InstalledModel] {
-        ModelCatalog.all.filter { isDownloaded($0) }.map { def in
+        (ModelCatalog.all + ModelCatalog.languageModels).filter { isDownloaded($0) }.map { def in
             let dir = modelDir(def)
             let size = (try? FileManager.default.enumerator(at: dir, includingPropertiesForKeys: [.isRegularFileKey, .fileSizeKey]))?
                 .compactMap { $0 as? URL }

@@ -105,20 +105,27 @@ export function externalize(bytes, location) {
 				graph.push(bytes.subarray(item.fieldStart, item.dataEnd));
 				continue;
 			}
-			const tensor = [];
+			let tensor = [];
+			let moved = false;
 			for (const field of fields(bytes, item.dataStart, item.dataEnd)) {
 				const size = field.dataEnd - field.dataStart;
 				if (field.number === RAW_DATA && field.wire === LENGTH_DELIMITED && size >= SMALLEST_MOVED) {
+					moved = true;
 					tensor.push(
 						...entry("location", location),
 						...entry("offset", field.dataStart),
-						...entry("length", size),
-						Uint8Array.of(DATA_LOCATION << 3, 1) // data_location = EXTERNAL
+						...entry("length", size)
 					);
 				} else {
-					tensor.push(bytes.subarray(field.fieldStart, field.dataEnd));
+					tensor.push({ number: field.number, bytes: bytes.subarray(field.fieldStart, field.dataEnd) });
 				}
 			}
+			// Some exporters write data_location = DEFAULT out in full; the last
+			// value wins, so a moved tensor's own is dropped before EXTERNAL is added.
+			tensor = tensor
+				.filter((part) => !(moved && part.number === DATA_LOCATION))
+				.map((part) => part.bytes ?? part);
+			if (moved) tensor.push(Uint8Array.of(DATA_LOCATION << 3, 1));
 			graph.push(...wrap(INITIALIZER, tensor));
 		}
 		model.push(...wrap(GRAPH, graph));

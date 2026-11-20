@@ -9,8 +9,9 @@ import os
 ///
 /// It is one of two routes the mic can take. The other is the hand-off to the
 /// Veena app (`KeyboardBridge`), which stays the route whenever this one
-/// can't run: an older iOS, a model too large for a web view's process, a
-/// keyboard short of memory, or a failure earlier in this keyboard's life.
+/// can't run: an older iOS, no small model for the language on the iPhone
+/// (`ModelCatalog.keyboardModel`), a keyboard short of memory, or a failure
+/// earlier in this keyboard's life.
 final class KeyboardLocalDictation {
 
     enum Event {
@@ -64,8 +65,8 @@ final class KeyboardLocalDictation {
 
     /// The model in-place dictation would run for `code`, if it can take it.
     private static func model(forLanguage code: String) -> SharedModelStore.Files? {
-        guard let files = SharedModelStore.files(modelID: ModelCatalog.model(forLanguage: code).id),
-              files.fitsInKeyboard else { return nil }
+        guard let def = ModelCatalog.keyboardModel(forLanguage: code),
+              let files = SharedModelStore.files(modelID: def.id), files.fitsInKeyboard else { return nil }
         return files
     }
 

@@ -316,7 +316,7 @@ struct KeyboardSetupView: View {
             title("Using it in other apps")
             if settings.dictatesInPlace(languageCode: status?.languageCode) {
                 bodyText("Tap the mic in any app and speak: the keyboard listens and transcribes by itself. The first dictation after the keyboard opens takes a few seconds longer, while the model loads.")
-                bodyText("When it can't — your iPhone is short of memory, or the keyboard is set to a language other than Telugu — Veena opens for a moment to turn the microphone on. Go back and start speaking:")
+                bodyText("When it can't — your iPhone is short of memory, or the keyboard's language has no small model here yet (Settings › Keyboard offers it) — Veena opens for a moment to turn the microphone on. Go back and start speaking:")
             } else {
                 bodyText("The first time you tap the mic in another app, Veena opens for a moment to turn the microphone on — iOS only lets an app start the mic while it's on screen. Go back and start speaking:")
             }
