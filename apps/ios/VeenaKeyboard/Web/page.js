@@ -98,6 +98,8 @@ async function veenaStart(config) {
 	// The model loads while the user speaks.
 	startModel = ensureModel(config.model, config.language);
 	startModel.catch(() => {});
+	let opened;
+	let opening;
 	try {
 		const audio = {
 			channelCount: 1,
@@ -105,14 +107,19 @@ async function veenaStart(config) {
 			noiseSuppression: false,
 			autoGainControl: false,
 		};
-		const opened = await navigator.mediaDevices.getUserMedia({ audio });
+		opened = await navigator.mediaDevices.getUserMedia({ audio });
+		if (mine === generation) {
+			opening = new AudioContext();
+			await opening.resume();
+		}
 		if (mine !== generation) {
+			// Cancelled while the microphone was opening: a later start owns the shared state.
 			opened.getTracks().forEach((track) => track.stop());
+			if (opening) opening.close().catch(() => {});
 			return;
 		}
 		stream = opened;
-		context = new AudioContext();
-		await context.resume();
+		context = opening;
 		source = context.createMediaStreamSource(stream);
 		node = context.createScriptProcessor(4096, 1, 1);
 		let lastLevel = 0;
@@ -137,6 +144,9 @@ async function veenaStart(config) {
 			device: stream.getAudioTracks()[0].label,
 		});
 	} catch (error) {
+		// Whatever opened before the failure, whoever owns the shared state now.
+		if (opened && opened !== stream) opened.getTracks().forEach((track) => track.stop());
+		if (opening && opening !== context) opening.close().catch(() => {});
 		if (mine !== generation) return;
 		closeMicrophone();
 		if (testAudio) {

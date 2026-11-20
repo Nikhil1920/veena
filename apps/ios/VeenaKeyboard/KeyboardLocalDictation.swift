@@ -89,6 +89,7 @@ final class KeyboardLocalDictation {
     func prepare(languageCode code: String, in host: UIView) {
         guard !active, isAvailable(languageCode: code) else { return }
         _ = engine(forLanguage: code, in: host)
+        scheduleRelease(after: Self.lingerIdle)
     }
 
     private func engine(forLanguage code: String, in host: UIView) -> KeyboardWebEngine? {
