@@ -59,6 +59,9 @@ final class ModelRepository {
     private static let logger = Logger(subsystem: "com.byanr.veena", category: "models")
 
     private(set) var states: [String: DownloadState] = [:]
+    /// Counts installs and deletes. `isDownloaded` reads the disk, which
+    /// SwiftUI can't watch; reading this too redraws the views that ask.
+    private var installedRevision = 0
 
     /// Called after a model is installed or deleted.
     @ObservationIgnored var onInstalledModelsChanged: (() -> Void)?
@@ -105,7 +108,8 @@ final class ModelRepository {
     }
 
     func isDownloaded(_ def: ModelDef) -> Bool {
-        FileManager.default.fileExists(atPath: modelDir(def).appendingPathComponent(Self.completeMarker).path)
+        _ = installedRevision
+        return FileManager.default.fileExists(atPath: modelDir(def).appendingPathComponent(Self.completeMarker).path)
     }
 
     func installedModels() -> [InstalledModel] {
@@ -252,6 +256,7 @@ final class ModelRepository {
                 atPath: dest.appendingPathComponent(Self.completeMarker).path, contents: Data(def.url.absoluteString.utf8))
             try? FileManager.default.removeItem(at: partial)
             await setState(.idle)
+            await MainActor.run { self.installedRevision += 1 }
             onInstalledModelsChanged?()
             Self.logger.log("download(\(def.id, privacy: .public)) finished")
         } catch let error as CancellationError {
@@ -268,6 +273,7 @@ final class ModelRepository {
         try? FileManager.default.removeItem(at: modelDir(def))
         try? FileManager.default.removeItem(at: modelsDir.appendingPathComponent("\(def.id).tar.gz.partial"))
         states[def.id] = .idle
+        installedRevision += 1
         onInstalledModelsChanged?()
     }
 
