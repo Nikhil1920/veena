@@ -65,10 +65,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -88,6 +86,7 @@ import com.byanr.veena.android.ui.theme.StatusInitializing
 import com.byanr.veena.android.ui.theme.StatusReady
 import com.byanr.veena.android.ui.theme.StatusRecording
 import com.byanr.veena.android.ui.settings.isVoiceKeyboardReady
+import com.byanr.veena.android.ui.copyText
 import com.byanr.veena.android.ui.shareVeena
 import com.byanr.veena.android.ui.theme.veenaColors
 import kotlinx.coroutines.delay
@@ -101,7 +100,6 @@ fun DictateScreen(
     viewModel: DictateViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val clipboard = LocalClipboardManager.current
     val scope = rememberCoroutineScope()
     val colors = veenaColors
 
@@ -320,7 +318,7 @@ fun DictateScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         TextButton(
-                            onClick = { clipboard.setText(AnnotatedString(text)) },
+                            onClick = { context.copyText(text) },
                             enabled = text.isNotEmpty(),
                             colors = ButtonDefaults.textButtonColors(contentColor = colors.textSecondary),
                         ) {
