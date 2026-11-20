@@ -50,8 +50,9 @@ struct InstalledModel {
 }
 
 /// Downloads model tarballs from dl.byanr.com (the same channel the desktop
-/// app uses), verifies them, and unpacks them under
-/// Application Support/models/<id>/. Downloads resume from .partial files.
+/// app uses), verifies them, and unpacks them under models/<id>/ in the App
+/// Group container, where the keyboard can read them too
+/// (`SharedModelStore`). Downloads resume from .partial files.
 @Observable
 final class ModelRepository {
 
@@ -63,12 +64,40 @@ final class ModelRepository {
     @ObservationIgnored var onInstalledModelsChanged: (() -> Void)?
 
     private let modelsDir: URL
-    private static let completeMarker = ".complete"
+    private static let completeMarker = SharedModelStore.completeMarker
 
     init() {
         let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        modelsDir = support.appendingPathComponent("models", isDirectory: true)
+        let legacy = support.appendingPathComponent("models", isDirectory: true)
+        // Without the App Group (a build signed without it) models stay where
+        // they always were, and only the keyboard's own dictation is lost.
+        modelsDir = SharedModelStore.directory ?? legacy
         try? FileManager.default.createDirectory(at: modelsDir, withIntermediateDirectories: true)
+        if modelsDir != legacy {
+            Self.moveModels(from: legacy, to: modelsDir)
+        }
+    }
+
+    /// Versions before 1.2 kept models in Application Support. Both places
+    /// are on one volume, so moving a model is a rename, not a copy.
+    private static func moveModels(from legacy: URL, to shared: URL) {
+        let files = FileManager.default
+        guard let items = try? files.contentsOfDirectory(at: legacy, includingPropertiesForKeys: nil) else { return }
+        for item in items {
+            let destination = shared.appendingPathComponent(item.lastPathComponent)
+            do {
+                if files.fileExists(atPath: destination.path) {
+                    try files.removeItem(at: item)
+                } else {
+                    try files.moveItem(at: item, to: destination)
+                }
+            } catch {
+                logger.error("moving \(item.lastPathComponent, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
+            }
+        }
+        if (try? files.contentsOfDirectory(atPath: legacy.path))?.isEmpty == true {
+            try? files.removeItem(at: legacy)
+        }
     }
 
     func modelDir(_ def: ModelDef) -> URL {
@@ -94,16 +123,7 @@ final class ModelRepository {
 
     /// The tarball wraps files in a top-level directory; the loader wants that dir.
     func contentDir(_ def: ModelDef) -> URL {
-        let dir = modelDir(def)
-        guard let children = try? FileManager.default.contentsOfDirectory(
-            at: dir, includingPropertiesForKeys: [.isDirectoryKey]
-        ) else { return dir }
-        let visible = children.filter { !$0.lastPathComponent.hasPrefix(".") && !$0.lastPathComponent.hasPrefix("._") }
-        if visible.contains(where: { !$0.hasDirectoryPath && $0.pathExtension == "onnx" }) {
-            return dir
-        }
-        let inner = visible.filter { $0.hasDirectoryPath }
-        return inner.count == 1 ? inner[0] : dir
+        SharedModelStore.contentDirectory(of: modelDir(def))
     }
 
     /// Downloads the model for a language if needed; returns the content dir.

@@ -6,6 +6,8 @@ import Foundation
 /// hand-off: the keyboard sends commands, the app records and transcribes
 /// (in the background, through an audio session the user starts by opening
 /// the app once), and the text travels back for the keyboard to insert.
+/// Where the keyboard can dictate by itself (`KeyboardLocalDictation`, in the
+/// keyboard target), the hand-off is what it falls back on.
 /// Both sides exchange small JSON files in the shared App Group container and
 /// wake each other with Darwin notifications, which carry no payload.
 ///
@@ -32,6 +34,10 @@ enum KeyboardBridge {
     /// How long a keyboard waits for the app to come back after sending the
     /// user over to start a session; past it, the keyboard won't auto-start.
     static let pendingStartLifetime: TimeInterval = 60
+
+    /// How many in-place dictations may fail in a row before the keyboard
+    /// goes back to the hand-off for good.
+    static let inPlaceFailureLimit = 2
 
     static let sessionLengthChoices = [5, 15, 60]
     static let defaultSessionMinutes = 5
@@ -203,6 +209,9 @@ enum KeyboardSharedSettings {
         static let sessionMinutes = "keyboard.sessionMinutes"
         static let lastSeenWithFullAccess = "keyboard.lastSeenWithFullAccess"
         static let pendingStart = "keyboard.pendingStart"
+        static let inPlaceDictation = "keyboard.inPlaceDictation"
+        static let appMicrophoneGranted = "app.microphoneGranted"
+        static let inPlaceFailures = "keyboard.inPlaceFailures"
     }
 
     /// The keyboard's own dictation language; nil follows the app's.
@@ -247,6 +256,31 @@ enum KeyboardSharedSettings {
             return KeyboardBridge.sessionLengthChoices.contains(stored) ? stored : KeyboardBridge.defaultSessionMinutes
         }
         set { defaults?.set(newValue, forKey: Key.sessionMinutes) }
+    }
+
+    /// Whether the keyboard may dictate by itself instead of handing off to
+    /// the app (on unless the user turns it off in Settings).
+    static var inPlaceDictation: Bool {
+        get { defaults?.object(forKey: Key.inPlaceDictation) as? Bool ?? true }
+        set { defaults?.set(newValue, forKey: Key.inPlaceDictation) }
+    }
+
+    /// In-place dictations that failed in a row. Past
+    /// `KeyboardBridge.inPlaceFailureLimit` the keyboard stops trying on this
+    /// iPhone and hands off, until the user turns the setting on again.
+    static var inPlaceFailures: Int {
+        get { defaults?.integer(forKey: Key.inPlaceFailures) ?? 0 }
+        set { defaults?.set(newValue, forKey: Key.inPlaceFailures) }
+    }
+
+    /// The app's microphone permission as the app last read it. The keyboard
+    /// keeps the reading it started with, so it goes by this one as well.
+    static var appMicrophoneGranted: Bool {
+        get { defaults?.bool(forKey: Key.appMicrophoneGranted) ?? false }
+        set {
+            guard newValue != appMicrophoneGranted else { return }
+            defaults?.set(newValue, forKey: Key.appMicrophoneGranted)
+        }
     }
 
     /// Written by the keyboard whenever it appears with Full Access — the only

@@ -45,15 +45,24 @@ targets:
         # The Rust staticlib embeds ONNX Runtime C++; its C++ runtime deps
         # are not auto-linked by the Swift-only app target.
         OTHER_LDFLAGS: "$(inherited) -lc++"
-  # The voice keyboard. Keyboards can't record, so it hands dictation to the
-  # app through the App Group (Shared/KeyboardBridge.swift).
+  # The voice keyboard. It dictates by itself where it can (the page and
+  # engine in VeenaKeyboard/Web, run in a hidden web view) and otherwise hands
+  # dictation to the app through the App Group (Shared/KeyboardBridge.swift).
   VeenaKeyboard:
     type: app-extension
     platform: iOS
     sources:
       - path: VeenaKeyboard
+        excludes:
+          - Web
+      # A folder, so the page's relative paths survive into the bundle. Run
+      # scripts/fetch-keyboard-runtime.sh first: it fills Web/ort.
+      - path: VeenaKeyboard/Web
+        type: folder
+        buildPhase: resources
       - path: Shared
       - path: Veena/Data/Languages.swift
+      - path: Veena/Data/ModelCatalog.swift
       - path: Veena/Theme.swift
     settings:
       base:

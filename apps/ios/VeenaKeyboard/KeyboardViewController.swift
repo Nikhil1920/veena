@@ -2,8 +2,8 @@ import SwiftUI
 import UIKit
 
 /// The Veena keyboard: a voice-first panel (language, mic, globe, delete,
-/// space, return) whose dictation runs in the Veena app — see
-/// `KeyboardModel` and `KeyboardBridge`.
+/// space, return). Its dictation runs in the keyboard where it can and in
+/// the Veena app otherwise — see `KeyboardModel`.
 final class KeyboardViewController: UIInputViewController {
 
     private let model = KeyboardModel()
@@ -112,6 +112,10 @@ extension KeyboardViewController: KeyboardHost {
 
     func insertText(_ text: String) {
         textDocumentProxy.insertText(text)
+    }
+
+    var dictationHostView: UIView? {
+        isViewLoaded ? view : nil
     }
 
     /// Keyboards have no API to open their app. Apple's suggested route is the

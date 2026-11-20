@@ -165,6 +165,10 @@ struct SettingsView: View {
                 }
             }
 
+            if KeyboardPreferences.offersInPlaceDictation {
+                Toggle("Dictate without opening Veena", isOn: $preferences.inPlaceDictation)
+            }
+
             Picker("Keep mic ready for", selection: $preferences.sessionMinutes) {
                 ForEach(KeyboardBridge.sessionLengthChoices, id: \.self) { minutes in
                     Text(minutes >= 60 ? "1 hour" : "\(minutes) minutes").tag(minutes)
@@ -189,7 +193,9 @@ struct SettingsView: View {
         } header: {
             Text("Keyboard")
         } footer: {
-            Text("The keyboard hands your voice to this app, which transcribes it on your iPhone. After you dictate, the mic stays ready for the time above.")
+            Text(KeyboardPreferences.offersInPlaceDictation
+                 ? "In Telugu the keyboard listens and transcribes by itself, on your iPhone. In other languages, or with the switch off, it hands your voice to this app, and the mic then stays ready for the time above."
+                 : "The keyboard hands your voice to this app, which transcribes it on your iPhone. After you dictate, the mic stays ready for the time above.")
         }
     }
 
