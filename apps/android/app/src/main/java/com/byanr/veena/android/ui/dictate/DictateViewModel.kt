@@ -85,7 +85,9 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
             error.value = t.message ?: "Failed to stop recording"
             return
         }
-        lastRecording.value = recording
+        // The screen only plays the file back; keeping the samples here would
+        // hold the whole recording in memory through the next one.
+        lastRecording.value = recording.copy(samples = ShortArray(0))
         if (recording.durationMs < MIN_RECORDING_MS) {
             // Too short to contain speech — skip the inference pass.
             return
