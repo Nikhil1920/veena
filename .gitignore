@@ -87,6 +87,7 @@ apps/web/tests/browser/results/
 # === Xcode (apps/ios) ===
 apps/ios/Veena.xcodeproj/
 apps/ios/frameworks/
+apps/ios/VeenaKeyboard/Web/ort/
 xcuserdata/
 *.xcuserstate
 DerivedData/

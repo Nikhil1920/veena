@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import UIKit
 import os
 
 /// What the keyboard model needs from its input view controller.
@@ -8,6 +9,8 @@ protocol KeyboardHost: AnyObject {
     var textBeforeCursor: String? { get }
     func insertText(_ text: String)
     func openContainingApp(_ url: URL, completion: @escaping (Bool) -> Void)
+    /// Where in-place dictation keeps its hidden web view.
+    var dictationHostView: UIView? { get }
 }
 
 /// The keyboard's side of the hand-off described in `KeyboardBridge`: it
@@ -15,8 +18,9 @@ protocol KeyboardHost: AnyObject {
 /// the UI, and inserts the text that comes back.
 ///
 /// When the app has no live session (it is suspended and can't turn the
-/// microphone on from the background), the mic opens Veena instead; the user
-/// returns here and the keyboard starts the dictation by itself.
+/// microphone on from the background), the keyboard dictates by itself where
+/// it can (`KeyboardLocalDictation`). Where it can't, the mic opens Veena
+/// instead; the user returns here and the keyboard starts the dictation.
 @Observable
 final class KeyboardModel {
 
@@ -49,6 +53,8 @@ final class KeyboardModel {
     /// A tap on the mic starts recording without opening the app: a live
     /// session, or the app is on screen and can turn the mic on itself.
     private(set) var appReachable = false
+    /// A tap on the mic records in the keyboard itself, with no trip to Veena.
+    private(set) var dictatesInPlace = false
     private(set) var sessionEndsAt: Date?
     private(set) var languageCode: String?
     private(set) var installedLanguages: [String] = []
@@ -65,6 +71,9 @@ final class KeyboardModel {
 
     @ObservationIgnored weak var host: KeyboardHost?
 
+    @ObservationIgnored private let local = KeyboardLocalDictation()
+    /// The dictation under way runs in the keyboard, not in the app.
+    @ObservationIgnored private var isLocal = false
     @ObservationIgnored private var requestID: UUID?
     @ObservationIgnored private var connectDeadline: Date?
     @ObservationIgnored private var pendingDeadline: Date?
@@ -106,7 +115,12 @@ final class KeyboardModel {
         if KeyboardSharedSettings.pendingStart != nil {
             pendingDeadline = Date().addingTimeInterval(Self.pendingWait)
         }
+        local.keyboardShown()
         readState()
+        // With no session in the app to take the mic, the keyboard gets ready to.
+        if !appReachable, let code = languageCode, let view = host?.dictationHostView {
+            local.prepare(languageCode: code, in: view)
+        }
     }
 
     func disappear() {
@@ -116,6 +130,7 @@ final class KeyboardModel {
         if let requestID, phase == .connecting || isRecording {
             send(.cancel, requestID: requestID)
         }
+        local.keyboardHidden()
         if phase != .waking {
             reset()
         }
@@ -129,6 +144,7 @@ final class KeyboardModel {
         installedLanguages = KeyboardSharedSettings.installedLanguageCodes
         languageCode = KeyboardSharedSettings.effectiveKeyboardLanguage
         holdToTalk = KeyboardSharedSettings.micMode == "hold"
+        dictatesInPlace = languageCode.map { local.isAvailable(languageCode: $0) } ?? false
     }
 
     func selectLanguage(_ code: String) {
@@ -186,6 +202,9 @@ final class KeyboardModel {
     }
 
     func cancel() {
+        if isLocal {
+            local.cancel()
+        }
         if let requestID {
             send(.cancel, requestID: requestID)
         }
@@ -211,10 +230,58 @@ final class KeyboardModel {
             return
         }
         tapToFinish = false
+        // A live session in the app is the quickest route, the keyboard
+        // itself the next; opening Veena is what's left.
         if KeyboardBridge.readState()?.acceptsStart() == true {
             sendStart(languageCode: code)
-        } else {
+        } else if !startLocal(languageCode: code) {
             wake(languageCode: code)
+        }
+    }
+
+    // MARK: In-place dictation
+
+    private func startLocal(languageCode code: String) -> Bool {
+        local.onEvent = { [weak self] event in self?.handleLocal(event) }
+        guard let view = host?.dictationHostView, local.start(languageCode: code, in: view) else { return false }
+        Self.logger.log("start in place \(code, privacy: .public)")
+        isLocal = true
+        stopWhenRecording = false
+        phase = .connecting
+        return true
+    }
+
+    private func handleLocal(_ event: KeyboardLocalDictation.Event) {
+        guard isLocal else { return }
+        switch event {
+        case .started:
+            guard phase == .connecting else { return }
+            phase = .recording(startedAt: Date())
+            if stopWhenRecording {
+                stopWhenRecording = false
+                stop()
+            }
+        case .level(let value):
+            if isRecording { level = value }
+        case .stopped:
+            if isRecording {
+                phase = .transcribing
+                level = 0
+            }
+        case .finished(let text):
+            reset()
+            insert(text)
+        case .microphoneFailed, .failed:
+            let neverRecorded = phase == .connecting
+            let code = languageCode
+            reset()
+            refreshSettings()
+            if neverRecorded, let code {
+                // Nothing was said yet, so the app can still take this dictation.
+                wake(languageCode: code)
+            } else {
+                notice = .failed("Couldn't transcribe in the keyboard. Tap the mic to dictate through the Veena app.")
+            }
         }
     }
 
@@ -230,6 +297,12 @@ final class KeyboardModel {
     }
 
     private func stop() {
+        if isLocal {
+            local.stop()
+            phase = .transcribing
+            level = 0
+            return
+        }
         guard let requestID else { return }
         send(.stop, requestID: requestID)
         stopSent = true
@@ -263,6 +336,7 @@ final class KeyboardModel {
     }
 
     private func reset() {
+        isLocal = false
         requestID = nil
         connectDeadline = nil
         stopWhenRecording = false
@@ -333,7 +407,7 @@ final class KeyboardModel {
     /// once the session they started there is live. Returns true while still
     /// waiting for that session.
     private func resumePendingStart(_ state: KeyboardSessionState?, now: Date) -> Bool {
-        guard let pending = KeyboardSharedSettings.pendingStart, requestID == nil,
+        guard let pending = KeyboardSharedSettings.pendingStart, requestID == nil, !isLocal,
               appearedAt > pending.createdAt, appearedAt != .distantFuture else { return false }
         guard now.timeIntervalSince(pending.createdAt) < KeyboardBridge.pendingStartLifetime else {
             KeyboardSharedSettings.pendingStart = nil

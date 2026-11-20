@@ -11,11 +11,20 @@ a local history.
   ([XcodeGen](https://github.com/yonaskolb/XcodeGen) definition).
 - `Veena/` — application sources. `Veena/Bridging/rust_backend.h` is the
   app-side copy of the engine's C ABI header.
-- `VeenaKeyboard/` — the voice keyboard extension. Keyboards can't record, so
-  its mic hands dictation to the app (`Veena/Keyboard/`), which records in the
-  background and sends the text back through the App Group.
-- `Shared/` — the keyboard ↔ app contract (`KeyboardBridge.swift`), compiled
-  into both targets.
+- `VeenaKeyboard/` — the voice keyboard extension. Its mic takes one of two
+  routes. On iOS 26 and later the keyboard records and transcribes by itself
+  (`KeyboardLocalDictation`) when its language has a small model on the
+  device: Telugu's own, or a language-specific one downloaded from Settings →
+  Keyboard (`ModelCatalog.keyboardModel`). A hidden web view runs the page in
+  `VeenaKeyboard/Web/`, which records the microphone and runs the model on
+  ONNX Runtime Web. Otherwise it hands dictation to the app
+  (`Veena/Keyboard/`), which records in the background and sends the text back
+  through the App Group.
+- `Shared/` — what the app and the keyboard have in common, compiled into
+  both targets: the hand-off contract (`KeyboardBridge.swift`) and where the
+  models are (`SharedModelStore.swift`).
+- `scripts/fetch-keyboard-runtime.sh` — downloads the pinned ONNX Runtime Web
+  build into `VeenaKeyboard/Web/ort/`.
 - `APP_STORE_LISTING.md` — App Store metadata.
 
 The keyboard's design, setup tour and limits are described in
@@ -27,7 +36,14 @@ The keyboard's design, setup tour and limits are described in
    [`crates/rust-backend/README.md`](../../crates/rust-backend/README.md)) and
    place it at `frameworks/RustBackend.xcframework`. The framework is a build
    artifact and is never committed.
-2. Generate the Xcode project and open it:
+2. Fetch the web runtime the keyboard's own dictation runs on. Like the
+   XCFramework it is a build artifact and is never committed; without it the
+   keyboard still builds and always hands off to the app.
+
+   ```bash
+   apps/ios/scripts/fetch-keyboard-runtime.sh
+   ```
+3. Generate the Xcode project and open it:
 
    ```bash
    brew install xcodegen   # once
@@ -57,5 +73,19 @@ relaunches Settings changes cause (`-keyboardTestAudio none` clears it):
 xcrun simctl launch <udid> com.byanr.veena -keyboardTestAudio sample.wav
 ```
 
+That covers dictations the app records. For the ones the keyboard records by
+itself, a Debug keyboard transcribes `keyboard/test-audio.wav` in the App Group
+container (16-bit PCM) instead of what its microphone heard:
+
+```bash
+group=$(xcrun simctl get_app_container <udid> com.byanr.veena groups | cut -f2)
+cp sample.wav "$group/keyboard/test-audio.wav"
+```
+
+The keyboard logs each step, with its own memory, under the subsystem
+`com.byanr.veena`, category `keyboard-local`.
+
 Model archives are downloaded on first launch from Veena's model CDN; nothing
-model-related is bundled.
+model-related is bundled. They are unpacked into `models/` in the App Group
+container, where the keyboard reads them too. Versions before 1.2 kept them
+in the app's Application Support; the app moves them over on its first launch.

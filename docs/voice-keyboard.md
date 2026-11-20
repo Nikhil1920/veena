@@ -13,7 +13,7 @@ dictates into any app with Veena's on-device models.
 | Platform | Feasible? | What ships |
 |---|---|---|
 | Android | Yes | **Veena Voice Keyboard**, a voice-first input method you switch to with 🌐; and **Veena voice input**, which other keyboards' mic keys open directly. |
-| iOS | Yes, with a hand-off | **Veena keyboard extension** whose mic hands recording to the Veena app (keyboards can't use the microphone); the app transcribes on device and the text comes back to the keyboard. |
+| iOS | Yes | **Veena keyboard extension**. On iOS 26 and later it records and transcribes by itself (added 21 November 2026) in Telugu and, with a 130 MB language model downloaded, in 20 more languages. Otherwise its mic hands recording to the Veena app; the app transcribes on device and the text comes back to the keyboard. |
 
 What is *not* possible on either platform: making **Gboard's** or **iOS's own**
 mic key use Veena. Gboard and Samsung Keyboard always use Google/Samsung voice
@@ -117,6 +117,64 @@ automatically.
   transcription names its language (same fix as Android). Keyboard audio never
   touches disk and keyboard dictations stay out of history; the transcript
   passes through the shared container and is cleared ten seconds later.
+
+### Dictating without the app (iOS 26 and later)
+
+Added 21 November 2026, after [Hex](https://github.com/anomalyco/hex) showed
+the way round the microphone rule: iOS refuses a keyboard extension the
+microphone, but a `WKWebView` inside one may call `getUserMedia`, and
+WebKit's media process then records under the containing app's permission.
+Hex transcribes with Apple's speech models. Veena has to run its own, which
+is the second problem: iOS ends a keyboard that grows past roughly 60–90 MB,
+and the Telugu model needs several hundred. Mapping the weights from disk got
+the native engine down to about 45 MB before any audio and 20 MB more per
+2 s of it, which is still too much. So the model runs in the web view as
+well: its content process is a separate one, with room.
+
+- **Web side** — `VeenaKeyboard/Web/`. `page.js` records (the capture Hex
+  uses) and resamples to 16 kHz. `engine.js`, a worker, runs the model on ONNX
+  Runtime Web's WASM build and decodes; `features.js` is a port of
+  `apps/web`'s pipeline, held to the same fixtures by
+  `apps/web/tests/keyboard-engine.test.mjs`. `onnx.js` rewrites the model so
+  its weights are copied once instead of twice.
+- **Keyboard side** — `KeyboardWebEngine.swift` hosts the hidden web view and
+  serves it the page from the bundle and the model from the App Group, in
+  1 MB pieces. `KeyboardLocalDictation.swift` decides when this route may be
+  used and watches over each dictation.
+- **Models** moved from the app's Application Support to `models/` in the App
+  Group container so the keyboard can read them (`Shared/SharedModelStore.swift`).
+- **Which model** — one small enough for a web view's process, at most
+  250 MB (`ModelCatalog.keyboardModel`). Telugu's dedicated model (156 MB) is
+  one. The multilingual model the app uses for every other language (676 MB)
+  is not, so those languages use their language-specific builds from
+  `tools/voice-models` (balanced INT8, 147 MB, 130 MB to download), which
+  Settings → Keyboard offers for the keyboard's language. The app goes on
+  transcribing with the multilingual model. Manipuri has no model of its own
+  and always hands off.
+- **Route order** — a live session in the app first (native speed), then the
+  keyboard itself, then opening Veena. The keyboard takes a dictation only
+  with Full Access, the microphone allowed in Veena, such a model on the
+  device, 24 MB of memory to spare, and Settings → Keyboard → *Dictate
+  without opening Veena* on.
+- **When it fails** — a dictation that never started recording goes to the
+  app as before. Any failure sends that keyboard's later dictations through
+  the app, and two in a row stop the route on that iPhone until the setting
+  is turned on again. If iOS ends the engine's process for memory, the
+  keyboard itself is unharmed.
+- **Limits** — the model loads when the mic is first tapped (1.3–3.2 s in the
+  simulator, while the user is already speaking) and stays for a minute after
+  the keyboard leaves, five after the last dictation. A recording stops at
+  two minutes. One thread only: a page served from the keyboard's own scheme
+  gets no shared memory.
+
+Measured in the iOS 27.1 simulator (Apple M4, Debug build), which enforces
+no memory limit: the keyboard itself rests near 35 MB with the web view
+loaded and peaks at 41 MB while the model passes through; the web view's
+process peaks near 610 MB while loading and settles near 350–400 MB.
+Transcribing takes about 0.3–0.45 of the audio's length (23 s in 4.4 s, 6 s
+in 1.7 s). **Not measured on an iPhone:** whether that process is allowed
+its memory, how fast an iPhone runs it, and the capture itself, which so far
+rests on Hex's reports from iPhones and on the simulator.
 
 ### Guided tour
 
