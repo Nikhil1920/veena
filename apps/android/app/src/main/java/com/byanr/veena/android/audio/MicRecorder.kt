@@ -48,7 +48,7 @@ class MicRecorder {
     var liveRms: Float = 0f
         private set
 
-    private val samples = ArrayList<Short>(16_000 * 10)
+    private val samples = PcmBuffer()
     private var startedAt = 0L
     private var lastRmsAt = 0L
 
@@ -69,7 +69,7 @@ class MicRecorder {
             error("Microphone unavailable")
         }
 
-        samples.clear()
+        synchronized(samples) { samples.clear() }
         startedAt = System.currentTimeMillis()
         liveRms = 0f
         lastRmsAt = 0L
@@ -116,7 +116,7 @@ class MicRecorder {
                 continue
             }
             synchronized(samples) {
-                for (i in 0 until n) samples.add(buffer[i])
+                samples.append(buffer, n)
             }
             if (wavStream != null) {
                 for (i in 0 until n) {

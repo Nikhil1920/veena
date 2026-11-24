@@ -38,13 +38,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.byanr.veena.android.data.HistoryEntry
+import com.byanr.veena.android.ui.copyText
 import com.byanr.veena.android.ui.theme.AccentBlue
 import com.byanr.veena.android.ui.theme.veenaColors
 import java.io.File
@@ -67,7 +67,7 @@ fun HistoryDetailScreen(
     }.collectAsState(initial = null)
     val entry = loaded?.entry
     val playingPath by viewModel.player.playingPath.collectAsState()
-    val clipboard = LocalClipboardManager.current
+    val context = LocalContext.current
     val colors = veenaColors
 
     if (entry == null) {
@@ -170,7 +170,7 @@ fun HistoryDetailScreen(
                 }
             }
             OutlinedButton(
-                onClick = { clipboard.setText(AnnotatedString(entry.transcript)) },
+                onClick = { context.copyText(entry.transcript) },
                 shape = CircleShape,
             ) {
                 Icon(
