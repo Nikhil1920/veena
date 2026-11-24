@@ -67,8 +67,15 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -110,6 +117,7 @@ fun DictateScreen(
     val isCancelling by viewModel.isCancelling.collectAsState()
     val text by viewModel.text.collectAsState()
     val textRevision by viewModel.textRevision.collectAsState()
+    val liveText by viewModel.liveText.collectAsState()
     val lastRecording by viewModel.lastRecording.collectAsState()
     val error by viewModel.error.collectAsState()
     val playingPath by viewModel.player.playingPath.collectAsState()
@@ -166,6 +174,14 @@ fun DictateScreen(
         if (textRevision > 0) {
             withFrameNanos { }
             textScrollState.animateScrollTo(textScrollState.maxValue)
+        }
+    }
+
+    // The text of a recording in progress grows at the end: keep it in view.
+    LaunchedEffect(liveText) {
+        if (liveText.isNotEmpty()) {
+            withFrameNanos { }
+            textScrollState.scrollTo(textScrollState.maxValue)
         }
     }
 
@@ -297,11 +313,19 @@ fun DictateScreen(
                                 lineHeight = 24.sp,
                             ),
                             cursorBrush = SolidColor(AccentBlue),
+                            // The transcript replaces the live text when it
+                            // arrives; edits in between would be lost under it.
+                            readOnly = liveText.isNotEmpty(),
+                            visualTransformation = if (liveText.isEmpty()) {
+                                VisualTransformation.None
+                            } else {
+                                LiveTextSuffix(liveText, colors.textSecondary)
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
                             decorationBox = { inner ->
-                                if (text.isEmpty()) {
+                                if (text.isEmpty() && liveText.isEmpty()) {
                                     Text(
                                         "Transcribed text will appear here...",
                                         color = Color(0xFF999999),
@@ -532,6 +556,29 @@ fun DictateScreen(
         SnackbarHost(
             hostState = snackbar,
             modifier = Modifier.align(Alignment.BottomCenter),
+        )
+    }
+}
+
+/**
+ * Shows [live], the text of a recording in progress, after the field's own
+ * text, in [color]: dimmer than the rest, because it can still change.
+ */
+private data class LiveTextSuffix(val live: String, val color: Color) : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        val shown = buildAnnotatedString {
+            append(text)
+            withStyle(SpanStyle(color = color)) {
+                append(if (text.isBlank()) live else " $live")
+            }
+        }
+        val ownLength = text.length
+        return TransformedText(
+            shown,
+            object : OffsetMapping {
+                override fun originalToTransformed(offset: Int) = offset
+                override fun transformedToOriginal(offset: Int) = offset.coerceAtMost(ownLength)
+            },
         )
     }
 }

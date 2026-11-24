@@ -16,6 +16,9 @@ final class MicRecorder {
     private(set) var isRecording = false
 
     private let engine = AVAudioEngine()
+    /// Guards `samples`: the tap appends on the audio thread while live
+    /// transcription reads along.
+    private let lock = NSLock()
     private var samples: [Float] = []
     private var wavFile: AVAudioFile?
     private var outputURL: URL?
@@ -24,7 +27,7 @@ final class MicRecorder {
     func start(outputURL: URL) throws {
         guard !isRecording else { return }
 
-        samples.removeAll(keepingCapacity: true)
+        lock.withLock { samples.removeAll(keepingCapacity: true) }
         startedAt = Date()
         self.outputURL = outputURL
         try? FileManager.default.removeItem(at: outputURL)
@@ -56,7 +59,7 @@ final class MicRecorder {
         engine.inputNode.removeTap(onBus: 0)
         engine.stop()
 
-        let snapshot = samples
+        let snapshot = lock.withLock { samples }
         let sum = snapshot.reduce(Float(0)) { $0 + $1 * $1 }
         let rms = snapshot.isEmpty ? 0 : (sum / Float(snapshot.count)).squareRoot()
         let duration = Date().timeIntervalSince(startedAt)
@@ -78,8 +81,14 @@ final class MicRecorder {
         guard let channel = buffer.floatChannelData?[0] else { return }
         let count = Int(buffer.frameLength)
         let slice = UnsafeBufferPointer(start: channel, count: count)
-        samples.append(contentsOf: slice)
+        lock.withLock { samples.append(contentsOf: slice) }
         try? wavFile?.write(from: buffer)
+    }
+
+    /// The samples recorded so far from index `start` on. Still answers
+    /// after `stop()`, until the next `start`.
+    func samples(from start: Int) -> [Float] {
+        lock.withLock { Array(samples[min(start, samples.count)...]) }
     }
 }
 

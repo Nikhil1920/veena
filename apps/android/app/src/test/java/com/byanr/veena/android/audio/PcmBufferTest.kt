@@ -20,6 +20,7 @@ class PcmBufferTest {
         }
         assertEquals(expected.size, buffer.size)
         assertArrayEquals(expected.toShortArray(), buffer.toShortArray())
+        for (i in expected.indices) assertEquals(expected[i], buffer[i])
     }
 
     @Test

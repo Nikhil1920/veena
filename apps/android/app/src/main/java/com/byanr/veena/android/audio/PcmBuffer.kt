@@ -25,6 +25,11 @@ internal class PcmBuffer(private val chunkSize: Int = CHUNK_SAMPLES) {
         }
     }
 
+    operator fun get(index: Int): Short {
+        if (index < 0 || index >= size) throw IndexOutOfBoundsException("$index of $size")
+        return chunks[index / chunkSize][index % chunkSize]
+    }
+
     fun toShortArray(): ShortArray {
         val out = ShortArray(size)
         var pos = 0

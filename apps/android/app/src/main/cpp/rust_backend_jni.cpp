@@ -45,6 +45,18 @@ char *transcriber_transcribe_audio_progress(Transcriber *handle,
                                             TranscriberProgressFn progress,
                                             void *user_data);
 
+typedef struct LiveSession LiveSession;
+
+LiveSession *live_session_create(Transcriber *handle, const char *language);
+
+void live_session_push(LiveSession *session, const float *audio, size_t len);
+
+char *live_session_preview(LiveSession *session);
+
+char *live_session_finish(LiveSession *session);
+
+void live_session_destroy(LiveSession *session);
+
 void transcriber_destroy(Transcriber *handle);
 
 void transcriber_free_string(char *s);
@@ -177,6 +189,55 @@ Java_com_byanr_veena_android_engine_RustBackend_transcribeAudio(
         env->ReleaseStringUTFChars(language, c_lang);
     }
     return toJString(env, result);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_liveCreate(
+    JNIEnv *env, jobject, jlong handle_ptr, jstring language) {
+    if (handle_ptr == 0) return 0;
+    const char *c_lang =
+        language != nullptr ? env->GetStringUTFChars(language, nullptr) : nullptr;
+    auto *session = live_session_create(
+        reinterpret_cast<Transcriber *>(handle_ptr), c_lang);
+    if (c_lang != nullptr) {
+        env->ReleaseStringUTFChars(language, c_lang);
+    }
+    return reinterpret_cast<jlong>(session);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_livePush(
+    JNIEnv *env, jobject, jlong session_ptr, jfloatArray audio_data) {
+    if (session_ptr == 0 || audio_data == nullptr) return;
+    jsize len = env->GetArrayLength(audio_data);
+    jfloat *c_audio = env->GetFloatArrayElements(audio_data, nullptr);
+    live_session_push(reinterpret_cast<LiveSession *>(session_ptr), c_audio,
+                      static_cast<size_t>(len));
+    env->ReleaseFloatArrayElements(audio_data, c_audio, JNI_ABORT);
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_livePreview(
+    JNIEnv *env, jobject, jlong session_ptr) {
+    if (session_ptr == 0) return nullptr;
+    return toJString(
+        env, live_session_preview(reinterpret_cast<LiveSession *>(session_ptr)));
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_liveFinish(
+    JNIEnv *env, jobject, jlong session_ptr) {
+    if (session_ptr == 0) return nullptr;
+    return toJString(
+        env, live_session_finish(reinterpret_cast<LiveSession *>(session_ptr)));
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_liveDestroy(JNIEnv *, jobject,
+                                                            jlong session_ptr) {
+    if (session_ptr != 0) {
+        live_session_destroy(reinterpret_cast<LiveSession *>(session_ptr));
+    }
 }
 
 extern "C" JNIEXPORT void JNICALL

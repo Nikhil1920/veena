@@ -118,6 +118,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch { prefs.setMicMode(mode) }
     }
 
+    fun setLiveTranscription(enabled: Boolean) {
+        viewModelScope.launch { prefs.setLiveTranscription(enabled) }
+    }
+
     fun dismissKeyboardBanner() {
         viewModelScope.launch { prefs.dismissKeyboardBanner() }
     }

@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistry
@@ -25,6 +26,7 @@ import com.byanr.veena.android.MainActivity
 import com.byanr.veena.android.VeenaApplication
 import com.byanr.veena.android.ui.theme.VeenaTheme
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 /**
  * The Veena voice keyboard. Hosts the Compose input view by acting as the
@@ -51,6 +53,10 @@ open class VeenaImeService :
 
     /** True while the focused field is password-style; the mic must stay off. */
     private val sensitiveField = MutableStateFlow(false)
+
+    /** The text of the dictation in progress, as the focused field shows it. */
+    private val preview = ComposingPreview()
+    private var fieldShowsLiveText = true
 
     /**
      * True for the voice input other keyboards switch to from their mic key:
@@ -79,6 +85,16 @@ open class VeenaImeService :
         val container = (application as VeenaApplication).container
         imeSession = ImeSession(this, container.engine, container.models, container.prefs)
         ImeSubtypes.sync(this)
+        lifecycleScope.launch {
+            imeSession.liveText.collect { text ->
+                val connection = currentInputConnection ?: return@collect
+                if (text.isEmpty()) {
+                    preview.clear(connection)
+                } else if (fieldShowsLiveText) {
+                    preview.show(connection, text)
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -123,6 +139,27 @@ open class VeenaImeService :
 
     override fun onEvaluateFullscreenMode(): Boolean = false
 
+    override fun onStartInput(attribute: EditorInfo, restarting: Boolean) {
+        super.onStartInput(attribute, restarting)
+        fieldShowsLiveText = showsLiveText(attribute.inputType)
+        if (restarting) preview.onInputRestarted()
+    }
+
+    override fun onFinishInput() {
+        // Best effort: a field losing focus may already have stopped listening.
+        currentInputConnection?.let(preview::clear)
+        preview.onInputFinished()
+        super.onFinishInput()
+    }
+
+    override fun onFinishInputView(finishingInput: Boolean) {
+        // Hiding the keyboard cancels the dictation, and the default here
+        // finishes composing text: without this the preview would stay in
+        // the field as if it had been dictated.
+        currentInputConnection?.let(preview::clear)
+        super.onFinishInputView(finishingInput)
+    }
+
     override fun onStartInputView(editorInfo: EditorInfo, restarting: Boolean) {
         super.onStartInputView(editorInfo, restarting)
         sensitiveField.value = isSensitiveField(editorInfo.inputType)
@@ -150,8 +187,7 @@ open class VeenaImeService :
 
     private fun commitDictation(text: String) {
         val connection = currentInputConnection ?: return
-        connection.commitText(text.trimEnd() + " ", 1)
-        connection.finishComposingText()
+        preview.commit(connection, text.trimEnd() + " ")
         if (isVoiceInput) returnToPreviousKeyboard()
     }
 

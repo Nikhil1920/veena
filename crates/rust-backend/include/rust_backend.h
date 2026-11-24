@@ -72,6 +72,34 @@ const char *transcriber_transcribe_audio_progress(TranscriberHandle handle,
                                                   TranscriberProgressFn progress,
                                                   void *user_data);
 
+/*
+ * Live transcription: text for a recording while it is still being made.
+ * Push 16 kHz mono audio as it arrives. live_session_preview returns the
+ * recording so far as text, whose last words can still change;
+ * live_session_finish returns the transcript, the same text
+ * transcriber_transcribe_audio gives for that audio, with all but its last
+ * window already done. Both return NULL on failure, and their strings are
+ * freed with transcriber_free_string.
+ *
+ * A session serves one recording and one caller at a time, and must be
+ * destroyed before its transcriber. live_session_create returns NULL for a
+ * language the model does not support.
+ */
+typedef void *LiveSessionHandle;
+
+LiveSessionHandle live_session_create(TranscriberHandle handle,
+                                      const char *language);
+
+void live_session_push(LiveSessionHandle session,
+                       const float *audio,
+                       size_t len);
+
+const char *live_session_preview(LiveSessionHandle session);
+
+const char *live_session_finish(LiveSessionHandle session);
+
+void live_session_destroy(LiveSessionHandle session);
+
 void transcriber_destroy(TranscriberHandle handle);
 
 void transcriber_free_string(const char *s);

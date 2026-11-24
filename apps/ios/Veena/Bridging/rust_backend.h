@@ -65,6 +65,24 @@ char *transcriber_transcribe_audio_progress(Transcriber *handle,
                                             TranscriberProgressFn progress,
                                             void *user_data);
 
+/*
+ * Live transcription of a recording in progress: push 16 kHz mono audio as
+ * it arrives, preview for text to show meanwhile (its last words can still
+ * change), finish for the transcript. One recording and one caller at a
+ * time; destroy the session before its transcriber.
+ */
+typedef struct LiveSession LiveSession;
+
+LiveSession *live_session_create(Transcriber *handle, const char *language);
+
+void live_session_push(LiveSession *session, const float *audio, size_t len);
+
+char *live_session_preview(LiveSession *session);
+
+char *live_session_finish(LiveSession *session);
+
+void live_session_destroy(LiveSession *session);
+
 void transcriber_destroy(Transcriber *handle);
 
 void transcriber_free_string(char *s);
