@@ -327,12 +327,18 @@ fun DictateScreen(
                         BasicTextField(
                             value = fieldValue,
                             onValueChange = { value ->
+                                // Until the app's own change (a transcript,
+                                // Clear) reaches the field, what the field
+                                // sends is based on the old text: drop it.
+                                val current = viewModel.text.value == fieldValue.text
                                 // The transcript replaces the live text when it
                                 // arrives; edits in between would be lost under
                                 // it, so only cursor moves go through. readOnly
                                 // would do it too, but turning it off brings the
                                 // keyboard back up.
-                                if (value.text == fieldValue.text || viewModel.liveText.value.isEmpty()) {
+                                val editable = value.text == fieldValue.text ||
+                                    viewModel.liveText.value.isEmpty()
+                                if (current && editable) {
                                     fieldValue = value
                                     viewModel.setText(value.text)
                                 }
