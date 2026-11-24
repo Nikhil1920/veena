@@ -8,7 +8,7 @@
 		"build": "node scripts/prepare-runtime.mjs && astro build && node scripts/finish-build.mjs",
 		"preview": "node scripts/preview-transcription.mjs",
 		"preview:transcription": "node scripts/preview-transcription.mjs",
-		"test:transcription": "node --experimental-strip-types --test tests/transcription.test.mjs",
+		"test:transcription": "node --experimental-strip-types --test tests/transcription.test.mjs tests/keyboard-engine.test.mjs",
 		"test:browser": "playwright test",
 		"astro": "astro",
 		"lint": "eslint .",

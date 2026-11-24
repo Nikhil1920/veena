@@ -90,8 +90,11 @@ baseline reports are at
 its card explains how to run the evaluator and add clips.
 
 One model per language is hosted under `veena-byanr/models/`: the
-**balanced INT8** variant, for 21 of the 22 languages. **No app catalog
-points at them yet.**
+**balanced INT8** variant, for 21 of the 22 languages. The iOS catalog
+offers them (all but Telugu's, which has its dedicated model) as the models
+its keyboard dictates with by itself; see
+[`docs/voice-keyboard.md`](../../docs/voice-keyboard.md). No app transcribes
+with them otherwise.
 
 ```
 https://dl.byanr.com/veena-byanr/models/indicconformer-<lang>-balanced-int8-candidate-v1.tar.gz   # the bundle

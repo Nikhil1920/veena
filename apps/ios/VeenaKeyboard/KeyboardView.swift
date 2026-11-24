@@ -366,7 +366,7 @@ private struct StatusReadout: View {
             case .waking:
                 hint("Opening Veena to turn the mic on…")
             case .idle:
-                if model.appReachable {
+                if model.appReachable || model.dictatesInPlace {
                     hint(model.holdToTalk ? "Hold the mic and speak" : "Tap the mic and speak")
                 } else {
                     hint("Tap the mic to dictate")

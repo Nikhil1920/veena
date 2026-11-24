@@ -1,5 +1,7 @@
+import AVFAudio
 import Foundation
 import Observation
+import UIKit
 
 enum MicMode: String {
     case hold
@@ -49,6 +51,7 @@ final class AppEnvironment {
     /// once per launch, so the card never appears in the middle of a session.
     var reviewPromptDue = ReviewPrompt.isDue()
     @ObservationIgnored private var reviewPromptCounted = false
+    @ObservationIgnored private var activeObserver: NSObjectProtocol?
 
     init() {
         keyboardSession = KeyboardSessionController(engine: engine, models: models)
@@ -60,6 +63,14 @@ final class AppEnvironment {
         keyboardSession.isAppRecording = { [recorder] in recorder.isRecording }
         models.onInstalledModelsChanged = { [weak self] in self?.publishKeyboardLanguages() }
         publishKeyboardLanguages()
+        // Becoming active follows every answer to the microphone prompt and
+        // every trip to Settings, the two places the permission changes.
+        publishMicrophonePermission()
+        activeObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.publishMicrophonePermission()
+        }
         // iOS can relaunch the app while the user is in Settings turning the
         // keyboard on; bring the tour back where they left it.
         showKeyboardSetup = languageCode != nil && KeyboardSetupView.savedStep != nil
@@ -71,6 +82,12 @@ final class AppEnvironment {
         KeyboardSharedSettings.installedLanguageCodes = languages.map(\.code).filter {
             models.isDownloaded(ModelCatalog.model(forLanguage: $0))
         }
+    }
+
+    /// Tells the keyboard whether Veena may record, which it needs to know
+    /// before dictating by itself.
+    private func publishMicrophonePermission() {
+        KeyboardSharedSettings.appMicrophoneGranted = AVAudioApplication.shared.recordPermission == .granted
     }
 
     /// veena://keyboard/session and veena://keyboard/setup, opened by the keyboard.

@@ -68,7 +68,7 @@ struct SettingsView: View {
                 keyboardSection
 
                 Section("Downloaded Models") {
-                    ForEach(ModelCatalog.all) { def in
+                    ForEach(ModelCatalog.all + installedLanguageModels) { def in
                         modelRow(def)
                     }
                 }
@@ -176,6 +176,13 @@ struct SettingsView: View {
                 }
             }
 
+            if KeyboardPreferences.offersInPlaceDictation {
+                Toggle("Dictate without opening Veena", isOn: $preferences.inPlaceDictation)
+                if preferences.inPlaceDictation, let def = missingKeyboardModel {
+                    keyboardModelRow(def)
+                }
+            }
+
             Picker("Keep mic ready for", selection: $preferences.sessionMinutes) {
                 ForEach(KeyboardBridge.sessionLengthChoices, id: \.self) { minutes in
                     Text(minutes >= 60 ? "1 hour" : "\(minutes) minutes").tag(minutes)
@@ -200,7 +207,55 @@ struct SettingsView: View {
         } header: {
             Text("Keyboard")
         } footer: {
-            Text("The keyboard hands your voice to this app, which transcribes it on your iPhone. After you dictate, the mic stays ready for the time above.")
+            Text(KeyboardPreferences.offersInPlaceDictation
+                 ? "The keyboard listens and transcribes by itself, on your iPhone, once it has a small model for its language: Telugu's own, or one downloaded here for another language. Without it, or with the switch off, it hands your voice to this app, and the mic then stays ready for the time above."
+                 : "The keyboard hands your voice to this app, which transcribes it on your iPhone. After you dictate, the mic stays ready for the time above.")
+        }
+    }
+
+    /// The keyboard language's own model, while it isn't on the device: with
+    /// it the keyboard dictates by itself in that language.
+    private var missingKeyboardModel: ModelDef? {
+        guard let code = keyboardStatus?.languageCode,
+              let def = ModelCatalog.languageModel(forLanguage: code),
+              !environment.models.isDownloaded(def) else { return nil }
+        return def
+    }
+
+    private var installedLanguageModels: [ModelDef] {
+        ModelCatalog.languageModels.filter { environment.models.isDownloaded($0) }
+    }
+
+    @ViewBuilder
+    private func keyboardModelRow(_ def: ModelDef) -> some View {
+        let name = def.languageCode.flatMap { language(byCode: $0)?.name } ?? "language"
+        switch environment.models.downloadState(def) {
+        case .downloading(let downloaded, let total):
+            ProgressView(value: Double(downloaded), total: Double(max(total, 1))) {
+                Text("Downloading the \(name) keyboard model…")
+                    .font(.subheadline)
+            }
+        case .verifying:
+            Text("Unpacking the \(name) keyboard model…")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        case .idle, .cancelled, .failed:
+            Button {
+                Task { try? await environment.models.download(def) }
+            } label: {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Download the \(name) keyboard model")
+                    Group {
+                        if case .failed(let message) = environment.models.downloadState(def) {
+                            Text("Couldn't download: \(message)")
+                        } else {
+                            Text("\(formatBytes(def.sizeBytes)) · lets the keyboard dictate in \(name) by itself")
+                        }
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(Color.secondary)
+                }
+            }
         }
     }
 
