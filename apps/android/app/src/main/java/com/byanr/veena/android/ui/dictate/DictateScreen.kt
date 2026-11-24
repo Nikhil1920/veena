@@ -54,6 +54,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
@@ -62,6 +63,7 @@ import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
@@ -69,9 +71,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -166,6 +170,21 @@ fun DictateScreen(
         ),
         label = "recordingPulseAlpha",
     )
+
+    // The field's text with its cursor. Typing changes it together with the
+    // view model's text; when the app changes the text (a transcript arrives,
+    // Clear), the cursor moves to the end of it.
+    var fieldValue by remember {
+        val current = viewModel.text.value
+        mutableStateOf(TextFieldValue(current, TextRange(current.length)))
+    }
+    LaunchedEffect(viewModel) {
+        viewModel.text.collect { latest ->
+            if (latest != fieldValue.text) {
+                fieldValue = TextFieldValue(latest, TextRange(latest.length))
+            }
+        }
+    }
 
     val textScrollState = rememberScrollState()
     // Follow new dictation output: when the app appends a transcript, scroll so
@@ -306,16 +325,23 @@ fun DictateScreen(
                         .verticalScroll(textScrollState)
                 ) {
                         BasicTextField(
-                            value = text,
-                            onValueChange = viewModel::setText,
+                            value = fieldValue,
+                            onValueChange = { value ->
+                                // The transcript replaces the live text when it
+                                // arrives; edits in between would be lost under
+                                // it, so only cursor moves go through. readOnly
+                                // would do it too, but turning it off brings the
+                                // keyboard back up.
+                                if (value.text == fieldValue.text || viewModel.liveText.value.isEmpty()) {
+                                    fieldValue = value
+                                    viewModel.setText(value.text)
+                                }
+                            },
                             textStyle = MaterialTheme.typography.bodyLarge.copy(
                                 color = colors.text,
                                 lineHeight = 24.sp,
                             ),
                             cursorBrush = SolidColor(AccentBlue),
-                            // The transcript replaces the live text when it
-                            // arrives; edits in between would be lost under it.
-                            readOnly = liveText.isNotEmpty(),
                             visualTransformation = if (liveText.isEmpty()) {
                                 VisualTransformation.None
                             } else {
@@ -477,16 +503,21 @@ fun DictateScreen(
                         Modifier
                     }
 
-                    Box(contentAlignment = Alignment.Center) {
-                        if (isRecording) {
-                            // Pulsing halo behind the mic while recording.
-                            Box(
-                                Modifier
-                                    .size(94.dp)
-                                    .alpha(pulseAlpha * 0.35f)
-                                    .background(StatusRecording, CircleShape)
-                            )
-                        }
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        // Pulsing halo behind the mic while recording. It is
+                        // only drawn, outside the mic's bounds: laid out, it
+                        // would grow this row and push the screen up.
+                        modifier = Modifier.drawBehind {
+                            if (isRecording) {
+                                drawCircle(
+                                    color = StatusRecording,
+                                    radius = 47.dp.toPx(),
+                                    alpha = pulseAlpha * 0.35f,
+                                )
+                            }
+                        },
+                    ) {
                         Surface(
                             onClick = {
                                 if (micMode == MicMode.TAP) {
