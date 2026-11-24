@@ -22,6 +22,8 @@ data class AppSettings(
     val imeLanguageCode: String?,
     /** The Dictate screen's "set up the voice keyboard" card was dismissed. */
     val keyboardBannerDismissed: Boolean,
+    /** Show text while still recording, in the app and the voice keyboard. */
+    val liveTranscription: Boolean,
 )
 
 class Prefs(private val context: Context) {
@@ -30,6 +32,7 @@ class Prefs(private val context: Context) {
     private val micModeKey = stringPreferencesKey("mic_mode")
     private val imeLanguageKey = stringPreferencesKey("ime_language_code")
     private val keyboardBannerDismissedKey = booleanPreferencesKey("keyboard_banner_dismissed")
+    private val liveTranscriptionKey = booleanPreferencesKey("live_transcription")
     private val reviewDictationsKey = intPreferencesKey("review_dictations")
     private val reviewActiveDaysKey = intPreferencesKey("review_active_days")
     private val reviewLastActiveDayKey = longPreferencesKey("review_last_active_day")
@@ -45,6 +48,7 @@ class Prefs(private val context: Context) {
             } ?: MicMode.HOLD,
             imeLanguageCode = prefs[imeLanguageKey],
             keyboardBannerDismissed = prefs[keyboardBannerDismissedKey] ?: false,
+            liveTranscription = prefs[liveTranscriptionKey] ?: true,
         )
     }
 
@@ -58,6 +62,10 @@ class Prefs(private val context: Context) {
 
     suspend fun setImeLanguage(code: String) {
         context.dataStore.edit { it[imeLanguageKey] = code }
+    }
+
+    suspend fun setLiveTranscription(enabled: Boolean) {
+        context.dataStore.edit { it[liveTranscriptionKey] = enabled }
     }
 
     suspend fun dismissKeyboardBanner() {

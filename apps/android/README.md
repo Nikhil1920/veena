@@ -15,9 +15,14 @@ and review past transcriptions in a local history.
   under Settings → Voice keyboard sets both up. See
   [`docs/voice-keyboard.md`](../../docs/voice-keyboard.md) and the earlier
   [`docs/android-voice-keyboard-feasibility.md`](../../docs/android-voice-keyboard-feasibility.md).
-- Emulators have no voice: in debuggable builds the keyboards transcribe
-  `files/keyboard-test-audio.wav` instead of the microphone when it exists
-  (`adb push` it, then `adb shell run-as com.byanr.veena cp …`).
+- Text appears while you are still speaking (`engine/LiveDictation.kt`, on
+  the engine's live session): in the Dictate box, and in other apps as the
+  field's composing text, which the transcript then replaces
+  (`ime/ComposingPreview.kt`). Settings → Live Transcription turns it off.
+- Emulators have no voice: in debuggable builds the app and the keyboards
+  transcribe `files/keyboard-test-audio.wav` instead of the microphone when it
+  exists (`adb push` it, then `adb shell run-as com.byanr.veena cp …`), played
+  at the pace a microphone would deliver it.
 - Model archives download on first launch from Veena's model CDN
   (see `data/ModelCatalog.kt`) — nothing model-related is bundled.
 

@@ -7,7 +7,8 @@ import Foundation
 /// The app and the keyboard share this engine. The lock covers loading
 /// only: transcriptions run concurrently (the native engine takes turns per
 /// window), so a keyboard dictation never waits out a long import. A model
-/// replaced mid-transcription is freed when its last transcription ends.
+/// replaced mid-transcription is freed when its last transcription, live
+/// ones included, ends.
 @Observable
 final class RustEngine {
 
@@ -188,6 +189,19 @@ final class RustEngine {
         }
     }
 
+    /// Starts live transcription of a recording in `languageCode`, loading
+    /// its model first if needed (which blocks: call it off the main
+    /// thread). The model stays alive until the returned transcriber is
+    /// closed, even if another caller switches models meanwhile.
+    func openLive(languageCode: String, models: ModelRepository) throws -> LiveTranscriber {
+        let model = try acquire(languageCode: languageCode, models: models)
+        guard let session = live_session_create(model.handle, languageCode) else {
+            release(model)
+            throw EngineError.transcriptionFailed
+        }
+        return LiveTranscriber(session: session) { [self] in release(model) }
+    }
+
     /// Runs one synchronous engine call with a C callback that forwards
     /// progress and asks the engine to stop once the calling task is cancelled.
     private static func run(
@@ -226,15 +240,18 @@ final class RustEngine {
         _ body: (String, OpaquePointer) throws -> T
     ) throws -> T {
         let model = try acquire(languageCode: languageCode, models: models)
-        defer {
-            lock.lock()
-            model.users -= 1
-            if model.retired && model.users == 0 {
-                transcriber_destroy(model.handle)
-            }
-            lock.unlock()
-        }
+        defer { release(model) }
         return try body(languageCode, model.handle)
+    }
+
+    /// Ends one use of `model`, freeing it if it was replaced meanwhile.
+    private func release(_ model: LoadedModel) {
+        lock.lock()
+        defer { lock.unlock() }
+        model.users -= 1
+        if model.retired && model.users == 0 {
+            transcriber_destroy(model.handle)
+        }
     }
 
     /// Loads the model for `languageCode` and counts the caller as its user.

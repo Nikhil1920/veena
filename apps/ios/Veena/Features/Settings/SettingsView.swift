@@ -38,6 +38,17 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                Section {
+                    Toggle("Show text as you speak", isOn: Binding(
+                        get: { environment.liveTranscription },
+                        set: { environment.liveTranscription = $0 }
+                    ))
+                } header: {
+                    Text("Live Transcription")
+                } footer: {
+                    Text("The last words can change until you finish. Uses more battery while recording.")
+                }
+
                 Section("Language") {
                     NavigationLink(value: Route.picker) {
                         HStack {

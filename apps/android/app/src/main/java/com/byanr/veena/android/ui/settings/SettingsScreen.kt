@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -34,6 +35,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -46,6 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -118,6 +122,42 @@ fun SettingsScreen(
             fontSize = 12.sp,
             color = colors.textSecondary,
         )
+
+        Spacer(Modifier.height(28.dp))
+        SectionLabel("Live Transcription")
+        val liveTranscription = settings?.liveTranscription ?: true
+        Surface(
+            color = colors.backgroundElement,
+            shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                // One switch for the whole row, to the finger and to TalkBack.
+                modifier = Modifier
+                    .toggleable(
+                        value = liveTranscription,
+                        role = Role.Switch,
+                        onValueChange = appViewModel::setLiveTranscription,
+                    )
+                    .padding(start = 16.dp, end = 12.dp, top = 10.dp, bottom = 10.dp),
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text("Show text as you speak", fontSize = 16.sp, color = colors.text)
+                    Text(
+                        "The last words can change until you finish. Uses more battery while recording.",
+                        fontSize = 13.sp,
+                        color = colors.textSecondary,
+                    )
+                }
+                Spacer(Modifier.width(12.dp))
+                Switch(
+                    checked = liveTranscription,
+                    onCheckedChange = null,
+                    colors = SwitchDefaults.colors(checkedTrackColor = AccentBlue),
+                )
+            }
+        }
 
         Spacer(Modifier.height(28.dp))
         SectionLabel("Language")

@@ -1,5 +1,6 @@
 mod chunk;
 mod decode;
+mod live;
 pub mod preprocess;
 
 use std::collections::HashMap;
@@ -12,6 +13,8 @@ use ndarray::{Array2, Axis, Ix3};
 use ort::session::Session;
 use ort::value::TensorRef;
 use serde::Deserialize;
+
+pub use live::LiveSession;
 
 /// Per-language logit masks ship either as boolean flags over the full class
 /// dimension or as explicit class indices; both normalize to indices.
@@ -35,7 +38,7 @@ enum Backend {
     },
 }
 
-type Decoder<'a> = dyn Fn(&Array2<f32>) -> Result<String, Box<dyn Error>> + 'a;
+type Decoder<'a> = dyn Fn(&Array2<f32>) -> Result<String, Box<dyn Error>> + Send + Sync + 'a;
 
 /// A progress callback asked to stop the transcription.
 #[derive(Debug)]
@@ -471,6 +474,9 @@ mod tests {
         // The apps run concurrent transcriptions on one handle.
         fn assert_send_sync<T: Send + Sync>() {}
         assert_send_sync::<Transcriber>();
+        // A live session moves between the threads that feed and read it.
+        fn assert_send<T: Send>() {}
+        assert_send::<LiveSession>();
     }
 
     #[test]

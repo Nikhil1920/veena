@@ -21,6 +21,13 @@ struct DictateView: View {
     @State private var transcription: Task<Void, Never>?
     /// Cancel was requested; the engine stops at the end of its current window.
     @State private var isCancelling = false
+    /// Text of the recording in progress, shown until its transcript replaces
+    /// it; empty when there is none. Its last words can still change.
+    @State private var liveText = ""
+    @State private var live: LiveDictation?
+    #if DEBUG
+    @State private var testAudio: DebugMicAudio?
+    #endif
     @State private var lastRecording: Recording?
     @State private var errorMessage: String?
     @State private var showImporter = false
@@ -250,17 +257,32 @@ struct DictateView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     ZStack(alignment: .topLeading) {
-                        TextEditor(text: $text)
-                            .scrollContentBackground(.hidden)
-                            .foregroundStyle(VeenaColors.textPrimary)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .font(.body)
-                            .lineSpacing(4)
-                            .scrollDisabled(true)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
-                        if text.isEmpty {
+                        if liveText.isEmpty {
+                            TextEditor(text: $text)
+                                .scrollContentBackground(.hidden)
+                                .foregroundStyle(VeenaColors.textPrimary)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .font(.body)
+                                .lineSpacing(4)
+                                .scrollDisabled(true)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
+                        } else {
+                            // Read-only while live text is up: the transcript
+                            // replaces it, and edits in between would be lost.
+                            // The padding puts it where the editor's text sits.
+                            (Text(text.isBlank ? "" : "\(text) ")
+                                .foregroundStyle(VeenaColors.textPrimary)
+                             + Text(liveText)
+                                .foregroundStyle(VeenaColors.textSecondary))
+                                .font(.body)
+                                .lineSpacing(4)
+                                .padding(.horizontal, 17)
+                                .padding(.vertical, 16)
+                                .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
+                        }
+                        if text.isEmpty && liveText.isEmpty {
                             Text("Transcribed text will appear here...")
                                 .foregroundStyle(Color(uiColor: .placeholderText))
                                 .padding(.horizontal, 17)
@@ -277,6 +299,12 @@ struct DictateView: View {
                         withAnimation(.easeOut(duration: 0.2)) {
                             proxy.scrollTo("transcriptBottom", anchor: .bottom)
                         }
+                    }
+                }
+                // Live text grows at the end: keep it in view.
+                .onChange(of: liveText) { _, _ in
+                    DispatchQueue.main.async {
+                        proxy.scrollTo("transcriptBottom", anchor: .bottom)
                     }
                 }
             }
@@ -498,16 +526,48 @@ struct DictateView: View {
             let url = recordingsDirectory.appendingPathComponent("rec_\(Int(Date().timeIntervalSince1970 * 1000)).wav")
             try environment.recorder.start(outputURL: url)
             isRecording = true
+            startLiveText()
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    /// Starts showing the recording's text as it is spoken.
+    private func startLiveText() {
+        let audioFrom: (Int) -> [Float]
+        #if DEBUG
+        let testAudio = DebugMicAudio.load()
+        self.testAudio = testAudio
+        audioFrom = testAudio.map { $0.samples(from:) } ?? environment.recorder.samples(from:)
+        #else
+        audioFrom = environment.recorder.samples(from:)
+        #endif
+        guard environment.liveTranscription else { return }
+        live = LiveDictation(
+            engine: environment.engine,
+            models: environment.models,
+            languageCode: environment.languageCode ?? "",
+            audioFrom: audioFrom
+        ) { text in
+            liveText = text
+        }
+    }
+
+    private func dropLiveText(_ live: LiveDictation?) {
+        Task {
+            await live?.cancel()
+            liveText = ""
         }
     }
 
     private func stopAndTranscribe() {
         guard isRecording else { return }
         isRecording = false
+        let live = live
+        self.live = nil
 
         guard let recording = environment.recorder.stop() else {
+            dropLiveText(live)
             isTranscribing = false
             return
         }
@@ -515,6 +575,7 @@ struct DictateView: View {
 
         // Skip inference for too-short recordings (Android MIN 400ms)
         guard recording.duration > 0.4 else {
+            dropLiveText(live)
             isTranscribing = false
             return
         }
@@ -522,14 +583,26 @@ struct DictateView: View {
         isTranscribing = true
         transcribeProgress = nil
 
+        var samples = recording.samples
+        #if DEBUG
+        if let testAudio { samples = testAudio.samples }
+        #endif
         let code = environment.languageCode ?? ""
         transcription = Task.detached(priority: .userInitiated) { [weak environment] in
             guard let environment else { return }
             do {
-                let transcript = try environment.engine.transcribe(
-                    recording.samples, languageCode: code, models: environment.models,
-                    progress: reportProgress
-                )
+                // The live session has most of the recording transcribed
+                // already; without it, or if it failed, all of it is done now.
+                let transcript: String
+                if let finished = await live?.finish(samples) {
+                    transcript = finished
+                } else {
+                    try Task.checkCancellation()
+                    transcript = try environment.engine.transcribe(
+                        samples, languageCode: code, models: environment.models,
+                        progress: reportProgress
+                    )
+                }
                 if !transcript.isBlank {
                     await MainActor.run { [weak environment] in
                         guard let environment else { return }
@@ -615,6 +688,7 @@ struct DictateView: View {
     }
 
     private func finishTranscription() {
+        liveText = ""
         isTranscribing = false
         isCancelling = false
         transcribeProgress = nil
