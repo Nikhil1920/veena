@@ -57,6 +57,19 @@ char *live_session_finish(LiveSession *session);
 
 void live_session_destroy(LiveSession *session);
 
+typedef struct Conversation Conversation;
+
+Conversation *conversation_create(Transcriber *handle, const char *language);
+
+void conversation_push(Conversation *conversation, const float *audio,
+                       size_t len);
+
+char *conversation_step(Conversation *conversation);
+
+char *conversation_flush(Conversation *conversation);
+
+void conversation_destroy(Conversation *conversation);
+
 void transcriber_destroy(Transcriber *handle);
 
 void transcriber_free_string(char *s);
@@ -237,6 +250,55 @@ Java_com_byanr_veena_android_engine_RustBackend_liveDestroy(JNIEnv *, jobject,
                                                             jlong session_ptr) {
     if (session_ptr != 0) {
         live_session_destroy(reinterpret_cast<LiveSession *>(session_ptr));
+    }
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_conversationCreate(
+    JNIEnv *env, jobject, jlong handle_ptr, jstring language) {
+    if (handle_ptr == 0) return 0;
+    const char *c_lang =
+        language != nullptr ? env->GetStringUTFChars(language, nullptr) : nullptr;
+    auto *conversation = conversation_create(
+        reinterpret_cast<Transcriber *>(handle_ptr), c_lang);
+    if (c_lang != nullptr) {
+        env->ReleaseStringUTFChars(language, c_lang);
+    }
+    return reinterpret_cast<jlong>(conversation);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_conversationPush(
+    JNIEnv *env, jobject, jlong conversation_ptr, jfloatArray audio_data) {
+    if (conversation_ptr == 0 || audio_data == nullptr) return;
+    jsize len = env->GetArrayLength(audio_data);
+    jfloat *c_audio = env->GetFloatArrayElements(audio_data, nullptr);
+    conversation_push(reinterpret_cast<Conversation *>(conversation_ptr), c_audio,
+                      static_cast<size_t>(len));
+    env->ReleaseFloatArrayElements(audio_data, c_audio, JNI_ABORT);
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_conversationStep(
+    JNIEnv *env, jobject, jlong conversation_ptr) {
+    if (conversation_ptr == 0) return nullptr;
+    return toJString(
+        env, conversation_step(reinterpret_cast<Conversation *>(conversation_ptr)));
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_conversationFlush(
+    JNIEnv *env, jobject, jlong conversation_ptr) {
+    if (conversation_ptr == 0) return nullptr;
+    return toJString(
+        env, conversation_flush(reinterpret_cast<Conversation *>(conversation_ptr)));
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_byanr_veena_android_engine_RustBackend_conversationDestroy(
+    JNIEnv *, jobject, jlong conversation_ptr) {
+    if (conversation_ptr != 0) {
+        conversation_destroy(reinterpret_cast<Conversation *>(conversation_ptr));
     }
 }
 

@@ -24,7 +24,14 @@ data class AppSettings(
     val keyboardBannerDismissed: Boolean,
     /** Show text while still recording, in the app and the voice keyboard. */
     val liveTranscription: Boolean,
+    /** Text size of the Conversation transcript, in sp. */
+    val conversationFontSize: Int = DEFAULT_CONVERSATION_FONT_SIZE,
+    /** Conversations are saved to History as they go. */
+    val saveConversations: Boolean = true,
 )
+
+const val DEFAULT_CONVERSATION_FONT_SIZE = 32
+val CONVERSATION_FONT_SIZES = 20..56
 
 class Prefs(private val context: Context) {
 
@@ -33,6 +40,8 @@ class Prefs(private val context: Context) {
     private val imeLanguageKey = stringPreferencesKey("ime_language_code")
     private val keyboardBannerDismissedKey = booleanPreferencesKey("keyboard_banner_dismissed")
     private val liveTranscriptionKey = booleanPreferencesKey("live_transcription")
+    private val conversationFontSizeKey = intPreferencesKey("conversation_font_size")
+    private val saveConversationsKey = booleanPreferencesKey("save_conversations")
     private val reviewDictationsKey = intPreferencesKey("review_dictations")
     private val reviewActiveDaysKey = intPreferencesKey("review_active_days")
     private val reviewLastActiveDayKey = longPreferencesKey("review_last_active_day")
@@ -49,6 +58,9 @@ class Prefs(private val context: Context) {
             imeLanguageCode = prefs[imeLanguageKey],
             keyboardBannerDismissed = prefs[keyboardBannerDismissedKey] ?: false,
             liveTranscription = prefs[liveTranscriptionKey] ?: true,
+            conversationFontSize = (prefs[conversationFontSizeKey] ?: DEFAULT_CONVERSATION_FONT_SIZE)
+                .coerceIn(CONVERSATION_FONT_SIZES),
+            saveConversations = prefs[saveConversationsKey] ?: true,
         )
     }
 
@@ -66,6 +78,14 @@ class Prefs(private val context: Context) {
 
     suspend fun setLiveTranscription(enabled: Boolean) {
         context.dataStore.edit { it[liveTranscriptionKey] = enabled }
+    }
+
+    suspend fun setConversationFontSize(sp: Int) {
+        context.dataStore.edit { it[conversationFontSizeKey] = sp.coerceIn(CONVERSATION_FONT_SIZES) }
+    }
+
+    suspend fun setSaveConversations(enabled: Boolean) {
+        context.dataStore.edit { it[saveConversationsKey] = enabled }
     }
 
     suspend fun dismissKeyboardBanner() {

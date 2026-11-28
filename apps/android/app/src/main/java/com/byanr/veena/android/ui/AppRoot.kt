@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Mic
 import androidx.compose.material.icons.outlined.Settings
@@ -24,6 +26,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -40,6 +45,8 @@ import androidx.navigation.navArgument
 import com.byanr.veena.android.AppViewModel
 import com.byanr.veena.android.R
 import com.byanr.veena.android.data.ModelCatalog
+import com.byanr.veena.android.ui.conversation.ConversationScreen
+import com.byanr.veena.android.ui.conversation.ConversationViewModel
 import com.byanr.veena.android.ui.dictate.DictateScreen
 import com.byanr.veena.android.ui.history.HistoryDetailScreen
 import com.byanr.veena.android.ui.history.HistoryScreen
@@ -58,12 +65,20 @@ private data class TabSpec(
 
 private val TABS = listOf(
     TabSpec("dictate", "Dictate", Icons.Filled.Mic, Icons.Outlined.Mic),
+    TabSpec(CONVERSATION, "Conversation", Icons.Filled.Forum, Icons.Outlined.Forum),
     TabSpec("history", "History", Icons.Filled.History, Icons.Outlined.History),
     TabSpec("settings", "Settings", Icons.Filled.Settings, Icons.Outlined.Settings),
 )
 
+/** Full screen like Live Transcribe: it has its own bottom bar instead of the tabs. */
+private const val CONVERSATION = "conversation"
+
 @Composable
-fun AppRoot(appViewModel: AppViewModel = viewModel()) {
+fun AppRoot(
+    appViewModel: AppViewModel = viewModel(),
+    // Activity-scoped, so a conversation outlives a visit to another tab.
+    conversationViewModel: ConversationViewModel = viewModel(),
+) {
     val settings by appViewModel.settings.collectAsState()
     val colors = veenaColors
 
@@ -89,7 +104,19 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = backStackEntry?.destination?.route
         val showBottomBar =
-            !onboarding && currentRoute in TABS.map { it.route }
+            !onboarding && currentRoute in TABS.map { it.route } && currentRoute != CONVERSATION
+
+        fun openTab(route: String) {
+            navController.navigate(route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
+        // Conversation's back button returns to the tab it was opened from.
+        var tabBeforeConversation by rememberSaveable { mutableStateOf("dictate") }
 
         // The IME deep-links into setup when a gate is missing (MainActivity
         // surfaces the launch flag here); navigate exactly once per request.
@@ -111,13 +138,10 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                             NavigationBarItem(
                                 selected = selected,
                                 onClick = {
-                                    navController.navigate(tab.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
+                                    if (tab.route == CONVERSATION && currentRoute != null) {
+                                        tabBeforeConversation = currentRoute
                                     }
+                                    openTab(tab.route)
                                 },
                                 icon = {
                                     Icon(
@@ -149,6 +173,16 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                         },
                         onOpenVoiceKeyboard = {
                             navController.navigate("voiceKeyboard")
+                        },
+                    )
+                }
+                composable(CONVERSATION) {
+                    ConversationScreen(
+                        appViewModel = appViewModel,
+                        viewModel = conversationViewModel,
+                        onBack = { openTab(tabBeforeConversation) },
+                        onOpenLanguagePicker = {
+                            navController.navigate("picker/conversation")
                         },
                     )
                 }
@@ -230,7 +264,7 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                                 navController.navigate("download/$mode/${language.code}")
                             }
                         },
-                        onBack = if (mode == "settings" || mode == "dictate" || mode == "ime") {
+                        onBack = if (mode in setOf("settings", "dictate", "ime", CONVERSATION)) {
                             { navController.popBackStack() }
                         } else null,
                     )
@@ -268,6 +302,7 @@ fun AppRoot(appViewModel: AppViewModel = viewModel()) {
                                 // Opened from the home-page language chip: pop the
                                 // download screen and the picker, back to Dictate.
                                 "dictate" -> navController.popBackStack("dictate", inclusive = false)
+                                CONVERSATION -> navController.popBackStack(CONVERSATION, inclusive = false)
                                 // Opened from the voice-keyboard setup screen: pop
                                 // back there, leaving the app language untouched.
                                 "ime" -> navController.popBackStack("voiceKeyboard", inclusive = false)

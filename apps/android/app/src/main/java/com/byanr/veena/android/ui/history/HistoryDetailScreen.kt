@@ -1,5 +1,6 @@
 package com.byanr.veena.android.ui.history
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -44,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.byanr.veena.android.data.HistoryEntry
+import com.byanr.veena.android.data.SOURCE_CONVERSATION
 import com.byanr.veena.android.ui.copyText
 import com.byanr.veena.android.ui.theme.AccentBlue
 import com.byanr.veena.android.ui.theme.veenaColors
@@ -97,7 +100,7 @@ fun HistoryDetailScreen(
                 )
             }
             Text(
-                "Recording",
+                if (entry.source == SOURCE_CONVERSATION) "Conversation" else "Recording",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = colors.text,
@@ -180,6 +183,23 @@ fun HistoryDetailScreen(
                 )
                 Spacer(Modifier.width(8.dp))
                 Text("Copy")
+            }
+            OutlinedButton(
+                onClick = {
+                    val send = Intent(Intent.ACTION_SEND)
+                        .setType("text/plain")
+                        .putExtra(Intent.EXTRA_TEXT, entry.transcript)
+                    context.startActivity(Intent.createChooser(send, null))
+                },
+                shape = CircleShape,
+            ) {
+                Icon(
+                    Icons.Outlined.Share,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(Modifier.width(8.dp))
+                Text("Share")
             }
         }
     }

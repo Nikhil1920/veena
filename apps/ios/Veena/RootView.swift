@@ -1,10 +1,13 @@
 import SwiftUI
+import SwiftData
 
 /// Routes between first-run onboarding and the main tab experience.
 /// Mirrors Android AppRoot.kt: warmEngine on language change, key on onboarding state,
 /// and picker/download navigation with mode-aware pop logic.
 struct RootView: View {
     @Environment(AppEnvironment.self) private var environment
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.modelContext) private var modelContext
     @State private var onboardingPath = NavigationPath()
 
     var body: some View {
@@ -19,6 +22,29 @@ struct RootView: View {
             .sheet(isPresented: $environment.showKeyboardSetup) {
                 KeyboardSetupView()
             }
+            // The conversation listens while its screen is in front, here
+            // rather than in the screen, which a language change rebuilds.
+            .onAppear { environment.conversation.modelContext = modelContext }
+            .onChange(of: conversationScreen, initial: true) { _, screen in
+                environment.conversation.update(screenActive: screen.isActive, languageCode: screen.languageCode)
+            }
+    }
+
+    private struct ConversationScreen: Equatable {
+        let isActive: Bool
+        let languageCode: String?
+    }
+
+    /// The Conversation tab is selected, the app is not in the background,
+    /// and the keyboard's session screen is not covering it.
+    private var conversationScreen: ConversationScreen {
+        ConversationScreen(
+            isActive: environment.languageCode != nil
+                && environment.selectedTab == .conversation
+                && scenePhase != .background
+                && !environment.showKeyboardSession,
+            languageCode: environment.languageCode
+        )
     }
 
     @ViewBuilder
@@ -64,16 +90,24 @@ struct RootView: View {
 }
 
 private struct MainTabs: View {
+    @Environment(AppEnvironment.self) private var environment
     let languageCode: String
 
     var body: some View {
-        TabView {
+        @Bindable var environment = environment
+        TabView(selection: $environment.selectedTab) {
             DictateView()
                 .tabItem { Label("Dictate", systemImage: "mic.fill") }
+                .tag(AppTab.dictate)
+            ConversationView()
+                .tabItem { Label("Conversation", systemImage: "captions.bubble") }
+                .tag(AppTab.conversation)
             HistoryListView()
                 .tabItem { Label("History", systemImage: "clock.arrow.circlepath") }
+                .tag(AppTab.history)
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gearshape.fill") }
+                .tag(AppTab.settings)
         }
         .id(languageCode) // rebuild when the language changes
     }

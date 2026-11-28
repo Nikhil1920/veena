@@ -19,10 +19,18 @@ and review past transcriptions in a local history.
   the engine's live session): in the Dictate box, and in other apps as the
   field's composing text, which the transcript then replaces
   (`ime/ComposingPreview.kt`). Settings → Live Transcription turns it off.
+- The Conversation tab captions a conversation live, for people who are
+  deaf or hard of hearing, in the style of Live Transcribe: Veena listens
+  while the screen is open and writes a line per utterance in large text, and
+  replies can be typed and shown just as large (`ui/conversation/`, on the
+  engine's conversation captions). The microphone streams through
+  `audio/MicStream.kt`, which keeps no audio, and each conversation is saved
+  to History as text unless that is turned off in its settings.
 - Emulators have no voice: in debuggable builds the app and the keyboards
   transcribe `files/keyboard-test-audio.wav` instead of the microphone when it
   exists (`adb push` it, then `adb shell run-as com.byanr.veena cp …`), played
-  at the pace a microphone would deliver it.
+  at the pace a microphone would deliver it. In Conversation the file plays
+  once, then silence follows, until the app restarts.
 - After a dictation in the app, once someone dictates regularly (10
   dictations on 3 days, keyboard ones included), Veena asks Google Play for
   its in-app rating sheet, at most every 60 days (`data/ReviewPrompt.kt`,

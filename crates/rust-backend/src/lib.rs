@@ -1,4 +1,5 @@
 mod chunk;
+mod conversation;
 mod decode;
 mod live;
 pub mod preprocess;
@@ -14,6 +15,7 @@ use ort::session::Session;
 use ort::value::TensorRef;
 use serde::Deserialize;
 
+pub use conversation::{CaptionUpdate, Conversation};
 pub use live::LiveSession;
 
 /// Per-language logit masks ship either as boolean flags over the full class
@@ -477,6 +479,7 @@ mod tests {
         // A live session moves between the threads that feed and read it.
         fn assert_send<T: Send>() {}
         assert_send::<LiveSession>();
+        assert_send::<Conversation>();
     }
 
     #[test]

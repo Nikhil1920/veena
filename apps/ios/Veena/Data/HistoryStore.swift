@@ -9,7 +9,8 @@ final class HistoryEntry {
     var transcript: String
     var audioPath: String
     var durationMs: Double
-    /// "mic" for live dictation, "import" for a picked audio file.
+    /// "mic" for live dictation, "import" for a picked audio file,
+    /// "conversation" for the Conversation screen (no audio).
     var source: String
 
     init(
@@ -28,5 +29,17 @@ final class HistoryEntry {
         self.audioPath = audioPath
         self.durationMs = durationMs
         self.source = source
+    }
+}
+
+extension HistoryEntry {
+    static let conversationSource = "conversation"
+
+    var isConversation: Bool { source == Self.conversationSource }
+
+    /// The transcript as a row shows it: a conversation's lines run on.
+    var previewText: String {
+        guard isConversation else { return transcript }
+        return transcript.split(separator: "\n").joined(separator: " ")
     }
 }
