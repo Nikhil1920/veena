@@ -12,7 +12,7 @@ settings:
     # Shared by the app and the keyboard extension: iOS requires an embedded
     # extension's versions to match its app's.
     MARKETING_VERSION: "1.2.0"
-    CURRENT_PROJECT_VERSION: "11"
+    CURRENT_PROJECT_VERSION: "12"
 targets:
   Veena:
     type: application
