@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import StoreKit
 import SwiftData
 import UniformTypeIdentifiers
 
@@ -10,6 +11,7 @@ import UniformTypeIdentifiers
 struct DictateView: View {
     @Environment(AppEnvironment.self) private var environment
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.requestReview) private var requestReview
     @State private var text = ""
     @State private var textRevision = 0
     @State private var isRecording = false
@@ -44,8 +46,6 @@ struct DictateView: View {
 
             if !keyboardReady && !keyboardBannerDismissed {
                 keyboardBanner
-            } else if environment.reviewPromptDue {
-                ReviewPromptCard()
             }
 
             transcriptBox
@@ -725,6 +725,21 @@ struct DictateView: View {
         modelContext.insert(entry)
         try? modelContext.save()
         ReviewPrompt.recordDictation()
+        requestReviewIfDue()
+    }
+
+    /// Once Veena is used regularly, a finished dictation brings up the App
+    /// Store's rating sheet a moment after its text lands, unless the next
+    /// recording has already started. Mirrors Android's DictateScreen.
+    private func requestReviewIfDue() {
+        guard ReviewPrompt.isDue() else { return }
+        Task { @MainActor in
+            // Let the new text show before the sheet covers it.
+            try? await Task.sleep(for: .milliseconds(1500))
+            guard !isRecording, !isTranscribing else { return }
+            ReviewPrompt.markRequested()
+            requestReview()
+        }
     }
 
     private var recordingsDirectory: URL {

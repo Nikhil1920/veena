@@ -281,7 +281,7 @@ struct SettingsView: View {
         Section("Support Veena") {
             Button {
                 openURL(VeenaLinks.appStoreReview)
-                environment.markRated()
+                ReviewPrompt.markRequested()
             } label: {
                 linkLabel("Rate Veena", "Leave a review on the App Store", icon: "star")
             }
