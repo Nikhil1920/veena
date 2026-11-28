@@ -108,6 +108,19 @@ pauses it), then silence:
 xcrun simctl launch <udid> com.byanr.veena -micTestAudio sample.wav
 ```
 
+### Testing the review prompt
+
+After a dictation in the app, once someone dictates regularly (10
+dictations on 3 days, keyboard ones included), Veena asks the App Store for
+its rating sheet, at most every 60 days (`Veena/Data/ReviewPrompt.swift`).
+Builds run from Xcode always show the sheet when asked (Submit does nothing);
+TestFlight builds never show it. In Debug builds, `-reviewPromptTest YES`
+makes every dictation ask:
+
+```bash
+xcrun simctl launch <udid> com.byanr.veena -reviewPromptTest YES -micTestAudio sample.wav
+```
+
 Model archives are downloaded on first launch from Veena's model CDN; nothing
 model-related is bundled. They are unpacked into `models/` in the App Group
 container, where the keyboard reads them too. Versions before 1.2 kept them

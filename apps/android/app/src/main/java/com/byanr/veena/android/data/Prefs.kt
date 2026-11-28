@@ -45,9 +45,9 @@ class Prefs(private val context: Context) {
     private val reviewDictationsKey = intPreferencesKey("review_dictations")
     private val reviewActiveDaysKey = intPreferencesKey("review_active_days")
     private val reviewLastActiveDayKey = longPreferencesKey("review_last_active_day")
-    private val reviewTimesShownKey = intPreferencesKey("review_times_shown")
-    private val reviewLastShownDayKey = longPreferencesKey("review_last_shown_day")
-    private val reviewRatedKey = booleanPreferencesKey("review_rated")
+    // New in place of the old card's review_times_shown / review_last_shown_day /
+    // review_rated, so people who saw the card are asked afresh.
+    private val reviewLastRequestedDayKey = longPreferencesKey("review_last_requested_day")
 
     val settings: Flow<AppSettings> = context.dataStore.data.map { prefs ->
         AppSettings(
@@ -97,9 +97,7 @@ class Prefs(private val context: Context) {
             dictations = prefs[reviewDictationsKey] ?: 0,
             activeDays = prefs[reviewActiveDaysKey] ?: 0,
             lastActiveDay = prefs[reviewLastActiveDayKey] ?: ReviewPromptState.NEVER,
-            timesShown = prefs[reviewTimesShownKey] ?: 0,
-            lastShownDay = prefs[reviewLastShownDayKey] ?: ReviewPromptState.NEVER,
-            rated = prefs[reviewRatedKey] ?: false,
+            lastRequestedDay = prefs[reviewLastRequestedDayKey] ?: ReviewPromptState.NEVER,
         )
     }
 
@@ -114,15 +112,8 @@ class Prefs(private val context: Context) {
         }
     }
 
-    suspend fun markReviewPromptShown(today: Long) {
-        context.dataStore.edit {
-            it[reviewTimesShownKey] = (it[reviewTimesShownKey] ?: 0) + 1
-            it[reviewLastShownDayKey] = today
-        }
-    }
-
-    /** The user went to the store to rate; the review prompt never comes back. */
-    suspend fun markRated() {
-        context.dataStore.edit { it[reviewRatedKey] = true }
+    /** Veena asked Google Play for its rating sheet on [today] (an epoch day). */
+    suspend fun markReviewRequested(today: Long) {
+        context.dataStore.edit { it[reviewLastRequestedDayKey] = today }
     }
 }

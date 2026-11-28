@@ -65,10 +65,6 @@ final class AppEnvironment {
     var showKeyboardSession = false
     /// Keyboard setup was asked for from outside the Settings tab.
     var showKeyboardSetup = false
-    /// Whether the Dictate screen shows the "Enjoying Veena?" card. Decided
-    /// once per launch, so the card never appears in the middle of a session.
-    var reviewPromptDue = ReviewPrompt.isDue()
-    @ObservationIgnored private var reviewPromptCounted = false
     @ObservationIgnored private var activeObserver: NSObjectProtocol?
 
     init() {
@@ -129,19 +125,6 @@ final class AppEnvironment {
         default:
             break
         }
-    }
-
-    /// Counts one showing per launch, however often the Dictate tab is revisited.
-    func reviewPromptShown() {
-        guard !reviewPromptCounted else { return }
-        reviewPromptCounted = true
-        ReviewPrompt.markShown()
-    }
-
-    /// The user went to the App Store to rate Veena; stop asking.
-    func markRated() {
-        reviewPromptDue = false
-        ReviewPrompt.markRated()
     }
 
     var selectedLanguage: Language? {

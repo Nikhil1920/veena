@@ -1,24 +1,25 @@
 import Foundation
 
-/// Usage behind the "Enjoying Veena?" card on the Dictate screen. The card
-/// only appears for people who dictate regularly, at most `maxTimesShown`
-/// times, `daysBetweenPrompts` apart, and never again once they've gone to
-/// the App Store to rate (the store doesn't tell apps who has already
-/// reviewed). Mirrors Android ReviewPromptState.
+/// When to ask the App Store for its rating sheet: only once someone
+/// dictates regularly, and at most every `daysBetweenRequests` days. The
+/// system decides whether the sheet actually appears (at most three times a
+/// year) and never tells the app, so asking is all Veena can count. Mirrors
+/// Android ReviewPromptState.
 enum ReviewPrompt {
     static let minDictations = 10
     static let minActiveDays = 3
-    static let maxTimesShown = 2
-    static let daysBetweenPrompts = 60
+    static let daysBetweenRequests = 60
 
     private static let defaults = UserDefaults.standard
     private enum Key {
         static let dictations = "reviewDictations"
         static let activeDays = "reviewActiveDays"
         static let lastActiveDay = "reviewLastActiveDay"
-        static let timesShown = "reviewTimesShown"
-        static let lastShownDay = "reviewLastShownDay"
-        static let rated = "reviewRated"
+        // New in place of the old card's reviewTimesShown / reviewLastShownDay /
+        // reviewRated, so people who saw the card are asked afresh.
+        static let lastRequestedDay = "reviewLastRequestedDay"
+        /// Debug test hook: `-reviewPromptTest YES` makes every dictation ask.
+        static let test = "reviewPromptTest"
     }
 
     /// A dictation (app, import, or keyboard) produced text.
@@ -31,22 +32,19 @@ enum ReviewPrompt {
     }
 
     static func isDue(today: Int = today()) -> Bool {
-        guard !defaults.bool(forKey: Key.rated),
-              defaults.integer(forKey: Key.dictations) >= minDictations,
-              defaults.integer(forKey: Key.activeDays) >= minActiveDays,
-              defaults.integer(forKey: Key.timesShown) < maxTimesShown else { return false }
-        guard let lastShown = defaults.object(forKey: Key.lastShownDay) as? Int else { return true }
-        return today - lastShown >= daysBetweenPrompts
+        #if DEBUG
+        if defaults.bool(forKey: Key.test) { return true }
+        #endif
+        guard defaults.integer(forKey: Key.dictations) >= minDictations,
+              defaults.integer(forKey: Key.activeDays) >= minActiveDays else { return false }
+        guard let lastRequested = defaults.object(forKey: Key.lastRequestedDay) as? Int else { return true }
+        return today - lastRequested >= daysBetweenRequests
     }
 
-    static func markShown(today: Int = today()) {
-        defaults.set(defaults.integer(forKey: Key.timesShown) + 1, forKey: Key.timesShown)
-        defaults.set(today, forKey: Key.lastShownDay)
-    }
-
-    /// The user went to the App Store to rate; the prompt never comes back.
-    static func markRated() {
-        defaults.set(true, forKey: Key.rated)
+    /// Veena asked for the rating sheet, or the user opened the store page
+    /// from Settings; the next ask waits `daysBetweenRequests` days.
+    static func markRequested(today: Int = today()) {
+        defaults.set(today, forKey: Key.lastRequestedDay)
     }
 
     /// Local calendar day number, so "a day" follows the user's midnight.

@@ -10,9 +10,7 @@ class ReviewPromptStateTest {
         dictations = 10,
         activeDays = 3,
         lastActiveDay = 100,
-        timesShown = 0,
-        lastShownDay = ReviewPromptState.NEVER,
-        rated = false,
+        lastRequestedDay = ReviewPromptState.NEVER,
     )
 
     @Test
@@ -27,15 +25,10 @@ class ReviewPromptStateTest {
     }
 
     @Test
-    fun neverDueAfterRating() {
-        assertFalse(regular.copy(rated = true).isDue(today = 100))
-    }
-
-    @Test
-    fun waitsBetweenPromptsAndStopsAfterTheLast() {
-        val shownOnce = regular.copy(timesShown = 1, lastShownDay = 100)
-        assertFalse(shownOnce.isDue(today = 159))
-        assertTrue(shownOnce.isDue(today = 160))
-        assertFalse(regular.copy(timesShown = 2, lastShownDay = 0).isDue(today = 500))
+    fun waitsBetweenRequests() {
+        val asked = regular.copy(lastRequestedDay = 100)
+        assertFalse(asked.isDue(today = 100))
+        assertFalse(asked.isDue(today = 159))
+        assertTrue(asked.isDue(today = 160))
     }
 }

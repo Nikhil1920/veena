@@ -19,10 +19,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
@@ -68,6 +71,10 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
     // it; empty when there is none. Its last words can still change.
     val liveText = MutableStateFlow("")
     private var live: LiveDictation? = null
+
+    /** A finished dictation made a store review due; the screen asks Google Play. */
+    private val _reviewDue = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val reviewDue: SharedFlow<Unit> = _reviewDue
     private var testAudio: DebugMicAudio? = null
     val lastRecording = MutableStateFlow<Recording?>(null)
     val error = MutableStateFlow<String?>(null)
@@ -227,9 +234,19 @@ class DictateViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /** Counts toward the "Enjoying Veena?" prompt; never holds up the transcript. */
+    /** Counts toward asking for a store review, and says when one is due; never holds up the transcript. */
     private fun recordDictation() {
-        viewModelScope.launch { prefs.recordDictation(ReviewPromptState.today()) }
+        viewModelScope.launch {
+            val today = ReviewPromptState.today()
+            prefs.recordDictation(today)
+            val testHook = withContext(Dispatchers.IO) { ReviewPromptState.testHookEnabled(getApplication()) }
+            if (testHook || prefs.reviewPrompt.first().isDue(today)) _reviewDue.tryEmit(Unit)
+        }
+    }
+
+    /** The screen is asking Google Play now; the next ask waits [ReviewPromptState.DAYS_BETWEEN_REQUESTS] days. */
+    fun onReviewRequested() {
+        viewModelScope.launch { prefs.markReviewRequested(ReviewPromptState.today()) }
     }
 
     private fun reportProgress(completed: Int, total: Int) {

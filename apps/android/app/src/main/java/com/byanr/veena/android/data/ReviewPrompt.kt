@@ -1,36 +1,42 @@
 package com.byanr.veena.android.data
 
+import android.content.Context
+import android.content.pm.ApplicationInfo
+import java.io.File
 import java.time.LocalDate
 
 /**
- * Usage behind the "Enjoying Veena?" card on the Dictate screen. The card
- * only appears for people who dictate regularly, at most [MAX_TIMES_SHOWN]
- * times, [DAYS_BETWEEN_PROMPTS] apart, and never again once they've gone to
- * the store to rate (the stores don't tell apps who has already reviewed).
- * Days are epoch days.
+ * When to ask Google Play for its in-app rating sheet: only once someone
+ * dictates regularly, and at most every [DAYS_BETWEEN_REQUESTS] days. Play
+ * decides whether the sheet actually appears (it limits how often, and skips
+ * people who have already reviewed) and never tells the app, so asking is
+ * all Veena can count. Days are epoch days. Mirrors iOS ReviewPrompt.
  */
 data class ReviewPromptState(
     val dictations: Int,
     val activeDays: Int,
     val lastActiveDay: Long,
-    val timesShown: Int,
-    val lastShownDay: Long,
-    val rated: Boolean,
+    val lastRequestedDay: Long,
 ) {
     fun isDue(today: Long): Boolean =
-        !rated &&
-            dictations >= MIN_DICTATIONS &&
+        dictations >= MIN_DICTATIONS &&
             activeDays >= MIN_ACTIVE_DAYS &&
-            timesShown < MAX_TIMES_SHOWN &&
-            (lastShownDay == NEVER || today - lastShownDay >= DAYS_BETWEEN_PROMPTS)
+            (lastRequestedDay == NEVER || today - lastRequestedDay >= DAYS_BETWEEN_REQUESTS)
 
     companion object {
         const val NEVER = -1L
         const val MIN_DICTATIONS = 10
         const val MIN_ACTIVE_DAYS = 3
-        const val MAX_TIMES_SHOWN = 2
-        const val DAYS_BETWEEN_PROMPTS = 60
+        const val DAYS_BETWEEN_REQUESTS = 60
 
         fun today(): Long = LocalDate.now().toEpochDay()
+
+        /**
+         * Test hook for debuggable builds only: while `files/review-prompt-test`
+         * exists, every dictation in the app asks for a review.
+         */
+        fun testHookEnabled(context: Context): Boolean =
+            context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0 &&
+                File(context.filesDir, "review-prompt-test").exists()
     }
 }

@@ -2,6 +2,7 @@ package com.byanr.veena.android.ui.dictate
 
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.LinearEasing
@@ -98,6 +99,7 @@ import com.byanr.veena.android.ui.theme.StatusReady
 import com.byanr.veena.android.ui.theme.StatusRecording
 import com.byanr.veena.android.ui.settings.isVoiceKeyboardReady
 import com.byanr.veena.android.ui.copyText
+import com.byanr.veena.android.ui.requestPlayReview
 import com.byanr.veena.android.ui.shareVeena
 import com.byanr.veena.android.ui.theme.veenaColors
 import kotlinx.coroutines.delay
@@ -126,7 +128,20 @@ fun DictateScreen(
     val error by viewModel.error.collectAsState()
     val playingPath by viewModel.player.playingPath.collectAsState()
     val settings by appViewModel.settings.collectAsState()
-    val reviewPromptDue by appViewModel.reviewPromptDue.collectAsState()
+    // Once Veena is used regularly, a finished dictation brings up Google
+    // Play's rating sheet a moment after its text lands, unless the next
+    // recording has already started.
+    val activity = LocalActivity.current
+    LaunchedEffect(viewModel, activity) {
+        if (activity == null) return@LaunchedEffect
+        viewModel.reviewDue.collect {
+            delay(REVIEW_PROMPT_DELAY_MS)
+            if (!viewModel.isRecording.value && !viewModel.isTranscribing.value) {
+                viewModel.onReviewRequested()
+                activity.requestPlayReview()
+            }
+        }
+    }
     val micMode = settings?.micMode ?: MicMode.HOLD
     // Read inside gesture callbacks so they always see the latest value without
     // restarting the pointerInput handler mid-press.
@@ -300,13 +315,6 @@ fun DictateScreen(
                 VoiceKeyboardBanner(
                     onSetUp = onOpenVoiceKeyboard,
                     onDismiss = appViewModel::dismissKeyboardBanner,
-                )
-                Spacer(Modifier.height(12.dp))
-            } else if (reviewPromptDue) {
-                ReviewPromptCard(
-                    onShown = appViewModel::onReviewPromptShown,
-                    onRated = appViewModel::markRated,
-                    onDismiss = appViewModel::dismissReviewPrompt,
                 )
                 Spacer(Modifier.height(12.dp))
             }
@@ -677,3 +685,6 @@ private fun VoiceKeyboardBanner(onSetUp: () -> Unit, onDismiss: () -> Unit) {
         }
     }
 }
+
+/** Lets the new text show before the store's rating sheet covers it. Matches iOS. */
+private const val REVIEW_PROMPT_DELAY_MS = 1_500L
