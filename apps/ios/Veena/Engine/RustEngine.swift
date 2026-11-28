@@ -202,6 +202,19 @@ final class RustEngine {
         return LiveTranscriber(session: session) { [self] in release(model) }
     }
 
+    /// Starts captioning a conversation in `languageCode`, loading its model
+    /// first if needed (which blocks: call it off the main thread). The
+    /// model stays alive until the returned transcriber is closed, even if
+    /// another caller switches models meanwhile.
+    func openConversation(languageCode: String, models: ModelRepository) throws -> ConversationTranscriber {
+        let model = try acquire(languageCode: languageCode, models: models)
+        guard let conversation = conversation_create(model.handle, languageCode) else {
+            release(model)
+            throw EngineError.transcriptionFailed
+        }
+        return ConversationTranscriber(conversation: conversation) { [self] in release(model) }
+    }
+
     /// Runs one synchronous engine call with a C callback that forwards
     /// progress and asks the engine to stop once the calling task is cancelled.
     private static func run(

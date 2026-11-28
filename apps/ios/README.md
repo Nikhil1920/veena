@@ -15,6 +15,12 @@ a local history.
   dictation's text in the Dictate box while it is still being recorded
   (Settings → Live Transcription turns it off). Keyboard dictations show
   their text only once finished.
+- `Veena/Features/Conversation/` — the Conversation tab: full-screen
+  captions of the people around you, one line per utterance, with typed
+  replies shown just as big (like Live Transcribe). It listens while the
+  screen is in front; the engine's conversation captions
+  (`Engine/ConversationTranscriber.swift`) do the work, and no audio is kept.
+  With saving on, each conversation is one History entry.
 - `VeenaKeyboard/` — the voice keyboard extension. Its mic takes one of two
   routes. On iOS 26 and later the keyboard records and transcribes by itself
   (`KeyboardLocalDictation`) when its language has a small model on the
@@ -95,7 +101,8 @@ Like `-keyboardTestAudio`, the app's own mic button can hear a file. In Debug
 builds, `-micTestAudio <name>` makes dictations hear `Documents/<name>`
 instead of the microphone, played at the pace a microphone would deliver it,
 so the live text (`Veena/Engine/LiveDictation.swift`) can be watched as it
-grows:
+grows. The Conversation tab hears the same file while it listens (pausing
+pauses it), then silence:
 
 ```bash
 xcrun simctl launch <udid> com.byanr.veena -micTestAudio sample.wav

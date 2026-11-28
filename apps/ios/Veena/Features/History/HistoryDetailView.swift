@@ -1,7 +1,8 @@
 import SwiftUI
 import SwiftData
 
-/// Full transcript for one history entry with playback, copy, and delete.
+/// Full transcript for one history entry with playback, copy, share, and
+/// delete. Conversations have no audio.
 struct HistoryDetailView: View {
     @Environment(AppEnvironment.self) private var environment
     @Environment(\.modelContext) private var modelContext
@@ -44,11 +45,16 @@ struct HistoryDetailView: View {
                     Label("Copy", systemImage: "doc.on.doc")
                 }
                 .buttonStyle(.bordered)
+
+                ShareLink(item: entry.transcript) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+                .buttonStyle(.bordered)
             }
             .padding(.bottom, 24)
         }
         .padding(.horizontal, 16)
-        .navigationTitle("Recording")
+        .navigationTitle(entry.isConversation ? "Conversation" : "Recording")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

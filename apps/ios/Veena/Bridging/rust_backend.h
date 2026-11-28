@@ -83,6 +83,30 @@ char *live_session_finish(LiveSession *session);
 
 void live_session_destroy(LiveSession *session);
 
+/*
+ * Conversation captions: one line of text per utterance, for as long as
+ * audio keeps coming. Push 16 kHz mono audio as it arrives (cheap); step
+ * decodes what is due and returns what changed, as JSON:
+ *   {"finished": ["final text of each utterance that ended", ...],
+ *    "partial": "the utterance still being spoken; can still change",
+ *    "speaking": true}
+ * A 700 ms pause ends an utterance. Flush ends the one in progress, for
+ * when listening pauses or stops. Step and flush return NULL on failure.
+ * One caller at a time; destroy the conversation before its transcriber.
+ * Create returns NULL for a language the model does not support.
+ */
+typedef struct Conversation Conversation;
+
+Conversation *conversation_create(Transcriber *handle, const char *language);
+
+void conversation_push(Conversation *conversation, const float *audio, size_t len);
+
+char *conversation_step(Conversation *conversation);
+
+char *conversation_flush(Conversation *conversation);
+
+void conversation_destroy(Conversation *conversation);
+
 void transcriber_destroy(Transcriber *handle);
 
 void transcriber_free_string(char *s);

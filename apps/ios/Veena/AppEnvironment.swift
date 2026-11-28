@@ -8,6 +8,13 @@ enum MicMode: String {
     case tap
 }
 
+enum AppTab: Hashable {
+    case dictate
+    case conversation
+    case history
+    case settings
+}
+
 /// App-wide state: settings (persisted in UserDefaults), the engine, the
 /// model repository, the recorder, and the keyboard session. Shared via the
 /// SwiftUI environment.
@@ -19,6 +26,17 @@ final class AppEnvironment {
     let recorder = MicRecorder()
     let player = AudioPlayer()
     let keyboardSession: KeyboardSessionController
+    let conversation: ConversationController
+
+    /// The selected tab. Kept here because the tabs are rebuilt when the
+    /// language changes, and the Conversation screen changes it.
+    var selectedTab: AppTab = .dictate {
+        didSet {
+            if oldValue != selectedTab && oldValue != .conversation { previousTab = oldValue }
+        }
+    }
+    /// Where the Conversation screen's back button goes.
+    private(set) var previousTab: AppTab = .dictate
 
     var languageCode: String? {
         didSet {
@@ -55,12 +73,17 @@ final class AppEnvironment {
 
     init() {
         keyboardSession = KeyboardSessionController(engine: engine, models: models)
+        conversation = ConversationController(
+            engine: engine, models: models, recorder: recorder, keyboardSession: keyboardSession
+        )
         languageCode = UserDefaults.standard.string(forKey: "languageCode")
         micMode = MicMode(rawValue: UserDefaults.standard.string(forKey: "micMode") ?? "") ?? .hold
         liveTranscription = UserDefaults.standard.object(forKey: "liveTranscription") as? Bool ?? true
         KeyboardSharedSettings.micMode = micMode.rawValue
 
-        keyboardSession.isAppRecording = { [recorder] in recorder.isRecording }
+        keyboardSession.isAppRecording = { [recorder, conversation] in
+            recorder.isRecording || conversation.isListening
+        }
         models.onInstalledModelsChanged = { [weak self] in self?.publishKeyboardLanguages() }
         publishKeyboardLanguages()
         // Becoming active follows every answer to the microphone prompt and
@@ -95,6 +118,9 @@ final class AppEnvironment {
         guard url.scheme == "veena", url.host == "keyboard" else { return }
         switch url.path {
         case "/session":
+            // The session screen covers the conversation, which hands the
+            // microphone over now rather than once RootView sees the cover.
+            conversation.update(screenActive: false, languageCode: languageCode)
             keyboardSession.startSession()
             showKeyboardSetup = false // One modal at a time; the session screen wins.
             showKeyboardSession = true

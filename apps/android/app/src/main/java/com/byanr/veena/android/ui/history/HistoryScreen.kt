@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.byanr.veena.android.data.HistoryEntry
+import com.byanr.veena.android.data.SOURCE_CONVERSATION
 import com.byanr.veena.android.data.languageByCode
 import com.byanr.veena.android.ui.copyText
 import com.byanr.veena.android.ui.theme.StatusRecording
@@ -269,6 +270,8 @@ private fun HistoryRow(entry: HistoryEntry, onClick: () -> Unit, onCopy: () -> U
                 }
                 if (entry.source == "import") {
                     Text("imported", fontSize = 11.sp, color = colors.textSecondary)
+                } else if (entry.source == SOURCE_CONVERSATION) {
+                    Text("conversation", fontSize = 11.sp, color = colors.textSecondary)
                 } else if (entry.durationMs > 0) {
                     Text(
                         "${"%.1f".format(entry.durationMs / 1000f)}s",

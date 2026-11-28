@@ -1,8 +1,8 @@
 import SwiftUI
 import SwiftData
 
-/// List of past dictation sessions and imported recordings; transcripts can
-/// be copied straight from a row.
+/// List of past dictation sessions, imported recordings and conversations;
+/// transcripts can be copied straight from a row.
 struct HistoryListView: View {
     @Environment(AppEnvironment.self) private var environment
     @Query(sort: \HistoryEntry.createdAt, order: .reverse)
@@ -50,7 +50,12 @@ struct HistoryRow: View {
                     .background(Capsule().fill(VeenaColors.backgroundSelected))
                     .foregroundStyle(.secondary)
 
-                if entry.source == "import" {
+                if entry.isConversation {
+                    Text("Conversation")
+                        .font(.caption2).foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .fixedSize()
+                } else if entry.source == "import" {
                     Text("imported").font(.caption2).foregroundStyle(.secondary)
                 } else if entry.durationMs > 0 {
                     Text(String(format: "%.1fs", entry.durationMs / 1000))
@@ -64,7 +69,7 @@ struct HistoryRow: View {
             }
 
             HStack(alignment: .top) {
-                Text(entry.transcript)
+                Text(entry.previewText)
                     .font(.subheadline)
                     .lineLimit(2)
                 Spacer(minLength: 4)

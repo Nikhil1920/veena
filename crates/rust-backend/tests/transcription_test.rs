@@ -256,3 +256,60 @@ fn test_multilingual_live_session_previews_then_matches_transcribe() {
         transcriber.transcribe(&audio, 16_000, Some("te")).unwrap()
     );
 }
+
+#[test]
+fn test_multilingual_conversation_captions_each_take() {
+    let Some((model_path, config_path, vocab_path, masks_path)) = multi_model_paths() else {
+        println!("Skipping: multilingual model artifacts not present");
+        return;
+    };
+    let audio_path = project_root().join("telugu_test_audio.wav");
+    let (clip, sample_rate) =
+        rust_backend::preprocess::read_wav(audio_path.to_str().unwrap()).unwrap();
+    assert_eq!(sample_rate, 48_000);
+    let clip: Vec<f32> = clip
+        .chunks(3)
+        .map(|c| c.iter().sum::<f32>() / c.len() as f32)
+        .collect();
+
+    // Two takes with a 2 s pause between them, then quiet.
+    let pause = vec![0.0f32; 32_000];
+    let audio: Vec<f32> = [&clip[..], &pause, &clip, &pause].concat();
+
+    let transcriber = rust_backend::Transcriber::new_multilingual(
+        model_path.to_str().unwrap(),
+        config_path.to_str().unwrap(),
+        vocab_path.to_str().unwrap(),
+        masks_path.to_str().unwrap(),
+    )
+    .expect("Failed to create multilingual transcriber");
+    assert!(transcriber.conversation(Some("xx")).is_err());
+
+    let mut conversation = transcriber.conversation(Some("te")).unwrap();
+    let mut lines = Vec::new();
+    let mut lines_by_first_pause = None;
+    let mut partials = 0;
+    let mut pushed = 0;
+    for part in audio.chunks(4_000) {
+        conversation.push(part);
+        pushed += part.len();
+        let update = conversation.step().expect("Conversation step failed");
+        lines.extend(update.finished);
+        if !update.partial.is_empty() {
+            partials += 1;
+        }
+        if pushed >= clip.len() + pause.len() && lines_by_first_pause.is_none() {
+            lines_by_first_pause = Some(lines.len());
+        }
+    }
+    lines.extend(conversation.flush().unwrap().finished);
+    println!("Lines:\n{}", lines.join("\n"));
+
+    // The first take is captioned during the pause, before the second starts.
+    assert!(lines_by_first_pause.unwrap() >= 1, "{lines:?}");
+    assert!(partials > 10);
+    let text = lines.join(" ");
+    assert_eq!(text.matches("దుకాణానికి").count(), 2, "{text}");
+    assert_eq!(text.matches("తెలుగు").count(), 2, "{text}");
+    assert!(lines.iter().all(|line| !line.trim().is_empty()));
+}
