@@ -100,6 +100,40 @@ const char *live_session_finish(LiveSessionHandle session);
 
 void live_session_destroy(LiveSessionHandle session);
 
+/*
+ * Conversation captions: one line of text per utterance, for as long as
+ * audio keeps coming. Push 16 kHz mono audio as it arrives (cheap) and call
+ * conversation_step for what changed; it decodes only what is due. A pause
+ * of 700 ms ends an utterance, and one that runs past 15 s is cut at a quiet
+ * moment. Ended utterances are transcribed whole and their audio dropped.
+ *
+ * conversation_step and conversation_flush return JSON, freed with
+ * transcriber_free_string, or NULL on failure:
+ *   {"finished": ["final text of each utterance that ended", ...],
+ *    "partial": "the utterance still being spoken; can still change",
+ *    "speaking": true}
+ * An utterance whose final text fails to decode is dropped. conversation_flush
+ * ends the utterance in progress, for when listening pauses or stops.
+ *
+ * A conversation serves one caller at a time and must be destroyed before
+ * its transcriber. conversation_create returns NULL for a language the model
+ * does not support.
+ */
+typedef void *ConversationHandle;
+
+ConversationHandle conversation_create(TranscriberHandle handle,
+                                       const char *language);
+
+void conversation_push(ConversationHandle conversation,
+                       const float *audio,
+                       size_t len);
+
+const char *conversation_step(ConversationHandle conversation);
+
+const char *conversation_flush(ConversationHandle conversation);
+
+void conversation_destroy(ConversationHandle conversation);
+
 void transcriber_destroy(TranscriberHandle handle);
 
 void transcriber_free_string(const char *s);

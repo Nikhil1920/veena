@@ -55,6 +55,23 @@ object RustBackend {
     external fun liveFinish(sessionPtr: Long): String?
 
     external fun liveDestroy(sessionPtr: Long)
+
+    // Conversation captions: see [ConversationCaptions]. One call at a time;
+    // destroyed before its transcriber.
+
+    /** Returns 0 when the model does not support [language]. */
+    external fun conversationCreate(handlePtr: Long, language: String?): Long
+
+    /** Adds 16 kHz mono samples. Cheap: decoding waits for a step. */
+    external fun conversationPush(conversationPtr: Long, audioData: FloatArray)
+
+    /** What changed, as JSON (see [CaptionUpdate.parse]); null on failure. */
+    external fun conversationStep(conversationPtr: Long): String?
+
+    /** Ends the utterance in progress; JSON like [conversationStep]. */
+    external fun conversationFlush(conversationPtr: Long): String?
+
+    external fun conversationDestroy(conversationPtr: Long)
 }
 
 /**

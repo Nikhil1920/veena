@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Entity(tableName = "history")
@@ -20,9 +21,14 @@ data class HistoryEntry(
     val transcript: String,
     val audioPath: String,
     val durationMs: Long,
-    /** "mic" for live dictation, "import" for a picked audio file. */
+    /**
+     * "mic" for live dictation, "import" for a picked audio file,
+     * [SOURCE_CONVERSATION] for a Conversation transcript (no audio).
+     */
     val source: String,
 )
+
+const val SOURCE_CONVERSATION = "conversation"
 
 @Dao
 interface HistoryDao {
@@ -37,6 +43,10 @@ interface HistoryDao {
 
     @Insert
     suspend fun insert(entry: HistoryEntry): Long
+
+    /** Inserts [entry] or replaces the row with its id; returns the new row id, or -1 when replaced. */
+    @Upsert
+    suspend fun upsert(entry: HistoryEntry): Long
 
     @Delete
     suspend fun delete(entry: HistoryEntry)

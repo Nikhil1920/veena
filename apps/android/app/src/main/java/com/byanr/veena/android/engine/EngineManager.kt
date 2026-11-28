@@ -190,6 +190,21 @@ class EngineManager(private val models: ModelRepository) {
     }
 
     /**
+     * Starts captioning a conversation in [languageCode], loading its model
+     * first if needed. The model stays alive until the returned captions are
+     * closed, even if another caller switches models meanwhile.
+     */
+    suspend fun openConversation(languageCode: String): ConversationCaptions {
+        val model = acquire(languageCode)
+        val conversation = RustBackend.conversationCreate(model.handle, languageCode)
+        if (conversation == 0L) {
+            release(model)
+            throw IllegalStateException("Conversation captions failed to start (see logcat)")
+        }
+        return ConversationCaptions(conversation) { release(model) }
+    }
+
+    /**
      * Runs one native transcription on the model for [languageCode], loading
      * it first if needed. The lock is held only while loading; the model
      * stays alive until the transcription ends even if another caller

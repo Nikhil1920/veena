@@ -122,6 +122,14 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch { prefs.setLiveTranscription(enabled) }
     }
 
+    fun setConversationFontSize(sp: Int) {
+        viewModelScope.launch { prefs.setConversationFontSize(sp) }
+    }
+
+    fun setSaveConversations(enabled: Boolean) {
+        viewModelScope.launch { prefs.setSaveConversations(enabled) }
+    }
+
     fun dismissKeyboardBanner() {
         viewModelScope.launch { prefs.dismissKeyboardBanner() }
     }

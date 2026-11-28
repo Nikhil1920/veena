@@ -34,13 +34,13 @@ const FADE_SAMPLES: usize = SAMPLE_RATE / 50;
 const PAD_SAMPLES: usize = 3 * SAMPLE_RATE / 10;
 const PAD_LEVEL: f32 = 3e-3;
 
-type Transcribe<'a> = dyn FnMut(&[f32]) -> Result<String, Box<dyn Error>> + 'a;
+pub(crate) type Transcribe<'a> = dyn FnMut(&[f32]) -> Result<String, Box<dyn Error>> + 'a;
 
 /// The windowing behind [`LiveSession`], apart from the model.
 #[derive(Default)]
-struct LiveWindows {
+pub(crate) struct LiveWindows {
     /// 16 kHz audio from the start of the window still open.
-    tail: Vec<f32>,
+    pub(crate) tail: Vec<f32>,
     /// Transcript of the windows the recording has outgrown.
     settled: String,
     /// Samples at the front of `tail` that the last settled window also heard.
@@ -51,6 +51,14 @@ struct LiveWindows {
 }
 
 impl LiveWindows {
+    /// Windows for a recording that starts with `audio`.
+    pub(crate) fn starting_with(audio: Vec<f32>) -> Self {
+        LiveWindows {
+            tail: audio,
+            ..LiveWindows::default()
+        }
+    }
+
     /// Transcribes and drops every window the audio has outgrown.
     fn settle(&mut self, transcribe: &mut Transcribe) -> Result<(), Box<dyn Error>> {
         while let Some(end) = chunk::full_window(&self.tail, WINDOW_SECONDS * SAMPLE_RATE) {
@@ -66,7 +74,7 @@ impl LiveWindows {
         Ok(())
     }
 
-    fn preview(&mut self, transcribe: &mut Transcribe) -> Result<String, Box<dyn Error>> {
+    pub(crate) fn preview(&mut self, transcribe: &mut Transcribe) -> Result<String, Box<dyn Error>> {
         self.settle(transcribe)?;
         while self.tail.len() - self.previewed > PREVIEW_SECONDS * SAMPLE_RATE {
             let rest = &self.tail[self.previewed..];
@@ -85,7 +93,7 @@ impl LiveWindows {
         Ok(chunk::join_transcripts(&self.settled, &text))
     }
 
-    fn finish(&mut self, transcribe: &mut Transcribe) -> Result<String, Box<dyn Error>> {
+    pub(crate) fn finish(&mut self, transcribe: &mut Transcribe) -> Result<String, Box<dyn Error>> {
         self.settle(transcribe)?;
         if self.tail.is_empty() || chunk::is_silent(&self.tail) {
             return Ok(self.settled.clone());
@@ -199,7 +207,7 @@ impl LiveSession<'_> {
     }
 }
 
-fn into_c_string(result: Result<String, Box<dyn Error>>, call: &str) -> *mut libc::c_char {
+pub(crate) fn into_c_string(result: Result<String, Box<dyn Error>>, call: &str) -> *mut libc::c_char {
     match result {
         Ok(text) => std::ffi::CString::new(text).unwrap().into_raw(),
         Err(e) => {

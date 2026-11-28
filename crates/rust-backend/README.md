@@ -28,6 +28,16 @@ recording so far as text, whose last words can still change, and `finish`
 returns exactly what transcribing the whole recording would, with all but
 its last 25 s window already done.
 
+For captions that run as long as a screen stays open, a conversation
+(`src/conversation.rs`, `Transcriber::conversation`, the C ABI's
+`conversation_*`) cuts the incoming audio into utterances: a 700 ms pause
+ends one, and one that runs past 15 s is cut at its quietest moment. Speech
+is told from the room by energy over a noise floor that follows it (the
+quietest 20 ms of the last 3 s), so nothing is decoded while nobody speaks.
+Each `step` previews the utterance in progress like a live session and
+returns the final text of every utterance that ended; ended utterances drop
+their audio, so memory stays flat however long the conversation runs.
+
 Model archives are **not** part of this repository; apps download them at
 runtime, and the export pipeline lives in `tools/voice-models`.
 

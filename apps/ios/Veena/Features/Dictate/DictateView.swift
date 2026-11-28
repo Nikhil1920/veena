@@ -740,8 +740,9 @@ struct DictateView: View {
     }
 }
 
-/// Sheet that mirrors Android's picker/{mode} + download/{mode}/{lang} for mode= dictate
-private struct DictateLanguagePickerSheet: View {
+/// Sheet that mirrors Android's picker/{mode} + download/{mode}/{lang} for
+/// mode= dictate. The Conversation screen's language chip opens it too.
+struct DictateLanguagePickerSheet: View {
     @Environment(AppEnvironment.self) private var environment
     @Environment(\.dismiss) private var dismiss
     @Binding var isPresented: Bool
