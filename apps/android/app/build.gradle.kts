@@ -107,6 +107,8 @@ dependencies {
     ksp("androidx.room:room-compiler:2.8.4")
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    // Google Play's in-app rating sheet (ui/StoreReview.kt).
+    implementation("com.google.android.play:review-ktx:2.0.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
 
     testImplementation("junit:junit:4.13.2")

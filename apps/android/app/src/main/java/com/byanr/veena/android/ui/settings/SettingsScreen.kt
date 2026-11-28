@@ -310,7 +310,7 @@ fun SettingsScreen(
         LinkGroup {
             LinkRow(Icons.Outlined.StarOutline, "Rate Veena", "Leave a review on Google Play") {
                 context.openPlayStoreListing()
-                appViewModel.markRated()
+                appViewModel.postponeReviewPrompt()
             }
             LinkDivider()
             LinkRow(Icons.Outlined.Email, "Send feedback", VeenaLinks.EMAIL) {

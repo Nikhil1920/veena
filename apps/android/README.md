@@ -23,6 +23,14 @@ and review past transcriptions in a local history.
   transcribe `files/keyboard-test-audio.wav` instead of the microphone when it
   exists (`adb push` it, then `adb shell run-as com.byanr.veena cp …`), played
   at the pace a microphone would deliver it.
+- After a dictation in the app, once someone dictates regularly (10
+  dictations on 3 days, keyboard ones included), Veena asks Google Play for
+  its in-app rating sheet, at most every 60 days (`data/ReviewPrompt.kt`,
+  `ui/StoreReview.kt`). Play only shows it in installs from Google Play:
+  internal app sharing shows it with Submit disabled, the internal testing
+  track lets you submit. In debuggable builds, every dictation asks while
+  `files/review-prompt-test` exists
+  (`adb shell run-as com.byanr.veena touch files/review-prompt-test`).
 - Model archives download on first launch from Veena's model CDN
   (see `data/ModelCatalog.kt`) — nothing model-related is bundled.
 

@@ -13,7 +13,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -50,35 +49,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         voiceKeyboardRequested.value = false
     }
 
-    /**
-     * Whether the Dictate screen shows the "Enjoying Veena?" card. Decided once
-     * per launch, so the card never appears in the middle of a session.
-     */
-    val reviewPromptDue = MutableStateFlow(false)
-
-    init {
-        viewModelScope.launch {
-            reviewPromptDue.value = prefs.reviewPrompt.first().isDue(ReviewPromptState.today())
-        }
-    }
-
-    private var reviewPromptCounted = false
-
-    /** Counts one showing per launch, however often the Dictate tab is revisited. */
-    fun onReviewPromptShown() {
-        if (reviewPromptCounted) return
-        reviewPromptCounted = true
-        viewModelScope.launch { prefs.markReviewPromptShown(ReviewPromptState.today()) }
-    }
-
-    fun dismissReviewPrompt() {
-        reviewPromptDue.value = false
-    }
-
-    /** The user went to the store to rate Veena; stop asking. */
-    fun markRated() {
-        reviewPromptDue.value = false
-        viewModelScope.launch { prefs.markRated() }
+    /** The user opened the store page to rate; the in-app rating sheet waits its usual gap. */
+    fun postponeReviewPrompt() {
+        viewModelScope.launch { prefs.markReviewRequested(ReviewPromptState.today()) }
     }
 
     private var downloadJob: Job? = null
